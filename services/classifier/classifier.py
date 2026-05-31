@@ -2,13 +2,17 @@
 
 Stage 1: deterministic rules -> LOOP_DETECTED / TOOL_MISFIRE.
 Stage 2: embed trace, compute the PatchCore anomaly score against a memory bank
-         of NORMAL traces, then a supervised SVM over [embedding ; anomaly_score]
+         of NORMAL traces, then a supervised SVM over
+         [embedding ; anomaly_score ; io_divergence ; contradiction_score]
          predicts among NORMAL / HALLUCINATION / CONTEXT_BLEED / PLAN_DRIFT.
 
 DEVIATION from the literal PRD (hard PatchCore threshold gate): the anomaly
 score is fed to the SVM as a feature rather than used as a brittle cutoff. A
 learned boundary generalizes to novel-but-normal traces, directly mitigating
 Risk R1 (high false-positive rate on novel traces).
+
+Feature vector dimensions: 384 (MiniLM embedding) + 1 (PatchCore) +
+1 (io_divergence) + 1 (NLI contradiction_score) = 387 total.
 """
 
 from __future__ import annotations
@@ -20,7 +24,7 @@ import numpy as np
 
 from nexus_agent.models import Classification, CompleteTrace, FailureType, SpanType
 
-from services.classifier.embedder import SpanEmbedder
+from services.classifier.embedder import NLIScorer, SpanEmbedder
 from services.classifier.patchcore import PatchCoreMemoryBank
 from services.classifier.rules import apply_rules
 
@@ -94,9 +98,30 @@ class FailureClassifier:
         divs = [1.0 - float(np.dot(vecs[i], vecs[n + i])) for i in range(n)]
         return float(max(divs))
 
-    def _feature(self, embedding: np.ndarray, score: float, io_div: float) -> np.ndarray:
+    def _contradiction_score(self, trace: CompleteTrace) -> float:
+        """Max NLI contradiction probability over llm_call spans.
+
+        Uses a cross-encoder NLI model to measure whether the LLM output is
+        logically *contradicted* by its input context.  Unlike io_divergence
+        (which only catches off-topic outputs), this fires on same-domain
+        factual errors — the primary signal for HaluEval-style hallucinations.
+
+        Returns the max contradiction probability across all llm_call spans,
+        or 0.0 if there are no llm_call spans.
+        """
+        scorer = NLIScorer.get()
+        scores = [
+            scorer.contradiction_score(s.input or "", s.output or "")
+            for s in trace.spans
+            if s.span_type == SpanType.LLM_CALL
+        ]
+        return float(max(scores)) if scores else 0.0
+
+    def _feature(self, embedding: np.ndarray, score: float, io_div: float,
+                 contradiction: float) -> np.ndarray:
         return np.concatenate(
-            [np.asarray(embedding, dtype=np.float32), [np.float32(score), np.float32(io_div)]]
+            [np.asarray(embedding, dtype=np.float32),
+             [np.float32(score), np.float32(io_div), np.float32(contradiction)]]
         )
 
     # ── Training ────────────────────────────────────────────────────
@@ -119,7 +144,10 @@ class FailureClassifier:
 
         feats = np.vstack([
             self._feature(
-                embeddings[i], self.memory_bank.score(embeddings[i]), self._io_divergence(traces[i])
+                embeddings[i],
+                self.memory_bank.score(embeddings[i]),
+                self._io_divergence(traces[i]),
+                self._contradiction_score(traces[i]),
             )
             for i in stage2_idx
         ])
@@ -141,7 +169,11 @@ class FailureClassifier:
         if embedding is None:
             embedding = self.embedder.embed_trace(trace)
         score = self.memory_bank.score(embedding)
-        feature = self._feature(embedding, score, self._io_divergence(trace))
+        feature = self._feature(
+            embedding, score,
+            self._io_divergence(trace),
+            self._contradiction_score(trace),
+        )
         failure_type, conf = self.sub_classifier.predict(feature)
         is_failure = failure_type != FailureType.NORMAL
         return Classification(

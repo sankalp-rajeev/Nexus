@@ -61,3 +61,32 @@ def test_embedding_is_deterministic(embedder):
     a = embedder.embed_trace(t)
     b = embedder.embed_trace(t)
     assert np.allclose(a, b)
+
+
+# ── NLIScorer tests ────────────────────────────────────────────────────────────
+
+@pytest.fixture(scope="module")
+def nli():
+    from services.classifier.embedder import NLIScorer
+    return NLIScorer.get()
+
+
+def test_nli_contradiction_high(nli):
+    score = nli.contradiction_score(
+        "The Eiffel Tower is in Paris France",
+        "The Eiffel Tower is in Berlin Germany",
+    )
+    assert score > 0.5, f"expected high contradiction, got {score:.3f}"
+
+
+def test_nli_contradiction_low(nli):
+    score = nli.contradiction_score(
+        "The Eiffel Tower is in Paris France",
+        "The Eiffel Tower is in Paris France",
+    )
+    assert score < 0.3, f"expected low contradiction, got {score:.3f}"
+
+
+def test_nli_empty_input_returns_zero(nli):
+    score = nli.contradiction_score("", "some output text that is fairly long")
+    assert score == 0.0
