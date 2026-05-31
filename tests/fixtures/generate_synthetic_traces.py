@@ -58,6 +58,7 @@ UNRELATED_TOPICS = [
     "rules and scoring in the game of cricket",
     "the geology of volcanic basalt formations",
 ]
+
 TOOLS = ["web_search", "sql_runner", "code_search", "calendar_lookup", "doc_fetch"]
 
 
@@ -107,8 +108,7 @@ def _trace(trace_id: str, agent: str, spans: list[Span], root_input: str) -> Com
 
 
 def gen_normal(i: int) -> CompleteTrace:
-    """Healthy trace with a varied (but coherent) structure. Multiple shapes
-    keep the NORMAL distribution diverse so calibration generalizes."""
+    """Healthy trace with a varied (but coherent) structure."""
     r = _rng(i)
     base = datetime.now(timezone.utc)
     domain = r.choice(["code", "meeting", "research"])
@@ -156,7 +156,86 @@ def gen_normal(i: int) -> CompleteTrace:
     return _trace(tid, agent, spans, task)
 
 
+# Realistic QA pairs: (knowledge_ctx, question, correct_answer, wrong_answer)
+# Wrong answers are same-domain plausible-but-wrong facts (like HaluEval hallucinations)
+_QA_HALLUCINATIONS = [
+    (
+        "Python was created by Guido van Rossum and first released in 1991.",
+        "Who created Python and when was it first released?",
+        "Python was created by Guido van Rossum and first released in 1991.",
+        "Python was created by Linus Torvalds and first released in 1994.",
+    ),
+    (
+        "The Redis database uses in-memory storage and supports data persistence via RDB snapshots.",
+        "What storage mechanism does Redis use?",
+        "Redis uses in-memory storage with optional RDB snapshot persistence.",
+        "Redis uses disk-based B-tree storage similar to PostgreSQL.",
+    ),
+    (
+        "Docker containers share the host OS kernel and are isolated via Linux namespaces and cgroups.",
+        "How are Docker containers isolated from each other?",
+        "Docker containers are isolated using Linux namespaces and cgroups.",
+        "Docker containers each run a full separate Linux kernel for isolation.",
+    ),
+    (
+        "The Transformer architecture was introduced in 2017 in the paper 'Attention is All You Need'.",
+        "When was the Transformer architecture introduced?",
+        "The Transformer architecture was introduced in 2017.",
+        "The Transformer architecture was introduced in 2014 by the DeepMind team.",
+    ),
+    (
+        "GraphQL was developed internally by Facebook in 2012 and open-sourced in 2015.",
+        "When was GraphQL open-sourced?",
+        "GraphQL was open-sourced by Facebook in 2015.",
+        "GraphQL was developed by Google and open-sourced in 2017.",
+    ),
+    (
+        "Kubernetes was originally designed by Google and first released in 2014 as an open-source project.",
+        "Who originally designed Kubernetes?",
+        "Kubernetes was originally designed by Google and released in 2014.",
+        "Kubernetes was created by Amazon and released in 2016 as part of AWS.",
+    ),
+    (
+        "The CAP theorem states that a distributed system cannot simultaneously guarantee consistency, availability, and partition tolerance.",
+        "What does the CAP theorem state?",
+        "The CAP theorem states a distributed system cannot simultaneously guarantee consistency, availability, and partition tolerance.",
+        "The CAP theorem states that a database must choose between speed, reliability, and scalability.",
+    ),
+    (
+        "PostgreSQL supports ACID transactions, foreign keys, and complex queries via its SQL engine.",
+        "What transaction model does PostgreSQL use?",
+        "PostgreSQL supports ACID transactions with foreign key constraints.",
+        "PostgreSQL uses BASE transactions optimized for eventual consistency like NoSQL databases.",
+    ),
+    (
+        "The OAuth 2.0 protocol uses access tokens and refresh tokens for delegated authorization.",
+        "What tokens does OAuth 2.0 use?",
+        "OAuth 2.0 uses access tokens and refresh tokens for authorization.",
+        "OAuth 2.0 uses session cookies and CSRF tokens for user authentication.",
+    ),
+    (
+        "Git was created by Linus Torvalds in 2005 to manage the Linux kernel source code.",
+        "Why was Git created?",
+        "Git was created by Linus Torvalds in 2005 to manage the Linux kernel source code.",
+        "Git was created by GitHub in 2008 as a web-based version control service.",
+    ),
+    (
+        "The TCP/IP protocol suite uses a four-layer model: application, transport, internet, and link.",
+        "How many layers does TCP/IP have?",
+        "TCP/IP uses a four-layer model: application, transport, internet, and link.",
+        "TCP/IP uses a seven-layer OSI model for network communication.",
+    ),
+    (
+        "MapReduce was introduced by Google in a 2004 paper for processing large datasets in parallel.",
+        "What did Google introduce in 2004 for parallel data processing?",
+        "Google introduced MapReduce in 2004 for parallel large-scale data processing.",
+        "Google introduced Bigtable in 2004 for parallel stream processing of IoT data.",
+    ),
+]
+
+
 def gen_hallucination(i: int) -> CompleteTrace:
+    """Off-topic LLM output — high io_divergence signal."""
     r = _rng(1000 + i)
     base = datetime.now(timezone.utc)
     task = r.choice(CODE_TASKS)
@@ -266,6 +345,34 @@ GENERATORS = {
 }
 
 
+def gen_qa_normal(i: int) -> CompleteTrace:
+    """QA-format NORMAL trace: grounded correct answer from knowledge context.
+
+    Added to balance the QA-style hallucination training examples so that
+    the PatchCore memory bank includes QA-format normals and does not score
+    all QA traces as anomalous (which would cause false positives on HaluEval
+    normal traces).
+    """
+    r = _rng(9000 + i)
+    base = datetime.now(timezone.utc)
+    entry = _QA_HALLUCINATIONS[i % len(_QA_HALLUCINATIONS)]
+    knowledge, question, correct_answer, _ = entry
+    tid = f"trace_qanorm{i:04d}"
+    llm_input = question + " Context: " + knowledge
+    spans = [
+        _span(tid, "CodeMind", SpanType.AGENT_STEP, 0, base,
+              inp=question, out="searching for answer"),
+        _span(tid, "CodeMind", SpanType.RETRIEVAL, 1, base,
+              inp=question, out=knowledge + " [retrieved context]"),
+        _span(tid, "CodeMind", SpanType.LLM_CALL, 2, base,
+              inp=llm_input, out=correct_answer,
+              metadata={"model": "gemini-2.0-flash", "tokens_used": r.randint(80, 250)}),
+        _span(tid, "CodeMind", SpanType.AGENT_STEP, 3, base,
+              inp="finalize", out=correct_answer, metadata={"final": True}),
+    ]
+    return _trace(tid, "CodeMind", spans, question)
+
+
 def build_dataset() -> tuple[list[CompleteTrace], list[FailureType]]:
     traces: list[CompleteTrace] = []
     labels: list[FailureType] = []
@@ -273,6 +380,10 @@ def build_dataset() -> tuple[list[CompleteTrace], list[FailureType]]:
         for i in range(count):
             traces.append(gen(i))
             labels.append(label)
+    # Add QA-format NORMAL traces to balance hallucination training distribution.
+    for i in range(len(_QA_HALLUCINATIONS)):
+        traces.append(gen_qa_normal(i))
+        labels.append(FailureType.NORMAL)
     return traces, labels
 
 
