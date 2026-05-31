@@ -1,0 +1,4 @@
+fastapi>=0.111
+uvicorn[standard]>=0.30
+confluent-kafka>=2.3
+pydantic>=2.7
