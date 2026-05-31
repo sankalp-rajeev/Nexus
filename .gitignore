@@ -27,6 +27,8 @@ dashboard/dist/
 mlruns/
 *.pkl
 *.faiss
+# regenerable embedding cache (keep trained model under data/classifier_model/)
+data/synthetic_embeddings.npy
 
 # OS / editor
 .DS_Store

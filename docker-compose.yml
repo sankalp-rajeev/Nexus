@@ -29,7 +29,7 @@ services:
   postgres:
     image: timescale/timescaledb:latest-pg15
     ports:
-      - "5432:5432"
+      - "55432:5432" # host 55432 to avoid colliding with a local Postgres on 5432
     environment:
       POSTGRES_USER: "${POSTGRES_USER:-nexus}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-nexus_dev_password}"
@@ -65,12 +65,16 @@ services:
     depends_on: [kafka]
 
   nexus-assembler:
-    build: ./services/assembler # Dockerfile TODO (Phase 3)
+    build:
+      context: .
+      dockerfile: services/assembler/Dockerfile
     env_file: [.env]
     depends_on: [kafka, postgres]
 
   nexus-classifier:
-    build: ./services/classifier # Dockerfile TODO (Phase 3)
+    build:
+      context: .
+      dockerfile: services/classifier/Dockerfile
     env_file: [.env]
     depends_on: [kafka, postgres]
 

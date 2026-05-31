@@ -18,7 +18,7 @@ CREATE TABLE traces (
 );
 
 CREATE TABLE spans (
-    span_id         TEXT PRIMARY KEY,
+    span_id         TEXT NOT NULL,
     trace_id        TEXT NOT NULL REFERENCES traces(trace_id),
     parent_span_id  TEXT,
     agent_name      TEXT NOT NULL,
@@ -30,7 +30,10 @@ CREATE TABLE spans (
     error_message   TEXT,
     metadata        JSONB DEFAULT '{}',
     client_timestamp TIMESTAMPTZ NOT NULL,
-    server_timestamp TIMESTAMPTZ NOT NULL
+    server_timestamp TIMESTAMPTZ NOT NULL,
+    -- Composite PK: TimescaleDB requires the partitioning column
+    -- (server_timestamp) to be part of any unique/primary key.
+    PRIMARY KEY (span_id, server_timestamp)
 );
 
 SELECT create_hypertable('spans', 'server_timestamp');  -- TimescaleDB time partitioning
@@ -44,7 +47,7 @@ CREATE TABLE classifications (
     anomaly_score   FLOAT,                          -- PatchCore distance
     confidence      FLOAT,                          -- Classifier confidence 0-1
     triggered_rule  TEXT,                           -- If rule-based: rule name; if ML: 'patchcore'
-    failure_span_id TEXT REFERENCES spans(span_id),
+    failure_span_id TEXT,  -- no FK: spans is a hypertable with a composite PK
     created_at      TIMESTAMPTZ DEFAULT NOW()
 );
 
