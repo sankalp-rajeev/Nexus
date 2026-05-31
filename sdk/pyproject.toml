@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nexus-agent"
+version = "1.0.0"
+description = "Production AI health monitor and self-healing platform for multi-agent systems"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Sankalp Rajeev", email = "srajeev@umich.edu" }]
+keywords = ["llmops", "agents", "observability", "mlops", "ai", "langchain", "crewai"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3.11",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.27",
+    "pydantic>=2.7",
+    "opentelemetry-sdk>=1.24",
+]
+
+[project.optional-dependencies]
+langchain = ["langchain>=0.2", "langchain-core>=0.2"]
+crewai = ["crewai>=0.51"]
+all = ["nexus-agent[langchain,crewai]"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["nexus_agent"]
+
+[project.urls]
+Homepage = "https://github.com/sankalp-rajeev/nexus"
+Repository = "https://github.com/sankalp-rajeev/nexus"

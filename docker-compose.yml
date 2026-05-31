@@ -1,0 +1,91 @@
+# Nexus — full stack (11 services). Section 4.2.
+# Phase 1 skeleton: infra images are real; application service Dockerfiles are
+# added in later phases (build contexts are declared, Dockerfiles are TODO).
+
+services:
+  # ── Infrastructure ──────────────────────────────────────────────────
+  kafka:
+    image: bitnami/kafka:3.6
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_CFG_NODE_ID: "0"
+      KAFKA_CFG_PROCESS_ROLES: "controller,broker"
+      KAFKA_CFG_LISTENERS: "PLAINTEXT://:9092,CONTROLLER://:9093"
+      KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: "0@kafka:9093"
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+
+  postgres:
+    image: timescale/timescaledb:latest-pg15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER:-nexus}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-nexus_dev_password}"
+      POSTGRES_DB: "${POSTGRES_DB:-nexus}"
+    volumes:
+      - ./infra/init/postgres_init.sql:/docker-entrypoint-initdb.d/postgres_init.sql:ro
+      - nexus_pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.13.0
+    ports:
+      - "5000:5000"
+    command: >
+      mlflow server --host 0.0.0.0 --port 5000
+      --backend-store-uri sqlite:////mlflow/mlflow.db
+      --default-artifact-root /mlflow/artifacts
+    volumes:
+      - nexus_mlflow:/mlflow
+
+  # ── Nexus application services (Dockerfiles: TODO in later phases) ───
+  nexus-collector:
+    build: ./services/collector # Dockerfile TODO (Phase 2)
+    ports:
+      - "8000:8000"
+    env_file: [.env]
+    depends_on: [kafka]
+
+  nexus-assembler:
+    build: ./services/assembler # Dockerfile TODO (Phase 3)
+    env_file: [.env]
+    depends_on: [kafka, postgres]
+
+  nexus-classifier:
+    build: ./services/classifier # Dockerfile TODO (Phase 3)
+    env_file: [.env]
+    depends_on: [kafka, postgres]
+
+  nexus-critic:
+    build: ./services/critic # Dockerfile TODO (Phase 4)
+    env_file: [.env]
+    depends_on: [kafka, postgres]
+
+  nexus-healer:
+    build: ./services/healer # Dockerfile TODO (Phase 5)
+    env_file: [.env]
+    depends_on: [postgres, redis, mlflow]
+
+  nexus-api:
+    build: ./services/api # Dockerfile TODO (Phase 6)
+    ports:
+      - "8001:8001"
+    env_file: [.env]
+    depends_on: [postgres, redis]
+
+  nexus-dashboard:
+    build: ./dashboard # Dockerfile TODO (Phase 6)
+    ports:
+      - "3000:3000"
+    depends_on: [nexus-api]
+
+volumes:
+  nexus_pgdata:
+  nexus_mlflow:
