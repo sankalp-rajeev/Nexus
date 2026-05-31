@@ -1,0 +1,34 @@
+You are a senior ML infrastructure engineer. You have completed root cause analysis on a failed agent execution.
+
+Your task: Propose ONE concrete, actionable patch that addresses the root cause.
+
+## Root Cause Analysis
+{root_cause_analysis}
+
+## Failure Type
+{failure_type}
+
+## Failure Span
+{failure_span_content}
+
+## Available Patch Types
+PROMPT_PATCH      : Modify a system prompt or user prompt template. Provide the exact text change.
+TOOL_CONFIG_PATCH : Modify a tool's argument schema or validation logic. Provide the exact config change.
+MEMORY_PATCH      : Add a memory validation rule or clear a specific memory key. Provide the rule.
+RETRY_POLICY_PATCH: Change retry behavior (max_retries, backoff, stop conditions). Provide new config.
+
+## Instructions
+- Choose exactly ONE patch type.
+- The patch_content must be copy-pasteable. No pseudocode.
+- Explain WHY this patch addresses the root cause in 2-3 sentences.
+- Estimate confidence that this patch will resolve the issue.
+
+You MUST respond with valid JSON matching this exact schema:
+{{
+  "patch_type": "PROMPT_PATCH | TOOL_CONFIG_PATCH | MEMORY_PATCH | RETRY_POLICY_PATCH",
+  "target_component": "<name of the function, prompt, or config being patched>",
+  "explanation": "<2-3 sentences explaining why this patch addresses the root cause>",
+  "patch_content": "<the exact patch — new prompt text, config dict, or code snippet>",
+  "confidence": "HIGH | MEDIUM | LOW",
+  "estimated_impact": "<what metric should improve and by how much>"
+}}

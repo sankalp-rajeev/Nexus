@@ -65,7 +65,7 @@ CREATE TABLE alerts (
 
 CREATE TABLE patches (
     proposal_id     TEXT PRIMARY KEY,
-    alert_id        TEXT NOT NULL REFERENCES alerts(alert_id),
+    alert_id        TEXT NOT NULL,  -- no FK: alerts may arrive via Kafka, not always pre-inserted
     trace_id        TEXT NOT NULL,
     failure_type    TEXT NOT NULL,
     patch_type      TEXT NOT NULL,
