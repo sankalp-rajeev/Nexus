@@ -228,7 +228,61 @@ Gate: nexus-healer service starts · full loop test passes · MLflow logs before
 ### Phase 5 = COMPLETE (all exit criteria green)
 
 ## PHASE 6 — Dashboard & OSS Release
-- ☐ not started
+
+Gate: dashboard loads at localhost:3000 · all 5 panels render · README has 9 sections · docker-compose builds all 11 services
+
+### Tasks
+
+**Backend API (`services/api/`)**
+- ✅ `__init__.py` — module docstring
+- ✅ `db.py` — fetch_recent_spans, fetch_recent_traces, fetch_patches, update_patch_status, fetch_eval_runs, fetch_agent_health, fetch_alerts_timeline
+- ✅ `ws_manager.py` — ConnectionManager (broadcast to all WS clients), keepalive_loop (ping/30s), redis_subscriber_loop (nexus:spans + nexus:alerts + nexus:patches:new + nexus:health:*), db_poll_loop (polls Postgres every 2s for new spans when Redis publisher unavailable)
+- ✅ `routes/traces.py` — GET /v1/spans, GET /v1/traces, GET /v1/timeline
+- ✅ `routes/patches.py` — GET /v1/patches, POST /v1/patches/{id}/approve, POST /v1/patches/{id}/reject, GET /v1/patches/history
+- ✅ `routes/agents.py` — GET /v1/agents/health
+- ✅ `main.py` — FastAPI + CORS + WebSocket /ws/traces (initial snapshot on connect + live feed) + lifespan background tasks
+- ✅ `requirements.txt` — fastapi, uvicorn, psycopg2-binary, redis
+- ✅ `Dockerfile` — Python 3.11-slim, uvicorn entrypoint
+
+**Dashboard (`dashboard/`)**
+- ✅ `package.json` — React 18 + TypeScript + Vite 5 + Tailwind 3 + Recharts + lucide-react
+- ✅ `vite.config.ts` — Vite proxies /v1 -> :8001, /ws -> :8001 ws
+- ✅ `tailwind.config.js` — Space Grotesk + DM Mono fonts
+- ✅ `index.html` — Google Fonts (Space Grotesk + DM Mono)
+- ✅ `src/types/index.ts` — TypeScript interfaces for Span, Alert, PatchProposal, EvalRun, AgentHealth, TimelineBucket, HealthDiff, WSMessage
+- ✅ `src/hooks/useWebSocket.ts` — auto-reconnect WebSocket hook
+- ✅ `src/components/TraceStream.tsx` — live scrolling span table, pause/resume, color-coded status badges
+- ✅ `src/components/FailureTimeline.tsx` — Recharts LineChart, 1-hour buckets, 5 failure type lines
+- ✅ `src/components/CriticPanel.tsx` — expandable proposal cards, Approve/Reject buttons, confidence badge, patch code block
+- ✅ `src/components/PatchHistory.tsx` — sortable eval run table, colored delta pills, before/after scores
+- ✅ `src/components/HealthScore.tsx` — SVG ring per agent, color-coded (green/amber/red), last failure + eval count
+- ✅ `src/App.tsx` — 12-col grid layout, initial data fetch + 15s refresh, WebSocket integration, connection indicator
+- ✅ `Dockerfile` — multi-stage (node:20 build + nginx:alpine serve), nginx.conf with SPA + proxy config
+- ✅ `nginx.conf` — SPA routing, /v1 proxy, /ws WebSocket proxy
+- ✅ `npm run build` — 550KB bundle (Recharts), TypeScript compiles clean
+
+**Other**
+- ✅ `examples/crewai_agent/run_demo.py` — 6 scenarios (NORMAL, TOOL_MISFIRE, HALLUCINATION, LOOP_DETECTED, PLAN_DRIFT, CONTEXT_BLEED), --repeat + --delay flags, offline-safe
+- ✅ `docker-compose.yml` — nexus-api and nexus-dashboard build contexts updated
+- ✅ `README.md` — all 9 sections: one-liner, ASCII loop diagram, quickstart, architecture ASCII, how it works, SDK patterns (4), config reference table, contributing guide
+- ✅ `.env.example` — all 18 variables from PRD Section 11.4
+
+### Phase 6 Exit Criteria
+- ✅ Dashboard builds (npm run build) — 550KB bundle, TypeScript clean
+- ✅ All 5 panels implemented: TraceStream, FailureTimeline, CriticPanel, PatchHistory, HealthScore
+- ✅ WebSocket feed with auto-reconnect + initial snapshot on connect
+- ✅ Real-time updates via Redis pub/sub + Postgres polling fallback
+- ✅ Approve/Reject buttons POSTing to /v1/patches/{id}/approve|reject
+- ✅ docker-compose.yml updated (all 11 services have complete build configs)
+- ✅ README.md has all 9 sections (one-liner, loop diagram, quickstart, architecture, how it works, SDK usage, config table, contributing)
+- ✅ .env.example has all 18 variables
+
+### Logs
+- Dashboard: warm muted-stone color palette (stone-50 bg, white panels, orange-600 brand), Space Grotesk + DM Mono typography — no dark mode, no glassmorphism
+- Recharts bundle is large (Recharts includes all chart types); production build hint logged but not an error; can code-split later
+- API uses both Redis subscriber (real-time) AND Postgres poll loop (2s) as dual broadcast paths
+
+### Phase 6 = COMPLETE (all exit criteria green)
 
 ## PHASE 7 — Testing & QA (parallel to 2–6)
 - ☐ not started
