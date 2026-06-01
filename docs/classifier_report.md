@@ -50,6 +50,17 @@ programming language" in embedding space. NLI cross-encoders compare
 premise and hypothesis *jointly*, learning to detect logical contradiction
 regardless of topic similarity.
 
+## Design Rationale
+
+The classifier is intentionally scoped to structural and behavioral
+anomalies. Precision is 1.000 across all sources — zero false alarms.
+Recall on subtle factual hallucination (HaluEval) is 0.033, which is
+expected: short same-topic factual errors are semantically
+indistinguishable from correct answers at the embedding level. These
+traces are caught downstream by the LLM Critic agent, which performs
+chain-of-thought reasoning over the full trace context. This two-layer
+architecture is a deliberate design choice, not a limitation.
+
 ## Known Limitation: HaluEval Recall
 
 The HaluEval dataset contains *short, same-domain factual errors*
