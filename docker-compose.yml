@@ -86,7 +86,9 @@ services:
     depends_on: [kafka, postgres]
 
   nexus-healer:
-    build: ./services/healer # Dockerfile TODO (Phase 5)
+    build:
+      context: .
+      dockerfile: services/healer/Dockerfile
     env_file: [.env]
     depends_on: [postgres, redis, mlflow]
 
