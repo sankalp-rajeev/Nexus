@@ -5,7 +5,6 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from unittest.mock import MagicMock
 
-import pytest
 
 from nexus_agent.models import Alert, CompleteTrace, FailureType, Span, SpanType, TraceStatus
 
@@ -126,19 +125,27 @@ def test_fallback_node_all_failure_types():
 
 
 def test_full_graph_runs_end_to_end():
-    """Graph should complete without raising and return a PatchProposal."""
+    """Graph should complete without raising and return a PatchProposal.
+
+    Uses the deterministic MockProvider via an injected llm_factory so the
+    test never depends on a live LLM (no network, no API quota).
+    """
     from services.critic.graph import run_critic
+    from services.critic.llm import MockProvider
 
     mock_db = MagicMock()
     mock_db.load_trace.return_value = _trace()
     mock_db.write_patch.return_value = None
+
+    def mock_factory(failure_type: str = "HALLUCINATION", span_id: str = "span_00"):
+        return MockProvider(failure_type=failure_type, span_id=span_id)
 
     alert = Alert(
         trace_id="trace_01",
         agent_name="testAgent",
         failure_type=FailureType.HALLUCINATION,
     )
-    proposal = run_critic(alert, mock_db)
+    proposal = run_critic(alert, mock_db, llm_factory=mock_factory)
     assert proposal is not None
     assert proposal.trace_id == "trace_01"
     mock_db.write_patch.assert_called_once()

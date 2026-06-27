@@ -187,7 +187,6 @@ def make_publisher_node(db, kafka_producer=None):
             )
         db.write_patch(proposal)
         if kafka_producer is not None:
-            import json as _json
             kafka_producer.produce(
                 TOPIC_PATCHES, key=proposal.trace_id.encode(),
                 value=proposal.model_dump_json().encode(),

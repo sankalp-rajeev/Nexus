@@ -223,7 +223,7 @@ def main(repeat: int = 1, delay_s: float = 2.0) -> None:
     print("=" * 60)
     print("  Nexus Demo Agent")
     print(f"  Collector: {COLLECTOR_URL}")
-    print(f"  Dashboard: http://localhost:3000")
+    print("  Dashboard: http://localhost:3000")
     print("=" * 60)
 
     for run in range(repeat):

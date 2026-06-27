@@ -1,0 +1,29 @@
+# Ruff configuration for Nexus.
+# Lenient by design: catch real bugs (undefined names, unused imports, broken
+# syntax) without failing CI on subjective style choices.
+
+target-version = "py311"
+line-length = 100
+
+exclude = [
+    ".venv",
+    "dashboard",
+    "build",
+    "dist",
+    "**/__pycache__",
+]
+
+[lint]
+# E/W: pycodestyle, F: pyflakes, I: isort, B: bugbear, UP: pyupgrade
+select = ["F", "E9", "B"]
+ignore = [
+    "B008",  # function call in argument defaults (FastAPI Depends pattern)
+    "B904",  # raise ... from (not required for HTTPException re-raises)
+    "B905",  # zip without strict= (acceptable here)
+    "B007",  # unused loop control variable (intentional in some loops)
+    "E722",  # bare except (used intentionally in fail-silent paths)
+]
+
+[lint.per-file-ignores]
+"tests/**" = ["B011", "B017"]
+"__init__.py" = ["F401"]

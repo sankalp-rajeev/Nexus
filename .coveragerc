@@ -1,0 +1,18 @@
+[run]
+source =
+    nexus_agent
+    services
+omit =
+    */__pycache__/*
+    */tests/*
+    services/*/Dockerfile
+branch = True
+
+[report]
+show_missing = True
+skip_covered = False
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:
+    raise NotImplementedError
+    if TYPE_CHECKING:

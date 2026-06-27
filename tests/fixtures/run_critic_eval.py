@@ -12,7 +12,6 @@ from __future__ import annotations
 import importlib.util
 import os
 import sys
-from datetime import datetime, timezone
 from unittest.mock import MagicMock
 
 _REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

@@ -30,7 +30,7 @@ os.environ.setdefault("POSTGRES_PORT", "5432")
 
 from confluent_kafka import Consumer, Producer  # noqa: E402
 
-from nexus_agent.models import CompleteTrace, FailureType, Span, SpanType, TraceStatus  # noqa: E402
+from nexus_agent.models import FailureType, Span, SpanType  # noqa: E402
 
 from services.assembler.consumer import AssemblerService  # noqa: E402
 from services.assembler.db import AssemblerDB  # noqa: E402

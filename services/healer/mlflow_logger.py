@@ -6,7 +6,6 @@ import logging
 import os
 import tempfile
 import json
-from typing import Any
 
 logger = logging.getLogger("nexus.healer.mlflow_logger")
 

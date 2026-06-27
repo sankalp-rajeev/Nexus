@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-import pytest
 
-from services.critic.validator import validate_patch_proposal, format_trace_for_prompt, format_failure_span
+from services.critic.validator import validate_patch_proposal
 
 
 def _good_proposal(**overrides) -> dict:

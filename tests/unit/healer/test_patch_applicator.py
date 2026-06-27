@@ -2,12 +2,10 @@
 
 from __future__ import annotations
 
-import json
 import uuid
 from datetime import datetime, timezone
-from unittest.mock import MagicMock, call
+from unittest.mock import MagicMock
 
-import pytest
 
 from services.healer.patch_applicator import apply_patch, _extract_agent_name
 from services.healer.slack_notifier import notify_patch_proposal

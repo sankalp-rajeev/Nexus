@@ -11,7 +11,7 @@ import os
 import time
 from typing import Any, Callable
 
-from services.healer.eval_runner import EvalResult, run_eval
+from services.healer.eval_runner import run_eval
 from services.healer.health_emitter import emit_health_diff
 from services.healer.mlflow_logger import log_eval_run
 from services.healer.patch_applicator import apply_patch
