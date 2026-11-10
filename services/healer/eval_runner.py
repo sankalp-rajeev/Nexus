@@ -7,10 +7,11 @@ composite and per-metric scores for MLflow logging.
 from __future__ import annotations
 
 import logging
-import os
 import time
 from dataclasses import dataclass, field
 from typing import Any
+
+from services.common import llm_config
 
 logger = logging.getLogger("nexus.healer.eval_runner")
 
@@ -70,7 +71,11 @@ def _run_deepeval(input_text, actual_output, retrieval_context, gemini_api_key) 
         except Exception as exc:
             logger.warning("healer: metric %s failed: %s", type(m).__name__, exc)
 
-    composite = sum(scores.values()) / len(scores) if scores else 0.5
+    if not scores:
+        # Every metric failed; let run_eval fall through to the direct scorer
+        # rather than report an invented 0.5.
+        raise RuntimeError("all DeepEval metrics failed")
+    composite = sum(scores.values()) / len(scores)
     return EvalResult(composite_score=composite, per_metric=scores)
 
 
@@ -109,17 +114,17 @@ def _build_metrics(has_context: bool):
 
 def _get_deepeval_model():
     """Return a Gemini model for DeepEval, or None to use default."""
-    key = os.getenv("GEMINI_API_KEY", "")
-    if not key:
+    if llm_config.is_mock():
         return None
+    model = llm_config.gemini_model()
     try:
         from deepeval.models import GeminiModel
-        return GeminiModel(model="gemini-2.0-flash")
+        return GeminiModel(model=model)
     except Exception:
         try:
             # Older deepeval API
             from deepeval.models.gemini_model import GeminiModel
-            return GeminiModel(model="gemini-2.0-flash")
+            return GeminiModel(model=model)
         except Exception:
             return None
 
@@ -129,15 +134,17 @@ def _get_deepeval_model():
 def _run_gemini_fallback(input_text: str, actual_output: str,
                          gemini_api_key: str | None = None) -> EvalResult:
     """Score output quality 0-1 via a direct Gemini API call."""
-    key = gemini_api_key or os.getenv("GEMINI_API_KEY", "")
-    if not key:
-        logger.warning("healer: no GEMINI_API_KEY; returning default eval score 0.5")
-        return EvalResult(composite_score=0.5, per_metric={"fallback": 0.5})
+    if llm_config.is_mock():
+        # Explicit mock mode only: a fixed, clearly-labelled placeholder score.
+        logger.warning("healer: NEXUS_LLM=mock; returning MOCK eval score 0.5")
+        return EvalResult(composite_score=0.5, per_metric={"mock": 0.5})
 
+    # Raises LLMConfigError when no key is set -- never a silent default score.
+    key = gemini_api_key or llm_config.gemini_api_key()
     try:
         import google.generativeai as genai
         genai.configure(api_key=key)
-        model = genai.GenerativeModel("gemini-2.0-flash")
+        model = genai.GenerativeModel(llm_config.gemini_model())
         prompt = (
             f"Rate the quality of this AI agent response on a scale from 0.0 to 1.0.\n\n"
             f"Task: {input_text[:500]}\n\n"
@@ -149,5 +156,5 @@ def _run_gemini_fallback(input_text: str, actual_output: str,
         score = max(0.0, min(1.0, score))
         return EvalResult(composite_score=score, per_metric={"gemini_quality": score})
     except Exception as exc:
-        logger.warning("healer: Gemini fallback scorer failed: %s", exc)
-        return EvalResult(composite_score=0.5, per_metric={"default": 0.5})
+        # A failed scorer must not produce a number that looks like a result.
+        raise RuntimeError(f"healer: Gemini fallback scorer failed: {exc}") from exc

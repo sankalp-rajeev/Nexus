@@ -37,6 +37,12 @@ def _capture_input(args: tuple, kwargs: dict, limit: int) -> str:
     return ", ".join(parts)[:limit]
 
 
+def _capture_value(value: Any, limit: int) -> str:
+    if value is None:
+        return ""
+    return _client_mod.to_text(value, limit)
+
+
 def _split_kwargs(extra: dict[str, Any]) -> tuple[str | None, dict[str, Any]]:
     """agent_name is a first-class Span field; everything else is metadata."""
     md = dict(extra)
@@ -44,14 +50,21 @@ def _split_kwargs(extra: dict[str, Any]) -> tuple[str | None, dict[str, Any]]:
     return agent_name, md
 
 
-def trace(span_type: SpanType | str = SpanType.CUSTOM, **extra: Any) -> Callable:
+def trace(span_type: SpanType | str | Callable = SpanType.CUSTOM, **extra: Any) -> Callable:
     """Decorator that records a span for the wrapped function.
 
-    Examples::
+    Works both bare and with arguments::
 
-        @nexus.trace(span_type="llm_call", model="gemini-2.0-flash")
+        @nexus.trace
+        def step(x): ...
+
+        @nexus.trace(span_type="llm_call", model="gemini-3.5-flash-lite")
         def call_llm(prompt: str) -> str: ...
     """
+    if callable(span_type) and not isinstance(span_type, str):
+        # Bare ``@nexus.trace``: the function itself was passed as span_type.
+        return trace(SpanType.CUSTOM, **extra)(span_type)
+
     agent_name, base_md = _split_kwargs(extra)
 
     def decorator(fn: Callable) -> Callable:
@@ -155,12 +168,16 @@ class SpanHandle:
 
 
 @contextmanager
-def span(span_type: SpanType | str = SpanType.CUSTOM, **extra: Any) -> Iterator[SpanHandle]:
+def span(
+    span_type: SpanType | str = SpanType.CUSTOM,
+    input: Any = None,  # noqa: A002 - mirrors the Span.input field name
+    **extra: Any,
+) -> Iterator[SpanHandle]:
     """Context manager instrumentation::
 
-    with nexus.span(span_type="memory_read", key="user_context") as s:
+    with nexus.span("memory_read", input=key, store="user_context") as s:
         result = memory.get(key)
-        s.set_output(result)
+        s.set_output(result)   # or: s.output = result
     """
     client = _get_client()
     handle = SpanHandle()
@@ -192,7 +209,7 @@ def span(span_type: SpanType | str = SpanType.CUSTOM, **extra: Any) -> Iterator[
             span_id=span_id,
             trace_id=trace_id,
             parent_span_id=parent,
-            input_text="",
+            input_text=_capture_value(input, client.config.max_input_chars),
             output_text=None if exc is not None else handle.output,
             duration_ms=duration_ms,
             error_type=(exc.__class__.__name__ if exc else handle.error_type),

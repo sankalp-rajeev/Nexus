@@ -8,8 +8,8 @@ Usage:
     # Make sure the Nexus stack is running:
     docker compose up --build
 
-    # In a separate terminal with nexus-selfheal installed:
-    pip install nexus-selfheal
+    # In a separate terminal, install the SDK from the repo:
+    pip install -e sdk/
     python examples/crewai_agent/run_demo.py
 
 The script:

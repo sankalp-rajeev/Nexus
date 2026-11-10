@@ -8,6 +8,10 @@ import sys
 
 import pytest
 
+# Tests use the deterministic mock LLM, selected explicitly (never by a
+# missing key). Real-model runs live in scripts/experiments, not in pytest.
+os.environ["NEXUS_LLM"] = "mock"
+
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _SDK = os.path.join(_REPO_ROOT, "sdk")
 for _p in (_SDK, _REPO_ROOT):

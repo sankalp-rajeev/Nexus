@@ -1,0 +1,221 @@
+{
+  "experiment_id": "critic-smoke",
+  "summary": "SMOKE TEST (mock LLM): 20/20 traces produced a schema-valid proposal; 20/20 were the generic fallback template",
+  "provenance": {
+    "date_utc": "2026-11-10T22:49:20+00:00",
+    "git_commit": "bf678c8",
+    "git_dirty": true,
+    "provider": "mock",
+    "model": "MockProvider",
+    "mock": true,
+    "seed": null
+  },
+  "results": {
+    "n": 20,
+    "llm": 0,
+    "fallback": 20,
+    "no_proposal": 0,
+    "proposals": [
+      {
+        "source": "fallback",
+        "trace_id": "trace_hall0000",
+        "failure_type": "HALLUCINATION",
+        "patch_type": "PROMPT_PATCH",
+        "target_component": "llm_system_prompt",
+        "confidence": "LOW",
+        "explanation_excerpt": "Hallucination detected: the LLM output was inconsistent with the provided context. This generic patch adds a grounding i...",
+        "patch_content_excerpt": "INSTRUCTION: Respond only using information explicitly present in the context provided. Do not generate facts, names, or..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_hall0001",
+        "failure_type": "HALLUCINATION",
+        "patch_type": "PROMPT_PATCH",
+        "target_component": "llm_system_prompt",
+        "confidence": "LOW",
+        "explanation_excerpt": "Hallucination detected: the LLM output was inconsistent with the provided context. This generic patch adds a grounding i...",
+        "patch_content_excerpt": "INSTRUCTION: Respond only using information explicitly present in the context provided. Do not generate facts, names, or..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_hall0002",
+        "failure_type": "HALLUCINATION",
+        "patch_type": "PROMPT_PATCH",
+        "target_component": "llm_system_prompt",
+        "confidence": "LOW",
+        "explanation_excerpt": "Hallucination detected: the LLM output was inconsistent with the provided context. This generic patch adds a grounding i...",
+        "patch_content_excerpt": "INSTRUCTION: Respond only using information explicitly present in the context provided. Do not generate facts, names, or..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_hall0003",
+        "failure_type": "HALLUCINATION",
+        "patch_type": "PROMPT_PATCH",
+        "target_component": "llm_system_prompt",
+        "confidence": "LOW",
+        "explanation_excerpt": "Hallucination detected: the LLM output was inconsistent with the provided context. This generic patch adds a grounding i...",
+        "patch_content_excerpt": "INSTRUCTION: Respond only using information explicitly present in the context provided. Do not generate facts, names, or..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_bleed0000",
+        "failure_type": "CONTEXT_BLEED",
+        "patch_type": "MEMORY_PATCH",
+        "target_component": "memory_store",
+        "confidence": "LOW",
+        "explanation_excerpt": "Context bleed detected: memory retrieved from a different session/user. This generic patch adds a namespace isolation ru...",
+        "patch_content_excerpt": "{\n  \"rule\": \"namespace_isolation\",\n  \"key_prefix_required\": \"session_{session_id}_user_{user_id}\",\n  \"on_violation\": \"re..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_bleed0001",
+        "failure_type": "CONTEXT_BLEED",
+        "patch_type": "MEMORY_PATCH",
+        "target_component": "memory_store",
+        "confidence": "LOW",
+        "explanation_excerpt": "Context bleed detected: memory retrieved from a different session/user. This generic patch adds a namespace isolation ru...",
+        "patch_content_excerpt": "{\n  \"rule\": \"namespace_isolation\",\n  \"key_prefix_required\": \"session_{session_id}_user_{user_id}\",\n  \"on_violation\": \"re..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_bleed0002",
+        "failure_type": "CONTEXT_BLEED",
+        "patch_type": "MEMORY_PATCH",
+        "target_component": "memory_store",
+        "confidence": "LOW",
+        "explanation_excerpt": "Context bleed detected: memory retrieved from a different session/user. This generic patch adds a namespace isolation ru...",
+        "patch_content_excerpt": "{\n  \"rule\": \"namespace_isolation\",\n  \"key_prefix_required\": \"session_{session_id}_user_{user_id}\",\n  \"on_violation\": \"re..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_bleed0003",
+        "failure_type": "CONTEXT_BLEED",
+        "patch_type": "MEMORY_PATCH",
+        "target_component": "memory_store",
+        "confidence": "LOW",
+        "explanation_excerpt": "Context bleed detected: memory retrieved from a different session/user. This generic patch adds a namespace isolation ru...",
+        "patch_content_excerpt": "{\n  \"rule\": \"namespace_isolation\",\n  \"key_prefix_required\": \"session_{session_id}_user_{user_id}\",\n  \"on_violation\": \"re..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_drift0000",
+        "failure_type": "PLAN_DRIFT",
+        "patch_type": "PROMPT_PATCH",
+        "target_component": "planner_system_prompt",
+        "confidence": "LOW",
+        "explanation_excerpt": "Plan drift detected: the agent deviated from its declared plan. This generic patch injects a plan-adherence reminder int...",
+        "patch_content_excerpt": "RULE: You must execute ALL steps in the plan in the declared order. Before marking a task complete, confirm it was expli..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_drift0001",
+        "failure_type": "PLAN_DRIFT",
+        "patch_type": "PROMPT_PATCH",
+        "target_component": "planner_system_prompt",
+        "confidence": "LOW",
+        "explanation_excerpt": "Plan drift detected: the agent deviated from its declared plan. This generic patch injects a plan-adherence reminder int...",
+        "patch_content_excerpt": "RULE: You must execute ALL steps in the plan in the declared order. Before marking a task complete, confirm it was expli..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_drift0002",
+        "failure_type": "PLAN_DRIFT",
+        "patch_type": "PROMPT_PATCH",
+        "target_component": "planner_system_prompt",
+        "confidence": "LOW",
+        "explanation_excerpt": "Plan drift detected: the agent deviated from its declared plan. This generic patch injects a plan-adherence reminder int...",
+        "patch_content_excerpt": "RULE: You must execute ALL steps in the plan in the declared order. Before marking a task complete, confirm it was expli..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_drift0003",
+        "failure_type": "PLAN_DRIFT",
+        "patch_type": "PROMPT_PATCH",
+        "target_component": "planner_system_prompt",
+        "confidence": "LOW",
+        "explanation_excerpt": "Plan drift detected: the agent deviated from its declared plan. This generic patch injects a plan-adherence reminder int...",
+        "patch_content_excerpt": "RULE: You must execute ALL steps in the plan in the declared order. Before marking a task complete, confirm it was expli..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_misfire0000",
+        "failure_type": "TOOL_MISFIRE",
+        "patch_type": "TOOL_CONFIG_PATCH",
+        "target_component": "tool_call_wrapper",
+        "confidence": "LOW",
+        "explanation_excerpt": "Tool misfire detected: a tool call failed and was retried with identical bad input. This generic patch adds minimum inpu...",
+        "patch_content_excerpt": "{\n  \"global_tool_guard\": {\n    \"min_input_length\": 1,\n    \"reject_empty_strings\": true,\n    \"on_violation\": \"skip_call_a..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_misfire0001",
+        "failure_type": "TOOL_MISFIRE",
+        "patch_type": "TOOL_CONFIG_PATCH",
+        "target_component": "tool_call_wrapper",
+        "confidence": "LOW",
+        "explanation_excerpt": "Tool misfire detected: a tool call failed and was retried with identical bad input. This generic patch adds minimum inpu...",
+        "patch_content_excerpt": "{\n  \"global_tool_guard\": {\n    \"min_input_length\": 1,\n    \"reject_empty_strings\": true,\n    \"on_violation\": \"skip_call_a..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_misfire0002",
+        "failure_type": "TOOL_MISFIRE",
+        "patch_type": "TOOL_CONFIG_PATCH",
+        "target_component": "tool_call_wrapper",
+        "confidence": "LOW",
+        "explanation_excerpt": "Tool misfire detected: a tool call failed and was retried with identical bad input. This generic patch adds minimum inpu...",
+        "patch_content_excerpt": "{\n  \"global_tool_guard\": {\n    \"min_input_length\": 1,\n    \"reject_empty_strings\": true,\n    \"on_violation\": \"skip_call_a..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_misfire0003",
+        "failure_type": "TOOL_MISFIRE",
+        "patch_type": "TOOL_CONFIG_PATCH",
+        "target_component": "tool_call_wrapper",
+        "confidence": "LOW",
+        "explanation_excerpt": "Tool misfire detected: a tool call failed and was retried with identical bad input. This generic patch adds minimum inpu...",
+        "patch_content_excerpt": "{\n  \"global_tool_guard\": {\n    \"min_input_length\": 1,\n    \"reject_empty_strings\": true,\n    \"on_violation\": \"skip_call_a..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_loop0000",
+        "failure_type": "LOOP_DETECTED",
+        "patch_type": "RETRY_POLICY_PATCH",
+        "target_component": "agent_loop_controller",
+        "confidence": "LOW",
+        "explanation_excerpt": "Infinite loop detected: the agent repeated the same operation 3+ times. This generic patch caps total agent steps and en...",
+        "patch_content_excerpt": "{\n  \"max_steps\": 15,\n  \"max_identical_calls\": 1,\n  \"dedup_key\": \"tool_name+input_hash\",\n  \"on_loop\": \"raise LoopLimitErr..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_loop0001",
+        "failure_type": "LOOP_DETECTED",
+        "patch_type": "RETRY_POLICY_PATCH",
+        "target_component": "agent_loop_controller",
+        "confidence": "LOW",
+        "explanation_excerpt": "Infinite loop detected: the agent repeated the same operation 3+ times. This generic patch caps total agent steps and en...",
+        "patch_content_excerpt": "{\n  \"max_steps\": 15,\n  \"max_identical_calls\": 1,\n  \"dedup_key\": \"tool_name+input_hash\",\n  \"on_loop\": \"raise LoopLimitErr..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_loop0002",
+        "failure_type": "LOOP_DETECTED",
+        "patch_type": "RETRY_POLICY_PATCH",
+        "target_component": "agent_loop_controller",
+        "confidence": "LOW",
+        "explanation_excerpt": "Infinite loop detected: the agent repeated the same operation 3+ times. This generic patch caps total agent steps and en...",
+        "patch_content_excerpt": "{\n  \"max_steps\": 15,\n  \"max_identical_calls\": 1,\n  \"dedup_key\": \"tool_name+input_hash\",\n  \"on_loop\": \"raise LoopLimitErr..."
+      },
+      {
+        "source": "fallback",
+        "trace_id": "trace_loop0003",
+        "failure_type": "LOOP_DETECTED",
+        "patch_type": "RETRY_POLICY_PATCH",
+        "target_component": "agent_loop_controller",
+        "confidence": "LOW",
+        "explanation_excerpt": "Infinite loop detected: the agent repeated the same operation 3+ times. This generic patch caps total agent steps and en...",
+        "patch_content_excerpt": "{\n  \"max_steps\": 15,\n  \"max_identical_calls\": 1,\n  \"dedup_key\": \"tool_name+input_hash\",\n  \"on_loop\": \"raise LoopLimitErr..."
+      }
+    ]
+  }
+}

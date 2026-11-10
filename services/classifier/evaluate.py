@@ -19,6 +19,11 @@ from nexus_agent.models import CompleteTrace, FailureType
 
 from services.classifier.classifier import SEMANTIC_TYPES, FailureClassifier
 from services.classifier.embedder import SpanEmbedder
+from services.common.results import provenance, rate, report_header, write_result
+
+RESULT_FILE = "classifier_v3_baseline.json"
+_MODEL_DESC = ("svm.joblib v3 (scikit-learn SVM) + all-MiniLM-L6-v2 + "
+               "cross-encoder/nli-MiniLM2-L6-H768")
 
 REPORT_PATH = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..", "docs", "classifier_report.md")
@@ -133,9 +138,35 @@ def main() -> None:
         c_tp = sum(1 for t, p in zip(y_true, y_pred) if t == c and p == c)
         c_fp = sum(1 for t, p in zip(y_true, y_pred) if t != c and p == c)
         c_fn = sum(1 for t, p in zip(y_true, y_pred) if t == c and p != c)
-        cp = c_tp / (c_tp + c_fp) if (c_tp + c_fp) else 0.0
-        cr = c_tp / (c_tp + c_fn) if (c_tp + c_fn) else 0.0
-        per_class[c.value] = (cp, cr, sum(1 for t in y_true if t == c))
+        per_class[c.value] = {
+            "precision": rate(c_tp, c_tp + c_fp),
+            "recall": rate(c_tp, c_tp + c_fn),
+            "support": sum(1 for t in y_true if t == c),
+        }
+
+    payload = {
+        "dataset": os.path.relpath(dataset_path, _REPO).replace(os.sep, "/"),
+        "strategy": strategy_label,
+        "n_train": len(train_idx),
+        "n_test": len(test_idx),
+        "binary": {
+            "precision": rate(tp, tp + fp),
+            "recall": rate(tp, tp + fn),
+            "f1": round(f1, 4),
+            "confusion": {"tp": tp, "fp": fp, "fn": fn, "tn": tn},
+        },
+        "multiclass_accuracy": round(acc, 4),
+        "per_class": per_class,
+        "per_source": {
+            src: {"n": n, "precision": round(sp, 4), "recall": round(sr, 4),
+                  "f1": round(sf, 4), "accuracy": round(sa, 4)}
+            for src, (sp, sr, sf, sa, n) in per_source.items()
+        },
+    }
+    prov = provenance(provider="none (no LLM)", model=_MODEL_DESC, mock=False, seed=0)
+    summary = (f"binary P={prec:.3f} R={rec:.3f} (TP={tp} FP={fp} FN={fn} TN={tn}) "
+               f"on {len(test_idx)} real HaluEval/ToolBench traces")
+    write_result("D0-baseline", RESULT_FILE, payload, provenance_info=prov, summary=summary)
 
     report = _format_report(
         strategy_label, len(train_idx), len(test_idx),
@@ -149,50 +180,72 @@ def main() -> None:
           f"recall>=0.80 {'PASS' if rec >= 0.80 else 'FAIL'}")
 
 
+def _fmt_rate(r) -> str:
+    if r["value"] is None:
+        return "n/a"
+    lo, hi = r["ci95"]
+    return f"{r['value']:.3f} ({r['k']}/{r['n']}; 95% CI {lo:.2f}-{hi:.2f})"
+
+
 def _format_report(strategy, n_train, n_test, prec, rec, f1, acc,
                    tp, fp, fn, tn, per_class, per_source) -> str:
     lines = [
-        "# Nexus Failure Classifier - Evaluation Report",
+        "# Nexus Failure Classifier - Evaluation Report (v3 baseline)",
         "",
-        "## Evaluation v2 - Source-Stratified (Real-World Test Set)",
+        *report_header(provider="none (no LLM)", model=_MODEL_DESC, mock=False,
+                       generator="python -m services.classifier.evaluate",
+                       result_file=f"results/{RESULT_FILE}"),
         "",
         f"- Methodology: {strategy}",
         f"- Train set: {n_train} traces | Test set: {n_test} traces",
-        "- Stage 2: supervised SVM over [embedding ; PatchCore anomaly_score ; io_divergence]",
+        "- Stage 1: rules (TOOL_MISFIRE, LOOP_DETECTED). Stage 2: SVM over "
+        "[384-d MiniLM embedding ; PatchCore anomaly score ; io_divergence ; NLI contradiction score]",
         "",
-        "## OVERALL (real-world test set)",
+        "## Headline",
         "",
-        "### Binary failure detection (non-NORMAL = positive)",
+        f"Binary failure detection on {n_test} real traces: **precision {prec:.3f} at recall "
+        f"{rec:.3f}** (TP={tp} FP={fp} FN={fn} TN={tn}). The detector misses more than half "
+        "of real failures; precision alone is not a useful summary.",
         "",
-        "| Metric | Value | Target |",
-        "|---|---|---|",
-        f"| Precision | **{prec:.3f}** | >= 0.85 |",
-        f"| Recall | **{rec:.3f}** | >= 0.80 |",
-        f"| F1 | **{f1:.3f}** | |",
-        f"| Confusion | TP={tp} FP={fp} FN={fn} TN={tn} | |",
+        "## Per class (precision and recall always together)",
         "",
-        f"Overall multiclass accuracy: **{acc:.3f}**",
-        "",
-        "### Per-class breakdown",
-        "",
-        "| Class | Precision | Recall | Support |",
+        "| Class | Support | Precision | Recall |",
         "|---|---|---|---|",
     ]
-    for c, (p, r, s) in per_class.items():
-        lines.append(f"| {c} | {p:.3f} | {r:.3f} | {s} |")
-
+    for c, d in per_class.items():
+        if d["support"] == 0:
+            lines.append(f"| {c} | 0 | — | — *not yet evaluated on real traces* |")
+        else:
+            lines.append(f"| {c} | {d['support']} | {_fmt_rate(d['precision'])} | "
+                         f"{_fmt_rate(d['recall'])} |")
+    lines += [
+        "",
+        f"Binary F1 {f1:.3f}; multiclass accuracy {acc:.3f}.",
+    ]
     if per_source:
         lines += [
             "",
-            "## BY SOURCE",
+            "## By source",
             "",
             "| Source | N | Precision | Recall | F1 | Accuracy |",
             "|---|---|---|---|---|---|",
         ]
         for src, (sp, sr, sf, sa, n) in sorted(per_source.items()):
             lines.append(f"| {src} | {n} | {sp:.3f} | {sr:.3f} | {sf:.3f} | {sa:.3f} |")
-
-    lines += [""]
+    lines += [
+        "",
+        "## Interpretation",
+        "",
+        "- TOOL_MISFIRE is caught by the Stage-1 rules on all real ToolBench traces.",
+        "- HALLUCINATION on HaluEval is almost entirely missed: HaluEval errors are short, "
+        "same-topic factual mistakes, while the synthetic training hallucinations are off-topic, "
+        "so the SVM learned the wrong signal. Embedding and NLI features score these as NEUTRAL.",
+        "- CONTEXT_BLEED, PLAN_DRIFT and LOOP_DETECTED have no real-world test traces, so there "
+        "is no evidence yet about them on real data.",
+        "- The training set is synthetic (212 traces); results on real traces are the only ones "
+        "that count. This report is the baseline that NexusBench-based detectors must beat.",
+        "",
+    ]
     return "\n".join(lines)
 
 

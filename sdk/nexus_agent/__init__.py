@@ -1,4 +1,4 @@
-"""nexus-agent — zero-config observability SDK for multi-agent AI systems.
+"""nexus_agent (dist: nexus-selfheal) — zero-config observability SDK for multi-agent AI systems.
 
 Quickstart::
 

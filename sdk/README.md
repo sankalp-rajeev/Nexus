@@ -1,55 +1,45 @@
-# nexus-selfheal
+# nexus-selfheal (`nexus_agent`)
 
-[![PyPI](https://img.shields.io/pypi/v/nexus-selfheal)](https://pypi.org/project/nexus-selfheal/)
-[![Python](https://img.shields.io/pypi/pyversions/nexus-selfheal)](https://pypi.org/project/nexus-selfheal/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-Zero-config observability and autonomous self-healing SDK for multi-agent AI pipelines.
+Zero-config, fail-silent tracing SDK for multi-agent AI pipelines.
 Part of the [Nexus](https://github.com/sankalp-rajeev/Nexus) platform.
 
-> **Note:** The PyPI distribution is named `nexus-selfheal`, but the Python import
-> name is `nexus_agent` (unchanged). Install with `pip install nexus-selfheal`,
-> then `import nexus_agent as nexus`.
-
-## Install
-
-```bash
-pip install nexus-selfheal
-```
-
-With LangChain integration:
-
-```bash
-pip install "nexus-selfheal[langchain]"
-```
+> **Not yet published to PyPI.** The distribution will be named
+> `nexus-selfheal`; the import name is `nexus_agent`. For now install from the
+> repo: `pip install -e sdk/`.
 
 ## Quickstart
 
 ```python
 import nexus_agent as nexus
 
-nexus.configure(
-    collector_url="http://localhost:8000",
-    agent_name="my-pipeline",
-)
+nexus.init(agent_name="my-pipeline", collector_url="http://localhost:8000")
 
-# Pattern 1 — decorator
-@nexus.trace(span_type="llm_call", model="gemini-2.0-flash")
+# Pattern 1 — decorator (bare or with arguments; sync and async)
+@nexus.trace
+def plan(task: str) -> list[str]: ...
+
+@nexus.trace(span_type="llm_call", model="gemini-3.5-flash-lite")
 def call_llm(prompt: str) -> str:
     return llm.generate(prompt)
 
 # Pattern 2 — context manager
-with nexus.span("tool_call") as s:
-    result = search_tool.run(query)
-    s.set_output(result)
+with nexus.span("tool_call", input=query, tool="search") as s:
+    s.set_output(search_tool.run(query))
 
-# Pattern 3 — manual
-trace_id = nexus.start_trace()
-nexus.record_span(trace_id=trace_id, span_type="agent_step", ...)
-nexus.end_trace(trace_id)
+# Pattern 3 — explicit start/end
+span_id = nexus.start_span("agent_step", step="retrieve")
+nexus.end_span(span_id, output=result)
+
+nexus.flush()  # before a short-lived script exits
 ```
+
+Spans nest automatically (trace and parent IDs propagate via `contextvars`).
+If the collector is unreachable, spans are dropped with a throttled warning;
+your agent never raises or blocks because of Nexus.
+
+A LangChain callback integration is planned but not implemented yet.
 
 ## Links
 
-- [Full documentation & platform](https://github.com/sankalp-rajeev/Nexus)
-- [Bug reports](https://github.com/sankalp-rajeev/Nexus/issues)
+- [Platform & docs](https://github.com/sankalp-rajeev/Nexus)
+- [Issues](https://github.com/sankalp-rajeev/Nexus/issues)

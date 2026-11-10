@@ -158,3 +158,46 @@ async def test_trace_async_function(nexus_client):
     result = await acall(4)
     assert result == 12
     assert exporter.spans[0].output == "12"
+
+
+def test_bare_trace_decorator_returns_result(nexus_client):
+    """Regression: bare @nexus.trace used to replace the function with a decorator."""
+    _, exporter = nexus_client
+
+    @nexus.trace
+    def f(x):
+        return x * 2
+
+    assert f(2) == 4
+    assert len(exporter.spans) == 1
+    assert exporter.spans[0].span_type == SpanType.CUSTOM
+
+
+async def test_bare_trace_decorator_async(nexus_client):
+    _, exporter = nexus_client
+
+    @nexus.trace
+    async def f(x):
+        return x + 1
+
+    assert await f(1) == 2
+    assert len(exporter.spans) == 1
+
+
+def test_bare_trace_without_client_is_transparent():
+    @nexus.trace
+    def f(x):
+        return x * 3
+
+    assert f(3) == 9
+
+
+def test_span_records_input_not_metadata(nexus_client):
+    _, exporter = nexus_client
+    with nexus.span("llm_call", input="what is 2+2?", model="m") as s:
+        s.output = "4"
+    span = exporter.spans[0]
+    assert span.input == "what is 2+2?"
+    assert span.output == "4"
+    assert "input" not in span.metadata
+    assert span.metadata.get("model") == "m"

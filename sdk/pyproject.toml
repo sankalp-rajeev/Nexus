@@ -26,11 +26,6 @@ dependencies = [
     "pydantic>=2.7",
 ]
 
-[project.optional-dependencies]
-langchain = ["langchain>=0.2", "langchain-core>=0.2"]
-crewai = ["crewai>=0.51"]
-all = ["nexus-selfheal[langchain,crewai]"]
-
 [tool.hatch.build.targets.wheel]
 packages = ["nexus_agent"]
 
