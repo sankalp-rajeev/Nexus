@@ -32,7 +32,9 @@ def provenance(*, provider: str, model: str, mock: bool, seed: int | None) -> di
     return {
         "date_utc": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
         "git_commit": _git("rev-parse", "--short", "HEAD"),
-        "git_dirty": bool(_git("status", "--porcelain", "--untracked-files=no")),
+        # Dirty = uncommitted *source* changes; generated outputs don't count.
+        "git_dirty": bool(_git("status", "--porcelain", "--untracked-files=no", "--", ".",
+                               ":!results", ":!RESULTS.md", ":!docs")),
         "provider": provider,
         "model": model,
         "mock": mock,
