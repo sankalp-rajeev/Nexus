@@ -18,7 +18,7 @@ cp .env.example .env        # add your GEMINI_API_KEY
 docker compose up --build   # starts all 11 services
 
 # In a new terminal:
-pip install nexus-agent
+pip install nexus-selfheal
 python examples/crewai_agent/run_demo.py
 
 # Open http://localhost:3000
@@ -89,8 +89,12 @@ python examples/crewai_agent/run_demo.py
 Install:
 
 ```bash
-pip install nexus-agent
+pip install nexus-selfheal
 ```
+
+> **Note:** The PyPI package is named `nexus-selfheal`. The Python import name is
+> `nexus_agent` (unchanged) — no code changes are needed when upgrading from a
+> local editable install.
 
 ### Pattern 1 — decorator (simplest)
 
