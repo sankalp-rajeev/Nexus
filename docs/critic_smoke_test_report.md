@@ -3,7 +3,7 @@
 - **Provider:** mock
 - **Model:** MockProvider
 - **Mock:** yes
-- **Generated:** 2026-11-10 at commit `bf678c8` by `python tests/fixtures/run_critic_eval.py`
+- **Generated:** 2026-11-10 at commit `ae3ccd8` by `python tests/fixtures/run_critic_eval.py`
 - **Result file:** [`results/critic_smoke_mock.json`](../results/critic_smoke_mock.json)
 
 > **This is not an evaluation of the critic.** It runs the LangGraph pipeline with a deterministic mock LLM to check that every failure type yields a schema-valid `PatchProposal`. It provides no evidence about real diagnosis or patch quality. Real-model experiments (C1-C5) are tracked in [RESULTS.md](../RESULTS.md).

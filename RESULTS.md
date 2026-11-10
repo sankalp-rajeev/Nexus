@@ -10,5 +10,5 @@ of real-model behaviour.
 
 | ID | Result | Provider / model | Mock | Date | Commit | File |
 |---|---|---|---|---|---|---|
-| D0-baseline | binary P=1.000 R=0.473 (TP=52 FP=0 FN=58 TN=110) on 220 real HaluEval/ToolBench traces | none (no LLM) / svm.joblib v3 (scikit-learn SVM) + all-MiniLM-L6-v2 + cross-encoder/nli-MiniLM2-L6-H768 | no | 2026-11-10 | `bf678c8+dirty` | [results/classifier_v3_baseline.json](results/classifier_v3_baseline.json) |
-| critic-smoke | SMOKE TEST (mock LLM): 20/20 traces produced a schema-valid proposal; 20/20 were the generic fallback template | mock / MockProvider | **mock** | 2026-11-10 | `bf678c8+dirty` | [results/critic_smoke_mock.json](results/critic_smoke_mock.json) |
+| D0-baseline | binary P=1.000 R=0.473 (TP=52 FP=0 FN=58 TN=110) on 220 real HaluEval/ToolBench traces | none (no LLM) / svm.joblib v3 (scikit-learn SVM) + all-MiniLM-L6-v2 + cross-encoder/nli-MiniLM2-L6-H768 | no | 2026-11-10 | `ae3ccd8` | [results/classifier_v3_baseline.json](results/classifier_v3_baseline.json) |
+| critic-smoke | SMOKE TEST (mock LLM): 20/20 traces produced a schema-valid proposal; 20/20 were the generic fallback template | mock / MockProvider | **mock** | 2026-11-10 | `ae3ccd8+dirty` | [results/critic_smoke_mock.json](results/critic_smoke_mock.json) |
