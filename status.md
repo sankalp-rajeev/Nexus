@@ -3,6 +3,8 @@
 Tracks `Nexus Improvement Plan.md`. Legend: `[x]` done · `[ ]` pending · `[~]` in progress · ⚠️ issue/comment.
 Scope agreed 2026-11-10: Phases 0 + 1, then stop for review. Spend cap Phase 1: $5 total (≤ $2 Gemini, ≤ $2 DeepSeek).
 
+⚠️ **Gemini key is on the free tier: 20 requests/day per model** (429 `generate_content_free_tier_requests`, limit 20). The $4 credit isn't attached to this key's project. NexusBench was therefore generated with **DeepSeek (`deepseek-flash`, V4.1) + local Qwen (`qwen2.5:7b-instruct` via Ollama, RTX 4080)**. Gemini is reserved for the critic once billing is linked.
+
 ---
 
 ## Phase 0 — Credibility fixes  ·  branch `phase-0-credibility`
@@ -24,16 +26,16 @@ Scope agreed 2026-11-10: Phases 0 + 1, then stop for review. Spend cap Phase 1: 
 
 ## Phase 1 — NexusBench  ·  branch `phase-1-nexusbench`
 
-- [ ] Provider layer: Gemini / DeepSeek / Ollama, with a cost ledger and hard per-provider caps.
-- [ ] LangGraph agent with three task families: grounded QA, tool use, multi-step plan.
-- [ ] Deterministic task checkers (exact or fuzzy answer, numeric tolerance, plan steps).
-- [ ] Fault injectors + deterministic labels for 5 failure types + NORMAL.
-- [ ] Dev/test split by task; SHA-256 manifest of the test set committed before any tuning.
-- [ ] Generate about 60 traces per class (about 360) plus natural failures.
-- [ ] Datasheet (`bench/DATASHEET.md`).
-- [ ] Tests: generator determinism, manifest check in CI, checker unit tests.
-- [ ] B1: 10% label spot check. ⚠️ Needs human hand-labels; I'll prepare the sample sheet, and you fill in agreement.
-- [ ] Commit; stop for review.
+- [x] Provider layer `bench/llm.py`: Gemini / DeepSeek / Ollama over a JSON protocol; append-only response cache (`llm_cache.jsonl`, makes regeneration free + reproducible); cost ledger + hard per-provider caps checked before every call (worst case = max_tokens). Prices checked 2026-11-10; DeepSeek priced at peak rate (conservative); DeepSeek thinking disabled.
+- [x] LangGraph planner→actor agent (`bench/agent.py`), instrumented with the Nexus SDK → genuine `CompleteTrace`s (planner span carries `plan_steps`; memory reads carry session/user IDs). Four families: qa 40, tool 30, plan 30, memory 40 (140 tasks) over a seeded **fictional** world (`bench/world.py`), so answers can't come from parametric memory.
+- [x] Deterministic checkers (`bench/tasks.py`): numeric ±1.1% (min 0.02), normalised text match, and every required tool must have run successfully.
+- [x] Fault injectors (`bench/tools.py`) + rule-based labeler (`bench/labeler.py`); plus `OTHER_FAILURE` (failed, none of the 5 types) and `RUN_ERROR`. Labels are recomputable from traces alone (`bench/relabel.py`, CI-checked). ⚠️ Pilot caught two labeler bugs, both fixed: borrowed facts from another company's doc counted as "supported"; abstention regex missed "does not mention".
+- [x] Dev/test split by task (memory tasks grouped by user); `manifest.sha256` (digest `fa191c6d7630d01f…`, 357 test traces) committed with the data before any tuning; CI test fails if it changes.
+- [x] Generated 716 traces: NORMAL 256, HALLUCINATION 60, CONTEXT_BLEED 60, LOOP 61, MISFIRE 59, PLAN_DRIFT 46, OTHER_FAILURE 174. ⚠️ PLAN_DRIFT hit the 150-attempt cap at 46 (DeepSeek ignores the injection 75/75). ⚠️ No natural failures: all 140 uninjected runs passed. ⚠️ Classes are mostly single-model (hallucination + misfire = DeepSeek, drift = Qwen), so Phase 2 must report per model. Spend: $0.283 DeepSeek, $0.002 Gemini.
+- [x] Datasheet `bench/DATASHEET.md` (mechanisms, label rules, splits, stats, limitations).
+- [x] Tests (25): world/task/split/attempt-order determinism, scripted-LLM agent determinism, checkers, every fault, every label rule, relabel-from-trace equality, manifest + labels integrity on the committed data. Full suite 151 passed.
+- [~] B1: blind 72-run stratified sample ready in `bench/spotcheck/` (`sample.md` + `sheet.csv`). ⚠️ **Needs you:** fill `human_label` in sheet.csv without opening key.json, then `python -m bench.spotcheck --score`.
+- [x] Committed on `phase-1-nexusbench`; **stopped for review**.
 
 ## Phases 2–6
 
