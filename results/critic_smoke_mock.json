@@ -2,9 +2,9 @@
   "experiment_id": "critic-smoke",
   "summary": "SMOKE TEST (mock LLM): 20/20 traces produced a schema-valid proposal; 20/20 were the generic fallback template",
   "provenance": {
-    "date_utc": "2026-11-10T23:12:41+00:00",
-    "git_commit": "ae3ccd8",
-    "git_dirty": true,
+    "date_utc": "2026-11-10T23:13:25+00:00",
+    "git_commit": "9ce9535",
+    "git_dirty": false,
     "provider": "mock",
     "model": "MockProvider",
     "mock": true,

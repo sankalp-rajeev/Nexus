@@ -2,8 +2,8 @@
   "experiment_id": "D0-baseline",
   "summary": "binary P=1.000 R=0.473 (TP=52 FP=0 FN=58 TN=110) on 220 real HaluEval/ToolBench traces",
   "provenance": {
-    "date_utc": "2026-11-10T23:12:39+00:00",
-    "git_commit": "ae3ccd8",
+    "date_utc": "2026-11-10T23:13:23+00:00",
+    "git_commit": "9ce9535",
     "git_dirty": false,
     "provider": "none (no LLM)",
     "model": "svm.joblib v3 (scikit-learn SVM) + all-MiniLM-L6-v2 + cross-encoder/nli-MiniLM2-L6-H768",

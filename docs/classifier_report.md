@@ -3,7 +3,7 @@
 - **Provider:** none (no LLM)
 - **Model:** svm.joblib v3 (scikit-learn SVM) + all-MiniLM-L6-v2 + cross-encoder/nli-MiniLM2-L6-H768
 - **Mock:** no
-- **Generated:** 2026-11-10 at commit `ae3ccd8` by `python -m services.classifier.evaluate`
+- **Generated:** 2026-11-10 at commit `9ce9535` by `python -m services.classifier.evaluate`
 - **Result file:** [`results/classifier_v3_baseline.json`](../results/classifier_v3_baseline.json)
 
 - Methodology: source-stratified (train=synthetic, test=real-world)
