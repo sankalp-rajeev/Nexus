@@ -10,5 +10,6 @@ of real-model behaviour.
 
 | ID | Result | Provider / model | Mock | Date | Commit | File |
 |---|---|---|---|---|---|---|
+| B0-dataset | NexusBench: 716 labelled traces over 140 tasks; test split per class NORMAL=130, LOOP_DETECTED=28, TOOL_MISFIRE=32, CONTEXT_BLEED=30, PLAN_DRIFT=26, HALLUCINATION=30, OTHER_FAILURE=81 | deepseek+ollama / deepseek-flash + qwen2.5:7b-instruct | no | 2026-11-10 | `0645358` | [results/bench_dataset.json](results/bench_dataset.json) |
 | D0-baseline | binary P=1.000 R=0.473 (TP=52 FP=0 FN=58 TN=110) on 220 real HaluEval/ToolBench traces | none (no LLM) / svm.joblib v3 (scikit-learn SVM) + all-MiniLM-L6-v2 + cross-encoder/nli-MiniLM2-L6-H768 | no | 2026-11-10 | `9ce9535` | [results/classifier_v3_baseline.json](results/classifier_v3_baseline.json) |
 | critic-smoke | SMOKE TEST (mock LLM): 20/20 traces produced a schema-valid proposal; 20/20 were the generic fallback template | mock / MockProvider | **mock** | 2026-11-10 | `9ce9535` | [results/critic_smoke_mock.json](results/critic_smoke_mock.json) |
