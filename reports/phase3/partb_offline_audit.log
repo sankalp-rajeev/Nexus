@@ -1,0 +1,69 @@
+{
+  "round2": {
+    "old_deepseek": {
+      "n": 60,
+      "no_op": 0,
+      "bad_reference": 5,
+      "both": 0,
+      "hardened_dry_run": 0
+    },
+    "new_deepseek": {
+      "n": 60,
+      "no_op": 0,
+      "bad_reference": 0,
+      "both": 0,
+      "hardened_dry_run": 56
+    },
+    "new_gemini": {
+      "n": 60,
+      "no_op": 0,
+      "bad_reference": 0,
+      "both": 0,
+      "hardened_dry_run": 60
+    },
+    "new_qwen": {
+      "n": 60,
+      "no_op": 0,
+      "bad_reference": 3,
+      "both": 0,
+      "hardened_dry_run": 0
+    }
+  },
+  "proxy": {
+    "counts": {
+      "unclear": 4,
+      "grounded": 10,
+      "ungrounded": 6
+    },
+    "unclear_as_ungrounded": {
+      "n": 20,
+      "agreement_count": 12,
+      "agreement": 0.6,
+      "expected_agreement": 0.5,
+      "cohens_kappa": 0.19999999999999996,
+      "reviewer_grounded": 10,
+      "proxy_grounded": 4,
+      "confusion": {
+        "both_grounded": 3,
+        "reviewer_only_grounded": 7,
+        "proxy_only_grounded": 1,
+        "both_ungrounded": 9
+      }
+    },
+    "unclear_as_grounded": {
+      "n": 20,
+      "agreement_count": 8,
+      "agreement": 0.4,
+      "expected_agreement": 0.38,
+      "cohens_kappa": 0.03225806451612906,
+      "reviewer_grounded": 14,
+      "proxy_grounded": 4,
+      "confusion": {
+        "both_grounded": 3,
+        "reviewer_only_grounded": 11,
+        "proxy_only_grounded": 1,
+        "both_ungrounded": 5
+      }
+    }
+  }
+}

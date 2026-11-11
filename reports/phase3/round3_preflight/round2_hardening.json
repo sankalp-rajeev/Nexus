@@ -1,0 +1,122 @@
+{
+  "snapshot": "phase-1-nexusbench literal constants; selected DEV fault for scoring only",
+  "hardening_version": "explicit-reference-grammar-v1",
+  "arms": {
+    "old_deepseek": {
+      "n": 60,
+      "no_op": 0,
+      "bad_reference": 5,
+      "both": 0,
+      "hardened_dry_run": 0,
+      "bad_reference_reasons": {
+        "unknown tool: memory_read": 1,
+        "unknown argument: read_memory.key": 4,
+        "unknown argument: read_memory.user_id": 2,
+        "unknown argument: read_memory.session_id": 1,
+        "unknown argument: read_memory.customer_id": 2
+      },
+      "fix_tags_per_class": {
+        "HALLUCINATION": {
+          "other_fix": 12
+        },
+        "TOOL_MISFIRE": {
+          "other_fix": 12
+        },
+        "CONTEXT_BLEED": {
+          "other_fix": 12
+        },
+        "PLAN_DRIFT": {
+          "other_fix": 12
+        },
+        "LOOP_DETECTED": {
+          "other_fix": 12
+        }
+      }
+    },
+    "new_deepseek": {
+      "n": 60,
+      "no_op": 0,
+      "bad_reference": 0,
+      "both": 0,
+      "hardened_dry_run": 56,
+      "bad_reference_reasons": {},
+      "fix_tags_per_class": {
+        "HALLUCINATION": {
+          "other_fix": 12
+        },
+        "TOOL_MISFIRE": {
+          "other_fix": 12
+        },
+        "CONTEXT_BLEED": {
+          "other_fix": 12
+        },
+        "PLAN_DRIFT": {
+          "other_fix": 12
+        },
+        "LOOP_DETECTED": {
+          "other_fix": 12
+        }
+      }
+    },
+    "new_gemini": {
+      "n": 60,
+      "no_op": 0,
+      "bad_reference": 0,
+      "both": 0,
+      "hardened_dry_run": 60,
+      "bad_reference_reasons": {},
+      "fix_tags_per_class": {
+        "HALLUCINATION": {
+          "other_fix": 6,
+          "reverts_injection": 6
+        },
+        "TOOL_MISFIRE": {
+          "other_fix": 12
+        },
+        "CONTEXT_BLEED": {
+          "other_fix": 12
+        },
+        "PLAN_DRIFT": {
+          "other_fix": 12
+        },
+        "LOOP_DETECTED": {
+          "other_fix": 12
+        }
+      }
+    },
+    "new_qwen": {
+      "n": 60,
+      "no_op": 0,
+      "bad_reference": 3,
+      "both": 0,
+      "hardened_dry_run": 0,
+      "bad_reference_reasons": {
+        "unknown argument: read_memory.user_id": 2,
+        "unknown argument: read_memory.consistency_check": 1
+      },
+      "fix_tags_per_class": {
+        "HALLUCINATION": {
+          "other_fix": 12
+        },
+        "TOOL_MISFIRE": {
+          "other_fix": 12
+        },
+        "CONTEXT_BLEED": {
+          "other_fix": 12
+        },
+        "PLAN_DRIFT": {
+          "other_fix": 12
+        },
+        "LOOP_DETECTED": {
+          "other_fix": 12
+        }
+      }
+    }
+  },
+  "sources_sha256": {
+    "old_deepseek": "df3f89ed665d03cf7b1b366a791ba058f30e4d04a3403cbe2ac52b66d7a1a03f",
+    "new_deepseek": "5ff4d9aaa0873dbb514aa07afbd2dfa4e1abe9771643886d8d7a499676fbdb28",
+    "new_gemini": "30f201545abce24ab053c4dac53a9cd62e2b1322401610fb73fb17f608069f9f",
+    "new_qwen": "cb3aca8319c0c8faf2b6b83703f381fecbb8c08ba9490dd774a5063011ab59ea"
+  }
+}

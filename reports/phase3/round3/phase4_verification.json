@@ -1,0 +1,48 @@
+{
+  "status": "complete",
+  "main_commit": "46366990ff240753d5d405448092ddbe13ca72b8",
+  "phase4_commit": "c2e9df76b6eb8dd3012a98da88600c06bb09c8fa",
+  "generation_commit": "82c689aeea0b6bbc687d691e58d622d4e7c08365",
+  "all_prior_files_preserved": true,
+  "duplicate_exports": 0,
+  "reused_outputs_changed": 0,
+  "calls_resent_for_kept_pairs": 0,
+  "real_leaks_remaining": 0,
+  "total_spend_usd": 0.9123771660000003,
+  "previous_spend_usd": 0.6804598380000003,
+  "additional_spend_usd": 0.23191732799999998,
+  "arms": {
+    "new": {
+      "records": 59,
+      "proposals": 57,
+      "kept": 33,
+      "new_records": 26,
+      "excluded": 27,
+      "missing": [],
+      "loader_statuses": {
+        "patch": 56,
+        "no_patch": 3
+      },
+      "retained_proposal_cost_usd": 0.15250828799999994,
+      "retained_cost_per_proposal_usd": 0.002675583999999999,
+      "all_arm_cost_including_excluded_usd": 0.225313032,
+      "continuation_calls": 26
+    },
+    "v1_structured": {
+      "records": 59,
+      "proposals": 57,
+      "kept": 33,
+      "new_records": 26,
+      "excluded": 27,
+      "missing": [],
+      "loader_statuses": {
+        "patch": 48,
+        "no_patch": 11
+      },
+      "retained_proposal_cost_usd": 0.370064124,
+      "retained_cost_per_proposal_usd": 0.006492353052631579,
+      "all_arm_cost_including_excluded_usd": 0.5539155840000001,
+      "continuation_calls": 56
+    }
+  }
+}

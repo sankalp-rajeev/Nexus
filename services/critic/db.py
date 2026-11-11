@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import logging
 import os
+import json
+from pathlib import Path
 from datetime import datetime, timezone
 
 import psycopg2
@@ -89,7 +91,29 @@ class CriticDB:
             spans=spans,
         )
 
+    def load_config(self, agent_name: str) -> dict:
+        """Read only keys already registered for this specific agent."""
+        self._ensure()
+        with self._conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
+            cur.execute(
+                "SELECT DISTINCT ON (component_name) component_name, content, config_type "
+                "FROM agent_configs WHERE agent_name = %s ORDER BY component_name, version DESC",
+                (agent_name,),
+            )
+            return {r["component_name"]: (r["content"] if r["config_type"] == "prompt"
+                    else json.loads(r["content"])) for r in cur.fetchall()}
+
+    def record_attempt(self, proposal) -> None:
+        """Keep provenance/rejections durably while shared SQL schema stays frozen."""
+        path = Path(os.getenv("CRITIC_AUDIT_PATH", "results/critic_dev/proposals.jsonl"))
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a", encoding="utf-8", newline="\n") as audit:
+            audit.write(proposal.model_dump_json() + "\n")
+
     def write_patch(self, proposal: PatchProposal) -> None:
+        if (not hasattr(proposal, "provenance") or proposal.provenance.source != "llm"
+                or not proposal.dry_run_applied or proposal.status == "REJECTED"):
+            raise ValueError("Only proposals with a clean config dry run can be stored")
         self._ensure()
         with self._conn.cursor() as cur:
             cur.execute(

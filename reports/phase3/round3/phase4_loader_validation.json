@@ -1,0 +1,20 @@
+{
+  "new": {
+    "records": 59,
+    "proposals": 57,
+    "missing": [],
+    "statuses": {
+      "patch": 56,
+      "no_patch": 3
+    }
+  },
+  "v1_structured": {
+    "records": 59,
+    "proposals": 57,
+    "missing": [],
+    "statuses": {
+      "patch": 48,
+      "no_patch": 11
+    }
+  }
+}

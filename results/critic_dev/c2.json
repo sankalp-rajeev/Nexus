@@ -1,0 +1,192 @@
+{
+  "experiment_id": "C2",
+  "provenance": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "model_version": "DeepSeek-V4.1-Flash (provider-managed alias); fingerprint=bc19ba97cbe016479903222bb1578db6",
+    "temperature": 0.2,
+    "prompt_version": "critic-groundwork-v1",
+    "mock": false,
+    "seed": 20261110,
+    "sampling_seed": null,
+    "git_commit": "7d95b152fce05704d9c4bc8a0b04c8a3987d0c3d",
+    "date_utc": "2026-11-11T01:00:39.435632+00:00",
+    "dataset": "NexusBench DEV only"
+  },
+  "total_spend_usd": 0.18393224399999994,
+  "definition": "Clean copy dry run among C1-valid model proposals; rejected candidates are audited, never stored.",
+  "overall": {
+    "successes": 59,
+    "total": 60,
+    "rate": 0.9833333333333333,
+    "ci95_clopper_pearson": [
+      0.910600949942513,
+      0.999578125547658
+    ]
+  },
+  "per_class": {
+    "HALLUCINATION": {
+      "successes": 12,
+      "total": 12,
+      "rate": 1.0,
+      "ci95_clopper_pearson": [
+        0.7353515306029488,
+        1.0
+      ]
+    },
+    "TOOL_MISFIRE": {
+      "successes": 12,
+      "total": 12,
+      "rate": 1.0,
+      "ci95_clopper_pearson": [
+        0.7353515306029488,
+        1.0
+      ]
+    },
+    "CONTEXT_BLEED": {
+      "successes": 11,
+      "total": 12,
+      "rate": 0.9166666666666666,
+      "ci95_clopper_pearson": [
+        0.6152038348490559,
+        0.9978924067681397
+      ]
+    },
+    "PLAN_DRIFT": {
+      "successes": 12,
+      "total": 12,
+      "rate": 1.0,
+      "ci95_clopper_pearson": [
+        0.7353515306029488,
+        1.0
+      ]
+    },
+    "LOOP_DETECTED": {
+      "successes": 12,
+      "total": 12,
+      "rate": 1.0,
+      "ci95_clopper_pearson": [
+        0.7353515306029488,
+        1.0
+      ]
+    }
+  },
+  "per_source_model": {
+    "deepseek/deepseek-flash": {
+      "overall": {
+        "successes": 35,
+        "total": 36,
+        "rate": 0.9722222222222222,
+        "ci95_clopper_pearson": [
+          0.8547107352531467,
+          0.9992969747940952
+        ]
+      },
+      "per_class": {
+        "HALLUCINATION": {
+          "successes": 12,
+          "total": 12,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.7353515306029488,
+            1.0
+          ]
+        },
+        "TOOL_MISFIRE": {
+          "successes": 12,
+          "total": 12,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.7353515306029488,
+            1.0
+          ]
+        },
+        "CONTEXT_BLEED": {
+          "successes": 5,
+          "total": 6,
+          "rate": 0.8333333333333334,
+          "ci95_clopper_pearson": [
+            0.35876542100232517,
+            0.9957892554855106
+          ]
+        },
+        "PLAN_DRIFT": {
+          "successes": 0,
+          "total": 0,
+          "rate": null,
+          "ci95_clopper_pearson": [
+            null,
+            null
+          ]
+        },
+        "LOOP_DETECTED": {
+          "successes": 6,
+          "total": 6,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.5407418735600995,
+            1.0
+          ]
+        }
+      }
+    },
+    "ollama/qwen2.5:7b-instruct": {
+      "overall": {
+        "successes": 24,
+        "total": 24,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.8575264022774743,
+          1.0
+        ]
+      },
+      "per_class": {
+        "HALLUCINATION": {
+          "successes": 0,
+          "total": 0,
+          "rate": null,
+          "ci95_clopper_pearson": [
+            null,
+            null
+          ]
+        },
+        "TOOL_MISFIRE": {
+          "successes": 0,
+          "total": 0,
+          "rate": null,
+          "ci95_clopper_pearson": [
+            null,
+            null
+          ]
+        },
+        "CONTEXT_BLEED": {
+          "successes": 6,
+          "total": 6,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.5407418735600995,
+            1.0
+          ]
+        },
+        "PLAN_DRIFT": {
+          "successes": 12,
+          "total": 12,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.7353515306029488,
+            1.0
+          ]
+        },
+        "LOOP_DETECTED": {
+          "successes": 6,
+          "total": 6,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.5407418735600995,
+            1.0
+          ]
+        }
+      }
+    }
+  }
+}

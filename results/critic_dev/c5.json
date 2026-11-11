@@ -1,0 +1,476 @@
+{
+  "experiment_id": "C5",
+  "provenance": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "model_version": "DeepSeek-V4.1-Flash (provider-managed alias); fingerprint=bc19ba97cbe016479903222bb1578db6",
+    "temperature": 0.2,
+    "prompt_version": "critic-groundwork-v1",
+    "mock": false,
+    "seed": 20261110,
+    "sampling_seed": null,
+    "git_commit": "7d95b152fce05704d9c4bc8a0b04c8a3987d0c3d",
+    "date_utc": "2026-11-11T01:00:39.435632+00:00",
+    "dataset": "NexusBench DEV only"
+  },
+  "definition": "A trace succeeds only when all 3 fresh outputs are C1-valid and their type/key agree; fallback is failure.",
+  "total_spend_usd": 0.18393224399999994,
+  "overall": {
+    "type_stable": {
+      "successes": 10,
+      "total": 10,
+      "rate": 1.0,
+      "ci95_clopper_pearson": [
+        0.6915028921812392,
+        1.0
+      ]
+    },
+    "key_stable": {
+      "successes": 10,
+      "total": 10,
+      "rate": 1.0,
+      "ci95_clopper_pearson": [
+        0.6915028921812392,
+        1.0
+      ]
+    },
+    "joint_stable": {
+      "successes": 10,
+      "total": 10,
+      "rate": 1.0,
+      "ci95_clopper_pearson": [
+        0.6915028921812392,
+        1.0
+      ]
+    }
+  },
+  "per_class": {
+    "HALLUCINATION": {
+      "type_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      },
+      "key_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      },
+      "joint_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      }
+    },
+    "TOOL_MISFIRE": {
+      "type_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      },
+      "key_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      },
+      "joint_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      }
+    },
+    "CONTEXT_BLEED": {
+      "type_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      },
+      "key_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      },
+      "joint_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      }
+    },
+    "PLAN_DRIFT": {
+      "type_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      },
+      "key_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      },
+      "joint_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      }
+    },
+    "LOOP_DETECTED": {
+      "type_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      },
+      "key_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      },
+      "joint_stable": {
+        "successes": 2,
+        "total": 2,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.15811388300841897,
+          1.0
+        ]
+      }
+    }
+  },
+  "per_source_model": {
+    "deepseek/deepseek-flash": {
+      "type_stable": {
+        "successes": 6,
+        "total": 6,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.5407418735600995,
+          1.0
+        ]
+      },
+      "key_stable": {
+        "successes": 6,
+        "total": 6,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.5407418735600995,
+          1.0
+        ]
+      },
+      "joint_stable": {
+        "successes": 6,
+        "total": 6,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.5407418735600995,
+          1.0
+        ]
+      }
+    },
+    "ollama/qwen2.5:7b-instruct": {
+      "type_stable": {
+        "successes": 4,
+        "total": 4,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.3976353643835253,
+          1.0
+        ]
+      },
+      "key_stable": {
+        "successes": 4,
+        "total": 4,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.3976353643835253,
+          1.0
+        ]
+      },
+      "joint_stable": {
+        "successes": 4,
+        "total": 4,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.3976353643835253,
+          1.0
+        ]
+      }
+    }
+  },
+  "traces": [
+    {
+      "trace_id": "nb-6dbb58488330a80f",
+      "failure_type": "HALLUCINATION",
+      "source_model": "deepseek/deepseek-flash",
+      "pairs": [
+        [
+          "PROMPT_PATCH",
+          "_GUESS_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_GUESS_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_GUESS_SYSTEM"
+        ]
+      ],
+      "type_stable": true,
+      "key_stable": true,
+      "joint_stable": true
+    },
+    {
+      "trace_id": "nb-9990dbe1533e57cd",
+      "failure_type": "HALLUCINATION",
+      "source_model": "deepseek/deepseek-flash",
+      "pairs": [
+        [
+          "PROMPT_PATCH",
+          "_GUESS_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_GUESS_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_GUESS_SYSTEM"
+        ]
+      ],
+      "type_stable": true,
+      "key_stable": true,
+      "joint_stable": true
+    },
+    {
+      "trace_id": "nb-4ce6973554a43cd0",
+      "failure_type": "TOOL_MISFIRE",
+      "source_model": "deepseek/deepseek-flash",
+      "pairs": [
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ]
+      ],
+      "type_stable": true,
+      "key_stable": true,
+      "joint_stable": true
+    },
+    {
+      "trace_id": "nb-fb4b825f6e52387e",
+      "failure_type": "TOOL_MISFIRE",
+      "source_model": "deepseek/deepseek-flash",
+      "pairs": [
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ]
+      ],
+      "type_stable": true,
+      "key_stable": true,
+      "joint_stable": true
+    },
+    {
+      "trace_id": "nb-e59fbbd2931a908d",
+      "failure_type": "CONTEXT_BLEED",
+      "source_model": "deepseek/deepseek-flash",
+      "pairs": [
+        [
+          "TOOL_CONFIG_PATCH",
+          "TOOL_SPECS"
+        ],
+        [
+          "TOOL_CONFIG_PATCH",
+          "TOOL_SPECS"
+        ],
+        [
+          "TOOL_CONFIG_PATCH",
+          "TOOL_SPECS"
+        ]
+      ],
+      "type_stable": true,
+      "key_stable": true,
+      "joint_stable": true
+    },
+    {
+      "trace_id": "nb-970c11f77f16292e",
+      "failure_type": "CONTEXT_BLEED",
+      "source_model": "ollama/qwen2.5:7b-instruct",
+      "pairs": [
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ]
+      ],
+      "type_stable": true,
+      "key_stable": true,
+      "joint_stable": true
+    },
+    {
+      "trace_id": "nb-3e8f0b64257115fe",
+      "failure_type": "PLAN_DRIFT",
+      "source_model": "ollama/qwen2.5:7b-instruct",
+      "pairs": [
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ]
+      ],
+      "type_stable": true,
+      "key_stable": true,
+      "joint_stable": true
+    },
+    {
+      "trace_id": "nb-666d28fc02c0cca6",
+      "failure_type": "PLAN_DRIFT",
+      "source_model": "ollama/qwen2.5:7b-instruct",
+      "pairs": [
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ]
+      ],
+      "type_stable": true,
+      "key_stable": true,
+      "joint_stable": true
+    },
+    {
+      "trace_id": "nb-415e294ca79dde6c",
+      "failure_type": "LOOP_DETECTED",
+      "source_model": "deepseek/deepseek-flash",
+      "pairs": [
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ]
+      ],
+      "type_stable": true,
+      "key_stable": true,
+      "joint_stable": true
+    },
+    {
+      "trace_id": "nb-27e4d03d7673e9ea",
+      "failure_type": "LOOP_DETECTED",
+      "source_model": "ollama/qwen2.5:7b-instruct",
+      "pairs": [
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ],
+        [
+          "PROMPT_PATCH",
+          "_BASE_SYSTEM"
+        ]
+      ],
+      "type_stable": true,
+      "key_stable": true,
+      "joint_stable": true
+    }
+  ]
+}

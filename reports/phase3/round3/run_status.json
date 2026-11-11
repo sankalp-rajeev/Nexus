@@ -1,0 +1,44 @@
+{
+  "status": "complete",
+  "phase4_failures": 59,
+  "arms": {
+    "new": {
+      "records": 59,
+      "proposals": 57,
+      "kept": 33,
+      "new_records": 26,
+      "excluded": 27,
+      "missing": [],
+      "loader_statuses": {
+        "patch": 56,
+        "no_patch": 3
+      },
+      "retained_proposal_cost_usd": 0.15250828799999994,
+      "retained_cost_per_proposal_usd": 0.002675583999999999,
+      "all_arm_cost_including_excluded_usd": 0.225313032,
+      "continuation_calls": 26
+    },
+    "v1_structured": {
+      "records": 59,
+      "proposals": 57,
+      "kept": 33,
+      "new_records": 26,
+      "excluded": 27,
+      "missing": [],
+      "loader_statuses": {
+        "patch": 48,
+        "no_patch": 11
+      },
+      "retained_proposal_cost_usd": 0.370064124,
+      "retained_cost_per_proposal_usd": 0.006492353052631579,
+      "all_arm_cost_including_excluded_usd": 0.5539155840000001,
+      "continuation_calls": 56
+    }
+  },
+  "real_leaks": 0,
+  "total_spend_usd": 0.9123771660000003,
+  "additional_spend_usd": 0.23191732799999998,
+  "ci_passed": 347,
+  "ci_skipped": 1,
+  "grounding_proxy_validated": false
+}
