@@ -1,0 +1,27 @@
+{
+  "experiment_id": "B1",
+  "summary": "label agreement 72/72 (hand vs automatic)",
+  "provenance": {
+    "date_utc": "2026-11-11T02:48:05+00:00",
+    "git_commit": "9c24e43",
+    "git_dirty": true,
+    "provider": "human",
+    "model": "hand labels",
+    "mock": false,
+    "seed": 20261110
+  },
+  "results": {
+    "agreement": {
+      "value": 1.0,
+      "k": 72,
+      "n": 72,
+      "ci95": [
+        0.9493,
+        1.0
+      ]
+    },
+    "n_sampled": 72,
+    "n_labelled": 72,
+    "disagreements": []
+  }
+}
