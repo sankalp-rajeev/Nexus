@@ -16,6 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Phase 3 tests read pinned historical commits with git show.
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:

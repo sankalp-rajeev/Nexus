@@ -1,0 +1,89 @@
+{
+  "evidence_label": "oracle evidence (dev labels)",
+  "diagnostic_only": true,
+  "git_commit": "aaa13c05322e28f54b2e17ed8c547cc35d165f83",
+  "variants": [
+    {
+      "evidence_label": "oracle evidence (dev labels)",
+      "variant": "minimal_thinking",
+      "status": "success",
+      "finish_reason": "STOP",
+      "provenance": {
+        "source": "llm",
+        "model": "gemini-3.5-flash-lite",
+        "model_version": "gemini-3.5-flash-lite",
+        "temperature": 0.2,
+        "prompt_version": "round2-protocol-diagnostic-minimal_thinking",
+        "input_tokens": 63,
+        "output_tokens": 148,
+        "cost_usd": 0.00038889999999999997,
+        "latency_ms": 1242.774600003031,
+        "mock": false
+      },
+      "response": "{\n  \"patch_type\": \"PROMPT_PATCH\",\n  \"target_component\": \"_BASE_SYSTEM\",\n  \"explanation\": \"Replacing the base system prompt to strictly require tool evidence before drawing conclusions will reduce hallucination and ensure factual grounding.\",\n  \"patch_content\": \"You must always rely on verified tool output and explicit evidence before formulating a response. Do not assume or extrapolate facts without supporting tool data.\",\n  \"confidence\": \"MEDIUM\",\n  \"estimated_impact\": \"Moderate improvement in factual accuracy and reduced reliance on unverified assumptions.\",\n  \"root_cause_analysis\": \"The model occasionally generates answers without checking or invoking the necessary tools, leading to unsupported statements.\"\n}",
+      "generation_config": {
+        "temperature": 0.2,
+        "maxOutputTokens": 800,
+        "responseMimeType": "application/json",
+        "responseJsonSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "patch_type": {
+              "enum": [
+                "PROMPT_PATCH",
+                "TOOL_CONFIG_PATCH",
+                "MEMORY_PATCH",
+                "RETRY_POLICY_PATCH"
+              ],
+              "title": "PatchType",
+              "type": "string"
+            },
+            "target_component": {
+              "title": "Target Component",
+              "type": "string"
+            },
+            "explanation": {
+              "title": "Explanation",
+              "type": "string"
+            },
+            "patch_content": {
+              "title": "Patch Content",
+              "type": "string"
+            },
+            "confidence": {
+              "enum": [
+                "HIGH",
+                "MEDIUM",
+                "LOW"
+              ],
+              "title": "Confidence",
+              "type": "string"
+            },
+            "estimated_impact": {
+              "title": "Estimated Impact",
+              "type": "string"
+            },
+            "root_cause_analysis": {
+              "title": "Root Cause Analysis",
+              "type": "string"
+            }
+          },
+          "required": [
+            "patch_type",
+            "target_component",
+            "explanation",
+            "patch_content",
+            "confidence",
+            "estimated_impact",
+            "root_cause_analysis"
+          ],
+          "title": "StructuredPatch",
+          "type": "object"
+        },
+        "thinkingConfig": {
+          "thinkingLevel": "MINIMAL"
+        }
+      }
+    }
+  ]
+}

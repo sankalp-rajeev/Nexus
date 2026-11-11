@@ -50,7 +50,14 @@ def _base_state(**overrides) -> CriticState:
 
 def test_context_loader_calls_db_load_trace():
     mock_db = MagicMock()
-    mock_db.load_trace.return_value = _trace()
+    trace = _trace()
+    trace.trace_id = "trace_01"
+    trace.agent_name = "testAgent"
+    mock_db.load_trace.return_value = trace
+    mock_db.load_config.return_value = {"agent_system_prompt": "Current system prompt"}
+    mock_db.load_evidence.return_value = {
+        "failure_type": "HALLUCINATION", "span_id": "span_00", "supporting_text": "Observed unsupported output",
+    }
     loader = make_context_loader(mock_db)
     result = loader(_base_state())
     mock_db.load_trace.assert_called_once_with("trace_01")
@@ -134,7 +141,14 @@ def test_full_graph_runs_end_to_end():
     from services.critic.llm import MockProvider
 
     mock_db = MagicMock()
-    mock_db.load_trace.return_value = _trace()
+    trace = _trace()
+    trace.trace_id = "trace_01"
+    trace.agent_name = "testAgent"
+    mock_db.load_trace.return_value = trace
+    mock_db.load_config.return_value = {"agent_system_prompt": "Current system prompt"}
+    mock_db.load_evidence.return_value = {
+        "failure_type": "HALLUCINATION", "span_id": "span_00", "supporting_text": "Observed unsupported output",
+    }
     mock_db.write_patch.return_value = None
 
     def mock_factory(failure_type: str = "HALLUCINATION", span_id: str = "span_00"):

@@ -1,0 +1,192 @@
+{
+  "experiment_id": "C1",
+  "provenance": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "model_version": "DeepSeek-V4.1-Flash (provider-managed alias); fingerprint=bc19ba97cbe016479903222bb1578db6",
+    "temperature": 0.2,
+    "prompt_version": "critic-groundwork-v1",
+    "mock": false,
+    "seed": 20261110,
+    "sampling_seed": null,
+    "git_commit": "7d95b152fce05704d9c4bc8a0b04c8a3987d0c3d",
+    "date_utc": "2026-11-11T01:00:39.435632+00:00",
+    "dataset": "NexusBench DEV only"
+  },
+  "total_spend_usd": 0.18393224399999994,
+  "definition": "Schema + unchanged validator pass, source=llm, no fallback; applicability measured separately by C2.",
+  "overall": {
+    "successes": 60,
+    "total": 60,
+    "rate": 1.0,
+    "ci95_clopper_pearson": [
+      0.9403705077138331,
+      1.0
+    ]
+  },
+  "per_class": {
+    "HALLUCINATION": {
+      "successes": 12,
+      "total": 12,
+      "rate": 1.0,
+      "ci95_clopper_pearson": [
+        0.7353515306029488,
+        1.0
+      ]
+    },
+    "TOOL_MISFIRE": {
+      "successes": 12,
+      "total": 12,
+      "rate": 1.0,
+      "ci95_clopper_pearson": [
+        0.7353515306029488,
+        1.0
+      ]
+    },
+    "CONTEXT_BLEED": {
+      "successes": 12,
+      "total": 12,
+      "rate": 1.0,
+      "ci95_clopper_pearson": [
+        0.7353515306029488,
+        1.0
+      ]
+    },
+    "PLAN_DRIFT": {
+      "successes": 12,
+      "total": 12,
+      "rate": 1.0,
+      "ci95_clopper_pearson": [
+        0.7353515306029488,
+        1.0
+      ]
+    },
+    "LOOP_DETECTED": {
+      "successes": 12,
+      "total": 12,
+      "rate": 1.0,
+      "ci95_clopper_pearson": [
+        0.7353515306029488,
+        1.0
+      ]
+    }
+  },
+  "per_source_model": {
+    "deepseek/deepseek-flash": {
+      "overall": {
+        "successes": 36,
+        "total": 36,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.902606244085508,
+          1.0
+        ]
+      },
+      "per_class": {
+        "HALLUCINATION": {
+          "successes": 12,
+          "total": 12,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.7353515306029488,
+            1.0
+          ]
+        },
+        "TOOL_MISFIRE": {
+          "successes": 12,
+          "total": 12,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.7353515306029488,
+            1.0
+          ]
+        },
+        "CONTEXT_BLEED": {
+          "successes": 6,
+          "total": 6,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.5407418735600995,
+            1.0
+          ]
+        },
+        "PLAN_DRIFT": {
+          "successes": 0,
+          "total": 0,
+          "rate": null,
+          "ci95_clopper_pearson": [
+            null,
+            null
+          ]
+        },
+        "LOOP_DETECTED": {
+          "successes": 6,
+          "total": 6,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.5407418735600995,
+            1.0
+          ]
+        }
+      }
+    },
+    "ollama/qwen2.5:7b-instruct": {
+      "overall": {
+        "successes": 24,
+        "total": 24,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.8575264022774743,
+          1.0
+        ]
+      },
+      "per_class": {
+        "HALLUCINATION": {
+          "successes": 0,
+          "total": 0,
+          "rate": null,
+          "ci95_clopper_pearson": [
+            null,
+            null
+          ]
+        },
+        "TOOL_MISFIRE": {
+          "successes": 0,
+          "total": 0,
+          "rate": null,
+          "ci95_clopper_pearson": [
+            null,
+            null
+          ]
+        },
+        "CONTEXT_BLEED": {
+          "successes": 6,
+          "total": 6,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.5407418735600995,
+            1.0
+          ]
+        },
+        "PLAN_DRIFT": {
+          "successes": 12,
+          "total": 12,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.7353515306029488,
+            1.0
+          ]
+        },
+        "LOOP_DETECTED": {
+          "successes": 6,
+          "total": 6,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.5407418735600995,
+            1.0
+          ]
+        }
+      }
+    }
+  }
+}

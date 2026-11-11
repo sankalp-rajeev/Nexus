@@ -1,0 +1,438 @@
+{
+  "provenance": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b-instruct",
+    "model_version": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "temperature": 0.2,
+    "prompt_version": "critic-groundwork-v1",
+    "mock": false,
+    "seed": 20261110,
+    "sampling_seed": null,
+    "git_commit": "7eef3ab090a2be0cc16215db6d59942be07c5273",
+    "date_utc": "2026-11-11T00:55:51.250031+00:00",
+    "dataset": "NexusBench DEV only"
+  },
+  "selection": [
+    {
+      "trace_id": "nb-6dbb58488330a80f",
+      "task_id": "qa-003",
+      "label": "HALLUCINATION",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-9990dbe1533e57cd",
+      "task_id": "qa-013",
+      "label": "HALLUCINATION",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-15859db288dce42a",
+      "task_id": "qa-026",
+      "label": "HALLUCINATION",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-a00364af41bc3a6c",
+      "task_id": "qa-021",
+      "label": "HALLUCINATION",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-b45b1b6781209a74",
+      "task_id": "qa-039",
+      "label": "HALLUCINATION",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-52265d2d66872e32",
+      "task_id": "qa-009",
+      "label": "HALLUCINATION",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-a1fa57de4db47000",
+      "task_id": "qa-005",
+      "label": "HALLUCINATION",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-13f328949ad89635",
+      "task_id": "qa-007",
+      "label": "HALLUCINATION",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-f0052b13c35b8359",
+      "task_id": "qa-016",
+      "label": "HALLUCINATION",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-5fcd0bf88d71523c",
+      "task_id": "qa-002",
+      "label": "HALLUCINATION",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-7aefb4e62a75e56c",
+      "task_id": "qa-035",
+      "label": "HALLUCINATION",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-b0f3fd1a37fb212a",
+      "task_id": "qa-000",
+      "label": "HALLUCINATION",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-4ce6973554a43cd0",
+      "task_id": "tool-007",
+      "label": "TOOL_MISFIRE",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-fb4b825f6e52387e",
+      "task_id": "tool-020",
+      "label": "TOOL_MISFIRE",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-a4ecb4af52fab017",
+      "task_id": "plan-009",
+      "label": "TOOL_MISFIRE",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-d265991f904f89b0",
+      "task_id": "tool-009",
+      "label": "TOOL_MISFIRE",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-964c9220ee8995e7",
+      "task_id": "plan-015",
+      "label": "TOOL_MISFIRE",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-02d9c47d716be568",
+      "task_id": "mem-029",
+      "label": "TOOL_MISFIRE",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-2fbf514fb538859e",
+      "task_id": "mem-030",
+      "label": "TOOL_MISFIRE",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-9726e50c17720901",
+      "task_id": "mem-010",
+      "label": "TOOL_MISFIRE",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-de54943ad9878f3d",
+      "task_id": "mem-023",
+      "label": "TOOL_MISFIRE",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-339d566e09f3112e",
+      "task_id": "mem-016",
+      "label": "TOOL_MISFIRE",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-9970890ca06afcd6",
+      "task_id": "plan-018",
+      "label": "TOOL_MISFIRE",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-bff4382e5ee4651b",
+      "task_id": "mem-032",
+      "label": "TOOL_MISFIRE",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-e59fbbd2931a908d",
+      "task_id": "mem-033",
+      "label": "CONTEXT_BLEED",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-970c11f77f16292e",
+      "task_id": "mem-021",
+      "label": "CONTEXT_BLEED",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-d718182cfb24a4e7",
+      "task_id": "mem-016",
+      "label": "CONTEXT_BLEED",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-9e71dbcc911efe4c",
+      "task_id": "mem-027",
+      "label": "CONTEXT_BLEED",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-348240159a82f3c4",
+      "task_id": "mem-010",
+      "label": "CONTEXT_BLEED",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-07e4c8d981075429",
+      "task_id": "mem-028",
+      "label": "CONTEXT_BLEED",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-f7b5cab4a0888fd6",
+      "task_id": "mem-026",
+      "label": "CONTEXT_BLEED",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-ca2b234340e0a271",
+      "task_id": "mem-017",
+      "label": "CONTEXT_BLEED",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-b2427bae8d537813",
+      "task_id": "mem-002",
+      "label": "CONTEXT_BLEED",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-45b250f18d956c3c",
+      "task_id": "mem-003",
+      "label": "CONTEXT_BLEED",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-bf15edea32672fd8",
+      "task_id": "mem-031",
+      "label": "CONTEXT_BLEED",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-1906cb9e17860106",
+      "task_id": "mem-032",
+      "label": "CONTEXT_BLEED",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-3e8f0b64257115fe",
+      "task_id": "mem-031",
+      "label": "PLAN_DRIFT",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-666d28fc02c0cca6",
+      "task_id": "tool-018",
+      "label": "PLAN_DRIFT",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-53b105147dd52938",
+      "task_id": "tool-016",
+      "label": "PLAN_DRIFT",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-c38d34356209b802",
+      "task_id": "mem-021",
+      "label": "PLAN_DRIFT",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-0faa2cfca0d13235",
+      "task_id": "plan-025",
+      "label": "PLAN_DRIFT",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-7e401d45b8b7df47",
+      "task_id": "plan-023",
+      "label": "PLAN_DRIFT",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-b2dd92928d71f79c",
+      "task_id": "plan-015",
+      "label": "PLAN_DRIFT",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-b3f5e27874c93fcf",
+      "task_id": "plan-017",
+      "label": "PLAN_DRIFT",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-b88ecbb93f704868",
+      "task_id": "mem-006",
+      "label": "PLAN_DRIFT",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-cdedf6d06ad45e23",
+      "task_id": "plan-013",
+      "label": "PLAN_DRIFT",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-0e440b88a0c42aef",
+      "task_id": "plan-001",
+      "label": "PLAN_DRIFT",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-215b721d0a097686",
+      "task_id": "plan-004",
+      "label": "PLAN_DRIFT",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-415e294ca79dde6c",
+      "task_id": "mem-026",
+      "label": "LOOP_DETECTED",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-27e4d03d7673e9ea",
+      "task_id": "plan-025",
+      "label": "LOOP_DETECTED",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-b11eda8193af8566",
+      "task_id": "tool-007",
+      "label": "LOOP_DETECTED",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-b50f707894c8dc1c",
+      "task_id": "tool-022",
+      "label": "LOOP_DETECTED",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-e23b5527665ae3b1",
+      "task_id": "plan-001",
+      "label": "LOOP_DETECTED",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-8b2c56834c35aaea",
+      "task_id": "tool-016",
+      "label": "LOOP_DETECTED",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-b80c43b419d9d201",
+      "task_id": "mem-017",
+      "label": "LOOP_DETECTED",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-bdd8ceac24d8d46a",
+      "task_id": "tool-010",
+      "label": "LOOP_DETECTED",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-647c5abb43e92735",
+      "task_id": "tool-020",
+      "label": "LOOP_DETECTED",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-c734c74349234112",
+      "task_id": "tool-012",
+      "label": "LOOP_DETECTED",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    },
+    {
+      "trace_id": "nb-92d8cfd5311962df",
+      "task_id": "plan-016",
+      "label": "LOOP_DETECTED",
+      "provider": "deepseek",
+      "model": "deepseek-flash"
+    },
+    {
+      "trace_id": "nb-f76bcdfd53d48fd5",
+      "task_id": "mem-021",
+      "label": "LOOP_DETECTED",
+      "provider": "ollama",
+      "model": "qwen2.5:7b-instruct"
+    }
+  ],
+  "selection_sha256": "04db058716d74efc5287a958c7bb16aa1a14d861b42fa8b4bfb63c3fac585f5d"
+}

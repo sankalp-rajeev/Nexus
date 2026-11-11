@@ -1,0 +1,509 @@
+{
+  "evidence_label": "oracle evidence (dev labels)",
+  "implementation_commit": "bbbac9507263d5d583741fdc93c657ea6570443b",
+  "analysis_commit": "d60649f2d9be2b41400d2ccdda7ee66456286f5c",
+  "original_commit": "75c17e2e168afed5a66e0fab2fd2112cdbf83ec5",
+  "date_utc": "2026-11-11T01:31:27.144305+00:00",
+  "selection_sha256": "04db058716d74efc5287a958c7bb16aa1a14d861b42fa8b4bfb63c3fac585f5d",
+  "context_bleed_regeneration_pending": true,
+  "deepseek_fingerprints": {
+    "old_deepseek": [
+      "bc19ba97cbe016479903222bb1578db6"
+    ],
+    "new_deepseek": [
+      "bc19ba97cbe016479903222bb1578db6"
+    ]
+  },
+  "arms": {
+    "old_deepseek": {
+      "overall": {
+        "C1": {
+          "successes": 60,
+          "total": 60,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.9403705077138331,
+            1.0
+          ]
+        },
+        "C2": {
+          "successes": 0,
+          "total": 60,
+          "rate": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.05962949228616691
+          ]
+        },
+        "fallback": {
+          "successes": 0,
+          "total": 60,
+          "rate": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.05962949228616691
+          ]
+        },
+        "validator_failure_reasons": {},
+        "grounding_patch_content": {
+          "successes": 27,
+          "total": 60,
+          "rate": 0.45,
+          "ci95_clopper_pearson": [
+            0.3212215234633568,
+            0.5838808543667839
+          ]
+        }
+      },
+      "within_class_specificity": {
+        "n": 60,
+        "exact_unique_within_class_sum": 60,
+        "near_components_within_class_sum": 49,
+        "exact_distinct_rate": 1.0,
+        "near_distinct_rate": 0.8166666666666667
+      },
+      "per_class": {
+        "HALLUCINATION": {
+          "C1": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "C2": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "fallback": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "validator_failure_reasons": {},
+          "grounding_patch_content": {
+            "successes": 2,
+            "total": 12,
+            "rate": 0.16666666666666666,
+            "ci95_clopper_pearson": [
+              0.020862525460092374,
+              0.48413774868596715
+            ]
+          }
+        },
+        "TOOL_MISFIRE": {
+          "C1": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "C2": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "fallback": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "validator_failure_reasons": {},
+          "grounding_patch_content": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          }
+        },
+        "CONTEXT_BLEED": {
+          "C1": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "C2": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "fallback": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "validator_failure_reasons": {},
+          "grounding_patch_content": {
+            "successes": 9,
+            "total": 12,
+            "rate": 0.75,
+            "ci95_clopper_pearson": [
+              0.4281415381218108,
+              0.9451393554720072
+            ]
+          }
+        },
+        "PLAN_DRIFT": {
+          "C1": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "C2": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "fallback": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "validator_failure_reasons": {},
+          "grounding_patch_content": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          }
+        },
+        "LOOP_DETECTED": {
+          "C1": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "C2": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "fallback": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "validator_failure_reasons": {},
+          "grounding_patch_content": {
+            "successes": 4,
+            "total": 12,
+            "rate": 0.3333333333333333,
+            "ci95_clopper_pearson": [
+              0.09924609114958328,
+              0.6511244935811844
+            ]
+          }
+        }
+      }
+    },
+    "new_deepseek": {
+      "overall": {
+        "C1": {
+          "successes": 60,
+          "total": 60,
+          "rate": 1.0,
+          "ci95_clopper_pearson": [
+            0.9403705077138331,
+            1.0
+          ]
+        },
+        "C2": {
+          "successes": 56,
+          "total": 60,
+          "rate": 0.9333333333333333,
+          "ci95_clopper_pearson": [
+            0.8380132448022711,
+            0.9815382224241185
+          ]
+        },
+        "fallback": {
+          "successes": 0,
+          "total": 60,
+          "rate": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.05962949228616691
+          ]
+        },
+        "validator_failure_reasons": {},
+        "grounding_patch_content": {
+          "successes": 11,
+          "total": 60,
+          "rate": 0.18333333333333332,
+          "ci95_clopper_pearson": [
+            0.09523582291656378,
+            0.3043960547407762
+          ]
+        }
+      },
+      "within_class_specificity": {
+        "n": 60,
+        "exact_unique_within_class_sum": 60,
+        "near_components_within_class_sum": 18,
+        "exact_distinct_rate": 1.0,
+        "near_distinct_rate": 0.3
+      },
+      "per_class": {
+        "HALLUCINATION": {
+          "C1": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "C2": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "fallback": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "validator_failure_reasons": {},
+          "grounding_patch_content": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          }
+        },
+        "TOOL_MISFIRE": {
+          "C1": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "C2": {
+            "successes": 11,
+            "total": 12,
+            "rate": 0.9166666666666666,
+            "ci95_clopper_pearson": [
+              0.6152038348490559,
+              0.9978924067681397
+            ]
+          },
+          "fallback": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "validator_failure_reasons": {},
+          "grounding_patch_content": {
+            "successes": 4,
+            "total": 12,
+            "rate": 0.3333333333333333,
+            "ci95_clopper_pearson": [
+              0.09924609114958328,
+              0.6511244935811844
+            ]
+          }
+        },
+        "CONTEXT_BLEED": {
+          "C1": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "C2": {
+            "successes": 9,
+            "total": 12,
+            "rate": 0.75,
+            "ci95_clopper_pearson": [
+              0.4281415381218108,
+              0.9451393554720072
+            ]
+          },
+          "fallback": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "validator_failure_reasons": {},
+          "grounding_patch_content": {
+            "successes": 7,
+            "total": 12,
+            "rate": 0.5833333333333334,
+            "ci95_clopper_pearson": [
+              0.2766696856821058,
+              0.8483477701915698
+            ]
+          }
+        },
+        "PLAN_DRIFT": {
+          "C1": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "C2": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "fallback": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "validator_failure_reasons": {},
+          "grounding_patch_content": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          }
+        },
+        "LOOP_DETECTED": {
+          "C1": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "C2": {
+            "successes": 12,
+            "total": 12,
+            "rate": 1.0,
+            "ci95_clopper_pearson": [
+              0.7353515306029488,
+              1.0
+            ]
+          },
+          "fallback": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          },
+          "validator_failure_reasons": {},
+          "grounding_patch_content": {
+            "successes": 0,
+            "total": 12,
+            "rate": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646484693970512
+            ]
+          }
+        }
+      }
+    }
+  }
+}

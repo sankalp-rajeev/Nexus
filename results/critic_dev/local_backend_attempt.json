@@ -1,0 +1,13 @@
+{
+  "status": "aborted_before_any_trial_completed",
+  "mock": false,
+  "model": "qwen2.5:7b-instruct",
+  "model_version": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+  "git_commit": "7eef3ab090a2be0cc16215db6d59942be07c5273",
+  "date_utc": "2026-11-11T00:56:52.985302+00:00",
+  "completed_proposals": 0,
+  "full_trace_calls": 3,
+  "diagnostic_calls": 1,
+  "cost_usd": 0,
+  "reason": "Full-trace calls stalled in both sandbox and elevated execution; tiny diagnostic succeeded. No local output used as an experiment result. Interrupted calls have unknown token usage."
+}

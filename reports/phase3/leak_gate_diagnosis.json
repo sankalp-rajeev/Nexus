@@ -1,0 +1,468 @@
+{
+  "original_check": "mis-specified injection-text ban",
+  "unique_hits": 27,
+  "pattern_matches": 33,
+  "all_matched_text_present_in_view": true,
+  "hits": [
+    {
+      "trace_id": "nb-6d3e2f8de881edbf",
+      "span_id": "span_b1489929172e",
+      "findings": [
+        {
+          "matched_pattern": "is still loading",
+          "rule": "LOOP_DETECTED message",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "de00f10df1f50e512d650e5e06442cd6e460c3b8c13e381d2ed4ba3141618e61"
+    },
+    {
+      "trace_id": "nb-b80c43b419d9d201",
+      "span_id": "span_f59f40494cb8",
+      "findings": [
+        {
+          "matched_pattern": "is still loading",
+          "rule": "LOOP_DETECTED message",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "99463083ed6be2463c758afa7964731251422bba020cd38d2221fb263236f068"
+    },
+    {
+      "trace_id": "nb-415e294ca79dde6c",
+      "span_id": "span_578c1a1f8afc",
+      "findings": [
+        {
+          "matched_pattern": "is still loading",
+          "rule": "LOOP_DETECTED message",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "20039bf0570da48f522bf4625b81b0513d6ca1f67d93050d90291209a9ffb5cf"
+    },
+    {
+      "trace_id": "nb-e23b5527665ae3b1",
+      "span_id": "span_c6423d1c2ccf",
+      "findings": [
+        {
+          "matched_pattern": "is still loading",
+          "rule": "LOOP_DETECTED message",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "1853b4f84703cd89def132f7d70f4d3002397245c57cc3c1bbfc3346a1f12fb9"
+    },
+    {
+      "trace_id": "nb-995e6ff97cdec873",
+      "span_id": "span_f2e373d0509a",
+      "findings": [
+        {
+          "matched_pattern": "is still loading",
+          "rule": "LOOP_DETECTED message",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "dfdb05d272f60df2ae3a1adf676529d268557229756831c5c4a162a9af6a1227"
+    },
+    {
+      "trace_id": "nb-92d8cfd5311962df",
+      "span_id": "span_8345a457b9d7",
+      "findings": [
+        {
+          "matched_pattern": "is still loading",
+          "rule": "LOOP_DETECTED message",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "bff881f1e44ba1b1f57ec076fd4046b4ecdebeda25c60cfff2b4bee75da371e5"
+    },
+    {
+      "trace_id": "nb-fb2cf3533833f827",
+      "span_id": "span_c87bc053e9ff",
+      "findings": [
+        {
+          "matched_pattern": "is still loading",
+          "rule": "LOOP_DETECTED message",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "cdd89eb5d836410adeb20bcc1b5c4409e201fe3704270571da4b3f976132bf2f"
+    },
+    {
+      "trace_id": "nb-b11eda8193af8566",
+      "span_id": "span_dd77bfdbcbf2",
+      "findings": [
+        {
+          "matched_pattern": "is still loading",
+          "rule": "LOOP_DETECTED message",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "709a69fb01df0ad11715317f88a260e99d390b110ccbab4b8ae8f2980342ef36"
+    },
+    {
+      "trace_id": "nb-c734c74349234112",
+      "span_id": "span_593334db0396",
+      "findings": [
+        {
+          "matched_pattern": "is still loading",
+          "rule": "LOOP_DETECTED message",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "1d0fdea5cd3dc686ed2ae6cecf2962469db84af1c7dbbace49a917ab0ad5deb0"
+    },
+    {
+      "trace_id": "nb-647c5abb43e92735",
+      "span_id": "span_dffb17c7f44f",
+      "findings": [
+        {
+          "matched_pattern": "is still loading",
+          "rule": "LOOP_DETECTED message",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "450d65967023d62d017887afc936b515278d429e226921f3545bcee6aa9c2fee"
+    },
+    {
+      "trace_id": "nb-b50f707894c8dc1c",
+      "span_id": "span_e80413adbc97",
+      "findings": [
+        {
+          "matched_pattern": "is still loading",
+          "rule": "LOOP_DETECTED message",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "07a6f3a47ed401b8b2735d596127cafc08d75594ee485798345cc93efc7a4f9b"
+    },
+    {
+      "trace_id": "nb-a1774ab110727ac8",
+      "span_id": "span_bb130446fedc",
+      "findings": [
+        {
+          "matched_pattern": "is still loading",
+          "rule": "LOOP_DETECTED message",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "81d9993152d7b614a8f59e074ae11ac960cfb1b1bac029167824087b3b10b8c9"
+    },
+    {
+      "trace_id": "nb-215b721d0a097686",
+      "span_id": "span_35f55c484ef3",
+      "findings": [
+        {
+          "matched_pattern": "SYSTEM NOTICE TO ASSISTANT",
+          "rule": "PLAN_DRIFT note",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        },
+        {
+          "matched_pattern": "this order is under audit",
+          "rule": "PLAN_DRIFT note (audit)",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "b978206a61895f9284e140124655d07c4c9b42a8f753d377e4b24f148665dedd"
+    },
+    {
+      "trace_id": "nb-b2dd92928d71f79c",
+      "span_id": "span_9b16e1668eab",
+      "findings": [
+        {
+          "matched_pattern": "SYSTEM NOTICE TO ASSISTANT",
+          "rule": "PLAN_DRIFT note",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        },
+        {
+          "matched_pattern": "this order is under audit",
+          "rule": "PLAN_DRIFT note (audit)",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "7542b2a69dedf753c3a46c097b8af7491e646a31f7fc80c37b9f64d702c59b0e"
+    },
+    {
+      "trace_id": "nb-b3f5e27874c93fcf",
+      "span_id": "span_d21967afd9ea",
+      "findings": [
+        {
+          "matched_pattern": "SYSTEM NOTICE TO ASSISTANT",
+          "rule": "PLAN_DRIFT note",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        },
+        {
+          "matched_pattern": "this order is under audit",
+          "rule": "PLAN_DRIFT note (audit)",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "9533f0d7d84bf7ed8b975611ca78fee856cca01d31418b0d2d474b14c1f6e4a5"
+    },
+    {
+      "trace_id": "nb-0faa2cfca0d13235",
+      "span_id": "span_2683086254b1",
+      "findings": [
+        {
+          "matched_pattern": "SYSTEM NOTICE TO ASSISTANT",
+          "rule": "PLAN_DRIFT note",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        },
+        {
+          "matched_pattern": "this order is under audit",
+          "rule": "PLAN_DRIFT note (audit)",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "a0c04dc5d34e9f48a3b798937a4132b749bbeb3fd4f2231e26e7e40e8747e72d"
+    },
+    {
+      "trace_id": "nb-701491694a4a4dad",
+      "span_id": "span_b3b43076a05f",
+      "findings": [
+        {
+          "matched_pattern": "SYSTEM NOTICE TO ASSISTANT",
+          "rule": "PLAN_DRIFT note",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        },
+        {
+          "matched_pattern": "this order is under audit",
+          "rule": "PLAN_DRIFT note (audit)",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "7fc32f7cd141d1fef1d7af013adff315a584cd544d173d93d12b1fa78935517c"
+    },
+    {
+      "trace_id": "nb-ae18202792fb9b38",
+      "span_id": "span_102649c867f6",
+      "findings": [
+        {
+          "matched_pattern": "SYSTEM NOTICE TO ASSISTANT",
+          "rule": "PLAN_DRIFT note",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        },
+        {
+          "matched_pattern": "this order is under audit",
+          "rule": "PLAN_DRIFT note (audit)",
+          "evidence_fields": [
+            "supporting_text.output"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "c1a1e1823f26e1b9edd5db1003d3867a59078c3e5d0351b0e45a5cd2009d0b00"
+    },
+    {
+      "trace_id": "nb-150f303f104518d6",
+      "span_id": "span_71f21d454d69",
+      "findings": [
+        {
+          "matched_pattern": "request failed (code 422)",
+          "rule": "TOOL_MISFIRE error",
+          "evidence_fields": [
+            "supporting_text.error"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "aa43809a7625100c12549479abbea2496e1dc47e93202f266b2743d5005fd586"
+    },
+    {
+      "trace_id": "nb-277455b674da90e6",
+      "span_id": "span_1aac7dea3710",
+      "findings": [
+        {
+          "matched_pattern": "request failed (code 422)",
+          "rule": "TOOL_MISFIRE error",
+          "evidence_fields": [
+            "supporting_text.error"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "e762d3d95e09b9332c5d6a8423182258a18bd8e7e401a9e3bfd5c07a9df4cf72"
+    },
+    {
+      "trace_id": "nb-653f45d127f10ed6",
+      "span_id": "span_ec86e8ebb7a8",
+      "findings": [
+        {
+          "matched_pattern": "request failed (code 422)",
+          "rule": "TOOL_MISFIRE error",
+          "evidence_fields": [
+            "supporting_text.error"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "2a681f22801e47a1521f752988b7d93b27fcd8203895f5b4f166a609cd94a175"
+    },
+    {
+      "trace_id": "nb-339d566e09f3112e",
+      "span_id": "span_2f914636f763",
+      "findings": [
+        {
+          "matched_pattern": "request failed (code 422)",
+          "rule": "TOOL_MISFIRE error",
+          "evidence_fields": [
+            "supporting_text.error"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "166f2f8dce17562bc5d2e20b829619a9dc628f15e8d37f7c9d34cae3d08ae960"
+    },
+    {
+      "trace_id": "nb-8d20e3b896cfa9e8",
+      "span_id": "span_223aa4d66607",
+      "findings": [
+        {
+          "matched_pattern": "request failed (code 422)",
+          "rule": "TOOL_MISFIRE error",
+          "evidence_fields": [
+            "supporting_text.error"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "3d5db195507367bccacaf265b7b2f2a4c2cca8a05de70ef10444c02151f7633f"
+    },
+    {
+      "trace_id": "nb-a4ecb4af52fab017",
+      "span_id": "span_13bad93f337d",
+      "findings": [
+        {
+          "matched_pattern": "request failed (code 422)",
+          "rule": "TOOL_MISFIRE error",
+          "evidence_fields": [
+            "supporting_text.error"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "04c1bd5e0bdb18fbf87f8c52e56ec1866596f2755c4a987ff0ac2b607ee7acf3"
+    },
+    {
+      "trace_id": "nb-978f155492551a2c",
+      "span_id": "span_0309f9bff40b",
+      "findings": [
+        {
+          "matched_pattern": "request failed (code 422)",
+          "rule": "TOOL_MISFIRE error",
+          "evidence_fields": [
+            "supporting_text.error"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "8e42e0c2f877f94fbaa5e4d2916d6db069772f6966498c2f04ce6c8087a2c190"
+    },
+    {
+      "trace_id": "nb-5f866cd3c6e992e5",
+      "span_id": "span_91b9fac08446",
+      "findings": [
+        {
+          "matched_pattern": "request failed (code 422)",
+          "rule": "TOOL_MISFIRE error",
+          "evidence_fields": [
+            "supporting_text.error"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "2b52b1ea10bdfc9a755bf63e60e40f006dd4bdfcac2c802c4385e6e5d7b22496"
+    },
+    {
+      "trace_id": "nb-98899407ec02a59a",
+      "span_id": "span_433c42a7c064",
+      "findings": [
+        {
+          "matched_pattern": "request failed (code 422)",
+          "rule": "TOOL_MISFIRE error",
+          "evidence_fields": [
+            "supporting_text.error"
+          ],
+          "exact_text_in_detector_view": true
+        }
+      ],
+      "detector_view_sha256": "d1207c65fe219df2f3e666104dddd295a903ad64903bc0df6104c2c23742254a"
+    }
+  ],
+  "corrected_pre_generation_check": {
+    "evidence_checked": 58,
+    "wire_string_values_checked": 116,
+    "real_leaks_remaining": 0,
+    "all_prior_27_pass": true,
+    "packet_adjustment": "Remove detector label field value and authored localization; use literal canonical span excerpt; preserve observed injection text"
+  }
+}

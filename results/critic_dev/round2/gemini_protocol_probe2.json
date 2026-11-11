@@ -1,0 +1,24 @@
+{
+  "evidence_label": "oracle evidence (dev labels)",
+  "status": "failed",
+  "diagnostic_only": true,
+  "git_commit": "aaa13c05322e28f54b2e17ed8c547cc35d165f83",
+  "error": "gemini request failed: HTTPStatusError, HTTP=400",
+  "provider_error": {
+    "code": 400,
+    "status": "INVALID_ARGUMENT",
+    "message": "Request contains an invalid argument."
+  },
+  "provenance": {
+    "source": "llm",
+    "model": "gemini-3.5-flash-lite",
+    "model_version": "gemini-3.5-flash-lite",
+    "temperature": 0.2,
+    "prompt_version": "critic-groundwork-v1",
+    "input_tokens": null,
+    "output_tokens": null,
+    "cost_usd": 0.0,
+    "latency_ms": 190.43950000195764,
+    "mock": false
+  }
+}

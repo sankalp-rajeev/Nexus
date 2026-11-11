@@ -1,0 +1,931 @@
+{
+  "evidence_label": "oracle evidence (dev labels)",
+  "implementation_commit": "bbbac9507263d5d583741fdc93c657ea6570443b",
+  "analysis_commit": "d60649f2d9be2b41400d2ccdda7ee66456286f5c",
+  "date_utc": "2026-11-11T01:56:01.083428+00:00",
+  "selected_trace_hashes_unchanged": true,
+  "metrics_recomputed_from_recorded_embeddings": true,
+  "proposal_call_ids_and_costs_reconciled": true,
+  "no_config_snapshot_mutated": true,
+  "deepseek_fingerprints": {
+    "old_deepseek": [
+      "bc19ba97cbe016479903222bb1578db6"
+    ],
+    "new_deepseek": [
+      "bc19ba97cbe016479903222bb1578db6"
+    ]
+  },
+  "diagnostic_calls": 3,
+  "diagnostic_cost_usd": 0.00038889999999999997,
+  "generation_calls": 342,
+  "total_spend_usd": 0.3591569519999999,
+  "mock_results": 0,
+  "test_records_deserialized_or_scored": 0,
+  "validator_rejection_attempts": {
+    "old_deepseek": 0,
+    "new_deepseek": 0,
+    "new_gemini": 1,
+    "new_qwen": 71
+  },
+  "dry_run_rejections": [
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-6dbb58488330a80f",
+      "reason": "Unknown config key: final_answer_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-9990dbe1533e57cd",
+      "reason": "Unknown config key: agent_system_prompt (final-answer synthesis / grounding instructions)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-15859db288dce42a",
+      "reason": "Unknown config key: final_answer_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-a00364af41bc3a6c",
+      "reason": "Unknown config key: final_answer_synthesis_prompt (LLM_CALL at span_6d8d9d1acfd9)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-b45b1b6781209a74",
+      "reason": "Unknown config key: agent_final_answer_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-52265d2d66872e32",
+      "reason": "Unknown config key: final_answer_synthesis_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-a1fa57de4db47000",
+      "reason": "Unknown config key: final_answer_generation_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-13f328949ad89635",
+      "reason": "Unknown config key: final_answer_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-f0052b13c35b8359",
+      "reason": "Unknown config key: final_answer_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-5fcd0bf88d71523c",
+      "reason": "Unknown config key: agent_final_answer_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-7aefb4e62a75e56c",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-b0f3fd1a37fb212a",
+      "reason": "Unknown config key: agent_system_prompt (final-answer synthesis / grounding instructions)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-4ce6973554a43cd0",
+      "reason": "Unknown config key: get_order tool argument schema (order_id parameter)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-fb4b825f6e52387e",
+      "reason": "Unknown config key: get_order tool argument schema / pre-call validation",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-a4ecb4af52fab017",
+      "reason": "Unknown config key: agent_system_prompt (tool-use / argument validation instructions)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-d265991f904f89b0",
+      "reason": "Unknown config key: get_order tool argument schema (order_id parameter)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-964c9220ee8995e7",
+      "reason": "Unknown config key: get_order tool argument schema (order_id parameter)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-02d9c47d716be568",
+      "reason": "Unknown config key: agent system prompt (tool-use / argument-validation instructions)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-2fbf514fb538859e",
+      "reason": "Unknown config key: agent_system_prompt (tool-use / error-recovery instructions)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-9726e50c17720901",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-de54943ad9878f3d",
+      "reason": "Unknown config key: get_order tool argument schema (order_id parameter)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-339d566e09f3112e",
+      "reason": "Unknown config key: agent_system_prompt (planning/execution instructions for order tools)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-9970890ca06afcd6",
+      "reason": "Unknown config key: get_order tool argument schema (order_id parameter)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-bff4382e5ee4651b",
+      "reason": "Unknown config key: get_order tool argument schema and validation logic",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-e59fbbd2931a908d",
+      "reason": "Unknown config key: memory_read tool argument schema / query validation",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-970c11f77f16292e",
+      "reason": "Unknown config key: memory_store.write_validation / memory_read disambiguation rule",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-d718182cfb24a4e7",
+      "reason": "Unknown config key: read_memory tool argument schema and validation",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-9e71dbcc911efe4c",
+      "reason": "Unknown config key: MEMORY_READ validation / memory store entries for membership tier",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-348240159a82f3c4",
+      "reason": "Unknown config key: memory_read / MEMORY_READ tool result validation and scoping",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-07e4c8d981075429",
+      "reason": "Unknown config key: agent_system_prompt (memory disambiguation policy)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-f7b5cab4a0888fd6",
+      "reason": "Unknown config key: read_memory tool / memory store validation for 'Account tier' key",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-ca2b234340e0a271",
+      "reason": "Unknown config key: memory_read / saved-notes retrieval for account-tier lookups",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-b2427bae8d537813",
+      "reason": "Unknown config key: read_memory tool argument schema and validation",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-45b250f18d956c3c",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-bf15edea32672fd8",
+      "reason": "Unknown config key: read_memory tool argument schema",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-1906cb9e17860106",
+      "reason": "Unknown config key: read_memory tool argument schema",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-3e8f0b64257115fe",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-666d28fc02c0cca6",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-53b105147dd52938",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-c38d34356209b802",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-0faa2cfca0d13235",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-7e401d45b8b7df47",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-b2dd92928d71f79c",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-b3f5e27874c93fcf",
+      "reason": "Unknown config key: agent_system_prompt (planning/execution loop instructions)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-b88ecbb93f704868",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-cdedf6d06ad45e23",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-0e440b88a0c42aef",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-215b721d0a097686",
+      "reason": "Unknown config key: agent_system_prompt",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-415e294ca79dde6c",
+      "reason": "Unknown config key: agent_loop retry/loop-detection guard (tool-call deduplication)",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-27e4d03d7673e9ea",
+      "reason": "Unknown config key: agent_tool_retry_policy / get_order tool invocation loop",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-b11eda8193af8566",
+      "reason": "Unknown config key: agent_tool_retry_policy",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-b50f707894c8dc1c",
+      "reason": "Unknown config key: agent_loop_retry_guard",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-e23b5527665ae3b1",
+      "reason": "Unknown config key: agent_loop_retry_policy",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-8b2c56834c35aaea",
+      "reason": "Unknown config key: agent_loop_retry_policy",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-b80c43b419d9d201",
+      "reason": "Unknown config key: agent_loop_retry_policy / get_order tool retry configuration",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-bdd8ceac24d8d46a",
+      "reason": "Unknown config key: agent_loop_retry_policy",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-647c5abb43e92735",
+      "reason": "Unknown config key: agent_loop_controller / tool_invocation_retry_policy",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-c734c74349234112",
+      "reason": "Unknown config key: agent_loop_retry_policy",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-92d8cfd5311962df",
+      "reason": "Unknown config key: agent_control_loop.retry_policy",
+      "source": "llm"
+    },
+    {
+      "arm": "old_deepseek",
+      "trace_id": "nb-f76bcdfd53d48fd5",
+      "reason": "Unknown config key: agent_tool_retry_policy / get_order invocation guardrail",
+      "source": "llm"
+    },
+    {
+      "arm": "new_deepseek",
+      "trace_id": "nb-9726e50c17720901",
+      "reason": "Tool specs must preserve tool names and argument schemas",
+      "source": "llm"
+    },
+    {
+      "arm": "new_deepseek",
+      "trace_id": "nb-e59fbbd2931a908d",
+      "reason": "Unknown config key: read_memory",
+      "source": "llm"
+    },
+    {
+      "arm": "new_deepseek",
+      "trace_id": "nb-f7b5cab4a0888fd6",
+      "reason": "Unknown config key: read_memory",
+      "source": "llm"
+    },
+    {
+      "arm": "new_deepseek",
+      "trace_id": "nb-b2427bae8d537813",
+      "reason": "Unknown config key: read_memory",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-6dbb58488330a80f",
+      "reason": "Unknown config key: search_docs",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-9990dbe1533e57cd",
+      "reason": "Unknown config key: search_docs",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-15859db288dce42a",
+      "reason": "Unknown config key: search_docs",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-a00364af41bc3a6c",
+      "reason": "Unknown config key: search_docs",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-b45b1b6781209a74",
+      "reason": "Unknown config key: search_docs",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-52265d2d66872e32",
+      "reason": "Unknown config key: search_docs",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-a1fa57de4db47000",
+      "reason": "Unknown config key: search_docs",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-13f328949ad89635",
+      "reason": "Unknown config key: search_docs",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-f0052b13c35b8359",
+      "reason": "Unknown config key: search_docs",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-5fcd0bf88d71523c",
+      "reason": "Unknown config key: search_docs",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-7aefb4e62a75e56c",
+      "reason": "Unknown config key: llm_system_prompt",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-b0f3fd1a37fb212a",
+      "reason": "Unknown config key: search_docs",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-4ce6973554a43cd0",
+      "reason": "Unknown config key: tool_call_wrapper",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-fb4b825f6e52387e",
+      "reason": "Unknown config key: tool_call_wrapper",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-a4ecb4af52fab017",
+      "reason": "Unknown config key: nexusbench_agent",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-d265991f904f89b0",
+      "reason": "Unknown config key: tool_call_wrapper",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-964c9220ee8995e7",
+      "reason": "Unknown config key: nexusbench_agent",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-02d9c47d716be568",
+      "reason": "Unknown config key: tool_call_wrapper",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-2fbf514fb538859e",
+      "reason": "Unknown config key: tool_call_wrapper",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-9726e50c17720901",
+      "reason": "Unknown config key: tool_call_wrapper",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-de54943ad9878f3d",
+      "reason": "Unknown config key: tool_call_wrapper",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-339d566e09f3112e",
+      "reason": "Unknown config key: tool_call_wrapper",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-9970890ca06afcd6",
+      "reason": "Unknown config key: tool_call_wrapper",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-bff4382e5ee4651b",
+      "reason": "Unknown config key: tool_call_wrapper",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-e59fbbd2931a908d",
+      "reason": "Unknown config key: current_config",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-970c11f77f16292e",
+      "reason": "Unknown config key: read_memory",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-d718182cfb24a4e7",
+      "reason": "Unknown config key: read_memory",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-9e71dbcc911efe4c",
+      "reason": "Tool specs require TOOL_CONFIG_PATCH",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-348240159a82f3c4",
+      "reason": "Unknown config key: read_memory",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-07e4c8d981075429",
+      "reason": "Unknown config key: read_memory",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-f7b5cab4a0888fd6",
+      "reason": "Unknown config key: current_config",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-ca2b234340e0a271",
+      "reason": "Unknown config key: read_memory",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-b2427bae8d537813",
+      "reason": "Unknown config key: read_memory",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-45b250f18d956c3c",
+      "reason": "Unknown config key: search_docs",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-bf15edea32672fd8",
+      "reason": "Unknown config key: current_config",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-1906cb9e17860106",
+      "reason": "Unknown config key: current_config",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-3e8f0b64257115fe",
+      "reason": "Unknown config key: planner_system_prompt",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-666d28fc02c0cca6",
+      "reason": "Unknown config key: planner_system_prompt",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-53b105147dd52938",
+      "reason": "Unknown config key: planner_system_prompt",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-c38d34356209b802",
+      "reason": "Unknown config key: planner_system_prompt",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-0faa2cfca0d13235",
+      "reason": "Unknown config key: planner_system_prompt",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-7e401d45b8b7df47",
+      "reason": "Unknown config key: planner_system_prompt",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-b2dd92928d71f79c",
+      "reason": "Replacement must preserve the config value type",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-b3f5e27874c93fcf",
+      "reason": "Unknown config key: planner_system_prompt",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-b88ecbb93f704868",
+      "reason": "Unknown config key: planner_system_prompt",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-cdedf6d06ad45e23",
+      "reason": "Unknown config key: planner_system_prompt",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-0e440b88a0c42aef",
+      "reason": "Unknown config key: planner_system_prompt",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-215b721d0a097686",
+      "reason": "Unknown config key: planner_system_prompt",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-415e294ca79dde6c",
+      "reason": "Unknown config key: agent_loop_controller",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-27e4d03d7673e9ea",
+      "reason": "Unknown config key: agent_loop_controller",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-b11eda8193af8566",
+      "reason": "Unknown config key: agent_loop_controller",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-b50f707894c8dc1c",
+      "reason": "Unknown config key: agent_loop_controller",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-e23b5527665ae3b1",
+      "reason": "Unknown config key: agent_loop_controller",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-8b2c56834c35aaea",
+      "reason": "Unknown config key: agent_loop_controller",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-b80c43b419d9d201",
+      "reason": "Unknown config key: agent_loop_controller",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-bdd8ceac24d8d46a",
+      "reason": "Unknown config key: TOOL_SPECS.get_order",
+      "source": "llm"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-647c5abb43e92735",
+      "reason": "Unknown config key: agent_loop_controller",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-c734c74349234112",
+      "reason": "Unknown config key: agent_loop_controller",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-92d8cfd5311962df",
+      "reason": "Unknown config key: agent_loop_controller",
+      "source": "fallback"
+    },
+    {
+      "arm": "new_qwen",
+      "trace_id": "nb-f76bcdfd53d48fd5",
+      "reason": "Unknown config key: agent_loop_controller",
+      "source": "fallback"
+    }
+  ],
+  "C4": {
+    "new_deepseek": {
+      "evidence_label": "oracle evidence (dev labels)",
+      "status": {
+        "status": "complete",
+        "reason": "",
+        "evidence_label": "oracle evidence (dev labels)",
+        "completed": 60,
+        "model": "deepseek-flash",
+        "model_version": "DeepSeek-V4.1-Flash (provider-managed alias); fingerprint=bc19ba97cbe016479903222bb1578db6"
+      },
+      "C1": {
+        "successes": 60,
+        "total": 60,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.9403705077138331,
+          1.0
+        ]
+      },
+      "C2": {
+        "successes": 56,
+        "total": 60,
+        "rate": 0.9333333333333333,
+        "ci95_clopper_pearson": [
+          0.8380132448022711,
+          0.9815382224241185
+        ]
+      },
+      "n": 60,
+      "exact_unique_within_class_sum": 60,
+      "near_components_within_class_sum": 18,
+      "exact_distinct_rate": 1.0,
+      "near_distinct_rate": 0.3,
+      "grounding": {
+        "successes": 11,
+        "total": 60,
+        "rate": 0.18333333333333332,
+        "ci95_clopper_pearson": [
+          0.09523582291656378,
+          0.3043960547407762
+        ]
+      },
+      "latency_ms": {
+        "p50": 3614.127799999551,
+        "p90": 4285.418070003652
+      },
+      "observed_cost_per_proposal_usd": 0.0007072591999999996,
+      "uncached_token_cost_estimate_per_proposal_usd": 0.0027914350000000005,
+      "input_cache_hit_tokens": 425342,
+      "input_tokens": 437011
+    },
+    "new_gemini": {
+      "evidence_label": "oracle evidence (dev labels)",
+      "status": {
+        "status": "complete",
+        "reason": "",
+        "evidence_label": "oracle evidence (dev labels)",
+        "completed": 60,
+        "model": "gemini-3.5-flash-lite",
+        "model_version": "gemini-3.5-flash-lite"
+      },
+      "C1": {
+        "successes": 60,
+        "total": 60,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.9403705077138331,
+          1.0
+        ]
+      },
+      "C2": {
+        "successes": 60,
+        "total": 60,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.9403705077138331,
+          1.0
+        ]
+      },
+      "n": 60,
+      "exact_unique_within_class_sum": 54,
+      "near_components_within_class_sum": 10,
+      "exact_distinct_rate": 0.9,
+      "near_distinct_rate": 0.16666666666666666,
+      "grounding": {
+        "successes": 3,
+        "total": 60,
+        "rate": 0.05,
+        "ci95_clopper_pearson": [
+          0.010432329644348225,
+          0.1392432467210728
+        ]
+      },
+      "latency_ms": {
+        "p50": 1263.7879499998235,
+        "p90": 1364.803119996941
+      },
+      "observed_cost_per_proposal_usd": 0.0029470733333333337,
+      "uncached_token_cost_estimate_per_proposal_usd": 0.0029470733333333337,
+      "input_cache_hit_tokens": 0,
+      "input_tokens": 481348
+    },
+    "new_qwen": {
+      "evidence_label": "oracle evidence (dev labels)",
+      "status": {
+        "status": "complete",
+        "reason": "",
+        "evidence_label": "oracle evidence (dev labels)",
+        "completed": 60,
+        "model": "qwen2.5:7b-instruct",
+        "model_version": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e"
+      },
+      "C1": {
+        "successes": 27,
+        "total": 60,
+        "rate": 0.45,
+        "ci95_clopper_pearson": [
+          0.3212215234633568,
+          0.5838808543667839
+        ]
+      },
+      "C2": {
+        "successes": 0,
+        "total": 27,
+        "rate": 0.0,
+        "ci95_clopper_pearson": [
+          0.0,
+          0.12770286761543234
+        ]
+      },
+      "n": 60,
+      "exact_unique_within_class_sum": 30,
+      "near_components_within_class_sum": 24,
+      "exact_distinct_rate": 0.5,
+      "near_distinct_rate": 0.4,
+      "grounding": {
+        "successes": 11,
+        "total": 60,
+        "rate": 0.18333333333333332,
+        "ci95_clopper_pearson": [
+          0.09523582291656378,
+          0.3043960547407762
+        ]
+      },
+      "latency_ms": {
+        "p50": 15211.945999999443,
+        "p90": 23731.672400005482
+      },
+      "observed_cost_per_proposal_usd": 0.0,
+      "uncached_token_cost_estimate_per_proposal_usd": 0.0,
+      "input_cache_hit_tokens": 0,
+      "input_tokens": 736554
+    }
+  }
+}

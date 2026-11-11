@@ -1,0 +1,15 @@
+python.exe :
+At line:2 char:91
++ ... FFLINE='1'; & C:/Umich/Projects/Nexus/.venv/Scripts/python.exe -m ser ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|##########| 103/103 [00:00<00:00, 4431.00it/s]
+nexus-critic: patch_proposer JSON parse failed; raw='{\n  "patch_type": "TOOL_CONFIG_PATCH",\n  "target_component":
+"tool_call_validation / dispatch boundary (executor tool schema validation)",\n  "explanation": "The root cause is
+that the executor accepte'
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (295
+> 256). Running this sequence through the model will result in indexing errors
+{"status": "complete", "spend_usd": 0.6804598380000003, "summary": "C:\\Umich\\Projects\\nexus-phase3\\reports\\phase3\\round3\\summary.json"}
