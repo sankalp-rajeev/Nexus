@@ -34,7 +34,8 @@ def provenance(*, provider: str, model: str, mock: bool, seed: int | None) -> di
         "git_commit": _git("rev-parse", "--short", "HEAD"),
         # Dirty = uncommitted *source* changes; generated outputs don't count.
         "git_dirty": bool(_git("status", "--porcelain", "--untracked-files=no", "--", ".",
-                               ":!results", ":!RESULTS.md", ":!docs")),
+                               ":!results", ":!RESULTS.md", ":!docs",
+                               ":(exclude,glob)reports/**/baseline*.md")),
         "provider": provider,
         "model": model,
         "mock": mock,
