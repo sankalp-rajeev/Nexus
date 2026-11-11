@@ -22,6 +22,43 @@ SOURCES = (
     "results/critic_smoke_mock.json",
 )
 CLASSES = ("NORMAL", "HALLUCINATION", "TOOL_MISFIRE", "CONTEXT_BLEED", "PLAN_DRIFT", "LOOP_DETECTED")
+UNPUBLISHABLE_MARKER = re.compile(r"placeholder|mock", re.IGNORECASE)
+
+
+def assert_publishable(replay: dict) -> None:
+    """Fail closed on markers anywhere, including provenance and dictionary keys.
+
+    This deliberately includes disclaimers such as 'not mock' and keys such as
+    'mock': false: the publication artifact must contain no such markers at all.
+    There is no override for local/demo builds.
+    """
+    markers = []
+
+    def visit(value, path: str) -> None:
+        if isinstance(value, dict):
+            for key, item in value.items():
+                child = f"{path}.{key}"
+                if UNPUBLISHABLE_MARKER.search(str(key)):
+                    markers.append(child)
+                if key in {"illustrative", "excerpt_only"} and item is True:
+                    markers.append(child)
+                visit(item, child)
+        elif isinstance(value, list):
+            for index, item in enumerate(value):
+                visit(item, f"{path}[{index}]")
+        elif isinstance(value, str) and UNPUBLISHABLE_MARKER.search(value):
+            markers.append(path)
+
+    visit(replay, "$")
+    if markers:
+        unique = list(dict.fromkeys(markers))
+        locations = ", ".join(unique[:8])
+        if len(unique) > 8:
+            locations += f", and {len(unique) - 8} more locations"
+        raise ValueError(
+            "Replay publication blocked: placeholder/mock or illustrative markers remain at "
+            f"{locations}. Replace them with committed, evaluated DEV artifacts before building."
+        )
 
 
 def git(*args: str) -> bytes:
@@ -127,6 +164,8 @@ def build_replay(sources: dict[str, bytes], blobs: dict[str, str]) -> dict:
 def main() -> None:
     sources, blobs = committed_sources()
     replay = build_replay(sources, blobs)
+    # Validate before writing anything, even when exporting without Vite.
+    assert_publishable(replay)
     destination = ROOT / "dashboard/public/replay.json"
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(replay, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -134,4 +173,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc

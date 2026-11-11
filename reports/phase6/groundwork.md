@@ -80,6 +80,14 @@ npm.cmd run build:replay
 python -m http.server 4173 --bind 127.0.0.1 --directory dist
 ```
 
+**Publication preparation update:** `build:replay` now intentionally fails on
+the current data because it contains mock templates and placeholder gates.
+The exporter recursively checks every key and string value, including notices
+and source paths; illustrative/excerpt-only proposal flags also block it. No
+override exists. Do not publish a stale `dist/` left from an earlier build.
+The following serving instructions apply only after finalized committed DEV
+artifacts and the corresponding exporter/display updates pass the guard.
+
 Open `http://127.0.0.1:4173`. On shells without PowerShell's script policy
 restriction, `npm` works in place of `npm.cmd`. The build command automatically
 regenerates `public/replay.json` from committed inputs. Copy `dashboard/dist/`
@@ -113,9 +121,9 @@ desired; absent content is not reconstructed.
 
 ## Validation
 
-Only unit and in-process tests were run. No Docker command, external service
+The initial groundwork validation used only unit and in-process tests. No Docker command, external service
 integration, benchmark experiment, generative LLM call, push, merge or tag was
-performed. The existing Python environment and Node dependencies were read
+performed during that initial commit. The existing Python environment and Node dependencies were read
 without modifying the other worktrees.
 
 The full allowed Python suite is run with the two external-service modules
@@ -133,7 +141,7 @@ npm.cmd run build
 npm.cmd run build:replay
 ```
 
-Final verification: **217 Python tests passed, 1 existing test skipped**;
+Initial groundwork verification: **217 Python tests passed, 1 existing test skipped**;
 **3 dashboard in-process tests passed**; `ruff check .` and `git diff --check`
 were clean. Both the live production build and replay build passed TypeScript
 and Vite. Inspection of the final replay assets confirmed the live ingestion
@@ -160,6 +168,34 @@ After Phase 4 experiments finish, the user can schedule:
    and behavior under queue saturation and database write errors.
 4. Run the deferred full-stack Kafka/Postgres integration modules separately,
    and check the existing Kafka collector image with the new protocol dependency.
+
+## Deployment preparation follow-up
+
+The initial groundwork commit was pushed to `origin/phase-6-demo`; no merge or
+tag was created. `dashboard/vercel.json` prepares a static deployment with
+`npm run build:replay` and output directory `dist`. Git-triggered deployments
+are disabled via [`git.deploymentEnabled`](https://vercel.com/docs/project-configuration/git-configuration).
+The [static configuration](https://vercel.com/docs/project-configuration/vercel-json)
+selects the build command and output directory. No Vercel project was created, linked or deployed. A future
+project must use Root Directory `dashboard` and make the repository's committed
+data and Git metadata available to the exporter.
+
+Both the export command and direct `vite build --mode replay` are guarded.
+The current replay must fail; unit tests cover nested marker values, marker
+keys, source paths, warning text, illustrative flags, a clean control and
+failure before writing an export. A failed build is a publication refusal,
+not a failing unit test. The guard has no bypass flag.
+
+Follow-up verification: **228 Python tests passed, 1 existing skip**;
+**3 dashboard tests passed**. TypeScript, Ruff and diff whitespace checks passed.
+Both `npm run build:replay` and direct `vite build --mode replay` exited nonzero
+on the current marked data, as intended. External-service tests and Docker
+remain deferred.
+
+[README_draft.md](README_draft.md) follows the requested narrative order and
+transcribes every published row from main's `RESULTS.md` at commit `5ce1356`.
+Its measurement links point to immutable result JSON on that main commit;
+Phase 4 rows remain pending. The actual root README is unchanged.
 
 When Phase 4 becomes final, a separate follow-up can export committed DEV gate
 results and genuinely evaluated DEV proposals. Keep placeholders until then.

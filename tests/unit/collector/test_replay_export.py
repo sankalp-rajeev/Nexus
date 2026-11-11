@@ -7,7 +7,13 @@ import json
 
 import pytest
 
-from dashboard.scripts.export_replay import SOURCES, build_replay, committed_sources
+from dashboard.scripts import export_replay
+from dashboard.scripts.export_replay import (
+    SOURCES,
+    assert_publishable,
+    build_replay,
+    committed_sources,
+)
 
 
 @pytest.fixture(scope="module")
@@ -51,3 +57,37 @@ def test_replay_rejects_disagreement_with_task_split(sources):
     altered[SOURCES[0]] = json.dumps(splits).encode()
     with pytest.raises(ValueError, match="split"):
         build_replay(altered, blobs)
+
+
+@pytest.mark.parametrize("marked", [
+    {"gate_decisions": [{"status": "placeholder"}]},
+    {"proposals": [{"source": "committed_MOCK_template"}]},
+    {"provenance": {"source_blobs": {"results/critic_smoke_mock.json": "abc"}}},
+    {"notices": ["These are not mock results"]},
+    {"deep": [{"nested": {"provider": "MockProvider"}}]},
+    {"placeholder": None},
+    {"mock": False},
+    {"proposals": [{"illustrative": True}]},
+    {"proposals": [{"excerpt_only": True}]},
+])
+def test_publication_guard_rejects_all_nested_markers(marked):
+    with pytest.raises(ValueError, match="Replay publication blocked"):
+        assert_publishable(marked)
+
+
+def test_publication_guard_accepts_unmarked_data():
+    assert_publishable({
+        "mode": "replay", "split": "dev", "read_only": True,
+        "traces": [{"trace_id": "dev-real"}],
+        "proposals": [{"source": "committed_evaluation", "illustrative": False}],
+        "gate_decisions": [{"status": "evaluated", "decision": "PASS"}],
+        "provenance": {"source_blobs": {"results/critic_dev/c1.json": "abc"}},
+    })
+
+
+def test_current_replay_is_blocked_before_export_writes_any_files(sources, monkeypatch, tmp_path):
+    monkeypatch.setattr(export_replay, "committed_sources", lambda: sources)
+    monkeypatch.setattr(export_replay, "ROOT", tmp_path)
+    with pytest.raises(ValueError, match="Replay publication blocked"):
+        export_replay.main()
+    assert not (tmp_path / "dashboard/public/replay.json").exists()
