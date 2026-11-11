@@ -37,9 +37,17 @@ Scope agreed 2026-11-10: Phases 0 + 1, then stop for review. Spend cap Phase 1: 
 - [~] B1: blind 72-run stratified sample ready in `bench/spotcheck/` (`sample.md` + `sheet.csv`). ⚠️ **Needs you:** fill `human_label` in sheet.csv without opening key.json, then `python -m bench.spotcheck --score`.
 - [x] Committed on `phase-1-nexusbench`; **stopped for review**.
 
-## Phases 2–6
+## Phase 2 — pre-registration  ·  branch `phase-2` (local only), tag `phase2-prereg`
 
-- [ ] Phase 2: detection on real traces (not started — waits for review)
+- [x] Detector input contract `bench/detector_view.py`. Strips trace_id (→ opaque view_id), source, task_id, family, model/provider/cached, memory item_sessions/item_users; per-trace pseudonyms for canary tokens and the drift target. CI test over all 716 traces. ⚠️ Residual injection text kept (the agent really saw it): drift note in 150 views (46 PD / 104 NORMAL), loop message in 72, misfire 422 error in 150. Detector code may not hardcode these strings (CI).
+- [x] `reports/phase2/preregistration.md`: label vs detector separation; LOOP and MISFIRE marked rule-defined, not headline. ⚠️ CONTEXT_BLEED's structural signal equals its label *by construction* on dev (30/30, 0 FP): no benign multi-record memory reads exist. Pre-registered a secondary headline over H+PD; option (c) (regenerate the benchmark with benign multi-note users) is open for your decision.
+- [x] Pre-registered: OTHER_FAILURE rule, headline macro (H, CB, PD), per-model with single-model classes listed, target R ≥ 0.80 at P ≥ 0.90, dev-only operating point, Clopper-Pearson, test scored once (sealed in code). No natural failures and PD n=46 are noted.
+- [x] Dev baseline (shipped SVM through the view): degenerate. It predicts HALLUCINATION for every non-rule trace. H R=0.93 at P=0.14; CB 0/30; PD 0/20; MISFIRE 27/27 (P 1.00); LOOP 33/33 (P 0.92). Headline macro 0.311, secondary 0.467.
+- [x] Committed and tagged `phase2-prereg`. **Stopped.** The test split hasn't been touched.
+
+## Phases 2 (detectors) – 6
+
+- [ ] Phase 2: detector work (waits for review of the pre-registration)
 - [ ] Phase 3: critic with real, applicable patches
 - [ ] Phase 4: healing promotion gate
 - [ ] Phase 5: real latency, throughput, cost

@@ -137,7 +137,8 @@ Source: [`results/detect_baseline_dev.json`](../../results/detect_baseline_dev.j
 | TOOL_MISFIRE | rule-defined | 1.000 (27/27; 0.87–1.00) | 1.000 (27/27; 0.87–1.00) |
 | LOOP_DETECTED | rule-defined | 1.000 (33/33; 0.89–1.00) | 0.917 (33/36; 0.78–0.98) |
 
-Headline macro recall **0.311**. That number is not meaningful: the SVM
+Headline macro recall **0.311**, and secondary macro (HALLUCINATION, PLAN_DRIFT)
+**0.467**. Neither number is meaningful: the SVM
 labels every trace that no rule catches as HALLUCINATION, including all 126
 NORMAL and all 93 OTHER_FAILURE dev traces. The 0.933 hallucination recall is
 therefore a side effect of flagging everything, which is why the precision
