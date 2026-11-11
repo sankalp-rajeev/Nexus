@@ -7,6 +7,7 @@ answers, manifest, TEST labels or TEST trace objects are loaded by this module.
 from __future__ import annotations
 
 import copy
+from contextlib import nullcontext
 import csv
 import itertools
 import json
@@ -22,7 +23,8 @@ CLASSES = ("HALLUCINATION", "TOOL_MISFIRE", "CONTEXT_BLEED", "PLAN_DRIFT", "LOOP
 
 def dev_labels(path):
     """Gate on the first five identifier columns before decoding any label fields."""
-    with Path(path).open("r", encoding="utf-8", newline="") as stream:
+    source = nullcontext(path) if hasattr(path, "read") else Path(path).open("r", encoding="utf-8", newline="")
+    with source as stream:
         header = next(csv.reader([stream.readline()]))
         if header[:5] != ["run_id", "trace_id", "task_id", "family", "split"]:
             raise ValueError("Unrecognized labels layout: refusing to inspect records")

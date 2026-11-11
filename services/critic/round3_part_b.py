@@ -137,17 +137,22 @@ def metrics(records, vectors):
 
 
 def run_experiment(rows, traces, predictions, views, evidence, *, legacy, providers,
-                   ledger, config, embedder, output):
+                   ledger, config, embedder, output, arms=ARMS, completed=None):
     """Injected dependencies keep runner tests entirely offline and fixture-based."""
     import numpy as np
-    records = {arm: [] for arm in ARMS}
+    records = {arm: list((completed or {}).get(arm, [])) for arm in arms}
+    seen = {arm: {r["trace_id"] for r in records[arm]} for arm in arms}
+    if any(len(seen[arm]) != len(records[arm]) for arm in arms):
+        raise ValueError("Duplicate completed trace/arm records")
     status = "complete"
     error = None
     try:
         # Round-robin arms: a cap stop does not spend everything on the first arm.
         for row in rows:
             tid = row["trace_id"]
-            for arm in ARMS:
+            for arm in arms:
+                if tid in seen[arm]:
+                    continue
                 ledger.arm = arm
                 ev, view = evidence[tid], critic_view(views[tid])
                 before = {r["call_id"] for r in ledger.rows()}
@@ -207,6 +212,7 @@ def run_experiment(rows, traces, predictions, views, evidence, *, legacy, provid
                     "scoring_truth": truth.model_dump(mode="json"),
                     "call_ids": [c["call_id"] for c in calls]}
                 records[arm].append(record)
+                seen[arm].add(tid)
                 with (output / f"{arm}.jsonl").open("a", encoding="utf-8") as stream:
                     stream.write(json.dumps(record, ensure_ascii=False)+"\n")
     except BudgetExceeded:
