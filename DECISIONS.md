@@ -295,3 +295,13 @@ On dev the Gemini judge and the NLI detector agree on every judged trace
 (35/35 flagged, 61/61 cleared), and they give identical test results. Two
 independent methods agreeing suggests the residual false positives come from
 the labels (wrong-but-accepted years, lucky guesses), not from the detectors.
+
+**D42. The test results carry `+dirty` provenance; they are not re-run.**
+During the one-time test run, the Gemini judge appended to its tracked cache
+and ledger (`data/phase2/`) before the result files were written, so the
+provenance dirty flag is set. No source file changed: `score_test.py`
+refused to run unless every frozen path (`services/detectors`,
+`scripts/phase2`, `bench`, `data/nexusbench`) matched tag
+`phase2-detectors-frozen`. Re-running to clear the flag would score the test
+split a second time. *Lesson:* put caches and ledgers that experiments write
+to in the provenance exclusion list, as with D6.
