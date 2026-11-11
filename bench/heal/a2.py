@@ -185,7 +185,47 @@ def score_arm(sets, records, patches: dict[str, ConfigPatch],
                                       noise),
             "no_observable_harm_excluded": excl}
     out["patches"] = {p.patch_hash: p.to_json() for p in patches.values()}
+    out["seed_noise"] = seed_noise(sc, sets, patches, out["by_outcome"][PRIMARY])
     return out
+
+
+def seed_noise(sc: Scorer, sets, patches, block) -> dict[str, Any]:
+    """Descriptive only (D72): how often seeds disagree. Not used by the gate or selection.
+
+    * ``within_s0_2``: run cells (patch, task, env) whose 3 seeds 0-2 do not all give the
+      same outcome (A1 rule on faulted runs, checker on regression runs);
+    * ``confirm_task_flips``: for gate-promoted patches with a scored confirmation, task
+      cells whose 2-of-3 task outcome on seeds 3-5 differs from seeds 0-2.
+    """
+    fx, rg = by_failure(sets), reg(sets)
+    cells, mixed, kinds = set(), Counter(), Counter()
+    flips, nflip = Counter(), Counter()
+    confirmed = {c["failure_id"] for c in block["confirmation"] if c["status"] == "scored"}
+    for fid, p in patches.items():
+        f = fx[fid]
+        tasks = [(t, f["fault"], "faulted") for t in [f["task_id"], *f["heldout"]]]
+        tasks += [(t, "NONE", "regression") for t in rg]
+        for t, env, kind in tasks:
+            key = (p.patch_hash, f["fault"], env, t, f["provider"])
+            if key in cells:
+                continue
+            specs0 = [RunSpec(p, f["fault"], env, t, f["provider"], s) for s in SEEDS]
+            if not sc.has(specs0):
+                continue
+            cells.add(key)
+            o = [sc.ok(sc.rec(s), PRIMARY) for s in specs0]
+            kinds[kind] += 1
+            mixed[kind] += 0 < sum(o) < 3
+            if fid in confirmed:
+                specs1 = [RunSpec(p, f["fault"], env, t, f["provider"], s) for s in CONFIRM_SEEDS]
+                if sc.has(specs1):
+                    o1 = [sc.ok(sc.rec(s), PRIMARY) for s in specs1]
+                    nflip[kind] += 1
+                    flips[kind] += (sum(o) >= 2) != (sum(o1) >= 2)
+    return {"within_s0_2": {k: proportion(mixed[k], kinds[k]) for k in sorted(kinds)},
+            "within_s0_2_all": proportion(sum(mixed.values()), sum(kinds.values())),
+            "confirm_task_flips": {k: proportion(flips[k], nflip[k]) for k in sorted(nflip)},
+            "confirm_task_flips_all": proportion(sum(flips.values()), sum(nflip.values()))}
 
 
 def selection(arms: dict[str, dict[str, Any]], outcome: str = PRIMARY) -> dict[str, Any]:
@@ -246,9 +286,54 @@ def write_results(sets, records, only: str | None = None) -> dict[str, Any]:
         out["selection"] = selection(arms)
     except RuntimeError as exc:
         out["selection"] = {"status": "not selected", "reason": str(exc)}
+    if out["selection"].get("selected"):
+        out["selection"]["test_cost_estimate"] = test_cost_estimate(
+            sets, records, out["selection"]["selected"], arms[out["selection"]["selected"]])
     write_result("A2 selection", "heal_selection_dev.json", {**common, **out["selection"]},
                  provenance_info=prov, summary=f"selected: {out['selection'].get('selected')}")
     return out
+
+
+# Phase 3 round 3, dollars per retained proposal (reports/phase3/round3.md).
+CRITIC_USD_PER_PROPOSAL = {"new": 0.002676, "v1_structured": 0.006492}
+
+
+def test_cost_estimate(sets, records, arm: str, scored: dict[str, Any]) -> dict[str, Any]:
+    """D72 item 3: planning estimate for the one-time test scoring of ``arm``. Built from
+    dev measurements only; reads nothing from the test split. Test sets follow the same
+    rules (12 failures per class; 5 held-out; regression = every passing qa task of the
+    split, 40 - 20 dev = 20 by the datasheet's task counts, plus 3 per other family)."""
+    patches, _ = critic_arm(sets, arm)
+    fx = by_failure(sets)
+    b = scored["by_outcome"][PRIMARY]
+    promoted = [r["failure_id"] for r in b["per_failure_rows"] if r["gate"]["promoted"]]
+    groups = {"critic runs s0-2": unique(specs(sets, patches)),
+              "no-patch references": unique(reference_specs(sets, fx)),
+              "confirmations s3-5": unique([x for k in promoted for x in failure_specs(
+                  fx[k], patches[k], reg(sets), CONFIRM_SEEDS)])}
+    dev = {}
+    for name, ss in groups.items():
+        recs = [records[k] for k in ss if k in records]
+        dev[name] = {"runs": len(recs), "usd": round(sum(r["cost_usd"] for r in recs), 4),
+                     "qwen_runs": sum(r["provider"] == "ollama" for r in recs)}
+    n_dev = len(sets["failures"])
+    n_test = 60                       # 12 per class, before any label-based exclusion
+    test_reg = 20 + 9
+    scale = (n_test / n_dev) * ((1 + 5 + test_reg) / (1 + 5 + len(reg(sets))))
+    runs_usd = sum(v["usd"] for v in dev.values()) * scale
+    critic_usd = n_test * CRITIC_USD_PER_PROPOSAL[arm]
+    qwen_h = sum(v["qwen_runs"] for v in dev.values()) * scale * 4.4 / 3600  # 13.6 runs/min seen
+    return {"arm": arm, "dev_measured": dev, "assumptions": {
+                "test_failures": n_test, "test_regression_tasks": test_reg,
+                "scale_vs_dev": round(scale, 3),
+                "promotion_rate_as_dev": f"{len(promoted)}/{len(b['per_failure_rows'])}",
+                "critic_usd_per_proposal": CRITIC_USD_PER_PROPOSAL[arm],
+                "qwen_s_per_run": 4.4},
+            "est_critic_proposals_usd": round(critic_usd, 3),
+            "est_agent_runs_usd": round(runs_usd, 3),
+            "est_total_usd": round(critic_usd + runs_usd, 2),
+            "est_qwen_hours": round(qwen_h, 1),
+            "note": "Estimate only; nothing was run on test. H6 is not part of test scoring."}
 
 
 def _line(name, s) -> str:

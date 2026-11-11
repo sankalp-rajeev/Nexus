@@ -66,7 +66,7 @@ def arm_table(docs, outcome="a1") -> list[str]:
             fp, nconf = _fp(b, tag, fault)
             out.append(f"| {arm} | {name} | per failure | {s['n_patches']} | {_p(s['H1_repair'])} | "
                        f"{_p(s['H2_generalize'])} | {_p(s['H3_regress'])} | "
-                       f"{_p(s['gate_promoted'])} | {fp} of {nconf} confirmed | "
+                       f"{_p(s['gate_promoted'])} | {fp} ({nconf} confirmed) | "
                        f"{_k(s['old_rule_promoted'])} | {s['old_rule_false_promotions']} | "
                        f"{s['harmful_own_pass']} |")
             if sd:
@@ -111,6 +111,101 @@ def coverage(docs) -> list[str]:
     return out
 
 
+def promotion_table(docs) -> list[str]:
+    """D72 item 2: gate promotions (seeds 0-2) per class, per failure and per distinct
+    patch, split by injection tag."""
+    out = ["| Arm | Class | Tag | Patches | Promoted (per failure) | Distinct patches | "
+           "Promoted (per distinct) | Confirmed on s3–5 | False promotions |",
+           "|---|---|---|---|---|---|---|---|---|"]
+    for arm, d in docs.items():
+        b = d["by_outcome"]["a1"]
+        rows, dist = b["per_failure_rows"], b["summary_per_distinct_patch"]["patches"]
+        conf = {c["failure_id"]: c for c in b["confirmation"]}
+        keys = sorted({(r["fault"], r["tag"]) for r in rows})
+        for fault, tag in keys:
+            rs = [r for r in rows if r["fault"] == fault and r["tag"] == tag]
+            ds = [x for x in dist if x["fault"] == fault and x["tag"] == tag]
+            prom = [r for r in rs if r["gate"]["promoted"]]
+            cs = [conf[r["failure_id"]] for r in prom if r["failure_id"] in conf]
+            out.append(f"| {arm} | {fault} | {tag} | {len(rs)} | {len(prom)} | {len(ds)} | "
+                       f"{sum(x['promoted_any'] for x in ds)} | "
+                       f"{sum(c['status'] == 'scored' and not c.get('false_promotion') for c in cs)}"
+                       f"/{len(prom)} hold | {sum(c.get('false_promotion', False) for c in cs)} |")
+        tot = {t: sum(r["gate"]["promoted"] for r in rows if r["tag"] == t)
+               for t in ("other_fix", "reverts_injection")}
+        out.append(f"| {arm} | **all** | other_fix {tot['other_fix']}, reverts_injection "
+                   f"{tot['reverts_injection']} | {len(rows)} | {sum(tot.values())} | "
+                   f"{len(dist)} | {sum(x['promoted_any'] for x in dist)} | | "
+                   f"{b['H4']['gate_false_promotions']} |")
+    return out
+
+
+def noise_lines(docs) -> list[str]:
+    out = ["| Arm | Cells (patch × task × env), seeds 0–2 | Seeds disagree | of which faulted | "
+           "of which regression | Promoted-patch task cells re-run on s3–5 | Task outcome "
+           "flips s0–2 → s3–5 |", "|---|---|---|---|---|---|---|"]
+    for arm, d in docs.items():
+        n = d.get("seed_noise")
+        if not n:
+            continue
+        w = n["within_s0_2"]
+        out.append(f"| {arm} | {n['within_s0_2_all']['n']} | {_p(n['within_s0_2_all'])} | "
+                   f"{_p(w.get('faulted'))} | {_p(w.get('regression'))} | "
+                   f"{n['confirm_task_flips_all']['n']} | {_p(n['confirm_task_flips_all'])} |")
+    return out
+
+
+def noise_note(docs) -> str:
+    ns = [d["seed_noise"] for d in docs.values() if d.get("seed_noise")]
+    mixed = sum(n["within_s0_2_all"]["k"] for n in ns)
+    cells = sum(n["within_s0_2_all"]["n"] for n in ns)
+    flips = sum(n["confirm_task_flips_all"]["k"] for n in ns)
+    fc = sum(n["confirm_task_flips_all"]["n"] for n in ns)
+    rate = mixed / cells if cells else 0.0
+
+    def part(kind):
+        k = sum(n["within_s0_2"].get(kind, {}).get("k", 0) for n in ns)
+        m = sum(n["within_s0_2"].get(kind, {}).get("n", 0) for n in ns)
+        return k, m
+    fk, fn = part("faulted")
+    rk, rn = part("regression")
+    head = (f"Over the arms in this report (generic HALLUCINATION, `new`, `v1_structured`), the seeds disagree in {mixed} of {cells} cells ({rate:.1%}): "
+            f"{fk} of {fn} faulted cells ({fk / fn if fn else 0:.1%}) and {rk} of {rn} "
+            f"regression cells ({rk / rn if rn else 0:.1%}). {flips} of {fc} task outcomes "
+            "on promoted patches flip between seeds 0–2 and 3–5. The earlier no-patch runs "
+            "had 0 of 111.")
+    flip_rate = flips / fc if fc else 0.0
+    if flip_rate < 0.05:
+        return head + (" Patched prompts add some within-seed noise, mostly on faulted tasks. "
+                       "But the 2-of-3 task outcome almost never changes on fresh seeds. So "
+                       "the confirmation mostly tests determinism at temperature 0, not "
+                       "robustness, and few gate false promotions are expected by "
+                       "construction. Descriptive only; the selection rule is unchanged.")
+    return head + (" Task outcomes flip often enough that the fresh-seed confirmation is a "
+                   "real check, not only a determinism test.")
+
+
+def test_cost_lines(sel) -> list[str]:
+    t = sel.get("test_cost_estimate")
+    if not t:
+        return ["Not estimated (no arm selected)."]
+    a = t["assumptions"]
+    dev = "; ".join(f"{k}: {v['runs']} runs, ${v['usd']:.3f}" for k, v in t["dev_measured"].items())
+    return [f"Arm `{t['arm']}`. Built from dev measurements only. Nothing was run or read on "
+            "the test split.", "",
+            f"- Dev, measured: {dev}.",
+            f"- Assumptions: {a['test_failures']} test failures (12 per class, the same rule); "
+            f"{a['test_regression_tasks']} regression tasks (all 20 test QA tasks, from the "
+            f"datasheet's 40 QA tasks minus 20 dev, plus 3 per other family); scale "
+            f"{a['scale_vs_dev']}× dev; the same promotion rate as dev ({a['promotion_rate_as_dev']}); "
+            f"critic ${a['critic_usd_per_proposal']}/proposal (Phase 3 round 3).",
+            f"- **Estimate: ${t['est_total_usd']:.2f}** (critic proposals "
+            f"${t['est_critic_proposals_usd']:.3f} + agent runs ${t['est_agent_runs_usd']:.3f}), "
+            f"plus about {t['est_qwen_hours']} h of local Qwen.", "",
+            "This is a planning estimate, not a cap. The test scoring needs its own cap and "
+            "go-ahead."]
+
+
 def spend_lines() -> list[str]:
     def total(name):
         p = os.path.join(STATE_DIR, name)
@@ -122,8 +217,9 @@ def spend_lines() -> list[str]:
     h6, nh = total("cost_ledger_h6.jsonl")
     return [f"- Rest-of-phase ledger (critic arms, confirmations, generic confirmations, Gemini "
             f"probe): ${rest:.4f} over {nr} paid calls.",
-            f"- H6 ledger: ${h6:.4f} over {nh} paid calls.",
-            f"- Total ${rest + h6:.4f} of the ${REST_CAP_USD:.2f} cap (D70). Preparation ledger "
+            f"- H6 ledger: ${h6:.4f} over {nh} paid calls. 600 judgments in total; the rest were "
+            "byte-identical judge inputs, served from the response cache.",
+            f"- Total ${rest + h6:.4f} of the ${REST_CAP_USD:.2f} cap (D72). Preparation ledger "
             "closed at $0.247 (D67)."]
 
 
@@ -150,6 +246,13 @@ def main() -> int:
              "(amendment A2 item 3). Every critic-arm HALLUCINATION patch is a whole-prompt "
              "replacement and is tagged `reverts_injection`; the headline is `other_fix`.", "",
              *arm_table(docs), "",
+             "## Gate promotions by class and tag", "",
+             "Promoted on seeds 0–2. `reverts_injection` = the patch removes the injected "
+             "guessing prompt (HALLUCINATION only), kept out of the headline.", "",
+             *promotion_table(docs), "",
+             "## Seed noise (descriptive only)", "",
+             "How often seeds disagree. This is not used by the gate or the selection rule "
+             "(D72).", "", *noise_lines(docs), "", "NOISE_NOTE", "",
              "## Coverage", "", *coverage(docs), "",
              "## H4: old rule (\"same input improved\") vs the gate", "",
              "Old-rule false promotion: seed 0 of the own task passes but the patch fails check 2 "
@@ -163,6 +266,14 @@ def main() -> int:
         lines += ["", f"**Selected: `{sel['selected']}`.**"
                   + (f" Unresolved tie: {sel['unresolved_tie']}." if sel.get("unresolved_tie")
                      else ""), ""]
+        tag_h2 = []
+        for a in sel["table"]:
+            s = docs[a]["by_outcome"]["a1"]["summary_per_failure"]["by_tag"]
+            tag_h2.append(f"`{a}` other_fix {_k(s.get('other_fix', {}).get('H2_generalize'))}, "
+                          f"reverts_injection {_k(s.get('reverts_injection', {}).get('H2_generalize'))}")
+        lines += ["Tie-break H2 by tag: " + "; ".join(tag_h2) + ". The rule uses every patch, "
+                  "as pre-registered. Read the margin with that in mind: on `other_fix` alone, "
+                  "the headline tag, the order of the two arms can differ.", ""]
         if sel.get("per_distinct"):
             lines += [f"Per distinct patch the same rule picks `{sel['per_distinct']['selected']}` "
                       f"({sel['per_distinct']['table']}).", ""]
@@ -181,11 +292,19 @@ def main() -> int:
                          f"{a['table']['judge_pass_ref_fail']} | {a['table']['judge_fail_ref_pass']} | "
                          f"{bp.get('deepseek', {}).get('kappa')} | {bp.get('ollama', {}).get('kappa')} |"
                          if ci else f"| {m} | {j['judged']} | {j['unparseable']} | – | – | – | – | – | – |")
+        j0 = next(iter(h6["judges"].values()))["all"]["table"]
+        ref_fail = j0["judge_pass_ref_fail"] + j0["judge_fail_ref_fail"]
+        lines += ["", f"Only {ref_fail} of {h6['sample_n']} sampled runs fail by the deterministic "
+                  "reference, so kappa is unstable here: raw agreement is high, and the two "
+                  "judges' intervals overlap widely. Read the kappa difference as indicative, "
+                  "not established."]
         lines += ["", f"Sample: {h6['sample_n']} critic-arm runs, seed `{h6['sample_seed']}`. "
                   "Reference: A1 safe-repair rule (faulted runs) or checker (regression runs).", ""]
     else:
         lines += ["Not run.", ""]
+    lines += ["## Test scoring: cost estimate (nothing run)", "", *test_cost_lines(sel), ""]
     lines += ["## Spend", "", *spend_lines(), ""]
+    lines = [noise_note(docs) if x == "NOISE_NOTE" else x for x in lines]
     with open(REPORT, "w", encoding="utf-8", newline="\n") as fh:
         fh.write("\n".join(lines))
     print("wrote", os.path.relpath(REPORT, REPO))

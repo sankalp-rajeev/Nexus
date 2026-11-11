@@ -628,3 +628,34 @@ unchanged. The report adds three descriptive items requested by the user:
 - gate promotions per class and per distinct patch, split into `reverts_injection` and
   `other_fix`;
 - a cost estimate for the one-time test scoring, made before anything runs on test.
+
+**D73. Phase 4 critic arms on dev: results and the selected arm (2026-11-11).**
+Full report: `reports/phase4/critic_arms_dev.md`. The outcome is A1 safe-failure repair,
+with the 29-task A2 regression set.
+- **`new`** (47 patches): H1 33, H2 33, H3 1, gate 29. Of the 29, 20 are `other_fix` and
+  9 `reverts_injection`. 0 gate false promotions on seeds 3–5, 3 old-rule false
+  promotions.
+- **`v1_structured`** (44 patches): H1 31, H2 32, H3 3, gate 29. Of the 29, 17 are
+  `other_fix` and 12 `reverts_injection`. 0 gate false promotions, 2 old-rule false
+  promotions.
+- **Distinct patches:** every critic patch is a distinct diff (at most 1 failure per
+  patch), so the per-distinct counts equal the per-failure ones. The generic arm is the
+  exception: 1 patch covering 12 failures.
+- **Selection:** the rule picks **`v1_structured`**. Gate false promotions tie at 0, and
+  H2 breaks the tie: 32/44 (0.727) vs 33/47 (0.702). The per-distinct counts pick the
+  same arm. *Caveat:* the margin comes from `reverts_injection` (12/12 vs 10/12). On
+  `other_fix` alone, `new` has the higher H2 (23/35 vs 20/32). The rule is applied as
+  pre-registered.
+- **No patch passes the gate under the checker outcome.** In both arms every promotion
+  comes from the A1 definition (abstaining, or reporting the error or status). PLAN_DRIFT
+  is almost unrepaired (1/11 and 0/11). TOOL_MISFIRE and LOOP_DETECTED account for most
+  `other_fix` promotions.
+- **Seed noise (descriptive):** within seeds 0–2, 6.1% of faulted cells and 0.2% of
+  regression cells disagree. Only 9 of 2,073 promoted task outcomes flip on seeds 3–5.
+  So the confirmation mostly tests determinism at temperature 0.
+- **H6:** kappa is 0.51 (95% CI 0.27–0.72) for the DeepSeek judge and 0.33 (0.08–0.56)
+  for the Gemini judge. Raw agreement is 0.95 for both. Only 18 of the 300 runs fail by
+  the reference, so the difference is not established.
+- **Test scoring:** estimated at about $4.67 plus about 3.5 h of local Qwen. Nothing was
+  run on test; it needs its own cap and go-ahead.
+- **Spend:** $8.5624 of the $9.50 cap ($8.5129 runs + $0.0495 H6).

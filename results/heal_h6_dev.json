@@ -1,0 +1,128 @@
+{
+  "experiment_id": "H6",
+  "summary": "H6 judge bias (n=300): kappa DeepSeek 0.5098 vs Gemini 0.3304",
+  "provenance": {
+    "date_utc": "2026-11-11T19:26:48+00:00",
+    "git_commit": "d732929",
+    "git_dirty": true,
+    "provider": "deepseek+gemini",
+    "model": "deepseek-flash+gemini-3.5-flash-lite",
+    "mock": false,
+    "seed": 20261110
+  },
+  "results": {
+    "sample_n": 300,
+    "sample_seed": "20261110:heal:h6",
+    "judges": {
+      "deepseek-flash": {
+        "provider": "deepseek",
+        "judged": 300,
+        "unparseable": 0,
+        "all": {
+          "n": 300,
+          "kappa": 0.5098,
+          "ci95_bootstrap": [
+            0.2689,
+            0.7196
+          ],
+          "agreement": 0.9533,
+          "table": {
+            "judge_pass_ref_pass": 278,
+            "judge_pass_ref_fail": 10,
+            "judge_fail_ref_pass": 4,
+            "judge_fail_ref_fail": 8
+          }
+        },
+        "by_agent_provider": {
+          "deepseek": {
+            "n": 196,
+            "kappa": 0.2354,
+            "ci95_bootstrap": [
+              -0.0219,
+              0.6589
+            ],
+            "agreement": 0.9694,
+            "table": {
+              "judge_pass_ref_pass": 189,
+              "judge_pass_ref_fail": 4,
+              "judge_fail_ref_pass": 2,
+              "judge_fail_ref_fail": 1
+            }
+          },
+          "ollama": {
+            "n": 104,
+            "kappa": 0.5949,
+            "ci95_bootstrap": [
+              0.2973,
+              0.8234
+            ],
+            "agreement": 0.9231,
+            "table": {
+              "judge_pass_ref_pass": 89,
+              "judge_pass_ref_fail": 6,
+              "judge_fail_ref_pass": 2,
+              "judge_fail_ref_fail": 7
+            }
+          }
+        }
+      },
+      "gemini-3.5-flash-lite": {
+        "provider": "gemini",
+        "judged": 300,
+        "unparseable": 0,
+        "all": {
+          "n": 300,
+          "kappa": 0.3304,
+          "ci95_bootstrap": [
+            0.0842,
+            0.5598
+          ],
+          "agreement": 0.95,
+          "table": {
+            "judge_pass_ref_pass": 281,
+            "judge_pass_ref_fail": 14,
+            "judge_fail_ref_pass": 1,
+            "judge_fail_ref_fail": 4
+          }
+        },
+        "by_agent_provider": {
+          "deepseek": {
+            "n": 196,
+            "kappa": -0.0086,
+            "ci95_bootstrap": [
+              -0.0208,
+              0.0
+            ],
+            "agreement": 0.9694,
+            "table": {
+              "judge_pass_ref_pass": 190,
+              "judge_pass_ref_fail": 5,
+              "judge_fail_ref_pass": 1,
+              "judge_fail_ref_fail": 0
+            }
+          },
+          "ollama": {
+            "n": 104,
+            "kappa": 0.4375,
+            "ci95_bootstrap": [
+              0.1175,
+              0.7132
+            ],
+            "agreement": 0.9135,
+            "table": {
+              "judge_pass_ref_pass": 91,
+              "judge_pass_ref_fail": 9,
+              "judge_fail_ref_pass": 0,
+              "judge_fail_ref_fail": 4
+            }
+          }
+        }
+      }
+    },
+    "H6": {
+      "kappa_deepseek": 0.5098,
+      "kappa_gemini": 0.3304
+    },
+    "spend_usd": 0.049543
+  }
+}

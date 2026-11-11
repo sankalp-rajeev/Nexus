@@ -2,8 +2,8 @@
   "experiment_id": "A2 generic",
   "summary": "generic HALLUCINATION under A2 (A1 outcome, A2 regression): per failure H1 12/12, H2 12, H3 0, gate 12, gate false promotions 0; distinct patches 1 (H1 1, H3 0)",
   "provenance": {
-    "date_utc": "2026-11-11T06:51:09+00:00",
-    "git_commit": "ddd5392",
+    "date_utc": "2026-11-11T19:22:08+00:00",
+    "git_commit": "d732929",
     "git_dirty": true,
     "provider": "deepseek+ollama",
     "model": "deepseek-flash+qwen2.5:7b-instruct",
@@ -55,7 +55,7 @@
       5
     ],
     "primary_outcome": "a1",
-    "cap_usd_rest_of_phase4": 3.0,
+    "cap_usd_rest_of_phase4": 9.5,
     "arm": "generic (HALLUCINATION, A2)",
     "by_outcome": {
       "a1": {
@@ -3322,6 +3322,66 @@
         "source": "generic:HALLUCINATION",
         "note": "append fallback text (llm_system_prompt)",
         "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53"
+      }
+    },
+    "seed_noise": {
+      "within_s0_2": {
+        "faulted": {
+          "k": 0,
+          "n": 14,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.2316
+          ]
+        },
+        "regression": {
+          "k": 0,
+          "n": 29,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.1194
+          ]
+        }
+      },
+      "within_s0_2_all": {
+        "k": 0,
+        "n": 43,
+        "value": 0.0,
+        "ci95_clopper_pearson": [
+          0.0,
+          0.0822
+        ]
+      },
+      "confirm_task_flips": {
+        "faulted": {
+          "k": 0,
+          "n": 14,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.2316
+          ]
+        },
+        "regression": {
+          "k": 0,
+          "n": 29,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.1194
+          ]
+        }
+      },
+      "confirm_task_flips_all": {
+        "k": 0,
+        "n": 43,
+        "value": 0.0,
+        "ci95_clopper_pearson": [
+          0.0,
+          0.0822
+        ]
       }
     }
   }

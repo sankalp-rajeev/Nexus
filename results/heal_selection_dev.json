@@ -1,0 +1,125 @@
+{
+  "experiment_id": "A2 selection",
+  "summary": "selected: v1_structured",
+  "provenance": {
+    "date_utc": "2026-11-11T19:22:08+00:00",
+    "git_commit": "d732929",
+    "git_dirty": true,
+    "provider": "deepseek+ollama",
+    "model": "deepseek-flash+qwen2.5:7b-instruct",
+    "mock": false,
+    "seed": 20261110
+  },
+  "results": {
+    "amendment": "A2 (tag phase4-prereg-a2)",
+    "regression_set": "regression_a2",
+    "regression": [
+      "qa-000",
+      "qa-001",
+      "qa-002",
+      "qa-003",
+      "qa-005",
+      "qa-006",
+      "qa-007",
+      "qa-008",
+      "qa-009",
+      "qa-013",
+      "qa-015",
+      "qa-016",
+      "qa-021",
+      "qa-024",
+      "qa-026",
+      "qa-029",
+      "qa-032",
+      "qa-035",
+      "qa-037",
+      "qa-039",
+      "tool-001",
+      "tool-022",
+      "tool-024",
+      "plan-003",
+      "plan-016",
+      "plan-017",
+      "mem-002",
+      "mem-010",
+      "mem-029"
+    ],
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "confirm_seeds": [
+      3,
+      4,
+      5
+    ],
+    "primary_outcome": "a1",
+    "cap_usd_rest_of_phase4": 9.5,
+    "rule": "fewest gate false promotions on seeds 3-5; ties by higher H2 (per patch)",
+    "outcome": "a1",
+    "table": {
+      "new": {
+        "gate_false_promotions": 0,
+        "H2": 0.7021,
+        "H2_k": 33,
+        "H2_n": 47
+      },
+      "v1_structured": {
+        "gate_false_promotions": 0,
+        "H2": 0.7273,
+        "H2_k": 32,
+        "H2_n": 44
+      }
+    },
+    "selected": "v1_structured",
+    "unresolved_tie": [],
+    "per_distinct": {
+      "table": {
+        "new": {
+          "gate_false_promotions": 0,
+          "H2": 0.7021
+        },
+        "v1_structured": {
+          "gate_false_promotions": 0,
+          "H2": 0.7273
+        }
+      },
+      "selected": "v1_structured",
+      "same_as_selected": true
+    },
+    "test_cost_estimate": {
+      "arm": "v1_structured",
+      "dev_measured": {
+        "critic runs s0-2": {
+          "runs": 5040,
+          "usd": 2.1487,
+          "qwen_runs": 2100
+        },
+        "no-patch references": {
+          "runs": 486,
+          "usd": 0.226,
+          "qwen_runs": 177
+        },
+        "confirmations s3-5": {
+          "runs": 3045,
+          "usd": 1.8393,
+          "qwen_runs": 525
+        }
+      },
+      "assumptions": {
+        "test_failures": 60,
+        "test_regression_tasks": 29,
+        "scale_vs_dev": 1.017,
+        "promotion_rate_as_dev": "29/44",
+        "critic_usd_per_proposal": 0.006492,
+        "qwen_s_per_run": 4.4
+      },
+      "est_critic_proposals_usd": 0.39,
+      "est_agent_runs_usd": 4.285,
+      "est_total_usd": 4.67,
+      "est_qwen_hours": 3.5,
+      "note": "Estimate only; nothing was run on test. H6 is not part of test scoring."
+    }
+  }
+}
