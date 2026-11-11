@@ -1,4 +1,4 @@
-﻿"""C1/C2/C5 only. DEV labels, full DEV traces, real local Qwen, fake trace store.
+"""C1/C2/C5 only. DEV labels, full DEV traces, real model, fake trace store.
 
 Run: python -m services.critic.experiments --preflight
      python -m services.critic.experiments

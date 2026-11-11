@@ -1,0 +1,42 @@
+{
+  "provenance": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "model_version": "DeepSeek-V4.1-Flash (provider-managed alias); fingerprint=bc19ba97cbe016479903222bb1578db6",
+    "temperature": 0.2,
+    "prompt_version": "critic-groundwork-v1",
+    "mock": false,
+    "seed": 20261110,
+    "sampling_seed": null,
+    "git_commit": "7d95b152fce05704d9c4bc8a0b04c8a3987d0c3d",
+    "date_utc": "2026-11-11T01:00:39.435632+00:00",
+    "dataset": "NexusBench DEV only"
+  },
+  "budget_cap_usd": 0.75,
+  "total_spend_usd": 0.18393224399999994,
+  "cost_basis": "Token-derived peak-window USD, including cache hits. Not a separately reconciled billing statement.",
+  "prices_per_million_tokens_usd": {
+    "input_cache_miss": 0.3,
+    "input_cache_hit": 0.006,
+    "output": 1.2
+  },
+  "paid_calls": 90,
+  "local_calls": 4,
+  "all_paid_calls_settled": true,
+  "local_unknown_usage_calls": 3,
+  "known_input_tokens": 664829,
+  "known_output_tokens": 46914,
+  "paid_input_tokens": 664795,
+  "paid_output_tokens": 46913,
+  "paid_input_cache_hit_tokens": 244224,
+  "by_experiment": {
+    "C1_C2": {
+      "trials": 60,
+      "cost_usd": 0.16216083600000003
+    },
+    "C5": {
+      "trials": 30,
+      "cost_usd": 0.021771408000000003
+    }
+  }
+}

@@ -1,4 +1,4 @@
-﻿"""Schema-constrained local Qwen provider. No paid API calls in this branch."""
+"""Schema-constrained Qwen and strict DeepSeek providers with per-call accounting."""
 
 from __future__ import annotations
 

@@ -1,0 +1,41 @@
+{
+  "provenance": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "model_version": "DeepSeek-V4.1-Flash (provider-managed alias); fingerprint=bc19ba97cbe016479903222bb1578db6",
+    "temperature": 0.2,
+    "prompt_version": "critic-groundwork-v1",
+    "mock": false,
+    "seed": 20261110,
+    "sampling_seed": null,
+    "git_commit": "7d95b152fce05704d9c4bc8a0b04c8a3987d0c3d",
+    "date_utc": "2026-11-11T01:00:39.435632+00:00",
+    "dataset": "NexusBench DEV only"
+  },
+  "scored_trials": 90,
+  "unique_c1_dev_traces": 60,
+  "c5_dev_traces": 10,
+  "c5_fresh_calls": 30,
+  "all_results_recomputed_from_trials": true,
+  "call_tokens_cost_and_trace_match_trials": true,
+  "all_original_config_snapshots_unchanged": true,
+  "independently_rechecked_clean_dry_runs": 89,
+  "rejections": [
+    {
+      "experiment": "C1_C2",
+      "trace_id": "nb-d718182cfb24a4e7",
+      "failure_type": "CONTEXT_BLEED",
+      "source_model": "deepseek/deepseek-flash",
+      "patch_type": "TOOL_CONFIG_PATCH",
+      "target_component": "read_memory",
+      "reason": "Unknown config key: read_memory"
+    }
+  ],
+  "fallbacks": 0,
+  "schema_or_validator_retries": 0,
+  "patch_types": {
+    "PROMPT_PATCH": 76,
+    "TOOL_CONFIG_PATCH": 14
+  },
+  "test_data_deserialized_or_scored": false
+}
