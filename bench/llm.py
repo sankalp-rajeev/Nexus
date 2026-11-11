@@ -15,6 +15,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import threading
 import time
 from dataclasses import dataclass
@@ -54,6 +55,18 @@ def load_env(path: str = os.path.join(REPO, ".env")) -> None:
             key, val = line.split("=", 1)
             val = val.split(" #")[0].strip().strip('"').strip("'")
             os.environ.setdefault(key.strip(), val)
+
+
+def gemini_thinking_config(model: str) -> dict[str, Any]:
+    """Minimal-thinking config for a Gemini model.
+
+    Gemini 2.x takes ``thinkingBudget`` (0 disables thinking). Gemini 3.x rejects
+    ``thinkingBudget`` with HTTP 400 and takes ``thinkingLevel`` instead
+    (found 2026-11-10; DECISIONS D34).
+    """
+    m = re.match(r"gemini-(\d+)", model)
+    major = int(m.group(1)) if m else 0
+    return {"thinkingLevel": "low"} if major >= 3 else {"thinkingBudget": 0}
 
 
 @dataclass
@@ -213,7 +226,7 @@ class LLMClient:
                 "maxOutputTokens": max_tokens,
                 "responseMimeType": "application/json",
                 "seed": seed,
-                "thinkingConfig": {"thinkingBudget": 0},
+                "thinkingConfig": gemini_thinking_config(self.model),
             },
         }
         r = self._http.post(
