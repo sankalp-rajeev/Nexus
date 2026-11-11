@@ -164,7 +164,7 @@ def main():
     load_env(args.env_file)
     os.environ["NEXUS_LLM"] = "deepseek"
     protocol = {"evidence_label": LABEL, "implementation_commit": git("rev-parse", "HEAD"),
-                "original_commit": git("rev-parse", "phase-1-nexusbench"), "original_source_sha256": legacy.hashes,
+                "original_commit": git("rev-parse", "75c17e2e168afed5a66e0fab2fd2112cdbf83ec5"), "original_source_sha256": legacy.hashes,
                 "date_utc": datetime.now(timezone.utc).isoformat(), "selection_sha256": selected["selection_sha256"],
                 "trace_ids": [r["trace_id"] for r in rows],
                 "trace_sha256": {tid: hashlib.sha256(t.model_dump_json().encode()).hexdigest() for tid, t in traces.items()},

@@ -150,7 +150,7 @@ def main():
     if git("branch", "--show-current") != "phase-3-critic" or ROOT.name != "nexus-phase3":
         raise RuntimeError("Wrong branch or worktree")
     subprocess.run(["git", "-c", f"safe.directory={ROOT.as_posix()}", "merge-base", "--is-ancestor",
-                    "phase-1-nexusbench", "HEAD"], cwd=ROOT, check=True)
+                    "75c17e2e168afed5a66e0fab2fd2112cdbf83ec5", "HEAD"], cwd=ROOT, check=True)
     rows = list(dev_labels(ROOT / "data/nexusbench/labels.csv"))
     labels = select_labels(rows)
     traces = dev_traces(ROOT / "data/nexusbench/traces.jsonl", {r["trace_id"] for r in labels})

@@ -9,7 +9,9 @@ import types
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-BASE = "phase-1-nexusbench"
+# Pinned commit of the phase-1-nexusbench branch tip (in main's history), so a
+# fresh clone or CI checkout resolves it without the local branch.
+BASE = "75c17e2e168afed5a66e0fab2fd2112cdbf83ec5"
 
 
 def git_source(path):

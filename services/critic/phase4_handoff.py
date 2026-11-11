@@ -32,7 +32,8 @@ from services.critic.round3_part_b import (  # noqa: E402
 from services.critic.round2_specificity import MiniLMEmbeddings  # noqa: E402
 
 ARMS = ("new", "v1_structured")
-PHASE4 = "origin/phase-4-healing"
+# Pinned: the Phase 4 commit round 3 read its contract from (phase4_reconciliation.json).
+PHASE4 = "c2e9df76b6eb8dd3012a98da88600c06bb09c8fa"
 MAIN = "origin/main"
 
 
