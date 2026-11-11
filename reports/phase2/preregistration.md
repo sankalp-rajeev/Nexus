@@ -165,7 +165,29 @@ deviation made before any test scoring.
 
 ## Deviations
 
-None.
+Logged before the test split was scored (tag `phase2-detectors-frozen`).
+
+1. **Tie-break for operating points.** §3.4 did not say how to break ties. When
+   several thresholds give the same best (precision, recall) on dev, the
+   midpoint of the tied threshold range is used (maximum margin). This
+   mattered only for HALLUCINATION: thresholds from 0.0069 to 1.0 all gave P
+   0.857 / R 1.0, and the midpoint is 0.503. The lowest endpoint would have sat
+   just above the NORMAL scores.
+2. **HALLUCINATION misses the dev precision floor** (0.857 < 0.90), so the
+   pre-registered fallback (highest dev precision) applies. Of the 5 dev false
+   positives, 4 are a *label* defect: the checker's ±1.1% numeric tolerance
+   admits founding years up to ±22 years off, so wrong years are labelled
+   NORMAL. The fifth is a lucky correct guess with no supporting document.
+   Labels are frozen in this phase and are not changed. A mechanical
+   sensitivity criterion (QA founding-year rows that passed the checker with a
+   non-exact year) was registered in `scripts/phase2/tune_dev.py` before the
+   freeze and is reported for test alongside the pre-registered numbers.
+3. **PLAN_DRIFT grounding variant.** The planned signal grounded an id only if
+   it came from a result of a *planned* tool. On dev that flagged 6 benign
+   Qwen follow-up lookups after one-step plans (P 0.80). A variant that
+   grounds ids from a data field of *any* earlier tool result (prose still
+   doesn't ground) was added. The variant was then selected on dev by the
+   §3.4 rule.
 
 ## Amendment 1 — make CONTEXT_BLEED non-trivial (2026-11-10)
 

@@ -1,0 +1,20 @@
+{
+  "HALLUCINATION": {
+    "threshold": 0.5034,
+    "detector": "claim-level NLI (cross-encoder/nli-deberta-v3-base)"
+  },
+  "CONTEXT_BLEED": {
+    "threshold": 1.0,
+    "detector": "profile-consistency conflicts"
+  },
+  "PLAN_DRIFT": {
+    "variant": "ungrounded_any_source",
+    "detector": "plan alignment + identifier provenance"
+  },
+  "rule": "max dev recall s.t. dev precision >= 0.90, else max dev precision",
+  "meets_precision_floor": {
+    "HALLUCINATION": false,
+    "CONTEXT_BLEED": true,
+    "PLAN_DRIFT": true
+  }
+}

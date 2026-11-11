@@ -214,3 +214,69 @@ so the new counts are reported as they are.
 moving it.**
 *Why:* a moved tag erases the evidence of what was registered first. Keeping
 both shows the amendment was made openly, before any test scoring.
+
+## Phase 2 detectors
+
+**D32. Detectors live in `services/detectors/` and read only the detector view.**
+*Why:* CI already scans this directory for hardcoded injection strings. Keeping
+the shipped v3 classifier untouched keeps the baseline honest.
+
+**D33. Hallucination = claim-level NLI against retrieved documents, with three
+general fixes found on dev.**
+1. *Sentence-level premises.* The DeBERTa cross-encoder judged "X was founded
+   in 1964" as entailed by "X was founded in 1964 by Y." but as neutral once
+   an unrelated sentence followed. Scoring against sentences and 2-sentence
+   windows is standard practice (cf. SummaC).
+2. *Pronoun resolution + entity gating.* NLI accepted "Talka Robotics was
+   founded in 2018" from another company's "It was founded in 2018". The
+   leading "It" now resolves to the document title, and a premise only
+   supports a claim if it names the claim's entities.
+3. *Non-claims are skipped:* hedges, statements about the retrieval itself,
+   and requests ("Please check …").
+
+*Rejected:* using an LLM as the main detector (cost, and an LLM judging LLM
+output). It is a separate variant instead.
+
+**D34. The Gemini judge is a separate variant, never mixed in.**
+*Why:* it is a different model family from both trace models (plan rule 4).
+Mixing it into the pipeline would hide which component earns the result.
+*Detail:* `bench/llm.py` sends `thinkingBudget: 0`, which Gemini 3.x rejects
+with HTTP 400. Because `bench/` was frozen for this phase, the judge overrides
+only the request body (`thinkingLevel: low`). `bench/llm.py` still needs that
+fix.
+
+**D35. CONTEXT_BLEED = conflicts in single-valued personal attributes across
+the records of one read.**
+*Why:* there are no owner fields. A record that belongs to someone else shows
+up as a second tier, city, account manager or contact preference that
+disagrees with the user's own. It is a superset of the registered reference
+rule. *Known miss:* a foreign record whose attributes don't overlap with the
+user's own (e.g. the user has only a tier note and the foreign record is a
+city note).
+
+**D36. PLAN_DRIFT = identifier provenance.**
+An id in a call's arguments must come from the user request or a *data
+field* of an earlier tool result; ids that appear only inside prose don't
+count. *Why:* the injection hides an id inside free text, and following it is
+exactly a call whose id has no data provenance. "Executed a tool not in the
+plan" on its own was too noisy (plans are often one step). *Deviation from the
+brief:* grounding from *any* earlier tool result rather than only *planned*
+tools, chosen on dev (D-3 in the pre-registration).
+
+**D37. Retry and loop windows are counted in tool calls, not spans.**
+*Why:* a span window depends on how densely a trace is instrumented. That
+alone explained the Qwen misfire gap (2/6 → 6/6 on dev) without anything
+Qwen-specific.
+
+**D38. Ties broken by the midpoint of the tied threshold range.**
+*Why:* the pre-registration didn't say. Taking the lowest tied threshold
+(0.0069) would have put the operating point just above NORMAL scores, which is
+fragile. Fixed and logged before the freeze.
+
+**D39. A label defect found during Phase 2 is reported, not fixed.**
+The numeric checker's ±1.1% tolerance accepts founding years up to ±22 years
+off. *Why not fix it:* labels and the manifest are frozen for this phase.
+Changing them after seeing detector output is post-hoc relabelling. A
+mechanical sensitivity criterion was registered before the freeze and is
+reported next to the pre-registered numbers. The fix belongs in a later,
+announced benchmark revision.
