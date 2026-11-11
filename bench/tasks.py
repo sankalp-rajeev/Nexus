@@ -44,6 +44,7 @@ class Task:
     session_id: str | None = None
     target_company: str | None = None
     attr: str | None = None       # qa: which company attribute is asked
+    num_type: str | None = None   # v1.1: "int" | "usd" | "kg" (numeric tolerance, REVISIONS.md)
     required_tools: list[str] = field(default_factory=list)
 
 
@@ -62,7 +63,8 @@ def build_tasks(world: World, seed: int = 11) -> list[Task]:
         gold = getattr(c, attr)
         tasks.append(Task(f"qa-{i:03d}", "qa", tmpl.format(name=c.name),
                           float(gold) if kind == "number" else gold, kind,
-                          target_company=c.name, attr=attr, required_tools=["search_docs"]))
+                          target_company=c.name, attr=attr, required_tools=["search_docs"],
+                          num_type="int" if kind == "number" else None))
 
     orders = sorted(world.orders.values(), key=lambda o: o.order_id)
     rng.shuffle(orders)
@@ -75,16 +77,17 @@ def build_tasks(world: World, seed: int = 11) -> list[Task]:
                               f"What is the total of order {o.order_id} after a {pct}% discount? "
                               "Give the amount in USD.",
                               round(o.total_usd * (1 - pct / 100), 2), "number",
-                              required_tools=["get_order"]))
+                              required_tools=["get_order"], num_type="usd"))
         elif k == 1:
             tasks.append(Task(f"tool-{i:03d}", "tool",
                               f"What is the weight of order {o.order_id} in kilograms?",
                               round(o.weight_lb * 0.45359237, 3), "number",
-                              required_tools=["get_order"]))
+                              required_tools=["get_order"], num_type="kg"))
         else:
             tasks.append(Task(f"tool-{i:03d}", "tool",
                               f"How many items are in order {o.order_id}?",
-                              float(o.items), "number", required_tools=["get_order"]))
+                              float(o.items), "number", required_tools=["get_order"],
+                              num_type="int"))
     for i, o in enumerate(plan_orders):
         pack = rng.choice([0.5, 1.0, 1.5, 2.0, 2.5])
         tasks.append(Task(f"plan-{i:03d}", "plan",
@@ -92,7 +95,7 @@ def build_tasks(world: World, seed: int = 11) -> list[Task]:
                           f"kilograms, then add {pack} kg of packaging. Report the shipping "
                           "weight in kg.",
                           round(o.weight_lb * 0.45359237 + pack, 3), "number",
-                          required_tools=["get_order", "convert_units"]))
+                          required_tools=["get_order", "convert_units"], num_type="kg"))
 
     by_user: dict[str, list] = {}
     for o in sorted(world.orders.values(), key=lambda o: o.order_id):
@@ -107,7 +110,7 @@ def build_tasks(world: World, seed: int = 11) -> list[Task]:
                               "for my tier. What is the discounted total in USD?",
                               round(o.total_usd * (1 - disc / 100), 2), "number",
                               user_id=u.user_id, session_id=u.session_id,
-                              required_tools=["read_memory", "get_order"]))
+                              required_tools=["read_memory", "get_order"], num_type="usd"))
             n += 1
     return tasks
 
@@ -134,6 +137,22 @@ def is_abstention(answer: str) -> bool:
     return bool(ABSTAIN_PATTERNS.search(answer or ""))
 
 
+def numeric_tolerance(task: Task) -> float:
+    """v1.1 per-field tolerance (bench/REVISIONS.md).
+
+    int: exact (years, counts). usd: <= 1 cent (gold is rounded to cents).
+    kg: 0.1% of gold + 0.011 kg (conversion-factor choice, plus display rounding).
+    """
+    gold = abs(float(task.gold))
+    if task.num_type == "int":
+        return 1e-9
+    if task.num_type == "usd":
+        return 0.011
+    if task.num_type == "kg":
+        return 0.001 * gold + 0.011
+    raise ValueError(f"numeric task {task.task_id} has no num_type")
+
+
 def check_answer(task: Task, answer: str) -> bool:
     """Deterministic pass/fail against gold (no LLM involved)."""
     if not answer:
@@ -142,7 +161,7 @@ def check_answer(task: Task, answer: str) -> bool:
         # Prefer a number that matches gold anywhere in the answer (answers often
         # restate inputs, e.g. "order B-1043 ... 41.2 kg").
         gold = float(task.gold)
-        tol = max(0.011 * abs(gold), 0.02)
+        tol = numeric_tolerance(task)
         nums = []
         for m in _NUM.finditer(answer):
             try:

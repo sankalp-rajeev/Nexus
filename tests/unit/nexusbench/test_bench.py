@@ -67,12 +67,24 @@ def test_attempt_order_is_deterministic_and_compatible(tasks):
 
 # -- checkers -------------------------------------------------------------------
 
-def test_numeric_checker_tolerance():
-    t = Task("x", "tool", "", 100.0, "number")
-    assert check_answer(t, "The total is $100.50")
-    assert check_answer(t, "Order B-1043: 1,00.4 usd") is False or True  # tolerant parse
-    assert not check_answer(t, "The total is $112")
-    assert not check_answer(t, "")
+def test_numeric_checker_v11_per_field_tolerance():
+    """v1.1 (bench/REVISIONS.md): exact for integers, cents for USD, 0.1%/0.011 kg for kg."""
+    year = Task("x", "qa", "", 2014.0, "number", num_type="int")
+    assert check_answer(year, "It was founded in 2014.")
+    assert not check_answer(year, "It was founded in 2008.")  # v1 accepted this (+/-22 y)
+    usd = Task("x", "tool", "", 1360.05, "number", num_type="usd")
+    assert check_answer(usd, "The total is $1,360.05")
+    assert check_answer(usd, "The total is $1,360.06")  # 1-cent rounding
+    assert not check_answer(usd, "The total is $1,365.00")  # v1 accepted (+/-1.1%)
+    kg = Task("x", "plan", "", 35.334, "number", num_type="kg")
+    assert check_answer(kg, "35.33 kg") and check_answer(kg, "35.37 kg")  # 0.454 factor
+    assert not check_answer(kg, "35.06 kg")  # 0.45 factor: -0.8%
+    assert not check_answer(usd, "")
+
+
+def test_every_numeric_task_has_a_num_type(tasks):
+    assert all(t.num_type in {"int", "usd", "kg"} for t in tasks if t.kind == "number")
+    assert {t.num_type for t in tasks if t.attr in ("founded", "employees")} == {"int"}
 
 
 def test_text_checker():

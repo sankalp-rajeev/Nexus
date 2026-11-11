@@ -341,3 +341,19 @@ a prediction per trace. Re-running detectors on test is not allowed, so the
 v1.1 test metrics are computed exactly where the stored data determines them
 and as bounds otherwise. *Lesson:* every scoring run must write its per-trace
 predictions (now done for dev: `results/phase2_dev_predictions.json`).
+
+**D46. NexusBench v1.1 is an announced revision: labels are recomputed, traces untouched.**
+*Why:* the ±1.1% numeric tolerance mislabelled wrong founding years as NORMAL.
+The fix is a per-field tolerance (exact for years and counts, ±1 cent for USD,
+0.1% + 0.011 kg for weights), each with a written justification. The note was
+committed before the code. Labels were recomputed from the committed traces,
+with no regeneration. Phase 2 primary results stay on v1; v1.1 appears only as
+a sensitivity analysis computed from stored predictions. Effect on test:
+HALLUCINATION precision 0.811 → 0.973, false alerts per 1,000 NORMAL
+56 → 8.5, headline unchanged.
+
+**D47. A unit test caught a flaw in the announced rule; it was corrected openly.**
+The first kg rule, max(abs, rel), rejected correct 0.454-factor answers
+rounded to 0.01 kg, contradicting its own justification. It became additive
+(rel + abs) before anything was tagged. The correction is recorded in
+REVISIONS.md, and it changed no label in the data.
