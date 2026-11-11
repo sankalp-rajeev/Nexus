@@ -112,7 +112,11 @@ def analyze(protocol):
                                 "embedding_chunks_per_patch": chunks, "trace_order": [r["trace_id"] for r in records],
                                 **summarize_arm(records, vectors)}
         if records:
-            np.save(OUT / f"{arm}_embeddings.npy", vectors)
+            (OUT / f"{arm}_embeddings.json").write_text(json.dumps({
+                "evidence_label": LABEL, "implementation_commit": protocol["implementation_commit"],
+                "model": EMBED_MODEL, "revision": EMBED_REVISION,
+                "trace_ids": [r["trace_id"] for r in records], "vectors": vectors.tolist(),
+            }), encoding="utf-8")
     ledger = Round2Ledger(OUT / "calls.jsonl", git_commit=protocol["implementation_commit"])
     calls = ledger.rows()
     results["spend"] = {"cap_usd": 1.0, "accounted_usd": ledger.spent,
@@ -162,8 +166,10 @@ def main():
                 "trace_ids": [r["trace_id"] for r in rows],
                 "trace_sha256": {tid: hashlib.sha256(t.model_dump_json().encode()).hexdigest() for tid, t in traces.items()},
                 "temperature": .2, "max_output_tokens": 800, "cap_usd": 1.0,
+                "provider_thinking": {"deepseek": "disabled", "gemini": "MINIMAL"},
                 "gemini_billing_confirmation": "User confirmed billing working for this round",
                 "context_bleed_regeneration_pending": True, "grounding_scope": "patch_content only; literal boundary match",
+                "anchor_rules": "span/step, observed tool_name, fictional-world names present in supporting text, observed IDs, exact prose outputs 12-160 chars or numeric outputs 3-40 chars; no gold answers",
                 "normalization": "NFKC, JSON key canonicalization when applicable, casefold, whitespace collapse; preserve values and IDs",
                 "embedding": {"model": EMBED_MODEL, "revision": EMBED_REVISION, "cosine_threshold": COSINE_THRESHOLD,
                               "pooling": "L2 normalized token-count-weighted mean of nonoverlapping max_seq_length-2 token chunk embeddings",

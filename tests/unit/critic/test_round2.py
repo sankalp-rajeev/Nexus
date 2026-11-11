@@ -74,6 +74,14 @@ def test_grounding_requires_specific_eligible_terms_and_boundaries():
     assert "TOOL_MISFIRE" not in str(anchors)
 
 
+def test_numeric_claim_is_grounded_without_matching_a_longer_number():
+    e = FailureEvidence(failure_type="HALLUCINATION", span_id="span_1",
+                        supporting_text=json.dumps({"input": "observed question", "output": "1952"}))
+    anchors = evidence_anchors(e)
+    assert grounding("Do not assert 1952 without evidence", anchors)["grounded"]
+    assert not grounding("The year is 19521", anchors)["grounded"]
+
+
 def test_round2_budget_is_separate_and_reservations_are_atomic(tmp_path):
     ledger = Round2Ledger(tmp_path / "calls.jsonl", git_commit="unit")
     def reserve(i):
@@ -101,6 +109,7 @@ def test_gemini_schema_usage_and_thought_cost_are_logged(tmp_path):
     provider = GeminiStructured(ledger, client=client, api_key="unit-only")
     assert provider.complete_patch("prompt", trace_id="t") == json.dumps(response())
     assert requests[0]["generationConfig"]["responseJsonSchema"]["additionalProperties"] is False
+    assert requests[0]["generationConfig"]["thinkingConfig"] == {"thinkingLevel": "MINIMAL"}
     row, = ledger.rows()
     assert row["output_tokens"] == 25
     assert row["cost_usd"] == pytest.approx((101*.30+25*2.50)/1e6)

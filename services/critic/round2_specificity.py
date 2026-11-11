@@ -57,6 +57,8 @@ def evidence_anchors(evidence):
             json.loads(output)
         except ValueError:
             anchors["claim"].add(output.strip())
+    if isinstance(output, str) and 3 <= len(output.strip()) <= 40 and re.fullmatch(r"[+-]?\d[\d.,% ]+", output.strip()):
+        anchors["claim"].add(output.strip())
     return {k: sorted(v) for k, v in anchors.items()}
 
 

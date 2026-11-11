@@ -157,7 +157,7 @@ class GeminiStructured(LoggedREST):
             "contents": [{"role": "user", "parts": [{"text": prompt}]}],
             "generationConfig": {"temperature": TEMPERATURE, "maxOutputTokens": 800,
                                  "responseMimeType": "application/json", "responseJsonSchema": schema,
-                                 "thinkingConfig": {"thinkingBudget": 0}},
+                                 "thinkingConfig": {"thinkingLevel": "MINIMAL"}},
         }, prompt_version="critic-groundwork-v1", trace_id=trace_id, attempt=attempt)
         candidates = data.get("candidates", [])
         if len(candidates) != 1 or candidates[0].get("finishReason") != "STOP":
