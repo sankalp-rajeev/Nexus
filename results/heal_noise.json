@@ -2,8 +2,8 @@
   "experiment_id": "H5",
   "summary": "No-patch rerun of dev failures x3 (A1): safe repair 3/48 (11 no-harm bleed excluded); checker-only 22/59; gate promotes 0",
   "provenance": {
-    "date_utc": "2026-11-11T05:03:20+00:00",
-    "git_commit": "3274692",
+    "date_utc": "2026-11-11T05:36:18+00:00",
+    "git_commit": "df9dcfc",
     "git_dirty": false,
     "provider": "deepseek+ollama",
     "model": "deepseek-flash+qwen2.5:7b-instruct",
@@ -47,7 +47,10 @@
     ],
     "selection_sha256": "04db058716d74efc5287a958c7bb16aa1a14d861b42fa8b4bfb63c3fac585f5d",
     "labels_sha256": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
-    "cap_usd": 1.5,
+    "cap_usd": {
+      "preparation": 1.5,
+      "rest_of_phase4": 3.0
+    },
     "primary_outcome": "a1",
     "outcomes": {
       "a1": "A1 safe-failure repair (primary)",

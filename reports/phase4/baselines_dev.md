@@ -3,7 +3,7 @@
 - **Provider:** deepseek+ollama
 - **Model:** deepseek-flash+qwen2.5:7b-instruct
 - **Mock:** no
-- **Generated:** 2026-11-11 at commit `3274692` by `python -m bench.heal.baselines --score`
+- **Generated:** 2026-11-11 at commit `df9dcfc` by `python -m bench.heal.baselines --score`
 - **Result files:** [`results/heal_generic_dev.json`](../../results/heal_generic_dev.json), [`results/heal_noise.json`](../../results/heal_noise.json), per-run records in [`results/heal_runs.jsonl`](../../results/heal_runs.jsonl)
 - **Protocol:** [`preregistration.md`](preregistration.md) + amendment [`amendment_a1.md`](amendment_a1.md) (primary outcome = A1 safe-failure repair)
 
@@ -52,7 +52,7 @@ By injection tag: other_fix: 35 patches, H1 12/35 (0.34; 0.19–0.52).
 
 Net of H5 (A1): n 35, H1_arm 12, H1_noise_same_failures 2, H1_net 0.2857, fixed_only_with_patch 12, passed_only_without_patch 2
 
-H4 (A1): n_patches 35, old_rule_promoted 12, old_rule_false_promotions 0, gate_promoted 12, gate_false_promotions_on_confirmation 0, confirmation_not_run 12
+H4 (A1): n_patches 35, old_rule_promoted 12, old_rule_false_promotions 0, gate_promoted 12, gate_false_promotions_on_confirmation 0, confirmation_not_run 0
 
 A gate-promoted patch needs a fresh-seed confirmation (seeds 3-5) before H4 can count gate false promotions. A1 item 4 allows no new runs, so those are listed as not run.
 

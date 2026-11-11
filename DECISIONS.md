@@ -549,3 +549,18 @@ and the generic confirmation. The preparation ledger (cap $1.50) is closed at $0
 The new ledger (`bench/heal/_state/cost_ledger_rest.jsonl`, cap `REST_CAP_USD`) starts
 at $0, so the two budgets can't mix. It is checked before every paid call against the
 worst case.
+
+**D68. The Gemini key is billed; the generic HALLUCINATION promotions hold on fresh seeds.**
+- **Gemini:** a one-call probe (2026-11-11, `gemini-3.5-flash-lite`, $0.00003 in the
+  rest-of-phase ledger) returned HTTP 200 with `x-gemini-service-tier: standard`. Phase
+  2's local ledger shows 149 calls to the same model on 2026-11-10, well past a
+  20-per-day free limit. H6 keeps its full 300-run sample.
+- **Confirmation:** seeds 3–5 for the 12 gate-promoted generic HALLUCINATION patches,
+  78 DeepSeek runs (26 unique tasks × 3; the held-out pool overlaps the own tasks),
+  $0.051, 0 run errors. **All 12 hold.** In each, the own task is a safe repair, the
+  held-out rate is 1.0 vs 0.0 with no patch, and there are 0 checker regressions on the
+  12-task set. H4 (A1) for the generic arm: 12 gate promotions, 0 gate false promotions.
+- *Caveat:* the 12 patches are one identical diff, so they share their held-out and
+  regression runs. This is one patch confirmed on 12 own tasks, not 12 independent
+  confirmations. Its credit comes from blanket abstention, which H3 guards only on the
+  12-task regression set (3 qa tasks).

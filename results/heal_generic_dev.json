@@ -2,8 +2,8 @@
   "experiment_id": "H1-H3 generic",
   "summary": "Generic fallback patches (dev, A1): H1 12/35 (net of H5 0.2857), H2 12, H3 0, gate promoted 12; checker-only H1 1/35; 24 inapplicable",
   "provenance": {
-    "date_utc": "2026-11-11T05:03:20+00:00",
-    "git_commit": "3274692",
+    "date_utc": "2026-11-11T05:36:18+00:00",
+    "git_commit": "df9dcfc",
     "git_dirty": false,
     "provider": "deepseek+ollama",
     "model": "deepseek-flash+qwen2.5:7b-instruct",
@@ -47,7 +47,10 @@
     ],
     "selection_sha256": "04db058716d74efc5287a958c7bb16aa1a14d861b42fa8b4bfb63c3fac585f5d",
     "labels_sha256": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
-    "cap_usd": 1.5,
+    "cap_usd": {
+      "preparation": 1.5,
+      "rest_of_phase4": 3.0
+    },
     "primary_outcome": "a1",
     "outcomes": {
       "a1": "A1 safe-failure repair (primary)",
@@ -1378,7 +1381,7 @@
         "old_rule_false_promotions": 0,
         "gate_promoted": 12,
         "gate_false_promotions_on_confirmation": 0,
-        "confirmation_not_run": 12
+        "confirmation_not_run": 0
       },
       "checker": {
         "n_patches": 35,
@@ -1394,7 +1397,7 @@
         "old_rule_false_promotions": 2,
         "gate_promoted": 12,
         "gate_false_promotions_on_confirmation": 0,
-        "confirmation_not_run": 12
+        "confirmation_not_run": 0
       }
     },
     "spend": {
@@ -5620,102 +5623,390 @@
       "a1": [
         {
           "failure_id": "HALLUCINATION|deepseek|qa-003",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-013",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-026",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-021",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-039",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-009",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-005",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-007",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-016",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-002",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-035",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-000",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         }
       ],
       "checker": [],
       "rule": [
         {
           "failure_id": "HALLUCINATION|deepseek|qa-003",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-013",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-026",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-021",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-039",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-009",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-005",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-007",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-016",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-002",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-035",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         },
         {
           "failure_id": "HALLUCINATION|deepseek|qa-000",
-          "status": "not_run"
+          "status": "scored",
+          "confirm_gate": {
+            "check1_own_task": true,
+            "check2_heldout": true,
+            "check3_no_regression": true,
+            "promoted": true,
+            "heldout_rate_patch": 1.0,
+            "heldout_rate_nopatch": 0.0,
+            "heldout_n": 5,
+            "regression_breaks": [],
+            "regression_checked": 12
+          },
+          "false_promotion": false
         }
       ]
     }
