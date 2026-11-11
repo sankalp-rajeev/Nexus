@@ -1,0 +1,392 @@
+{
+  "failures_checked": 59,
+  "mismatch_count": 0,
+  "mismatches": [],
+  "checks": [
+    {
+      "trace_id": "nb-6dbb58488330a80f",
+      "preregistered_label": "HALLUCINATION",
+      "main_label": "HALLUCINATION",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-9990dbe1533e57cd",
+      "preregistered_label": "HALLUCINATION",
+      "main_label": "HALLUCINATION",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-15859db288dce42a",
+      "preregistered_label": "HALLUCINATION",
+      "main_label": "HALLUCINATION",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-a00364af41bc3a6c",
+      "preregistered_label": "HALLUCINATION",
+      "main_label": "HALLUCINATION",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-b45b1b6781209a74",
+      "preregistered_label": "HALLUCINATION",
+      "main_label": "HALLUCINATION",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-52265d2d66872e32",
+      "preregistered_label": "HALLUCINATION",
+      "main_label": "HALLUCINATION",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-a1fa57de4db47000",
+      "preregistered_label": "HALLUCINATION",
+      "main_label": "HALLUCINATION",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-13f328949ad89635",
+      "preregistered_label": "HALLUCINATION",
+      "main_label": "HALLUCINATION",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-f0052b13c35b8359",
+      "preregistered_label": "HALLUCINATION",
+      "main_label": "HALLUCINATION",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-5fcd0bf88d71523c",
+      "preregistered_label": "HALLUCINATION",
+      "main_label": "HALLUCINATION",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-7aefb4e62a75e56c",
+      "preregistered_label": "HALLUCINATION",
+      "main_label": "HALLUCINATION",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-b0f3fd1a37fb212a",
+      "preregistered_label": "HALLUCINATION",
+      "main_label": "HALLUCINATION",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-4ce6973554a43cd0",
+      "preregistered_label": "TOOL_MISFIRE",
+      "main_label": "TOOL_MISFIRE",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-fb4b825f6e52387e",
+      "preregistered_label": "TOOL_MISFIRE",
+      "main_label": "TOOL_MISFIRE",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-a4ecb4af52fab017",
+      "preregistered_label": "TOOL_MISFIRE",
+      "main_label": "TOOL_MISFIRE",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-d265991f904f89b0",
+      "preregistered_label": "TOOL_MISFIRE",
+      "main_label": "TOOL_MISFIRE",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-964c9220ee8995e7",
+      "preregistered_label": "TOOL_MISFIRE",
+      "main_label": "TOOL_MISFIRE",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-02d9c47d716be568",
+      "preregistered_label": "TOOL_MISFIRE",
+      "main_label": "TOOL_MISFIRE",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-2fbf514fb538859e",
+      "preregistered_label": "TOOL_MISFIRE",
+      "main_label": "TOOL_MISFIRE",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-9726e50c17720901",
+      "preregistered_label": "TOOL_MISFIRE",
+      "main_label": "TOOL_MISFIRE",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-de54943ad9878f3d",
+      "preregistered_label": "TOOL_MISFIRE",
+      "main_label": "TOOL_MISFIRE",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-339d566e09f3112e",
+      "preregistered_label": "TOOL_MISFIRE",
+      "main_label": "TOOL_MISFIRE",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-9970890ca06afcd6",
+      "preregistered_label": "TOOL_MISFIRE",
+      "main_label": "TOOL_MISFIRE",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-bff4382e5ee4651b",
+      "preregistered_label": "TOOL_MISFIRE",
+      "main_label": "TOOL_MISFIRE",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-e59fbbd2931a908d",
+      "preregistered_label": "CONTEXT_BLEED",
+      "main_label": "CONTEXT_BLEED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-970c11f77f16292e",
+      "preregistered_label": "CONTEXT_BLEED",
+      "main_label": "CONTEXT_BLEED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-d718182cfb24a4e7",
+      "preregistered_label": "CONTEXT_BLEED",
+      "main_label": "CONTEXT_BLEED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-9e71dbcc911efe4c",
+      "preregistered_label": "CONTEXT_BLEED",
+      "main_label": "CONTEXT_BLEED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-348240159a82f3c4",
+      "preregistered_label": "CONTEXT_BLEED",
+      "main_label": "CONTEXT_BLEED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-07e4c8d981075429",
+      "preregistered_label": "CONTEXT_BLEED",
+      "main_label": "CONTEXT_BLEED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-f7b5cab4a0888fd6",
+      "preregistered_label": "CONTEXT_BLEED",
+      "main_label": "CONTEXT_BLEED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-ca2b234340e0a271",
+      "preregistered_label": "CONTEXT_BLEED",
+      "main_label": "CONTEXT_BLEED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-b2427bae8d537813",
+      "preregistered_label": "CONTEXT_BLEED",
+      "main_label": "CONTEXT_BLEED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-45b250f18d956c3c",
+      "preregistered_label": "CONTEXT_BLEED",
+      "main_label": "CONTEXT_BLEED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-bf15edea32672fd8",
+      "preregistered_label": "CONTEXT_BLEED",
+      "main_label": "CONTEXT_BLEED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-1906cb9e17860106",
+      "preregistered_label": "CONTEXT_BLEED",
+      "main_label": "CONTEXT_BLEED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-3e8f0b64257115fe",
+      "preregistered_label": "PLAN_DRIFT",
+      "main_label": "PLAN_DRIFT",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-666d28fc02c0cca6",
+      "preregistered_label": "PLAN_DRIFT",
+      "main_label": "PLAN_DRIFT",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-53b105147dd52938",
+      "preregistered_label": "PLAN_DRIFT",
+      "main_label": "PLAN_DRIFT",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-c38d34356209b802",
+      "preregistered_label": "PLAN_DRIFT",
+      "main_label": "PLAN_DRIFT",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-0faa2cfca0d13235",
+      "preregistered_label": "PLAN_DRIFT",
+      "main_label": "PLAN_DRIFT",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-7e401d45b8b7df47",
+      "preregistered_label": "PLAN_DRIFT",
+      "main_label": "PLAN_DRIFT",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-b2dd92928d71f79c",
+      "preregistered_label": "PLAN_DRIFT",
+      "main_label": "PLAN_DRIFT",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-b3f5e27874c93fcf",
+      "preregistered_label": "PLAN_DRIFT",
+      "main_label": "PLAN_DRIFT",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-cdedf6d06ad45e23",
+      "preregistered_label": "PLAN_DRIFT",
+      "main_label": "PLAN_DRIFT",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-0e440b88a0c42aef",
+      "preregistered_label": "PLAN_DRIFT",
+      "main_label": "PLAN_DRIFT",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-215b721d0a097686",
+      "preregistered_label": "PLAN_DRIFT",
+      "main_label": "PLAN_DRIFT",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-415e294ca79dde6c",
+      "preregistered_label": "LOOP_DETECTED",
+      "main_label": "LOOP_DETECTED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-27e4d03d7673e9ea",
+      "preregistered_label": "LOOP_DETECTED",
+      "main_label": "LOOP_DETECTED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-b11eda8193af8566",
+      "preregistered_label": "LOOP_DETECTED",
+      "main_label": "LOOP_DETECTED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-b50f707894c8dc1c",
+      "preregistered_label": "LOOP_DETECTED",
+      "main_label": "LOOP_DETECTED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-e23b5527665ae3b1",
+      "preregistered_label": "LOOP_DETECTED",
+      "main_label": "LOOP_DETECTED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-8b2c56834c35aaea",
+      "preregistered_label": "LOOP_DETECTED",
+      "main_label": "LOOP_DETECTED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-b80c43b419d9d201",
+      "preregistered_label": "LOOP_DETECTED",
+      "main_label": "LOOP_DETECTED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-bdd8ceac24d8d46a",
+      "preregistered_label": "LOOP_DETECTED",
+      "main_label": "LOOP_DETECTED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-647c5abb43e92735",
+      "preregistered_label": "LOOP_DETECTED",
+      "main_label": "LOOP_DETECTED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-c734c74349234112",
+      "preregistered_label": "LOOP_DETECTED",
+      "main_label": "LOOP_DETECTED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-92d8cfd5311962df",
+      "preregistered_label": "LOOP_DETECTED",
+      "main_label": "LOOP_DETECTED",
+      "differences": {}
+    },
+    {
+      "trace_id": "nb-f76bcdfd53d48fd5",
+      "preregistered_label": "LOOP_DETECTED",
+      "main_label": "LOOP_DETECTED",
+      "differences": {}
+    }
+  ],
+  "phase4_commit": "c2e9df76b6eb8dd3012a98da88600c06bb09c8fa",
+  "main_commit": "46366990ff240753d5d405448092ddbe13ca72b8",
+  "labels_git_object": "41318056bf72b47036e5a8f4902b08c1bd136ea4",
+  "labels_sha256": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
+  "prereg_sets_sha256": "d0d79a74bcc2421052e8279a82a5f988c7b9857c6de6516ddd86bd039ec652ee",
+  "prereg_excluded": [
+    {
+      "family": "memory",
+      "fault": "PLAN_DRIFT",
+      "model": "qwen2.5:7b-instruct",
+      "original_checker_pass": true,
+      "provider": "ollama",
+      "reason": "bench-v1.1 label is NORMAL (fault PLAN_DRIFT), not PLAN_DRIFT",
+      "selection_label": "PLAN_DRIFT",
+      "task_id": "mem-006",
+      "trace_id": "nb-b88ecbb93f704868",
+      "v11_label": "NORMAL"
+    }
+  ],
+  "loader_contract_sha256": {
+    "config": "761475e5226343810ee97f5ca1822c969b7b2c42c790d5c481fbe5d68361bb53",
+    "critic": "b9aa4738baf3567590040092f96819bba96114715dcf7ab714568d8a78879402"
+  },
+  "legacy_selection_source": "origin/phase-4-healing:reports/phase4/phase3_selection.json",
+  "legacy_selection_mismatches": [
+    {
+      "trace_id": "nb-b88ecbb93f704868",
+      "selection_label": "PLAN_DRIFT",
+      "main_label": "NORMAL"
+    }
+  ]
+}

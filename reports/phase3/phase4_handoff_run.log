@@ -1,0 +1,12 @@
+python.exe :
+At line:2 char:91
++ ... FFLINE='1'; & C:/Umich/Projects/Nexus/.venv/Scripts/python.exe -m ser ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|##########| 103/103 [00:00<00:00, 9472.52it/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (259
+> 256). Running this sequence through the model will result in indexing errors
+{"status": "complete", "total_spend_usd": 0.9123771660000003, "phase4": {"new": {"records": 59, "proposals": 57, "missing": [], "statuses": {"patch": 56, "no_patch": 3}}, "v1_structured": {"records": 59, "proposals": 57, "missing": [], "statuses": {"patch": 48, "no_patch": 11}}}}

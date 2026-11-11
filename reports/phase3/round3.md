@@ -1,129 +1,140 @@
-# Phase 3 round 3: initial stop and corrected-gate continuation
+# Phase 3 round 3: Phase 4 detector-evidence handoff
 
-**Continuation status:** the corrected invariant passes all 58 evidence objects and 116 string values; the 27 observed injection-text hits are legitimate. CI: 341 passed, 1 existing skip; Ruff clean. Correction commit: `fd80793`, made before any LLM call.
+**Status: complete.** The authoritative set is the 59 pre-registered Phase 4 failures, checked against origin/main's bench-v1.1 labels. Only `new` and `v1_structured`, with DETECTOR evidence, are exported for Phase 4. No oracle arm was run.
 
-**External-run approval is pending.** Automatic approval review rejected the run twice before process creation, requiring the exact payload and destinations to be authorized in a trusted user message. An explicit approval request is pending. No generation provider was constructed, no experiment protocol/ledger was created, no model call occurred, and spend is $0.00. The proposed payload is synthetic DEV detector views/evidence, detector predictions, baseline config, prompts/schemas and generated diagnoses, sent only to `https://api.deepseek.com/chat/completions` and `https://api.deepseek.com/beta/chat/completions` under the $1.00 aggregate cap. The API key is authentication only. See [egress manifest](round3/egress_manifest.json).
+## Failure-set reconciliation and preservation
 
-**Initial attempt (historical):** the mis-specified check stopped before any LLM call on 27/58 observed-text matches. That check is now corrected, as logged below. No generation results exist yet. **Spend: $0.00 of the $1.00 cap.**
+Read `reports/phase4/prereg_sets.json` and `bench/heal/{critic,config}.py` by git show at `c2e9df76b6eb8dd3012a98da88600c06bb09c8fa`; no checkout or merge. Compared all 59 against origin/main `46366990ff240753d5d405448092ddbe13ca72b8`, whose labels Git object matches bench-v1.1. **0 mismatches** in the 59, including label, split, task, fault, provider/model and family checks.
 
-## Rebase and validation
+The legacy 60-row selection contains one stale row: `nb-b88ecbb93f704868`, PLAN_DRIFT in the selection, NORMAL in main. Phase 4 excludes it. The authoritative set has 12 HALLUCINATION, 12 TOOL_MISFIRE, 12 CONTEXT_BLEED, 11 PLAN_DRIFT and 12 LOOP_DETECTED failures. The legacy selection content is read from Phase 4's committed input copy; it was not tracked at 7d95b15.
 
-- Rebased `phase-3-critic` onto `origin/main` merge commit `4636699` (PR #1). No merge commit, push or tag was created.
-- The sole rebase conflict was `services/critic/requirements.txt`; main's exact version won. `pytest.ini`, development pins and CI also match main.
-- The filled review sheet was committed before rebasing, retaining its verdicts and correcting provenance to model-reviewed and author-confirmed.
-- Post-rebase hardening/runner adjustments are a separate implementation commit: `1016c356de4d865944a9cec6a7f3eeee2734a058`.
-- CI command: `pytest tests/unit/ tests/e2e/ -v`. **332 passed, 1 skipped**. Both TEST-integrity tests passed. The existing auxiliary `phase2_dev_predictions.json` provenance check is skipped because it is not a result row; no integrity test was excluded.
-- `ruff check .` passed. The CI process used local cached classifiers and fixture/mock generative transports; it made no paid generation calls.
-- TEST data was read only through the explicitly authorized integrity/CI checks. Critic selection, offline audits and attempted experiment inputs were DEV only. Data and shared files were not edited.
-- Evidence: [final CI log](partb_ci_final.log), [initial post-rebase CI log](partb_ci_initial.log), [run status](round3/run_status.json).
+The previous run had already finished before the stop request, so no active generation remained. All prior files are preserved byte-for-byte in [prior_selection](round3/prior_selection/preservation_manifest.json). Out-of-set records are in `round3/excluded/`, unused. The original arm is historical and explicitly non-deployable; its 33 in-set and 27 excluded records are retained, and no more original-arm calls were made.
 
-## Dry-run hardening and retrospective round-2 audit
-
-Exact no-ops now flag `no_op_patch` and fail the dry run. String comparison is exact; JSON/Python literal config replacements are decoded before comparison. Tool names/arguments are checked against `TOOL_SPECS`. Unknown explicit names/arguments fail the dry run and are recorded in `bad_references`. C1 schema validity remains separate from C2 applicability. The original arm receives these checks post hoc; the two structured arms use them in their dry-run path.
-
-The reference grammar covers JSON/Python literal tool declarations and schemas, literal call syntax, explicit call/invoke/tool-named prose, and tool-specific argument clauses. It distinguishes ordinary parenthetical prose and data helpers from agent tool calls. Dynamic variable-only dispatch and arbitrary natural-language semantics are not proven safe by this deterministic checker. Missing registries are marked unavailable; actual Part B inputs supply the full registry.
-
-All **240 saved round-2 proposals** were inspected against the original benchmark constants read as literals from `phase-1-nexusbench`, with the active fault selected only in the scoring/audit process. Counts below are rule hits, including proposals already rejected by older registry rules; they are not necessarily additional newly rejected proposals. Original round-2 records were not overwritten.
-
-| Saved round-2 arm | Proposals | Exact no-op hits | Bad-reference hits | Both | Hardened dry runs |
+| Detector arm | Kept completed records | Excluded records | Additional records | Final records | Proposals |
 |---|---:|---:|---:|---:|---:|
-| old_deepseek | 60 | 0 | 5 | 0 | 0 |
-| new_deepseek | 60 | 0 | 0 | 0 | 56 |
-| new_gemini | 60 | 0 | 0 | 0 | 60 |
-| new_qwen | 60 | 0 | 3 | 0 | 0 |
+| new | 33 | 27 | 26 | 59 | 57 |
+| v1_structured | 33 | 27 | 26 | 59 | 57 |
 
-The original arm's five reference hits include the nonexistent `memory_read` tool and unsupported `read_memory` parameters (`key`, `user_id`, `session_id`, `customer_id`). The Qwen hits include unsupported `read_memory.user_id` and `read_memory.consistency_check`. Exact restoration of an injected guessing prompt to the base prompt is a real change, not a no-op.
+Completed misses, fallbacks and rejected proposals were kept, not resent. Verification found **0 calls for already completed trace/arm pairs**, no duplicate exports, and no changes to kept model outputs, provenance or call IDs. Reporting-only tags were normalized for Phase 4, with the original tag preserved as `phase3_exact_restore_tag`. See [reconciliation](round3/phase4_reconciliation.json), [migration](round3/phase4_migration.json), and [verification](round3/phase4_verification.json).
 
-Per-proposal copies, flags, rejection reasons, source hashes and tags are under [round3_preflight](round3_preflight/round2_hardening.json).
+## Corrected leak gate
 
-## Reporting-only fault reversal
+The initial injection-text ban was mis-specified and was corrected before any LLM call in commit fd80793. All 27 prior hits are verbatim observed text: 12 loop messages, 9 misfire errors and 6 drift notes (33 pattern matches). [The 27-hit diagnosis](leak_gate_diagnosis.md) lists the pattern, evidence field and detector-view match for each.
 
-Every audited round-2 proposal has `fix_tag` and a deterministic `clean_config_diff`; the runner also computes these after each future proposal returns. These fields are excluded from the model response schemas and critic prompts. Exact restoration of any leaf changed between the injected and CLEAN configuration yields `reverts_injection`; otherwise the tag is `other_fix`. Changed values are hashed in the diff. Unknown targets cannot claim a reversal. Partial textual similarity is not an exact restoration.
+On the authoritative 59 inputs, the corrected gate checked **57 evidence objects and 114 wire string values, with 0 real leaks**. Two detector misses produce no evidence. Reused packets and final exported packets also pass. Every evidence string, including the complete supporting span excerpt, is a literal substring of its official canonical detector_view serialization; embedded JSON is checked for prohibited keys and label values. Raw registry canaries and the raw drift target are forbidden. Observed notes/loading/errors are preserved, not redacted.
 
-For this benchmark, the hallucination system prompt is a known injected agent-config value. Other injectors alter runtime data or backend behavior, not this agent-config snapshot, so a fix to those mechanisms is not credited as a config reversal. These tags do not establish successful repair.
+Detector labels remain outside FailureEvidence in the Alert/prompt context; the evidence label field is null and contains no authored localization prose. Ground-truth labels, ownership/injection metadata and the raw injection registry never enter critic inputs. The registry is read only by the privileged checker/scorer. See [59-input assertion](round3/phase4_leak_assert.json) and final `phase4_export_leak_<arm>.json` assertions.
 
-The following table is **round-2 retrospective**, not round-3 generation. Each cell is `reverts_injection / other_fix` among 12 proposals per class.
+## Arm table
 
-| Class | old_deepseek | new_deepseek | new_gemini | new_qwen |
+C1 is schema/validator validity without fallback over generated proposals. C2 is a successful hardened config-copy dry run among C1-valid proposals. Phase 4's loader adds its own deployed-config checks. These are mechanical checks, not evidence of repair. Exact/near specificity below sums within-class unique strings/components; near uses pinned MiniLM, chunk pooling and cosine >=0.9, with transitive components. Fallbacks are included; LLM-only and per-class results are in JSON.
+
+| Metric | New | v1 structured |
+|---|---:|---:|
+| C1 | 56/57 (98.2%) | 56/57 (98.2%) |
+| C2 (conditional on C1) | 56/56 (100.0%) | 48/56 (85.7%) |
+| No-op rejections | 0 | 0 |
+| Bad-reference rejections | 0 | 2 |
+| Fallbacks | 1/57 (1.8%) | 1/57 (1.8%) |
+| Exact distinct (within class) | 57/57 | 57/57 |
+| Near-distinct components (within class) | 20/57 | 26/57 |
+| Grounded string-match proxy | UNVALIDATED; not used | UNVALIDATED; not used |
+| C3 proposal/envelope type match | 56/59 (94.9%) | 56/59 (94.9%) |
+| C3 independent diagnosis type match | 36/59 (61.0%) | 55/59 (93.2%) |
+| C3 strict step/span match | 2/59 (3.4%) | 21/59 (35.6%) |
+| p50 latency (seconds) | 3.889 | 7.248 |
+| Cost attributable to retained proposals | $0.152508288 | $0.370064124 |
+| Dollars per retained proposal | $0.002676 | $0.006492 |
+
+Latency includes calls/retries and graph work, before scoring/embedding. Cost in the table is attributed to retained exported proposals; total authorized spend below ALSO includes excluded and original-arm history. No-op and bad-reference counts concern returned proposals; counts may overlap other rejection causes. Arbitrary natural-language semantics/dynamic tool dispatch are not proven safe by the deterministic reference grammar.
+
+Both arms use deepseek-flash, temperature 0.2, a maximum of 800 output tokens per call, and disabled thinking. v1_structured makes a structured diagnosis call followed by a structured patch call; new makes the structured patch call directly. Per-call usage, managed model versions/fingerprints and all retries are logged. Retained records span the initial and continuation batches; no model response was regenerated to improve a score.
+
+## C3 per class and detector-wrong split
+
+The envelope type is inherited from the detector and is not an independent diagnosis. The independent type is explicitly returned by the critic. Exact citation scoring uses zero-based positions in full_trace.spans, not actor-step numbers. A conflicting span/index fails. Truth conventions: final-answer root for hallucination, original tool error for misfire, first foreign memory read for bleed, first executed injected-target call for drift, and third repeated successful call for loop. These are operational origin conventions, not causal proof. Missing/fallback diagnoses fail; detector misses remain in pipeline denominators.
+
+### Independent diagnosis type match
+
+| Class | New | v1 structured |
+|---|---:|---:|
+| HALLUCINATION | 12/12 (100.0%) | 12/12 (100.0%) |
+| TOOL_MISFIRE | 0/12 (0.0%) | 11/12 (91.7%) |
+| CONTEXT_BLEED | 3/12 (25.0%) | 9/12 (75.0%) |
+| PLAN_DRIFT | 10/11 (90.9%) | 11/11 (100.0%) |
+| LOOP_DETECTED | 11/12 (91.7%) | 12/12 (100.0%) |
+
+### Strict step/span match
+
+| Class | New | v1 structured |
+|---|---:|---:|
+| HALLUCINATION | 0/12 (0.0%) | 0/12 (0.0%) |
+| TOOL_MISFIRE | 0/12 (0.0%) | 11/12 (91.7%) |
+| CONTEXT_BLEED | 1/12 (8.3%) | 10/12 (83.3%) |
+| PLAN_DRIFT | 0/11 (0.0%) | 0/11 (0.0%) |
+| LOOP_DETECTED | 1/12 (8.3%) | 0/12 (0.0%) |
+
+### Proposal/envelope type match (detector propagation)
+
+| Class | New | v1 structured |
+|---|---:|---:|
+| HALLUCINATION | 12/12 (100.0%) | 12/12 (100.0%) |
+| TOOL_MISFIRE | 12/12 (100.0%) | 11/12 (91.7%) |
+| CONTEXT_BLEED | 10/12 (83.3%) | 10/12 (83.3%) |
+| PLAN_DRIFT | 11/11 (100.0%) | 11/11 (100.0%) |
+| LOOP_DETECTED | 11/12 (91.7%) | 12/12 (100.0%) |
+
+
+### Detector-wrong split
+
+Each cell is independent type match / strict step match; each has the shown common denominator.
+
+| Class | New | v1 structured |
+|---|---:|---:|
+| HALLUCINATION | N/A (no detector errors) | N/A (no detector errors) |
+| TOOL_MISFIRE | N/A (no detector errors) | N/A (no detector errors) |
+| CONTEXT_BLEED | 0/2 / 0/2 | 0/2 / 0/2 |
+| PLAN_DRIFT | N/A (no detector errors) | N/A (no detector errors) |
+| LOOP_DETECTED | N/A (no detector errors) | N/A (no detector errors) |
+
+The only detector errors in this set are the two CONTEXT_BLEED traces predicted NORMAL. They have no critic call and count as misses in pipeline C3; there are no wrong-class alerted traces on which to measure a critic correcting the detector's class.
+
+## Reporting-only fault-reversal tags
+
+The exported fix_tag uses the exact Phase 4 config.injection_tag contract: normalize _BASE_SYSTEM and _GUESS_SYSTEM to system_prompt, compare with clean/deployed config, and tag restoration or removal of an injected string segment as reverts_injection. This differs from the earlier exact-key/whole-value-only Phase 3 tag; that value is retained in phase3_exact_restore_tag. Tags are computed after generation and never exposed to the critic. Other injectors alter backend/runtime data rather than this config. other_fix is a category, not proof of a valid or effective fix. Each cell is reverts_injection / other_fix, over returned proposals.
+
+| Class | New | v1 structured |
+|---|---:|---:|
+| HALLUCINATION | 12 / 0 | 12 / 0 |
+| TOOL_MISFIRE | 0 / 12 | 0 / 12 |
+| CONTEXT_BLEED | 0 / 10 | 0 / 10 |
+| PLAN_DRIFT | 0 / 11 | 0 / 11 |
+| LOOP_DETECTED | 0 / 12 | 0 / 12 |
+
+## Phase 4 loader validation
+
+Validated with the actual loader read from the pinned Phase 4 commit; no Phase 4 agent execution or healing run occurred. Each JSONL has the expected trace_id, arm, evidence_mode, proposal, c1_valid and dry_run_applied fields, plus top-level and nested source/provenance/tag metadata. Detector misses are explicit no-proposal records. Fallbacks and failed dry runs remain no_patch, never fabricated successes.
+
+| Arm | Loader patch | Loader no_patch | Loader inapplicable | Missing records |
 |---|---:|---:|---:|---:|
-| HALLUCINATION | 0 / 12 | 0 / 12 | 6 / 6 | 0 / 12 |
-| TOOL_MISFIRE | 0 / 12 | 0 / 12 | 0 / 12 | 0 / 12 |
-| CONTEXT_BLEED | 0 / 12 | 0 / 12 | 0 / 12 | 0 / 12 |
-| PLAN_DRIFT | 0 / 12 | 0 / 12 | 0 / 12 | 0 / 12 |
-| LOOP_DETECTED | 0 / 12 | 0 / 12 | 0 / 12 | 0 / 12 |
+| new | 56 | 3 | 0 | 0 |
+| v1_structured | 48 | 11 | 0 | 0 |
 
-Thus 6/12 Gemini hallucination proposals (50%) are exact config reversals, and 6/12 are other fixes. All other class/arm cells have 0/12 reversals and 12/12 other fixes. No round-3 share can be estimated because no proposals were generated.
+The common critic registry is a baseline snapshot, not a label-selected injected prompt. Phase 4 maps prompt aliases onto the deployed config and makes its own applicability decision. Proposals were not regenerated to improve applicability, and no winner is selected.
 
-## Actual-input leak assertion and stop
+## Proxy status, spend and validation
 
-Invoked once after committing the implementation:
+The literal grounded proxy is **UNVALIDATED**, with review kappa **0.20 / 0.03** when unclear is treated as ungrounded/grounded. It is not aggregated or used for arm comparisons. Review was model-reviewed and author-confirmed, revised after feedback, not independent human validation. Historical review agreement is diagnostic only.
 
-```powershell
-python -m services.critic.round3_part_b --env-file C:/Umich/Projects/Nexus/.env
-```
+**Total accounted spend: $0.912377166 / $1.00**, including $0.680459838 already spent before alignment. Additional spend: $0.231917328. All 393 calls are settled; no reservation is unresolved. Excluded and original-arm costs remain in this total. No new original or oracle calls were made.
 
-The rebased branch is explicitly allowed only when `origin/main` is its ancestor; benchmark trace/label Git objects must match `bench-v1.1` (`afef9aad684630336b543ec3c73e716f8a7c5d3c`). Code must be committed; report artifacts may be dirty. No checkout of main, rebase during the run, or dataset regeneration occurs.
+| Active arm | All arm spend including excluded history | Retained-proposal attributable spend |
+|---|---:|---:|
+| new | $0.225313032 | $0.152508288 |
+| v1_structured | $0.553915584 | $0.370064124 |
 
-The selection contains 60 DEV failures (12 per class). The detector predicted NORMAL on two, producing no FailureEvidence. **58 unique evidence objects were checked**, shared across the two structured detector arms (**116 planned arm/evidence instances**). **27 unique evidence objects failed**:
+Historical original-arm spend: $0.133148550. Dollar accounting uses the existing conservative token-rate/reservation ledger, not an independently reconciled wallet statement. Source calls, commits and per-proposal call IDs remain auditable in calls.jsonl. Explicit API egress approval covered synthetic DEV data sent to DeepSeek, with the same aggregate cap.
 
-| Residual injection text rule | Evidence objects matching |
-|---|---:|
-| Loop: `is still loading` | 12 |
-| Drift: `SYSTEM NOTICE TO ASSISTANT` | 6 |
-| Drift: `this order is under audit` | 6 |
-| Misfire: `request failed (code 422)` | 9 |
+CI command `pytest tests/unit/ tests/e2e/ -v`: **347 passed, 1 existing auxiliary provenance skip**, including both TEST-integrity tests. Ruff clean. Tests cover main-label reconciliation, stream gating, trace/arm idempotence, no-op/reference checks, corrected leak checks, and the actual Phase 4 loader. [CI log](phase4_handoff_ci.log). TEST data was used only by the previously authorized integrity/CI checks, not critic selection/generation. No Docker, push, merge, tags, task replay or dataset edits occurred.
 
-The two drift rules occur in the same six evidence objects; do not sum the rule rows as unique leaks. There were **zero hits** for `dev_label`, `item_users`, `item_sessions`, `item_owners`, or raw `CANARY-...` tokens. The failures are observed injection text that Phase 2 deliberately retains in `detector_view`, not a bypass of its metadata stripping. The adapter currently copies that observed text into supporting evidence.
-
-Per the instruction to stop on any leak, evidence was not redacted, rewritten or regenerated and no retry was made. The exception occurred before original critic construction, embedding-model construction, environment loading, provider construction or any reservation. There is no generation `protocol.json` or `calls.jsonl`; **zero model calls and zero generated proposals**. Details: [leak assertion](round3/leak_assert.json), [command log](partb_run.log).
-
-## Three-arm generation comparison
-
-All three arms are currently awaiting explicit external-egress approval; the corrected input gate passes. `N/A` means **not measured**, not zero performance. Round-2 results are not substituted into these cells.
-
-| Metric | Original | v1-prompt-structured | New structured |
-|---|---:|---:|---:|
-| Generated proposals | 0 | 0 | 0 |
-| C1 | N/A | N/A | N/A |
-| C2 | N/A | N/A | N/A |
-| No-op / bad-reference rejections | N/A | N/A | N/A |
-| Exact / near / grounded specificity | N/A | N/A | N/A |
-| C3 proposal-type / independent-type / step match | N/A | N/A | N/A |
-| reverts_injection / other_fix shares | N/A | N/A | N/A |
-| p50 wall latency | N/A | N/A | N/A |
-| Dollars per proposal | N/A | N/A | N/A |
-| API spend | $0.00 | $0.00 | $0.00 |
-
-C3 type/step results are unavailable for every class (HALLUCINATION, TOOL_MISFIRE, CONTEXT_BLEED, PLAN_DRIFT, LOOP_DETECTED), and for both the detector-correct and detector-wrong splits. No diagnosis denominators exist. The two detector misses are input coverage facts, not critic diagnoses. Likewise all round-3 fault-reversal shares are unavailable per class. No winner or repair-effectiveness conclusion is drawn.
-
-## Specificity proxy agreement
-
-The reviewer sheet contains 10 grounded, 6 ungrounded and 4 unclear judgments. The literal proxy marks 4/20 as grounded. These are model-reviewed, author-confirmed labels revised after Codex feedback; this is not independent human validation. The original hidden key and completed review sheet were scored without changing either.
-
-| Sensitivity treatment | N | Agreements | Agreement | Cohen's kappa |
-|---|---:|---:|---:|---:|
-| unclear as ungrounded | 20 | 12 | 60.0% | 0.200000 |
-| unclear as grounded | 20 | 8 | 40.0% | 0.032258 |
-| unclear excluded (supplemental) | 16 | 8 | 50.0% | 0.111111 |
-
-Kappa uses `(observed agreement - expected agreement) / (1 - expected agreement)` with expected agreement from the two observed binary marginals. Confusion counts and file hashes are in [proxy_agreement.json](round3_preflight/proxy_agreement.json). Grounding is judged separately from applicability: a trace-specific harmful patch may still be grounded. No uncertainty interval is inferred from this small stratified, model-assisted review.
-
-## Spend and outstanding work
-
-Aggregate authorized cap: **$1.00**. Actual spend for this Part B attempt: **$0.00**. No billable request or reservation occurred.
-
-The requested three-arm generation and its C1/C2/specificity/C3/latency/cost table remain unmeasured while explicit approval for the exact payload and DeepSeek destinations is pending. The corrected gate passes; the original 27 text matches are not real leaks. The grounded string-match proxy is UNVALIDATED (kappa 0.20 / 0.03) and will not be used for comparisons. The source and destination checks are recorded in the egress manifest; no alternate execution route was used after review rejection.
-
-## Correction before any LLM call: mis-specified leak check
-
-The initial check was mis-specified: it banned observed injection text that Phase 2 intentionally preserves. The initial stop was correct under that check. This correction is recorded before any generation provider construction or LLM call; the previous attempt spent $0.00.
-
-All 27 earlier text hits (33 matches) appear verbatim in their official detector views: 12 loop messages, 9 misfire error messages and 6 drift notes (two matched patterns each). See [the per-hit diagnosis](leak_gate_diagnosis.md). These matched phrases are not real leaks.
-
-The corrected invariant requires every string field of detector-arm FailureEvidence to be a literal substring of the canonical official detector_view serialization. The supporting_text field is now a complete canonical span excerpt, not a newly assembled narrative or JSON subset. Canonicalization uses UTF-8 JSON, sorted keys, no ASCII escaping, and compact separators. The checker also recursively decodes JSON within the excerpt to ban the keys dev_label, item_users, item_sessions, item_owners, source, task_id, family, model and provider; raw injection-registry canary tokens or the raw drift target; and any failure label string used as a field value. Observed SYSTEM NOTICE notes, still-loading messages and code-422 errors are allowed only when the literal-substring check passes.
-
-The adapter previously added a detector label and a localization sentence to the packet; those do not satisfy the corrected observation-only invariant. Detector evidence now leaves failure_type null and omits localization prose. The predicted label remains in the Alert and outside the evidence in prompt context; ground truth remains scoring only. Oracle evidence retains its explicitly gated historical format. No observed input/output/error text was redacted, and the adapter never receives the raw injection registry.
-
-Before generation: 60 DEV inputs checked, 58 evidence objects, 116 wire string values; 0 remaining invariant violations. All 27 previously flagged objects pass. Both stand-in reference tokens and pseudonymized drift IDs remain allowed. The injection registry is consulted by the checker only, never supplied to the critic.
-
-The string-match grounded proxy is **UNVALIDATED** (review kappa 0.20 / 0.03). It will not be aggregated or used for cross-arm comparisons. Historical proxy agreement remains diagnostic only; exact/near patch distinctness and C3 are reported separately.
+Handoff implementation commit: `82c689aeea0b6bbc687d691e58d622d4e7c08365`. Original generation commit: `1804d3be0acb153b31970ecf194cdb62e2a1d777`. The authoritative export-tag metrics are [phase4_summary.json](round3/phase4_summary.json); raw generation summary remains in summary.json. [Final verification](round3/phase4_verification.json) confirms preserved files, unchanged kept model outputs and zero calls resent for kept pairs.

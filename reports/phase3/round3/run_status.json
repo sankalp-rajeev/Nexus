@@ -1,31 +1,44 @@
 {
-  "status": "awaiting_exact_egress_approval",
-  "correction_commit": "fd80793",
-  "original_pattern_hits": 27,
-  "original_pattern_matches": 33,
-  "all_observed_text_present_in_view": true,
-  "corrected_evidence_checked": 58,
-  "corrected_wire_strings_checked": 116,
-  "real_leaks_remaining": 0,
-  "ci_passed": 341,
+  "status": "complete",
+  "phase4_failures": 59,
+  "arms": {
+    "new": {
+      "records": 59,
+      "proposals": 57,
+      "kept": 33,
+      "new_records": 26,
+      "excluded": 27,
+      "missing": [],
+      "loader_statuses": {
+        "patch": 56,
+        "no_patch": 3
+      },
+      "retained_proposal_cost_usd": 0.15250828799999994,
+      "retained_cost_per_proposal_usd": 0.002675583999999999,
+      "all_arm_cost_including_excluded_usd": 0.225313032,
+      "continuation_calls": 26
+    },
+    "v1_structured": {
+      "records": 59,
+      "proposals": 57,
+      "kept": 33,
+      "new_records": 26,
+      "excluded": 27,
+      "missing": [],
+      "loader_statuses": {
+        "patch": 48,
+        "no_patch": 11
+      },
+      "retained_proposal_cost_usd": 0.370064124,
+      "retained_cost_per_proposal_usd": 0.006492353052631579,
+      "all_arm_cost_including_excluded_usd": 0.5539155840000001,
+      "continuation_calls": 56
+    }
+  },
+  "real_leaks": 0,
+  "total_spend_usd": 0.9123771660000003,
+  "additional_spend_usd": 0.23191732799999998,
+  "ci_passed": 347,
   "ci_skipped": 1,
-  "ruff": "clean",
-  "llm_calls": 0,
-  "generated_proposals": 0,
-  "accounted_usd": 0.0,
-  "cap_usd": 1.0,
-  "automatic_approval_rejections": 2,
-  "reason": "Exact external payload and DeepSeek endpoints require trusted user authorization",
-  "requested_destinations": [
-    "https://api.deepseek.com/chat/completions",
-    "https://api.deepseek.com/beta/chat/completions"
-  ],
-  "grounding_proxy": {
-    "validated": false,
-    "used_for_comparisons": false,
-    "kappa_unclear_sensitivity": [
-      0.2,
-      0.03225806451612906
-    ]
-  }
+  "grounding_proxy_validated": false
 }
