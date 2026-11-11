@@ -181,6 +181,10 @@ class Harness:
         client._exporter = self.collector
 
     def client(self, provider: str):
+        key_var = {"deepseek": "DEEPSEEK_API_KEY", "gemini": "GEMINI_API_KEY"}.get(provider)
+        if provider not in self._clients and key_var and not os.environ.get(key_var):
+            # Fail fast: a missing key would otherwise be recorded as run_error records.
+            raise RuntimeError(f"{key_var} is not set (pass --env-file); no run recorded")
         if provider not in self._clients:
             self._clients[provider] = LLMClient(provider, MODELS[provider], ledger=self.ledger,
                                                 cache=self.cache)

@@ -210,7 +210,7 @@ def selection(arms: dict[str, dict[str, Any]], outcome: str = PRIMARY) -> dict[s
             "unresolved_tie": tie if len(tie) > 1 else []}
 
 
-def write_results(sets, records) -> dict[str, Any]:
+def write_results(sets, records, only: str | None = None) -> dict[str, Any]:
     prov = provenance(provider="deepseek+ollama",
                       model=f"{MODELS['deepseek']}+{MODELS['ollama']}", mock=False, seed=SEED)
     common = {"amendment": "A2 (tag phase4-prereg-a2)", "regression_set": REG_KEY,
@@ -220,6 +220,8 @@ def write_results(sets, records) -> dict[str, Any]:
     write_result("A2 generic", "heal_generic_a2_dev.json", {**common, "arm": "generic (HALLUCINATION, A2)", **gen},
                  provenance_info=prov, summary=_line("generic HALLUCINATION under A2", gen))
     out = {"generic": gen}
+    if only == "generic":
+        return out
     arms = {}
     for arm in ARMS:
         patches, props = critic_arm(sets, arm)
@@ -285,6 +287,8 @@ def main() -> int:
     g.add_argument("--run", choices=["generic", "arms", "confirm"])
     g.add_argument("--score", action="store_true")
     ap.add_argument("--arm", choices=list(ARMS), action="append")
+    ap.add_argument("--only", choices=["generic"], default=None,
+                    help="with --score: score and write the generic A2 result only")
     ap.add_argument("--env-file", default=None)
     args = ap.parse_args()
     sets = load_sets()
@@ -302,7 +306,7 @@ def main() -> int:
         print(args.run, h.run_all(run_set(sets, args.run, arm_names)))
         print(f"rest-of-phase ledger total ${h.ledger.total():.4f} (cap ${REST_CAP_USD:.2f})")
         return 0
-    write_results(sets, RunStore(RUNS_PATH).by_id)
+    write_results(sets, RunStore(RUNS_PATH).by_id, args.only)
     return 0
 
 
