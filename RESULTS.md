@@ -11,6 +11,7 @@ of real-model behaviour.
 | ID | Result | Provider / model | Mock | Date | Commit | File |
 |---|---|---|---|---|---|---|
 | B0-dataset | NexusBench: 716 labelled traces over 140 tasks; test split per class NORMAL=118, LOOP_DETECTED=29, TOOL_MISFIRE=38, CONTEXT_BLEED=30, PLAN_DRIFT=31, HALLUCINATION=36, OTHER_FAILURE=75 | deepseek+ollama / deepseek-flash + qwen2.5:7b-instruct | no | 2026-11-11 | `a04c528` | [results/bench_dataset.json](results/bench_dataset.json) |
+| B1 | label agreement 72/72 (hand vs automatic) | human / hand labels | no | 2026-11-11 | `9c24e43+dirty` | [results/bench_labels.json](results/bench_labels.json) |
 | A1-separability-dev | CONTEXT_BLEED separability (dev): gate not tripped; best single rule account_tier_records >= 2 | none (no LLM) / trivial rules | no | 2026-11-11 | `1c23fe4` | [results/cb_separability_dev.json](results/cb_separability_dev.json) |
 | D0-baseline | binary P=1.000 R=0.473 (TP=52 FP=0 FN=58 TN=110) on 220 real HaluEval/ToolBench traces | none (no LLM) / svm.joblib v3 (scikit-learn SVM) + all-MiniLM-L6-v2 + cross-encoder/nli-MiniLM2-L6-H768 | no | 2026-11-10 | `9ce9535` | [results/classifier_v3_baseline.json](results/classifier_v3_baseline.json) |
 | critic-smoke | SMOKE TEST (mock LLM): 20/20 traces produced a schema-valid proposal; 20/20 were the generic fallback template | mock / MockProvider | **mock** | 2026-11-10 | `9ce9535` | [results/critic_smoke_mock.json](results/critic_smoke_mock.json) |

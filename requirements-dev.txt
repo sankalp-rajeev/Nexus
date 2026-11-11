@@ -13,11 +13,18 @@
 -r services/healer/requirements.txt
 -r services/api/requirements.txt
 
+# Direct import in bench/scoring.py (otherwise only transitive via scikit-learn)
+scipy==1.17.1
+
+# Pinned to the local dev environment so CI resolves the same versions.
+# deepeval>=4 no longer imports langchain from its pytest plugin; pytest.ini
+# also disables that plugin (-p no:deepeval) so unit tests never depend on it.
+
 # Test + QA tooling
-pytest>=8.0
-pytest-asyncio>=0.23
-pytest-cov>=5.0
-pytest-timeout>=2.3
-ruff>=0.5
-mypy>=1.10
-httpx>=0.27
+pytest==9.0.3
+pytest-asyncio==1.4.0
+pytest-cov==7.1.0
+pytest-timeout==2.4.0
+ruff==0.15.20
+mypy>=1.10  # not installed locally; CI-only, non-blocking step
+httpx==0.28.1
