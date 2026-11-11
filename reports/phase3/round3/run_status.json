@@ -1,33 +1,31 @@
 {
-  "status": "leak_stopped",
-  "implementation_commit": "1016c356de4d865944a9cec6a7f3eeee2734a058",
-  "rebased_onto": "46366990ff240753d5d405448092ddbe13ca72b8",
-  "bench_revision": "afef9aad684630336b543ec3c73e716f8a7c5d3c",
-  "planned_arms": [
-    "original",
-    "v1_structured",
-    "new"
-  ],
-  "selected_dev_failures": 60,
-  "evidence_checked": 58,
-  "evidence_with_leaks": 27,
+  "status": "awaiting_exact_egress_approval",
+  "correction_commit": "fd80793",
+  "original_pattern_hits": 27,
+  "original_pattern_matches": 33,
+  "all_observed_text_present_in_view": true,
+  "corrected_evidence_checked": 58,
+  "corrected_wire_strings_checked": 116,
+  "real_leaks_remaining": 0,
+  "ci_passed": 341,
+  "ci_skipped": 1,
+  "ruff": "clean",
   "llm_calls": 0,
-  "proposals": 0,
-  "cap_usd": 1.0,
+  "generated_proposals": 0,
   "accounted_usd": 0.0,
-  "arm_metrics": null,
-  "reason": "Strict injection-text leak assertion failed before any provider or embedding model construction; stopped as instructed",
-  "ci": {
-    "command": "pytest tests/unit/ tests/e2e/ -v",
-    "passed": 332,
-    "skipped": 1,
-    "test_integrity_tests": "both passed",
-    "ruff": "clean"
-  },
-  "artifacts_sha256": {
-    "round3\\leak_assert.json": "db521ff9cd1725234dc3003f5045c23f1a1f727e8329f4546c6dd5f400e55687",
-    "round3_preflight\\round2_hardening.json": "56937c6a9b1c181463530f0c392582cf3e1fc6f216058779fc01b656d6a81fec",
-    "round3_preflight\\proxy_agreement.json": "d79e37567f6b7bee31c306bf47f0a31bdfb4ab2974e95d556836da79ffdecea7",
-    "partb_ci_final.log": "cf125567695863dd4ca73d7b40a2a1d9e1c0f12552c97f896f69dd90ab90942a"
+  "cap_usd": 1.0,
+  "automatic_approval_rejections": 2,
+  "reason": "Exact external payload and DeepSeek endpoints require trusted user authorization",
+  "requested_destinations": [
+    "https://api.deepseek.com/chat/completions",
+    "https://api.deepseek.com/beta/chat/completions"
+  ],
+  "grounding_proxy": {
+    "validated": false,
+    "used_for_comparisons": false,
+    "kappa_unclear_sensitivity": [
+      0.2,
+      0.03225806451612906
+    ]
   }
 }

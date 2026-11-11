@@ -1,8 +1,10 @@
 # Phase 3 round 3: initial stop and corrected-gate continuation
 
-> Pre-generation continuation: the mis-specified check is corrected below. All 58 actual evidence objects pass the corrected invariant. Generation is pending; no LLM call has occurred.
+**Continuation status:** the corrected invariant passes all 58 evidence objects and 116 string values; the 27 observed injection-text hits are legitimate. CI: 341 passed, 1 existing skip; Ruff clean. Correction commit: `fd80793`, made before any LLM call.
 
-**Result:** rebase and implementation completed; CI passed. The Part B command stopped before any LLM call because **27 of 58 detector evidence objects contained residual injection text**. No generation results exist. **Spend: $0.00 of the $1.00 cap.**
+**External-run approval is pending.** Automatic approval review rejected the run twice before process creation, requiring the exact payload and destinations to be authorized in a trusted user message. An explicit approval request is pending. No generation provider was constructed, no experiment protocol/ledger was created, no model call occurred, and spend is $0.00. The proposed payload is synthetic DEV detector views/evidence, detector predictions, baseline config, prompts/schemas and generated diagnoses, sent only to `https://api.deepseek.com/chat/completions` and `https://api.deepseek.com/beta/chat/completions` under the $1.00 aggregate cap. The API key is authentication only. See [egress manifest](round3/egress_manifest.json).
+
+**Initial attempt (historical):** the mis-specified check stopped before any LLM call on 27/58 observed-text matches. That check is now corrected, as logged below. No generation results exist yet. **Spend: $0.00 of the $1.00 cap.**
 
 ## Rebase and validation
 
@@ -77,7 +79,7 @@ Per the instruction to stop on any leak, evidence was not redacted, rewritten or
 
 ## Three-arm generation comparison
 
-All three arms stopped at the shared input gate. `N/A` means **not measured**, not zero performance. Round-2 results are not substituted into these cells.
+All three arms are currently awaiting explicit external-egress approval; the corrected input gate passes. `N/A` means **not measured**, not zero performance. Round-2 results are not substituted into these cells.
 
 | Metric | Original | v1-prompt-structured | New structured |
 |---|---:|---:|---:|
@@ -110,7 +112,7 @@ Kappa uses `(observed agreement - expected agreement) / (1 - expected agreement)
 
 Aggregate authorized cap: **$1.00**. Actual spend for this Part B attempt: **$0.00**. No billable request or reservation occurred.
 
-The requested three-arm generation and its C1/C2/specificity/C3/latency/cost table remain unmeasured because the required leak gate failed. Continuing would require a deliberate decision about the evidence contract, followed by a fresh clean-input assertion; this attempt did not silently change that contract. The complete preflight work, audit and stop evidence are committed.
+The requested three-arm generation and its C1/C2/specificity/C3/latency/cost table remain unmeasured while explicit approval for the exact payload and DeepSeek destinations is pending. The corrected gate passes; the original 27 text matches are not real leaks. The grounded string-match proxy is UNVALIDATED (kappa 0.20 / 0.03) and will not be used for comparisons. The source and destination checks are recorded in the egress manifest; no alternate execution route was used after review rejection.
 
 ## Correction before any LLM call: mis-specified leak check
 
