@@ -16,7 +16,8 @@ import sys
 import pytest
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-REPORTS = sorted(glob.glob(os.path.join(REPO, "docs", "*report*.md")))
+REPORTS = sorted(glob.glob(os.path.join(REPO, "docs", "*report*.md"))
+                 + glob.glob(os.path.join(REPO, "reports", "**", "baseline*.md"), recursive=True))
 RESULTS = sorted(glob.glob(os.path.join(REPO, "results", "*.json")))
 
 
