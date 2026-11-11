@@ -65,7 +65,7 @@ def load_selection():
         if any(original[key] != row[key] for key in ("trace_id", "task_id", "label", "provider", "model")):
             raise ValueError("Selected DEV labels changed; freeze this round before regeneration")
     traces = dev_traces(ROOT / "data/nexusbench/traces.jsonl", set(ids))
-    evidence = {r["trace_id"]: evidence_from_dev(r, traces[r["trace_id"]]) for r in rows}
+    evidence = {r["trace_id"]: evidence_from_dev(r, traces[r["trace_id"]], allow_oracle=True) for r in rows}
     return selected, rows, traces, evidence
 
 

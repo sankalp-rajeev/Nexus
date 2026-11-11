@@ -1,0 +1,250 @@
+{
+  "seed": 20261110,
+  "sources_sha256": {
+    "old_deepseek.jsonl": "c1432bcd7193be51f0e1f061c7d450fcbad799840e804d8d8f7793f97a016624",
+    "new_deepseek.jsonl": "95fe21aec91ef43657531ae7cfcbd4ba279ef550f219f7324bf8bef666f5939f",
+    "new_gemini.jsonl": "22e0727df6f5704cf96ddbef36aa7d41d56b2cfd4cde08c8f1120fe94ada0924",
+    "new_qwen.jsonl": "767c9bed8a7f46384a74d7f1349773977a57cad1562a70db2d603df0cd84c94d"
+  },
+  "samples": [
+    {
+      "sample_id": "P01",
+      "trace_id": "nb-666d28fc02c0cca6",
+      "arm": "new_deepseek",
+      "failure_type": "PLAN_DRIFT",
+      "proposal_id": "patch_92055d45",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P02",
+      "trace_id": "nb-fb4b825f6e52387e",
+      "arm": "new_deepseek",
+      "failure_type": "TOOL_MISFIRE",
+      "proposal_id": "patch_5ec91149",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P03",
+      "trace_id": "nb-a4ecb4af52fab017",
+      "arm": "new_gemini",
+      "failure_type": "TOOL_MISFIRE",
+      "proposal_id": "patch_59193215",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P04",
+      "trace_id": "nb-bdd8ceac24d8d46a",
+      "arm": "new_qwen",
+      "failure_type": "LOOP_DETECTED",
+      "proposal_id": "patch_f34c9de3",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P05",
+      "trace_id": "nb-6dbb58488330a80f",
+      "arm": "old_deepseek",
+      "failure_type": "HALLUCINATION",
+      "proposal_id": "patch_57262a1e",
+      "grounding": {
+        "grounded": true,
+        "matches": {
+          "entity": [
+            "Gruost Systems"
+          ]
+        }
+      }
+    },
+    {
+      "sample_id": "P06",
+      "trace_id": "nb-b50f707894c8dc1c",
+      "arm": "new_gemini",
+      "failure_type": "LOOP_DETECTED",
+      "proposal_id": "patch_73c5c2b4",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P07",
+      "trace_id": "nb-b45b1b6781209a74",
+      "arm": "new_deepseek",
+      "failure_type": "HALLUCINATION",
+      "proposal_id": "patch_ed99c1b5",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P08",
+      "trace_id": "nb-bdd8ceac24d8d46a",
+      "arm": "old_deepseek",
+      "failure_type": "LOOP_DETECTED",
+      "proposal_id": "patch_2bc17fb7",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P09",
+      "trace_id": "nb-bdd8ceac24d8d46a",
+      "arm": "new_deepseek",
+      "failure_type": "LOOP_DETECTED",
+      "proposal_id": "patch_f6e58304",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P10",
+      "trace_id": "nb-b0f3fd1a37fb212a",
+      "arm": "new_qwen",
+      "failure_type": "HALLUCINATION",
+      "proposal_id": "patch_98c255f4",
+      "grounding": {
+        "grounded": true,
+        "matches": {
+          "entity": [
+            "Talka Robotics"
+          ]
+        }
+      }
+    },
+    {
+      "sample_id": "P11",
+      "trace_id": "nb-e59fbbd2931a908d",
+      "arm": "old_deepseek",
+      "failure_type": "CONTEXT_BLEED",
+      "proposal_id": "patch_fb257fdd",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P12",
+      "trace_id": "nb-666d28fc02c0cca6",
+      "arm": "new_qwen",
+      "failure_type": "PLAN_DRIFT",
+      "proposal_id": "patch_30ef4c67",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P13",
+      "trace_id": "nb-9e71dbcc911efe4c",
+      "arm": "new_gemini",
+      "failure_type": "CONTEXT_BLEED",
+      "proposal_id": "patch_f44a28c1",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P14",
+      "trace_id": "nb-9e71dbcc911efe4c",
+      "arm": "new_deepseek",
+      "failure_type": "CONTEXT_BLEED",
+      "proposal_id": "patch_7a324ec1",
+      "grounding": {
+        "grounded": true,
+        "matches": {
+          "tool": [
+            "read_memory"
+          ]
+        }
+      }
+    },
+    {
+      "sample_id": "P15",
+      "trace_id": "nb-52265d2d66872e32",
+      "arm": "new_gemini",
+      "failure_type": "HALLUCINATION",
+      "proposal_id": "patch_fc8bc665",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P16",
+      "trace_id": "nb-fb4b825f6e52387e",
+      "arm": "new_qwen",
+      "failure_type": "TOOL_MISFIRE",
+      "proposal_id": "patch_f8c99a8a",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P17",
+      "trace_id": "nb-b3f5e27874c93fcf",
+      "arm": "old_deepseek",
+      "failure_type": "PLAN_DRIFT",
+      "proposal_id": "patch_418bf9df",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P18",
+      "trace_id": "nb-3e8f0b64257115fe",
+      "arm": "new_gemini",
+      "failure_type": "PLAN_DRIFT",
+      "proposal_id": "patch_a0109882",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P19",
+      "trace_id": "nb-348240159a82f3c4",
+      "arm": "new_qwen",
+      "failure_type": "CONTEXT_BLEED",
+      "proposal_id": "patch_b7a2bfbb",
+      "grounding": {
+        "grounded": false,
+        "matches": {}
+      }
+    },
+    {
+      "sample_id": "P20",
+      "trace_id": "nb-fb4b825f6e52387e",
+      "arm": "old_deepseek",
+      "failure_type": "TOOL_MISFIRE",
+      "proposal_id": "patch_7cd8ceca",
+      "grounding": {
+        "grounded": true,
+        "matches": {
+          "tool": [
+            "get_order"
+          ],
+          "identifier": [
+            "C-1135"
+          ]
+        }
+      }
+    }
+  ]
+}

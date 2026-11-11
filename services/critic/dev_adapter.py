@@ -94,9 +94,11 @@ def current_config(label):
             "TOOL_SPECS": copy.deepcopy(agent.TOOL_SPECS)}
 
 
-def evidence_from_dev(label, trace):
+def evidence_from_dev(label, trace, *, allow_oracle=False):
     if label.get("split") != "dev":
         raise ValueError("Only DEV labels may enter the critic adapter")
+    if not allow_oracle:
+        raise ValueError("Oracle evidence requires allow_oracle=True")
     failure_type = label["label"]
     if failure_type not in CLASSES:
         raise ValueError("A five-class failure label is required")

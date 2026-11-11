@@ -12,7 +12,7 @@ from services.critic.dev_adapter import current_config, dev_labels, dev_traces, 
 from services.critic.evidence import FailureEvidence
 from services.critic.graph import build_prompt, run_critic
 from services.critic.llm import MockProvider, OllamaProvider, ProviderError
-from services.critic.proposal import Provenance, StructuredPatch
+from services.critic.proposal import Provenance, StructuredPatch, response_schema
 from services.critic.registry import ConfigRegistry
 
 
@@ -210,7 +210,7 @@ def test_schema_is_sent_and_every_call_logs_usage_or_unknown(tmp_path, failed):
     assert row["input_tokens"] == (None if failed else 101)
     assert row["output_tokens"] == (None if failed else 37)
     assert row["model_version"] == "digest1"
-    assert requests[0]["format"] == StructuredPatch.model_json_schema()
+    assert requests[0]["format"] == response_schema()
     assert "seed" not in requests[0]["options"]  # stability runs are independent, uncached samples
 
 

@@ -155,7 +155,7 @@ def main():
     labels = select_labels(rows)
     traces = dev_traces(ROOT / "data/nexusbench/traces.jsonl", {r["trace_id"] for r in labels})
     configs = {r["trace_id"]: current_config(r) for r in labels}
-    evidences = {r["trace_id"]: evidence_from_dev(r, traces[r["trace_id"]]) for r in labels}
+    evidences = {r["trace_id"]: evidence_from_dev(r, traces[r["trace_id"]], allow_oracle=True) for r in labels}
     prompt_sizes = [len(build_prompt({"trace": traces[r["trace_id"]], "current_config": configs[r["trace_id"]],
                                      "evidence": evidences[r["trace_id"]]})) for r in labels]
     print(json.dumps({"selected": len(labels), "per_class": {ft: sum(r["label"] == ft for r in labels) for ft in CLASSES},
