@@ -280,3 +280,18 @@ Changing them after seeing detector output is post-hoc relabelling. A
 mechanical sensitivity criterion was registered before the freeze and is
 reported next to the pre-registered numbers. The fix belongs in a later,
 announced benchmark revision.
+
+**D40. The test result is reported as scored, with the sensitivity analysis kept separate.**
+HALLUCINATION missed the pre-registered precision target on test (0.811). 6
+of its 7 false positives meet the label-defect criterion registered before the
+freeze. The headline reports 0.811. The adjusted figure (precision 36/37 if
+those 6 are counted as hallucinations) is shown only as a labelled
+sensitivity analysis. *Why:* the target was pre-registered, so missing it is a
+result. The adjusted number is honest only because its criterion was fixed
+before the test was unsealed.
+
+**D41. The judge variant agrees with the NLI detector exactly, and that is reported.**
+On dev the Gemini judge and the NLI detector agree on every judged trace
+(35/35 flagged, 61/61 cleared), and they give identical test results. Two
+independent methods agreeing suggests the residual false positives come from
+the labels (wrong-but-accepted years, lucky guesses), not from the detectors.

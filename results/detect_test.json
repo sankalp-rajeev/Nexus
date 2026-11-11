@@ -1,0 +1,1190 @@
+{
+  "experiment_id": "D1",
+  "summary": "TEST (once): headline macro recall 0.9556, secondary 1.0; H P=0.8108 R=1.0; CB P=1.0 R=0.8667; PD P=1.0 R=1.0",
+  "provenance": {
+    "date_utc": "2026-11-11T01:42:22+00:00",
+    "git_commit": "d293ab6",
+    "git_dirty": true,
+    "provider": "local NLI + rules",
+    "model": "cross-encoder/nli-deberta-v3-base",
+    "mock": false,
+    "seed": null
+  },
+  "results": {
+    "split": "test",
+    "scored_at_commit": "d293ab6",
+    "frozen_tag": "phase2-detectors-frozen",
+    "thresholds": {
+      "HALLUCINATION": {
+        "threshold": 0.5034,
+        "detector": "claim-level NLI (cross-encoder/nli-deberta-v3-base)"
+      },
+      "CONTEXT_BLEED": {
+        "threshold": 1.0,
+        "detector": "profile-consistency conflicts"
+      },
+      "PLAN_DRIFT": {
+        "variant": "ungrounded_any_source",
+        "detector": "plan alignment + identifier provenance"
+      },
+      "rule": "max dev recall s.t. dev precision >= 0.90, else max dev precision",
+      "meets_precision_floor": {
+        "HALLUCINATION": false,
+        "CONTEXT_BLEED": true,
+        "PLAN_DRIFT": true
+      }
+    },
+    "pipeline": {
+      "all": {
+        "n": 357,
+        "per_class": {
+          "HALLUCINATION": {
+            "support": 30,
+            "recall": {
+              "value": 1.0,
+              "k": 30,
+              "n": 30,
+              "ci95_clopper_pearson": [
+                0.8843,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 0.8108,
+              "k": 30,
+              "n": 37,
+              "ci95_clopper_pearson": [
+                0.6484,
+                0.9204
+              ]
+            },
+            "kind": "headline",
+            "f1": 0.8955
+          },
+          "CONTEXT_BLEED": {
+            "support": 30,
+            "recall": {
+              "value": 0.8667,
+              "k": 26,
+              "n": 30,
+              "ci95_clopper_pearson": [
+                0.6928,
+                0.9624
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 26,
+              "n": 26,
+              "ci95_clopper_pearson": [
+                0.8677,
+                1.0
+              ]
+            },
+            "kind": "headline",
+            "f1": 0.9286
+          },
+          "PLAN_DRIFT": {
+            "support": 31,
+            "recall": {
+              "value": 1.0,
+              "k": 31,
+              "n": 31,
+              "ci95_clopper_pearson": [
+                0.8878,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 31,
+              "n": 31,
+              "ci95_clopper_pearson": [
+                0.8878,
+                1.0
+              ]
+            },
+            "kind": "headline",
+            "f1": 1.0
+          },
+          "TOOL_MISFIRE": {
+            "support": 38,
+            "recall": {
+              "value": 1.0,
+              "k": 38,
+              "n": 38,
+              "ci95_clopper_pearson": [
+                0.9075,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 38,
+              "n": 38,
+              "ci95_clopper_pearson": [
+                0.9075,
+                1.0
+              ]
+            },
+            "kind": "rule-defined",
+            "f1": 1.0
+          },
+          "LOOP_DETECTED": {
+            "support": 29,
+            "recall": {
+              "value": 1.0,
+              "k": 29,
+              "n": 29,
+              "ci95_clopper_pearson": [
+                0.8806,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 29,
+              "n": 29,
+              "ci95_clopper_pearson": [
+                0.8806,
+                1.0
+              ]
+            },
+            "kind": "rule-defined",
+            "f1": 1.0
+          },
+          "macro_recall_headline": 0.9556,
+          "headline_classes_scored": [
+            "HALLUCINATION",
+            "CONTEXT_BLEED",
+            "PLAN_DRIFT"
+          ],
+          "macro_recall_secondary_H_PD": 1.0
+        },
+        "any_failure": {
+          "recall": {
+            "value": 0.6638,
+            "k": 154,
+            "n": 232,
+            "ci95_clopper_pearson": [
+              0.599,
+              0.7243
+            ]
+          },
+          "precision": {
+            "value": 0.9565,
+            "k": 154,
+            "n": 161,
+            "ci95_clopper_pearson": [
+              0.9125,
+              0.9823
+            ]
+          },
+          "other_failure_flagged": {
+            "value": 0.0,
+            "k": 0,
+            "n": 74,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0486
+            ]
+          }
+        },
+        "confusion": {
+          "CONTEXT_BLEED": {
+            "CONTEXT_BLEED": 26,
+            "NORMAL": 4
+          },
+          "NORMAL": {
+            "HALLUCINATION": 7,
+            "NORMAL": 118
+          },
+          "OTHER_FAILURE": {
+            "NORMAL": 74
+          },
+          "HALLUCINATION": {
+            "HALLUCINATION": 30
+          },
+          "LOOP_DETECTED": {
+            "LOOP_DETECTED": 29
+          },
+          "PLAN_DRIFT": {
+            "PLAN_DRIFT": 31
+          },
+          "TOOL_MISFIRE": {
+            "TOOL_MISFIRE": 38
+          }
+        }
+      },
+      "per_model": {
+        "deepseek-flash": {
+          "n": 187,
+          "per_class": {
+            "HALLUCINATION": {
+              "support": 30,
+              "recall": {
+                "value": 1.0,
+                "k": 30,
+                "n": 30,
+                "ci95_clopper_pearson": [
+                  0.8843,
+                  1.0
+                ]
+              },
+              "precision": {
+                "value": 0.8108,
+                "k": 30,
+                "n": 37,
+                "ci95_clopper_pearson": [
+                  0.6484,
+                  0.9204
+                ]
+              },
+              "kind": "headline",
+              "f1": 0.8955
+            },
+            "CONTEXT_BLEED": {
+              "support": 18,
+              "recall": {
+                "value": 0.8333,
+                "k": 15,
+                "n": 18,
+                "ci95_clopper_pearson": [
+                  0.5858,
+                  0.9642
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 15,
+                "n": 15,
+                "ci95_clopper_pearson": [
+                  0.782,
+                  1.0
+                ]
+              },
+              "kind": "headline",
+              "f1": 0.9091
+            },
+            "PLAN_DRIFT": {
+              "support": 0,
+              "recall": {
+                "value": null,
+                "k": 0,
+                "n": 0,
+                "ci95_clopper_pearson": null
+              },
+              "precision": {
+                "value": null,
+                "k": 0,
+                "n": 0,
+                "ci95_clopper_pearson": null
+              },
+              "kind": "headline",
+              "f1": null
+            },
+            "TOOL_MISFIRE": {
+              "support": 33,
+              "recall": {
+                "value": 1.0,
+                "k": 33,
+                "n": 33,
+                "ci95_clopper_pearson": [
+                  0.8942,
+                  1.0
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 33,
+                "n": 33,
+                "ci95_clopper_pearson": [
+                  0.8942,
+                  1.0
+                ]
+              },
+              "kind": "rule-defined",
+              "f1": 1.0
+            },
+            "LOOP_DETECTED": {
+              "support": 19,
+              "recall": {
+                "value": 1.0,
+                "k": 19,
+                "n": 19,
+                "ci95_clopper_pearson": [
+                  0.8235,
+                  1.0
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 19,
+                "n": 19,
+                "ci95_clopper_pearson": [
+                  0.8235,
+                  1.0
+                ]
+              },
+              "kind": "rule-defined",
+              "f1": 1.0
+            },
+            "macro_recall_headline": 0.9166,
+            "headline_classes_scored": [
+              "HALLUCINATION",
+              "CONTEXT_BLEED"
+            ],
+            "macro_recall_secondary_H_PD": 1.0
+          },
+          "any_failure": {
+            "recall": {
+              "value": 0.9151,
+              "k": 97,
+              "n": 106,
+              "ci95_clopper_pearson": [
+                0.8449,
+                0.9604
+              ]
+            },
+            "precision": {
+              "value": 0.9327,
+              "k": 97,
+              "n": 104,
+              "ci95_clopper_pearson": [
+                0.8662,
+                0.9725
+              ]
+            },
+            "other_failure_flagged": {
+              "value": 0.0,
+              "k": 0,
+              "n": 6,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.4593
+              ]
+            }
+          },
+          "confusion": {
+            "CONTEXT_BLEED": {
+              "CONTEXT_BLEED": 15,
+              "NORMAL": 3
+            },
+            "NORMAL": {
+              "HALLUCINATION": 7,
+              "NORMAL": 74
+            },
+            "HALLUCINATION": {
+              "HALLUCINATION": 30
+            },
+            "LOOP_DETECTED": {
+              "LOOP_DETECTED": 19
+            },
+            "TOOL_MISFIRE": {
+              "TOOL_MISFIRE": 33
+            },
+            "OTHER_FAILURE": {
+              "NORMAL": 6
+            }
+          }
+        },
+        "qwen2.5:7b-instruct": {
+          "n": 170,
+          "per_class": {
+            "HALLUCINATION": {
+              "support": 0,
+              "recall": {
+                "value": null,
+                "k": 0,
+                "n": 0,
+                "ci95_clopper_pearson": null
+              },
+              "precision": {
+                "value": null,
+                "k": 0,
+                "n": 0,
+                "ci95_clopper_pearson": null
+              },
+              "kind": "headline",
+              "f1": null
+            },
+            "CONTEXT_BLEED": {
+              "support": 12,
+              "recall": {
+                "value": 0.9167,
+                "k": 11,
+                "n": 12,
+                "ci95_clopper_pearson": [
+                  0.6152,
+                  0.9979
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 11,
+                "n": 11,
+                "ci95_clopper_pearson": [
+                  0.7151,
+                  1.0
+                ]
+              },
+              "kind": "headline",
+              "f1": 0.9565
+            },
+            "PLAN_DRIFT": {
+              "support": 31,
+              "recall": {
+                "value": 1.0,
+                "k": 31,
+                "n": 31,
+                "ci95_clopper_pearson": [
+                  0.8878,
+                  1.0
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 31,
+                "n": 31,
+                "ci95_clopper_pearson": [
+                  0.8878,
+                  1.0
+                ]
+              },
+              "kind": "headline",
+              "f1": 1.0
+            },
+            "TOOL_MISFIRE": {
+              "support": 5,
+              "recall": {
+                "value": 1.0,
+                "k": 5,
+                "n": 5,
+                "ci95_clopper_pearson": [
+                  0.4782,
+                  1.0
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 5,
+                "n": 5,
+                "ci95_clopper_pearson": [
+                  0.4782,
+                  1.0
+                ]
+              },
+              "kind": "rule-defined",
+              "f1": 1.0
+            },
+            "LOOP_DETECTED": {
+              "support": 10,
+              "recall": {
+                "value": 1.0,
+                "k": 10,
+                "n": 10,
+                "ci95_clopper_pearson": [
+                  0.6915,
+                  1.0
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 10,
+                "n": 10,
+                "ci95_clopper_pearson": [
+                  0.6915,
+                  1.0
+                ]
+              },
+              "kind": "rule-defined",
+              "f1": 1.0
+            },
+            "macro_recall_headline": 0.9584,
+            "headline_classes_scored": [
+              "CONTEXT_BLEED",
+              "PLAN_DRIFT"
+            ],
+            "macro_recall_secondary_H_PD": 1.0
+          },
+          "any_failure": {
+            "recall": {
+              "value": 0.4524,
+              "k": 57,
+              "n": 126,
+              "ci95_clopper_pearson": [
+                0.3636,
+                0.5435
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 57,
+              "n": 57,
+              "ci95_clopper_pearson": [
+                0.9373,
+                1.0
+              ]
+            },
+            "other_failure_flagged": {
+              "value": 0.0,
+              "k": 0,
+              "n": 68,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.0528
+              ]
+            }
+          },
+          "confusion": {
+            "CONTEXT_BLEED": {
+              "CONTEXT_BLEED": 11,
+              "NORMAL": 1
+            },
+            "OTHER_FAILURE": {
+              "NORMAL": 68
+            },
+            "LOOP_DETECTED": {
+              "LOOP_DETECTED": 10
+            },
+            "NORMAL": {
+              "NORMAL": 44
+            },
+            "PLAN_DRIFT": {
+              "PLAN_DRIFT": 31
+            },
+            "TOOL_MISFIRE": {
+              "TOOL_MISFIRE": 5
+            }
+          }
+        }
+      },
+      "false_alerts": {
+        "all": {
+          "per_1000": 56.0,
+          "value": 0.056,
+          "k": 7,
+          "n": 125,
+          "ci95_clopper_pearson": [
+            0.0228,
+            0.112
+          ]
+        },
+        "per_model": {
+          "deepseek-flash": {
+            "per_1000": 86.4,
+            "value": 0.0864,
+            "k": 7,
+            "n": 81,
+            "ci95_clopper_pearson": [
+              0.0355,
+              0.17
+            ]
+          },
+          "qwen2.5:7b-instruct": {
+            "per_1000": 0.0,
+            "value": 0.0,
+            "k": 0,
+            "n": 44,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0804
+            ]
+          }
+        }
+      }
+    },
+    "judge_variant": {
+      "all": {
+        "n": 357,
+        "per_class": {
+          "HALLUCINATION": {
+            "support": 30,
+            "recall": {
+              "value": 1.0,
+              "k": 30,
+              "n": 30,
+              "ci95_clopper_pearson": [
+                0.8843,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 0.8108,
+              "k": 30,
+              "n": 37,
+              "ci95_clopper_pearson": [
+                0.6484,
+                0.9204
+              ]
+            },
+            "kind": "headline",
+            "f1": 0.8955
+          },
+          "CONTEXT_BLEED": {
+            "support": 30,
+            "recall": {
+              "value": 0.8667,
+              "k": 26,
+              "n": 30,
+              "ci95_clopper_pearson": [
+                0.6928,
+                0.9624
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 26,
+              "n": 26,
+              "ci95_clopper_pearson": [
+                0.8677,
+                1.0
+              ]
+            },
+            "kind": "headline",
+            "f1": 0.9286
+          },
+          "PLAN_DRIFT": {
+            "support": 31,
+            "recall": {
+              "value": 1.0,
+              "k": 31,
+              "n": 31,
+              "ci95_clopper_pearson": [
+                0.8878,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 31,
+              "n": 31,
+              "ci95_clopper_pearson": [
+                0.8878,
+                1.0
+              ]
+            },
+            "kind": "headline",
+            "f1": 1.0
+          },
+          "TOOL_MISFIRE": {
+            "support": 38,
+            "recall": {
+              "value": 1.0,
+              "k": 38,
+              "n": 38,
+              "ci95_clopper_pearson": [
+                0.9075,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 38,
+              "n": 38,
+              "ci95_clopper_pearson": [
+                0.9075,
+                1.0
+              ]
+            },
+            "kind": "rule-defined",
+            "f1": 1.0
+          },
+          "LOOP_DETECTED": {
+            "support": 29,
+            "recall": {
+              "value": 1.0,
+              "k": 29,
+              "n": 29,
+              "ci95_clopper_pearson": [
+                0.8806,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 29,
+              "n": 29,
+              "ci95_clopper_pearson": [
+                0.8806,
+                1.0
+              ]
+            },
+            "kind": "rule-defined",
+            "f1": 1.0
+          },
+          "macro_recall_headline": 0.9556,
+          "headline_classes_scored": [
+            "HALLUCINATION",
+            "CONTEXT_BLEED",
+            "PLAN_DRIFT"
+          ],
+          "macro_recall_secondary_H_PD": 1.0
+        },
+        "any_failure": {
+          "recall": {
+            "value": 0.6638,
+            "k": 154,
+            "n": 232,
+            "ci95_clopper_pearson": [
+              0.599,
+              0.7243
+            ]
+          },
+          "precision": {
+            "value": 0.9565,
+            "k": 154,
+            "n": 161,
+            "ci95_clopper_pearson": [
+              0.9125,
+              0.9823
+            ]
+          },
+          "other_failure_flagged": {
+            "value": 0.0,
+            "k": 0,
+            "n": 74,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0486
+            ]
+          }
+        },
+        "confusion": {
+          "CONTEXT_BLEED": {
+            "CONTEXT_BLEED": 26,
+            "NORMAL": 4
+          },
+          "NORMAL": {
+            "HALLUCINATION": 7,
+            "NORMAL": 118
+          },
+          "OTHER_FAILURE": {
+            "NORMAL": 74
+          },
+          "HALLUCINATION": {
+            "HALLUCINATION": 30
+          },
+          "LOOP_DETECTED": {
+            "LOOP_DETECTED": 29
+          },
+          "PLAN_DRIFT": {
+            "PLAN_DRIFT": 31
+          },
+          "TOOL_MISFIRE": {
+            "TOOL_MISFIRE": 38
+          }
+        }
+      },
+      "per_model": {
+        "deepseek-flash": {
+          "n": 187,
+          "per_class": {
+            "HALLUCINATION": {
+              "support": 30,
+              "recall": {
+                "value": 1.0,
+                "k": 30,
+                "n": 30,
+                "ci95_clopper_pearson": [
+                  0.8843,
+                  1.0
+                ]
+              },
+              "precision": {
+                "value": 0.8108,
+                "k": 30,
+                "n": 37,
+                "ci95_clopper_pearson": [
+                  0.6484,
+                  0.9204
+                ]
+              },
+              "kind": "headline",
+              "f1": 0.8955
+            },
+            "CONTEXT_BLEED": {
+              "support": 18,
+              "recall": {
+                "value": 0.8333,
+                "k": 15,
+                "n": 18,
+                "ci95_clopper_pearson": [
+                  0.5858,
+                  0.9642
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 15,
+                "n": 15,
+                "ci95_clopper_pearson": [
+                  0.782,
+                  1.0
+                ]
+              },
+              "kind": "headline",
+              "f1": 0.9091
+            },
+            "PLAN_DRIFT": {
+              "support": 0,
+              "recall": {
+                "value": null,
+                "k": 0,
+                "n": 0,
+                "ci95_clopper_pearson": null
+              },
+              "precision": {
+                "value": null,
+                "k": 0,
+                "n": 0,
+                "ci95_clopper_pearson": null
+              },
+              "kind": "headline",
+              "f1": null
+            },
+            "TOOL_MISFIRE": {
+              "support": 33,
+              "recall": {
+                "value": 1.0,
+                "k": 33,
+                "n": 33,
+                "ci95_clopper_pearson": [
+                  0.8942,
+                  1.0
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 33,
+                "n": 33,
+                "ci95_clopper_pearson": [
+                  0.8942,
+                  1.0
+                ]
+              },
+              "kind": "rule-defined",
+              "f1": 1.0
+            },
+            "LOOP_DETECTED": {
+              "support": 19,
+              "recall": {
+                "value": 1.0,
+                "k": 19,
+                "n": 19,
+                "ci95_clopper_pearson": [
+                  0.8235,
+                  1.0
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 19,
+                "n": 19,
+                "ci95_clopper_pearson": [
+                  0.8235,
+                  1.0
+                ]
+              },
+              "kind": "rule-defined",
+              "f1": 1.0
+            },
+            "macro_recall_headline": 0.9166,
+            "headline_classes_scored": [
+              "HALLUCINATION",
+              "CONTEXT_BLEED"
+            ],
+            "macro_recall_secondary_H_PD": 1.0
+          },
+          "any_failure": {
+            "recall": {
+              "value": 0.9151,
+              "k": 97,
+              "n": 106,
+              "ci95_clopper_pearson": [
+                0.8449,
+                0.9604
+              ]
+            },
+            "precision": {
+              "value": 0.9327,
+              "k": 97,
+              "n": 104,
+              "ci95_clopper_pearson": [
+                0.8662,
+                0.9725
+              ]
+            },
+            "other_failure_flagged": {
+              "value": 0.0,
+              "k": 0,
+              "n": 6,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.4593
+              ]
+            }
+          },
+          "confusion": {
+            "CONTEXT_BLEED": {
+              "CONTEXT_BLEED": 15,
+              "NORMAL": 3
+            },
+            "NORMAL": {
+              "HALLUCINATION": 7,
+              "NORMAL": 74
+            },
+            "HALLUCINATION": {
+              "HALLUCINATION": 30
+            },
+            "LOOP_DETECTED": {
+              "LOOP_DETECTED": 19
+            },
+            "TOOL_MISFIRE": {
+              "TOOL_MISFIRE": 33
+            },
+            "OTHER_FAILURE": {
+              "NORMAL": 6
+            }
+          }
+        },
+        "qwen2.5:7b-instruct": {
+          "n": 170,
+          "per_class": {
+            "HALLUCINATION": {
+              "support": 0,
+              "recall": {
+                "value": null,
+                "k": 0,
+                "n": 0,
+                "ci95_clopper_pearson": null
+              },
+              "precision": {
+                "value": null,
+                "k": 0,
+                "n": 0,
+                "ci95_clopper_pearson": null
+              },
+              "kind": "headline",
+              "f1": null
+            },
+            "CONTEXT_BLEED": {
+              "support": 12,
+              "recall": {
+                "value": 0.9167,
+                "k": 11,
+                "n": 12,
+                "ci95_clopper_pearson": [
+                  0.6152,
+                  0.9979
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 11,
+                "n": 11,
+                "ci95_clopper_pearson": [
+                  0.7151,
+                  1.0
+                ]
+              },
+              "kind": "headline",
+              "f1": 0.9565
+            },
+            "PLAN_DRIFT": {
+              "support": 31,
+              "recall": {
+                "value": 1.0,
+                "k": 31,
+                "n": 31,
+                "ci95_clopper_pearson": [
+                  0.8878,
+                  1.0
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 31,
+                "n": 31,
+                "ci95_clopper_pearson": [
+                  0.8878,
+                  1.0
+                ]
+              },
+              "kind": "headline",
+              "f1": 1.0
+            },
+            "TOOL_MISFIRE": {
+              "support": 5,
+              "recall": {
+                "value": 1.0,
+                "k": 5,
+                "n": 5,
+                "ci95_clopper_pearson": [
+                  0.4782,
+                  1.0
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 5,
+                "n": 5,
+                "ci95_clopper_pearson": [
+                  0.4782,
+                  1.0
+                ]
+              },
+              "kind": "rule-defined",
+              "f1": 1.0
+            },
+            "LOOP_DETECTED": {
+              "support": 10,
+              "recall": {
+                "value": 1.0,
+                "k": 10,
+                "n": 10,
+                "ci95_clopper_pearson": [
+                  0.6915,
+                  1.0
+                ]
+              },
+              "precision": {
+                "value": 1.0,
+                "k": 10,
+                "n": 10,
+                "ci95_clopper_pearson": [
+                  0.6915,
+                  1.0
+                ]
+              },
+              "kind": "rule-defined",
+              "f1": 1.0
+            },
+            "macro_recall_headline": 0.9584,
+            "headline_classes_scored": [
+              "CONTEXT_BLEED",
+              "PLAN_DRIFT"
+            ],
+            "macro_recall_secondary_H_PD": 1.0
+          },
+          "any_failure": {
+            "recall": {
+              "value": 0.4524,
+              "k": 57,
+              "n": 126,
+              "ci95_clopper_pearson": [
+                0.3636,
+                0.5435
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 57,
+              "n": 57,
+              "ci95_clopper_pearson": [
+                0.9373,
+                1.0
+              ]
+            },
+            "other_failure_flagged": {
+              "value": 0.0,
+              "k": 0,
+              "n": 68,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.0528
+              ]
+            }
+          },
+          "confusion": {
+            "CONTEXT_BLEED": {
+              "CONTEXT_BLEED": 11,
+              "NORMAL": 1
+            },
+            "OTHER_FAILURE": {
+              "NORMAL": 68
+            },
+            "LOOP_DETECTED": {
+              "LOOP_DETECTED": 10
+            },
+            "NORMAL": {
+              "NORMAL": 44
+            },
+            "PLAN_DRIFT": {
+              "PLAN_DRIFT": 31
+            },
+            "TOOL_MISFIRE": {
+              "TOOL_MISFIRE": 5
+            }
+          }
+        }
+      },
+      "false_alerts": {
+        "all": {
+          "per_1000": 56.0,
+          "value": 0.056,
+          "k": 7,
+          "n": 125,
+          "ci95_clopper_pearson": [
+            0.0228,
+            0.112
+          ]
+        },
+        "per_model": {
+          "deepseek-flash": {
+            "per_1000": 86.4,
+            "value": 0.0864,
+            "k": 7,
+            "n": 81,
+            "ci95_clopper_pearson": [
+              0.0355,
+              0.17
+            ]
+          },
+          "qwen2.5:7b-instruct": {
+            "per_1000": 0.0,
+            "value": 0.0,
+            "k": 0,
+            "n": 44,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0804
+            ]
+          }
+        }
+      }
+    },
+    "cb_reference_rule": {
+      "precision": {
+        "value": 1.0,
+        "k": 24,
+        "n": 24,
+        "ci95_clopper_pearson": [
+          0.8575,
+          1.0
+        ]
+      },
+      "recall": {
+        "value": 0.8,
+        "k": 24,
+        "n": 30,
+        "ci95_clopper_pearson": [
+          0.6143,
+          0.9229
+        ]
+      }
+    },
+    "sensitivity_year_tolerance": {
+      "trace_ids": [
+        "nb-29758e272754182e",
+        "nb-5c6c559ca59d0998",
+        "nb-3316699becc868f4",
+        "nb-6fef5adb18916b6e",
+        "nb-e9f36f9949ac68ad",
+        "nb-4400c73cadec62be"
+      ],
+      "flagged_as_hallucination": 6
+    },
+    "judge_spend_usd_cumulative": 0.028524799999999986
+  }
+}

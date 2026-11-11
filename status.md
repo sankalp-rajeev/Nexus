@@ -63,7 +63,15 @@ Scope agreed 2026-11-10: Phases 0 + 1, then stop for review. Spend cap Phase 1: 
 - [x] CONTEXT_BLEED dev R 0.767 at P 1.00, vs the reference rule's R 0.50.
 - [x] Misfire Qwen gap fixed generally (window in tool calls): 6/6 on dev.
 - [x] Frozen (`phase2-detectors-frozen`).
-- [ ] One-time test scoring → D1, D2, D4, D5, D6.
+- [x] One-time test scoring at `d293ab6` (frozen) → D1, D2, D4, D5, D6. Headline macro recall **0.956** (SVM 0.289), secondary **1.000**.
+  - CB P 1.00 R 0.867 (reference rule R 0.800 on test).
+  - PD 31/31.
+  - Rules 100%.
+  - ⚠️ H R 1.00 at **P 0.811**: misses the 0.90 target; 6 of 7 FPs meet the registered year-tolerance label-defect criterion.
+  - FA 56 per 1,000 NORMAL (SVM 1,000).
+  - D4: HaluEval P 0.546 R 0.783 (v3: 1.0 / 0.033), ToolBench 1.0 / 1.0.
+  - D6: p50 0.4 ms, p95 674 ms; SDK 0.01 ms/call.
+  - Spend: Gemini judge $0.029. Tagged `phase2-test-scored`. **Stopped.**
 
 ## Phases 3–6
 

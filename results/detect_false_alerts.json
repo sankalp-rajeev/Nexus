@@ -1,0 +1,84 @@
+{
+  "experiment_id": "D5",
+  "summary": "TEST false alerts per 1,000 NORMAL: 56.0 (baseline 1000.0)",
+  "provenance": {
+    "date_utc": "2026-11-11T01:42:22+00:00",
+    "git_commit": "d293ab6",
+    "git_dirty": true,
+    "provider": "local NLI + rules",
+    "model": "cross-encoder/nli-deberta-v3-base",
+    "mock": false,
+    "seed": null
+  },
+  "results": {
+    "split": "test",
+    "detectors": {
+      "all": {
+        "per_1000": 56.0,
+        "value": 0.056,
+        "k": 7,
+        "n": 125,
+        "ci95_clopper_pearson": [
+          0.0228,
+          0.112
+        ]
+      },
+      "per_model": {
+        "deepseek-flash": {
+          "per_1000": 86.4,
+          "value": 0.0864,
+          "k": 7,
+          "n": 81,
+          "ci95_clopper_pearson": [
+            0.0355,
+            0.17
+          ]
+        },
+        "qwen2.5:7b-instruct": {
+          "per_1000": 0.0,
+          "value": 0.0,
+          "k": 0,
+          "n": 44,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.0804
+          ]
+        }
+      }
+    },
+    "baseline_svm": {
+      "all": {
+        "per_1000": 1000.0,
+        "value": 1.0,
+        "k": 125,
+        "n": 125,
+        "ci95_clopper_pearson": [
+          0.9709,
+          1.0
+        ]
+      },
+      "per_model": {
+        "deepseek-flash": {
+          "per_1000": 1000.0,
+          "value": 1.0,
+          "k": 81,
+          "n": 81,
+          "ci95_clopper_pearson": [
+            0.9555,
+            1.0
+          ]
+        },
+        "qwen2.5:7b-instruct": {
+          "per_1000": 1000.0,
+          "value": 1.0,
+          "k": 44,
+          "n": 44,
+          "ci95_clopper_pearson": [
+            0.9196,
+            1.0
+          ]
+        }
+      }
+    }
+  }
+}

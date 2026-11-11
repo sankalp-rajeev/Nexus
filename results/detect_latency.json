@@ -1,0 +1,22 @@
+{
+  "experiment_id": "D6",
+  "summary": "detector latency p50 0.4 ms, p95 674.1 ms (CPU); SDK overhead 0.01 ms/call",
+  "provenance": {
+    "date_utc": "2026-11-11T01:42:22+00:00",
+    "git_commit": "d293ab6",
+    "git_dirty": true,
+    "provider": "local NLI + rules",
+    "model": "cross-encoder/nli-deberta-v3-base",
+    "mock": false,
+    "seed": null
+  },
+  "results": {
+    "detector_per_trace_ms": {
+      "p50_ms": 0.4,
+      "p95_ms": 674.1,
+      "max_ms": 10314.8,
+      "n": 357
+    },
+    "sdk_overhead_ms_per_call": 0.01
+  }
+}

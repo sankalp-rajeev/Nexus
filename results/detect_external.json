@@ -1,0 +1,109 @@
+{
+  "experiment_id": "D4",
+  "summary": "external: HaluEval binary P=0.5465 R=0.7833; ToolBench binary P=1.0 R=1.0",
+  "provenance": {
+    "date_utc": "2026-11-11T01:42:22+00:00",
+    "git_commit": "d293ab6",
+    "git_dirty": true,
+    "provider": "local NLI + rules",
+    "model": "cross-encoder/nli-deberta-v3-base",
+    "mock": false,
+    "seed": null
+  },
+  "results": {
+    "halueval": {
+      "n": 120,
+      "binary": {
+        "precision": {
+          "value": 0.5465,
+          "k": 47,
+          "n": 86,
+          "ci95_clopper_pearson": [
+            0.4355,
+            0.6542
+          ]
+        },
+        "recall": {
+          "value": 0.7833,
+          "k": 47,
+          "n": 60,
+          "ci95_clopper_pearson": [
+            0.658,
+            0.8793
+          ]
+        }
+      },
+      "HALLUCINATION": {
+        "precision": {
+          "value": 0.5465,
+          "k": 47,
+          "n": 86,
+          "ci95_clopper_pearson": [
+            0.4355,
+            0.6542
+          ]
+        },
+        "recall": {
+          "value": 0.7833,
+          "k": 47,
+          "n": 60,
+          "ci95_clopper_pearson": [
+            0.658,
+            0.8793
+          ]
+        }
+      },
+      "v3_baseline_binary": {
+        "precision": 1.0,
+        "recall": 0.033
+      }
+    },
+    "toolbench": {
+      "n": 100,
+      "binary": {
+        "precision": {
+          "value": 1.0,
+          "k": 50,
+          "n": 50,
+          "ci95_clopper_pearson": [
+            0.9289,
+            1.0
+          ]
+        },
+        "recall": {
+          "value": 1.0,
+          "k": 50,
+          "n": 50,
+          "ci95_clopper_pearson": [
+            0.9289,
+            1.0
+          ]
+        }
+      },
+      "TOOL_MISFIRE": {
+        "precision": {
+          "value": 1.0,
+          "k": 50,
+          "n": 50,
+          "ci95_clopper_pearson": [
+            0.9289,
+            1.0
+          ]
+        },
+        "recall": {
+          "value": 1.0,
+          "k": 50,
+          "n": 50,
+          "ci95_clopper_pearson": [
+            0.9289,
+            1.0
+          ]
+        }
+      },
+      "v3_baseline_binary": {
+        "precision": 1.0,
+        "recall": 1.0
+      }
+    }
+  }
+}
