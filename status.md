@@ -56,9 +56,18 @@ Scope agreed 2026-11-10: Phases 0 + 1, then stop for review. Spend cap Phase 1: 
 - [x] ⚠️ Side effects: PLAN_DRIFT 46 → 55; TOOL_MISFIRE now 61 DeepSeek + 11 Qwen; NORMAL 256 → 247. **Stopped.**
 - [x] `DECISIONS.md` started (interview-ready "why" log).
 
-## Phases 2 (detectors) – 6
+## Phase 2 — detectors  ·  branch `phase-2`, tags `phase2-detectors-frozen`, `phase2-test-scored`
 
-- [ ] Phase 2: detector work (waits for review of the pre-registration)
+- [x] Detectors in `services/detectors/` (view-only; CI injection-string ban passes): NLI claim grounding (DeBERTa-v3), profile-consistency bleed, id-provenance drift, call-window rules. Gemini judge kept as a separate variant.
+- [x] Dev tuning (pre-registered rule + midpoint tie-break). Dev headline macro 0.922 (baseline 0.311), secondary 1.000. ⚠️ HALLUCINATION misses the P ≥ 0.90 floor on dev (0.857): 4 of 5 FPs are a label defect (±1.1% tolerance accepts years ±22 off). Logged as a deviation; labels unchanged; sensitivity criterion registered.
+- [x] CONTEXT_BLEED dev R 0.767 at P 1.00, vs the reference rule's R 0.50.
+- [x] Misfire Qwen gap fixed generally (window in tool calls): 6/6 on dev.
+- [x] Frozen (`phase2-detectors-frozen`).
+- [ ] One-time test scoring → D1, D2, D4, D5, D6.
+
+## Phases 3–6
+
+- [ ] Phase 3 critic (Codex on `phase-3-critic`; not touched here)
 - [ ] Phase 3: critic with real, applicable patches
 - [ ] Phase 4: healing promotion gate
 - [ ] Phase 5: real latency, throughput, cost
