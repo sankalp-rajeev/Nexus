@@ -24,7 +24,7 @@ from bench.generate import MODELS, SEED
 from bench.heal.config import ConfigPatch, apply_patch, faulted_config
 from bench.heal.critic import ARMS, Proposal, load_round3
 from bench.heal.generic import generic_patch
-from bench.heal.harness import REST_CAP_USD, RUNS_PATH, Harness, RunSpec, RunStore
+from bench.heal.harness import H6_RESERVE_USD, REST_CAP_USD, RUNS_PATH, Harness, RunSpec, RunStore
 from bench.heal.score import (CONFIRM_SEEDS, OUTCOMES, PRIMARY, SEEDS, Scorer, eligible,
                               failure_specs, net_of_noise, summarize, summarize_distinct)
 from bench.heal.sets import REPO, load_sets
@@ -302,9 +302,10 @@ def main() -> int:
             print(arm, estimate(unique([*reference_specs(sets, p), *specs(sets, p)]), done))
         return 0
     if args.run:
-        h = Harness(env_file=args.env_file)
+        h = Harness(env_file=args.env_file, cap_usd=REST_CAP_USD - H6_RESERVE_USD)
         print(args.run, h.run_all(run_set(sets, args.run, arm_names)))
-        print(f"rest-of-phase ledger total ${h.ledger.total():.4f} (cap ${REST_CAP_USD:.2f})")
+        print(f"rest-of-phase ledger total ${h.ledger.total():.4f} (arm cap ${h.ledger.cap_usd:.2f}, "
+              f"phase cap ${REST_CAP_USD:.2f})")
         return 0
     write_results(sets, RunStore(RUNS_PATH).by_id, args.only)
     return 0

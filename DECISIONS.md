@@ -575,3 +575,11 @@ abstention repair credit. One diff promoted on 12 failures is one patch, not 12.
 `phase4-prereg-a2` before any critic-arm run. The planned critic-arm spend under A2
 (~$6.0 DeepSeek) exceeds the $3.00 cap. This is recorded in A2 and resolved before any
 critic-arm run.
+
+**D70. The rest-of-Phase-4 cap rises from $3.00 to $7.50 (user decision, 2026-11-11, before any critic-arm run).**
+The A2 plan puts both critic arms at about $6.0 of DeepSeek runs (6,612 runs), plus
+about $0.5 for fresh-seed confirmations and up to $0.40 for H6, against the $2.90 left.
+The user chose to raise the cap and run the protocol as pre-registered, rather than
+stage it (A3) or stop. The ledger is the same (`cost_ledger_rest.jsonl`), and it already
+holds the $0.10 spent so far. Arm runs stop at $7.10, so H6 always has its $0.40
+sub-cap. H6 checks both its own ledger and the $7.50 total.

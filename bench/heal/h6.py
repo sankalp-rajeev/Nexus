@@ -34,7 +34,7 @@ from bench.tasks import build_tasks
 from bench.world import build_world
 from services.common.results import provenance, write_result
 
-H6_CAP_USD = 0.40
+from bench.heal.harness import H6_RESERVE_USD as H6_CAP_USD  # noqa: E402  (0.40, A1 §2)
 H6_LEDGER = "cost_ledger_h6.jsonl"
 JUDGMENTS = os.path.join(STATE_DIR, "h6_judgments.jsonl")
 SAMPLE_N = 300
