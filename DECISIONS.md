@@ -583,3 +583,34 @@ The user chose to raise the cap and run the protocol as pre-registered, rather t
 stage it (A3) or stop. The ledger is the same (`cost_ledger_rest.jsonl`), and it already
 holds the $0.10 spent so far. Arm runs stop at $7.10, so H6 always has its $0.40
 sub-cap. H6 checks both its own ledger and the $7.50 total.
+
+**D71. The critic-arm run was interrupted by a laptop crash and resumed, not restarted (2026-11-11).**
+- **Interruption:** the laptop crashed during `python -m bench.heal.a2 --run arms`. That
+  run had planned 11,403 runs: 381 already done, 11,022 to run. The last log line was
+  9,050/11,022, with spend at $4.7683. All DeepSeek runs had finished. Only local Qwen
+  `v1_structured` runs were left.
+- **Where state lives:** the run records are in the repo (`results/heal_runs.jsonl`),
+  and the ledgers and LLM cache are in `bench/heal/_state/` (gitignored). Only the run
+  log was in a temp folder. It was copied to `data/phase4/runs/` (now gitignored).
+  Before anything else, all four JSONL stores were backed up to
+  `data/phase4/runs/backup-20261111T110139/`, with SHA-256 sums.
+- **Integrity:**
+  - Every line of every store parses, and every file ends with a newline, so there is
+    no truncated record. **Nothing was quarantined.**
+  - There are 9,903 run ids, all unique. The 840 committed records are byte-identical.
+    The 9,063 new records all have status `ok` and are all in the plan.
+  - Resume point: **9,444 of 11,403 done, 1,959 to run.** All 1,959 are Qwen runs for
+    `v1_structured` (`new`: 5,880/5,880; references: 486/486).
+  - The LLM cache has 58 repeated DeepSeek keys with differing texts, going back to the
+    baseline runs. These are concurrent identical first calls (adjacent lines). Each run
+    record stores the response it got, so no recorded result depends on the cache.
+    This was not caused by the crash and is left as is.
+- **Environment:**
+  - Ollama was down after the crash and was restarted. It serves the same
+    `qwen2.5:7b-instruct`, digest `845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e`.
+  - The DeepSeek key loads, and the harness key check passes.
+  - The rest-of-phase ledger is exactly $4.7683, matching the log.
+- **Resume:** the same command with the idempotent skip, started as a detached process
+  (`data/phase4/runs/resume_arms.cmd`, logging to `data/phase4/runs/arms_run.log`).
+  It reported "11403 runs, 9444 done, 1959 to run". **No completed record was
+  altered.** The store is append-only, and the resume only adds the missing run ids.
