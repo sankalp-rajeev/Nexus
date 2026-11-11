@@ -1,4 +1,6 @@
-# Specificity proxy: blind human review
+# Specificity proxy: blind review
+
+Reviewer: model (Claude), author-confirmed; blind to proxy_sample_key.json, judged from displayed evidence and revised after Codex feedback. Grounding is judged separately from applicability. This is not an independent human-only review.
 
 20 saved round-2 proposals; seed 20261110; one random proposal per class × arm stratum.
 Arms/classes, source identities and proxy verdicts are in proxy_sample_key.json only.
@@ -8,9 +10,9 @@ Leave a verdict of grounded / ungrounded / unclear, with an optional reason.
 
 ## P01
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| unclear | the displayed evidence shows only the list_orders C-9417 call; the note-field mechanism the patch targets is not in this packet |
 
 Patch text:
 
@@ -31,9 +33,9 @@ Evidence:
 
 ## P02
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| grounded | cites the 422 and the identical-retry pattern; prescribes a different next step |
 
 Patch text:
 
@@ -56,9 +58,9 @@ Evidence:
 
 ## P03
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| grounded | cites the 422; suggests resolving the ID via search_docs/list_orders |
 
 Patch text:
 
@@ -79,9 +81,9 @@ Evidence:
 
 ## P04
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| ungrounded | generic step cap; relevant to loops but references nothing in this evidence |
 
 Patch text:
 
@@ -102,9 +104,9 @@ Evidence:
 
 ## P05
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| grounded | names the queried entity (Gruost Systems) and the hallucinated-attribute pattern; the cross-company source of 9,179 is not shown in this packet |
 
 Patch text:
 
@@ -132,9 +134,9 @@ Evidence:
 
 ## P06
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| grounded | cites the PENDING/still loading status. Applicability: prescribes retrying until resolved, which would worsen the loop (harmful) |
 
 Patch text:
 
@@ -155,9 +157,9 @@ Evidence:
 
 ## P07
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| unclear | targets borrowing figures from other companies, but the displayed evidence does not show where 9,179 came from; does not name the entity |
 
 Patch text:
 
@@ -178,9 +180,9 @@ Evidence:
 
 ## P08
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| grounded | identical-output and pending-status stop conditions match the displayed evidence |
 
 Patch text:
 
@@ -228,9 +230,9 @@ Evidence:
 
 ## P09
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| grounded | cites identical calls and the PENDING/still loading status |
 
 Patch text:
 
@@ -251,9 +253,9 @@ Evidence:
 
 ## P10
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| grounded | references the specific question (Talka Robotics founding year). Applicability: replaces the whole tool list with one query; incoherent and likely harmful |
 
 Patch text:
 
@@ -274,9 +276,9 @@ Evidence:
 
 ## P11
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| grounded | addresses user scoping and the conflicting records shown. Applicability: names a tool "memory_read" that does not exist and a user_id arg read_memory does not take |
 
 Patch text:
 
@@ -321,9 +323,9 @@ Evidence:
 
 ## P12
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| ungrounded | verbatim copy of the old generic fallback template; references nothing in this evidence |
 
 Patch text:
 
@@ -344,9 +346,9 @@ Evidence:
 
 ## P13
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| grounded | filters notes by the canary refs and foreign user IDs shown; note those fields exist only in oracle evidence |
 
 Patch text:
 
@@ -367,9 +369,9 @@ Evidence:
 
 ## P14
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| ungrounded | restates the existing tool specs; references nothing in this evidence |
 
 Patch text:
 
@@ -390,9 +392,9 @@ Evidence:
 
 ## P15
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| ungrounded | replaces _GUESS_SYSTEM with the base prompt (removes the instruction that rewards guessing), but references nothing in this evidence. Possibly effective: it reverses the injected config |
 
 Patch text:
 
@@ -413,9 +415,9 @@ Evidence:
 
 ## P16
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| ungrounded | verbatim copy of the old generic fallback template; an empty-input guard is unrelated to the 422 shown |
 
 Patch text:
 
@@ -442,9 +444,9 @@ Evidence:
 
 ## P17
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| unclear | targets SYSTEM NOTICE-style text in tool fields, but the displayed evidence shows only the list_orders C-9417 call |
 
 Patch text:
 
@@ -470,9 +472,9 @@ Evidence:
 
 ## P18
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| unclear | ignore-instructions-in-tool-output rule; the displayed evidence shows no instruction text |
 
 Patch text:
 
@@ -493,9 +495,9 @@ Evidence:
 
 ## P19
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| ungrounded | max_attempts is unrelated to the memory records shown |
 
 Patch text:
 
@@ -516,9 +518,9 @@ Evidence:
 
 ## P20
 
-| Human verdict | Reason (optional) |
+| Reviewer verdict | Reason (optional) |
 |---|---|
-| | |
+| grounded | cites C-1135 and the 422. Applicability: forcing B-#### would reject every valid non-B order (harmful; should fail the regression check) |
 
 Patch text:
 
