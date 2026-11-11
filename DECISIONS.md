@@ -372,3 +372,88 @@ over 149 judge calls, as recorded in the committed ledger history.
 `thinkingBudget: 0` for 2.x and `thinkingLevel: low` for 3.x+. Unit-tested and
 verified with one live call. The frozen judge keeps its own override; the
 detectors are not edited after `phase2-detectors-frozen`.
+
+## Phase 4 preparation (healing harness, pre-registration, baselines)
+
+**D50. A patch is a config diff over the agent's three real config values.**
+`system_prompt`, `MAX_STEPS` and `TOOL_SPECS` are the values the Phase 3 critic
+snapshots. A patch is a list of RFC 6902 `replace` ops on JSON pointers that already
+exist, type-preserving, with `MAX_STEPS` bounded to 1–30 (`bench/heal/config.py`).
+*Why:* the harness has to accept whatever the Phase 3 arms produce without depending on
+their code. Whole-key replacement (the Phase 3 format) is a special case, adapted by
+`from_phase3`. *Consequence, stated up front:* only HALLUCINATION lives in the config.
+The other four faults live in the tool backend, which no config diff can change.
+
+**D51. A config-driven copy of the agent loop, not an edit to `bench/agent.py`.**
+*Why:* `bench/` is frozen benchmark code, and its traces are hashed in the test
+manifest. `bench.heal.agent.ConfiguredAgent` repeats the loop with the three values
+passed in. A unit test checks that it sends byte-identical LLM requests to
+`BenchAgent` for both the clean and the guessing config. *Cost:* two copies of the loop
+to keep in sync. The equivalence test fails if they drift.
+
+**D52. The failures are the Phase 3 critic's own dev selection; one mislabelled entry is excluded.**
+*Why:* the baselines and the critic arms must be scored on the same failures. The file
+is copied verbatim and pinned by its content hash. That way a line-ending conversion
+(CRLF in the phase-3 worktree, LF in git) can't change the pin. `PLAN_DRIFT:mem-006:ollama:r0`
+is labelled PLAN_DRIFT in the selection, but NORMAL in bench-v1.1 (also NORMAL in the
+phase-3 branch's own `labels.csv`), so it is not a failure. It is excluded and reported
+rather than silently relabelled. The cause is in Phase 3 code, which this phase doesn't
+edit; it is flagged for that phase.
+
+**D53. Primary outcome = the v1.1 checker; "rule cleared" is a secondary outcome, never gated.**
+*Why:* the brief fixes the checker as the pass rule. Writing down before any run what
+that implies:
+- HALLUCINATION and LOOP_DETECTED own tasks cannot pass under any config diff (the
+  needed document or record never arrives).
+- 22 of 59 CONTEXT_BLEED/PLAN_DRIFT failures already passed the checker in their
+  original trace.
+
+The secondary outcome (the fault's own rule did not fire) comes from the same runs at
+no extra cost. It shows the abstention-style wins that the primary outcome can't credit.
+*Rejected:* changing the gate's pass rule to "label NORMAL". It would make CONTEXT_BLEED
+unfixable by construction, because its rule fires on what the store returns, and it
+would depart from the brief.
+
+**D54. Held-out tasks are drawn from tasks where the fault fired for the same provider;
+every run of a patch uses the failure's deployed config.**
+*Why:* a held-out task the fault never affects can't show generalization. Injection
+effectiveness differs sharply by model (DeepSeek ignores the drift note; Qwen never
+hallucinates). Regression runs also use the patched *deployed* config: for a
+HALLUCINATION failure, that is the guessing prompt plus the patch. That is what would
+ship. So their no-patch reference is the deployed config on clean tasks, not the clean
+config.
+
+**D55. Run ids are pure functions of the experiment, and the applied config is asserted, not assumed.**
+The run id = patch hash + base config + env fault + task + provider + seed. Re-running
+skips completed ids. A stored id whose intended config hash differs stops the run. After
+every run, the hash of the config the agent actually used (prompt sent, step budget
+enforced, tool list rendered) must equal the intended hash, or nothing is recorded.
+*Why:* in the capstone, a label bug came from a run whose stored identity did not match
+what had run. *Detail:* Phase 4 uses its own response cache and fresh cache tags, so a
+no-patch rerun is a new sample rather than a replay of the original trace.
+
+**D56. On dev, gate false promotions are measured on a fresh-seed confirmation.**
+*Why:* a gate-promoted patch passes checks 2 and 3 by definition, so "false promotions
+with the gate" on the same runs is always 0 and says nothing. Each gate-promoted patch
+is re-run on seeds 3–5; it is a false promotion if the confirmation fails check 2 or 3.
+The old rule (seed 0 of the same input passes) is scored on the main runs.
+
+**D57. The regression set covers all four NexusBench families.**
+The brief and the plan say "three task families". NexusBench has four (qa, tool, plan,
+memory). The memory family is where CONTEXT_BLEED, and many TOOL_MISFIRE and
+LOOP_DETECTED failures, live, so leaving it out would hide regressions from patches
+aimed at them. 3 seeded tasks per family = 12.
+
+**D58. The generic arm maps fallback templates to config keys by a fixed rule, and
+reports the templates that have no key as inapplicable.**
+Prompt templates are appended to the deployed prompt. The retry template keeps only
+`max_steps`. `memory_store` (CONTEXT_BLEED) and `tool_call_wrapper` (TOOL_MISFIRE)
+don't exist, so 24 patches are not run. *Why:* inventing a mapping for a
+nonexistent component would credit the template with a fix it doesn't describe.
+
+**D59. One Phase 4 spend cap across all providers, in Phase 4's own ledger.**
+`bench.heal.harness.PhaseLedger` caps the total at $1.50, checked before every paid
+call against the worst case. The Phase 1 caps are per provider and all-time, which
+doesn't match this budget. The ledger and cache are untracked local state (D48). The
+spend of record is the per-run `cost_usd` in `results/heal_runs.jsonl`, which is
+tracked.
