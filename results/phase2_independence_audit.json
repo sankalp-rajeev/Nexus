@@ -1,0 +1,38 @@
+{
+  "experiment_id": "A2-independence-dev",
+  "summary": "judge vs NLI (dev): 96 traces where either ran, 0 disagreements; shared step: retrieved_context",
+  "provenance": {
+    "date_utc": "2026-11-11T01:47:53+00:00",
+    "git_commit": "284fb25",
+    "git_dirty": false,
+    "provider": "local NLI + Gemini judge (cached)",
+    "model": "cross-encoder/nli-deberta-v3-base; gemini-3.5-flash-lite",
+    "mock": false,
+    "seed": null
+  },
+  "results": {
+    "split": "dev",
+    "code_paths": {
+      "nli": "hallucination.score: retrieved_context -> claims (sentence+conjunction split, hedge/meta/imperative filter) -> premise_units -> DeBERTa NLI -> entity gate -> 1 - min_claim max_premise P(entail) >= threshold",
+      "judge": "judge.judge: retrieved_context -> raw final answer + question -> Gemini prompt -> JSON verdict"
+    },
+    "shared_steps": [
+      "retrieved_context() (document flattening, number normalisation, pronoun resolution added during dev tuning)",
+      "applicability gate: both skip traces with no retrieved documents",
+      "the same detector_view input"
+    ],
+    "judge_uses_nli_output": false,
+    "judge_uses_claim_split_or_entity_filter": false,
+    "judge_runs_only_on_nli_selected": false,
+    "n_traces": 359,
+    "n_either_ran": 96,
+    "nli_ran": 55,
+    "judge_ran": 96,
+    "agreement_table": {
+      "nli=ran/clear | judge=ran/clear": 20,
+      "nli=ran/flag | judge=ran/flag": 35,
+      "nli=skip/clear | judge=ran/clear": 41
+    },
+    "disagreements": 0
+  }
+}

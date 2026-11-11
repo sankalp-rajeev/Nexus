@@ -98,3 +98,16 @@ Headline macro recall (H, CB, PD): **0.9222** over HALLUCINATION, CONTEXT_BLEED,
 ## Registered sensitivity analysis (not used for tuning)
 
 - 4 dev rows are QA founding-year runs that passed the checker with a non-exact year (the ±1.1% numeric tolerance admits ±22 years). They are labelled NORMAL but are wrong answers. The HALLUCINATION detector flags 4 of them. Labels are not changed in this phase; the same mechanical criterion will be applied to test.
+
+## Disclosures (added after scoring, 2026-11-10)
+
+- **On NexusBench, hallucinations are largely detectable by entity absence;
+  HaluEval is the harder test.** The entity-presence rule on its own matches
+  the full NLI detector on dev (R 1.00, P 0.857), because the injector hides
+  the target company's document. See `results/phase2_entity_rule_dev.json` and
+  DECISIONS D44.
+- **The Gemini judge and the NLI detector are not independent.** They share
+  evidence extraction (`retrieved_context()`, including the dev-tuned pronoun
+  resolution) and the "skip if no documents" gate. Their agreement is not
+  corroboration from independent methods. See
+  `results/phase2_independence_audit.json` and DECISIONS D41 and D43.

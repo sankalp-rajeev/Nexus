@@ -290,11 +290,15 @@ sensitivity analysis. *Why:* the target was pre-registered, so missing it is a
 result. The adjusted number is honest only because its criterion was fixed
 before the test was unsealed.
 
-**D41. The judge variant agrees with the NLI detector exactly, and that is reported.**
-On dev the Gemini judge and the NLI detector agree on every judged trace
-(35/35 flagged, 61/61 cleared), and they give identical test results. Two
-independent methods agreeing suggests the residual false positives come from
-the labels (wrong-but-accepted years, lucky guesses), not from the detectors.
+**D41. The judge variant agrees with the NLI detector — but the two are NOT independent (corrected; see D43).**
+On dev, the Gemini judge and the NLI detector agree on every trace where either
+ran (0 disagreements in 96). Test results are identical in aggregate (same
+confusion matrix). *Correction:* an earlier version of this entry called this
+"two independent methods agreeing". That was wrong. Both read their evidence
+from the same `retrieved_context()`, which includes the pronoun resolution
+added during dev tuning, and both skip traces with no retrieved documents.
+Their agreement shows that two judges given the same evidence reach the same
+verdict, not that the evidence extraction is right.
 
 **D42. The test results carry `+dirty` provenance; they are not re-run.**
 During the one-time test run, the Gemini judge appended to its tracked cache
@@ -305,3 +309,35 @@ refused to run unless every frozen path (`services/detectors`,
 `phase2-detectors-frozen`. Re-running to clear the flag would score the test
 split a second time. *Lesson:* put caches and ledgers that experiments write
 to in the provenance exclusion list, as with D6.
+
+## Phase 2 follow-ups
+
+**D43. Independence audit: shared evidence extraction, separate judgement.**
+From the code at tag `phase2-detectors-frozen`:
+- The judge does not see any NLI output, the claim split or the entity gate
+  (it gets the raw final answer).
+- It runs on every trace, not only on traces the NLI path selected.
+- Both use `retrieved_context()` and the same "no retrieved documents → skip"
+  gate.
+
+On dev the judge ran on 96 traces and NLI on 55. The other 41 are answers in
+which NLI found no factual claim after its hedge filter; the judge cleared all
+41. Per-trace test agreement can't be reported because test predictions were
+not persisted (D45).
+
+**D44. Disclosure: on NexusBench, hallucinations are largely detectable by entity absence.**
+The entity-presence rule alone (flag a claim whose entities appear in no
+retrieved premise) gets R 1.00 (30/30), P 0.857 (30/35) on dev, which is the
+same as the full NLI detector. *Why it matters:* the HALLUCINATION injector
+hides the document about the company asked about, so the company's name is
+absent from the context by construction. NexusBench therefore barely tests the
+NLI part; HaluEval (D4: R 0.783, P 0.546) is the harder test.
+
+**D45. Per-trace test predictions were not persisted; v1.1 test sensitivity uses
+stored aggregates only.**
+*What happened:* `score_test.py` stored per-class counts, confusion matrices
+and the ids of the 6 year-tolerance rows (all predicted HALLUCINATION), but not
+a prediction per trace. Re-running detectors on test is not allowed, so the
+v1.1 test metrics are computed exactly where the stored data determines them
+and as bounds otherwise. *Lesson:* every scoring run must write its per-trace
+predictions (now done for dev: `results/phase2_dev_predictions.json`).
