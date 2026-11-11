@@ -1,9 +1,9 @@
 {
   "experiment_id": "D-baseline-dev",
-  "summary": "DEV baseline (shipped SVM): headline macro recall 0.3111; HALLUCINATION R=0.9333 P=0.1379, CONTEXT_BLEED R=0.0 P=None, PLAN_DRIFT R=0.0 P=None, TOOL_MISFIRE R=1.0 P=1.0, LOOP_DETECTED R=1.0 P=0.9167",
+  "summary": "DEV baseline (shipped SVM): headline macro recall 0.3111; HALLUCINATION R=0.9333 P=0.1373, CONTEXT_BLEED R=0.0 P=None, PLAN_DRIFT R=0.0 P=None, TOOL_MISFIRE R=0.8824 P=1.0, LOOP_DETECTED R=1.0 P=0.85",
   "provenance": {
-    "date_utc": "2026-11-11T00:36:46+00:00",
-    "git_commit": "7666a51",
+    "date_utc": "2026-11-11T01:10:35+00:00",
+    "git_commit": "1c23fe4",
     "git_dirty": false,
     "provider": "none (no LLM)",
     "model": "v3 classifier as shipped: rules + SVM over MiniLM embedding, PatchCore, io_divergence, NLI contradiction (data/classifier_model)",
@@ -26,12 +26,12 @@
             ]
           },
           "precision": {
-            "value": 0.1379,
+            "value": 0.1373,
             "k": 28,
-            "n": 203,
+            "n": 204,
             "ci95_clopper_pearson": [
-              0.0937,
-              0.1931
+              0.0932,
+              0.1922
             ]
           },
           "kind": "headline"
@@ -56,14 +56,14 @@
           "kind": "headline"
         },
         "PLAN_DRIFT": {
-          "support": 20,
+          "support": 24,
           "recall": {
             "value": 0.0,
             "k": 0,
-            "n": 20,
+            "n": 24,
             "ci95_clopper_pearson": [
               0.0,
-              0.1684
+              0.1425
             ]
           },
           "precision": {
@@ -75,45 +75,45 @@
           "kind": "headline"
         },
         "TOOL_MISFIRE": {
-          "support": 27,
+          "support": 34,
           "recall": {
-            "value": 1.0,
-            "k": 27,
-            "n": 27,
+            "value": 0.8824,
+            "k": 30,
+            "n": 34,
             "ci95_clopper_pearson": [
-              0.8723,
-              1.0
+              0.7255,
+              0.967
             ]
           },
           "precision": {
             "value": 1.0,
-            "k": 27,
-            "n": 27,
+            "k": 30,
+            "n": 30,
             "ci95_clopper_pearson": [
-              0.8723,
+              0.8843,
               1.0
             ]
           },
           "kind": "rule-defined"
         },
         "LOOP_DETECTED": {
-          "support": 33,
+          "support": 34,
           "recall": {
             "value": 1.0,
-            "k": 33,
-            "n": 33,
+            "k": 34,
+            "n": 34,
             "ci95_clopper_pearson": [
-              0.8942,
+              0.8972,
               1.0
             ]
           },
           "precision": {
-            "value": 0.9167,
-            "k": 33,
-            "n": 36,
+            "value": 0.85,
+            "k": 34,
+            "n": 40,
             "ci95_clopper_pearson": [
-              0.7753,
-              0.9825
+              0.7016,
+              0.9429
             ]
           },
           "kind": "rule-defined"
@@ -129,55 +129,56 @@
       "any_failure": {
         "recall": {
           "value": 1.0,
-          "k": 233,
-          "n": 233,
+          "k": 237,
+          "n": 237,
           "ci95_clopper_pearson": [
-            0.9843,
+            0.9846,
             1.0
           ]
         },
         "precision": {
-          "value": 0.649,
-          "k": 233,
+          "value": 0.6602,
+          "k": 237,
           "n": 359,
           "ci95_clopper_pearson": [
-            0.5972,
-            0.6984
+            0.6086,
+            0.7091
           ]
         },
         "other_failure_flagged": {
           "value": 1.0,
-          "k": 93,
-          "n": 93,
+          "k": 85,
+          "n": 85,
           "ci95_clopper_pearson": [
-            0.9611,
+            0.9575,
             1.0
           ]
         }
       },
       "confusion": {
         "CONTEXT_BLEED": {
-          "HALLUCINATION": 29,
-          "LOOP_DETECTED": 1
+          "HALLUCINATION": 30
         },
         "HALLUCINATION": {
           "HALLUCINATION": 28,
           "LOOP_DETECTED": 2
         },
         "OTHER_FAILURE": {
-          "HALLUCINATION": 93
+          "HALLUCINATION": 84,
+          "LOOP_DETECTED": 1
         },
         "NORMAL": {
-          "HALLUCINATION": 126
+          "HALLUCINATION": 122
         },
         "LOOP_DETECTED": {
-          "LOOP_DETECTED": 33
+          "LOOP_DETECTED": 34
         },
         "PLAN_DRIFT": {
-          "HALLUCINATION": 20
+          "HALLUCINATION": 24
         },
         "TOOL_MISFIRE": {
-          "TOOL_MISFIRE": 27
+          "TOOL_MISFIRE": 30,
+          "LOOP_DETECTED": 4
         }
       }
     },
@@ -243,22 +244,22 @@
             "kind": "headline"
           },
           "TOOL_MISFIRE": {
-            "support": 27,
+            "support": 28,
             "recall": {
               "value": 1.0,
-              "k": 27,
-              "n": 27,
+              "k": 28,
+              "n": 28,
               "ci95_clopper_pearson": [
-                0.8723,
+                0.8766,
                 1.0
               ]
             },
             "precision": {
               "value": 1.0,
-              "k": 27,
-              "n": 27,
+              "k": 28,
+              "n": 28,
               "ci95_clopper_pearson": [
-                0.8723,
+                0.8766,
                 1.0
               ]
             },
@@ -314,10 +315,10 @@
           },
           "other_failure_flagged": {
             "value": 1.0,
-            "k": 9,
-            "n": 9,
+            "k": 8,
+            "n": 8,
             "ci95_clopper_pearson": [
-              0.6637,
+              0.6306,
               1.0
             ]
           }
@@ -337,10 +338,10 @@
             "LOOP_DETECTED": 17
           },
           "TOOL_MISFIRE": {
-            "TOOL_MISFIRE": 27
+            "TOOL_MISFIRE": 28
           },
           "OTHER_FAILURE": {
-            "HALLUCINATION": 9
+            "HALLUCINATION": 8
           }
         }
       },
@@ -358,10 +359,10 @@
             "precision": {
               "value": 0.0,
               "k": 0,
-              "n": 87,
+              "n": 88,
               "ci95_clopper_pearson": [
                 0.0,
-                0.0415
+                0.0411
               ]
             },
             "kind": "headline"
@@ -386,14 +387,14 @@
             "kind": "headline"
           },
           "PLAN_DRIFT": {
-            "support": 20,
+            "support": 24,
             "recall": {
               "value": 0.0,
               "k": 0,
-              "n": 20,
+              "n": 24,
               "ci95_clopper_pearson": [
                 0.0,
-                0.1684
+                0.1425
               ]
             },
             "precision": {
@@ -405,39 +406,45 @@
             "kind": "headline"
           },
           "TOOL_MISFIRE": {
-            "support": 0,
+            "support": 6,
             "recall": {
-              "value": null,
-              "k": 0,
-              "n": 0,
-              "ci95_clopper_pearson": null
+              "value": 0.3333,
+              "k": 2,
+              "n": 6,
+              "ci95_clopper_pearson": [
+                0.0433,
+                0.7772
+              ]
             },
             "precision": {
-              "value": null,
-              "k": 0,
-              "n": 0,
-              "ci95_clopper_pearson": null
+              "value": 1.0,
+              "k": 2,
+              "n": 2,
+              "ci95_clopper_pearson": [
+                0.1581,
+                1.0
+              ]
             },
             "kind": "rule-defined"
           },
           "LOOP_DETECTED": {
-            "support": 16,
+            "support": 17,
             "recall": {
               "value": 1.0,
-              "k": 16,
-              "n": 16,
+              "k": 17,
+              "n": 17,
               "ci95_clopper_pearson": [
-                0.7941,
+                0.8049,
                 1.0
               ]
             },
             "precision": {
-              "value": 0.9412,
-              "k": 16,
-              "n": 17,
+              "value": 0.8095,
+              "k": 17,
+              "n": 21,
               "ci95_clopper_pearson": [
-                0.7131,
-                0.9985
+                0.5809,
+                0.9455
               ]
             },
             "kind": "rule-defined"
@@ -452,53 +459,57 @@
         "any_failure": {
           "recall": {
             "value": 1.0,
-            "k": 138,
-            "n": 138,
+            "k": 142,
+            "n": 142,
             "ci95_clopper_pearson": [
-              0.9736,
+              0.9744,
               1.0
             ]
           },
           "precision": {
-            "value": 0.734,
-            "k": 138,
+            "value": 0.7553,
+            "k": 142,
             "n": 188,
             "ci95_clopper_pearson": [
-              0.6648,
-              0.7957
+              0.6875,
+              0.815
             ]
           },
           "other_failure_flagged": {
             "value": 1.0,
-            "k": 84,
-            "n": 84,
+            "k": 77,
+            "n": 77,
             "ci95_clopper_pearson": [
-              0.957,
+              0.9532,
               1.0
             ]
           }
         },
         "confusion": {
           "CONTEXT_BLEED": {
-            "HALLUCINATION": 17,
-            "LOOP_DETECTED": 1
+            "HALLUCINATION": 18
           },
           "OTHER_FAILURE": {
-            "HALLUCINATION": 84
+            "HALLUCINATION": 76,
+            "LOOP_DETECTED": 1
           },
           "LOOP_DETECTED": {
-            "LOOP_DETECTED": 16
+            "LOOP_DETECTED": 17
           },
           "NORMAL": {
-            "HALLUCINATION": 50
+            "HALLUCINATION": 46
           },
           "PLAN_DRIFT": {
-            "HALLUCINATION": 20
+            "HALLUCINATION": 24
+          },
+          "TOOL_MISFIRE": {
+            "TOOL_MISFIRE": 2,
+            "LOOP_DETECTED": 4
           }
         }
       }
     },
-    "seconds": 199.7,
+    "seconds": 184.2,
     "split": "dev"
   }
 }

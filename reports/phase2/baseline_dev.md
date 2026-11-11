@@ -3,7 +3,7 @@
 - **Provider:** none (no LLM)
 - **Model:** v3 classifier as shipped: rules + SVM over MiniLM embedding, PatchCore, io_divergence, NLI contradiction (data/classifier_model)
 - **Mock:** no
-- **Generated:** 2026-11-10 at commit `8207df3` by `python -m bench.phase2_baseline`
+- **Generated:** 2026-11-10 at commit `1c23fe4` by `python -m bench.phase2_baseline`
 - **Result file:** [`results/detect_baseline_dev.json`](../results/detect_baseline_dev.json)
 
 - Split: **dev only** (359 traces). Test is sealed.

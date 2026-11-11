@@ -1,0 +1,562 @@
+{
+  "experiment_id": "A1-separability-dev",
+  "summary": "CONTEXT_BLEED separability (dev): gate not tripped; best single rule account_tier_records >= 2",
+  "provenance": {
+    "date_utc": "2026-11-11T01:07:28+00:00",
+    "git_commit": "1c23fe4",
+    "git_dirty": false,
+    "provider": "none (no LLM)",
+    "model": "trivial rules",
+    "mock": false,
+    "seed": null
+  },
+  "results": {
+    "split": "dev",
+    "gate": 0.95,
+    "rules": [
+      {
+        "rule": "reads_memory >= 1",
+        "f1": 0.4167,
+        "precision": {
+          "value": 0.2632,
+          "k": 30,
+          "n": 114,
+          "ci95_clopper_pearson": [
+            0.1851,
+            0.3539
+          ]
+        },
+        "recall": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.8843,
+            1.0
+          ]
+        },
+        "precision_vs_all": {
+          "value": 0.2326,
+          "k": 30,
+          "n": 129,
+          "ci95_clopper_pearson": [
+            0.1627,
+            0.3151
+          ]
+        },
+        "recall_vs_all": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.8843,
+            1.0
+          ]
+        }
+      },
+      {
+        "rule": "n_memory_reads >= 1",
+        "f1": 0.4167,
+        "precision": {
+          "value": 0.2632,
+          "k": 30,
+          "n": 114,
+          "ci95_clopper_pearson": [
+            0.1851,
+            0.3539
+          ]
+        },
+        "recall": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.8843,
+            1.0
+          ]
+        },
+        "precision_vs_all": {
+          "value": 0.2326,
+          "k": 30,
+          "n": 129,
+          "ci95_clopper_pearson": [
+            0.1627,
+            0.3151
+          ]
+        },
+        "recall_vs_all": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.8843,
+            1.0
+          ]
+        }
+      },
+      {
+        "rule": "max_records >= 2",
+        "f1": 0.6061,
+        "precision": {
+          "value": 0.4348,
+          "k": 30,
+          "n": 69,
+          "ci95_clopper_pearson": [
+            0.3158,
+            0.5596
+          ]
+        },
+        "recall": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.8843,
+            1.0
+          ]
+        },
+        "precision_vs_all": {
+          "value": 0.3947,
+          "k": 30,
+          "n": 76,
+          "ci95_clopper_pearson": [
+            0.2844,
+            0.5135
+          ]
+        },
+        "recall_vs_all": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.8843,
+            1.0
+          ]
+        }
+      },
+      {
+        "rule": "memory_chars >= 41",
+        "f1": 0.6061,
+        "precision": {
+          "value": 0.4348,
+          "k": 30,
+          "n": 69,
+          "ci95_clopper_pearson": [
+            0.3158,
+            0.5596
+          ]
+        },
+        "recall": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.8843,
+            1.0
+          ]
+        },
+        "precision_vs_all": {
+          "value": 0.3947,
+          "k": 30,
+          "n": 76,
+          "ci95_clopper_pearson": [
+            0.2844,
+            0.5135
+          ]
+        },
+        "recall_vs_all": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.8843,
+            1.0
+          ]
+        }
+      },
+      {
+        "rule": "person_names >= 1",
+        "f1": 0.421,
+        "precision": {
+          "value": 0.3478,
+          "k": 16,
+          "n": 46,
+          "ci95_clopper_pearson": [
+            0.2135,
+            0.5025
+          ]
+        },
+        "recall": {
+          "value": 0.5333,
+          "k": 16,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.3433,
+            0.7166
+          ]
+        },
+        "precision_vs_all": {
+          "value": 0.3077,
+          "k": 16,
+          "n": 52,
+          "ci95_clopper_pearson": [
+            0.1872,
+            0.451
+          ]
+        },
+        "recall_vs_all": {
+          "value": 0.5333,
+          "k": 16,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.3433,
+            0.7166
+          ]
+        }
+      },
+      {
+        "rule": "account_tier_records >= 2",
+        "f1": 0.6667,
+        "precision": {
+          "value": 1.0,
+          "k": 15,
+          "n": 15,
+          "ci95_clopper_pearson": [
+            0.782,
+            1.0
+          ]
+        },
+        "recall": {
+          "value": 0.5,
+          "k": 15,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.313,
+            0.687
+          ]
+        },
+        "precision_vs_all": {
+          "value": 1.0,
+          "k": 15,
+          "n": 15,
+          "ci95_clopper_pearson": [
+            0.782,
+            1.0
+          ]
+        },
+        "recall_vs_all": {
+          "value": 0.5,
+          "k": 15,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.313,
+            0.687
+          ]
+        }
+      },
+      {
+        "rule": "distinct_tiers >= 2",
+        "f1": 0.5773,
+        "precision": {
+          "value": 0.4179,
+          "k": 28,
+          "n": 67,
+          "ci95_clopper_pearson": [
+            0.2985,
+            0.5448
+          ]
+        },
+        "recall": {
+          "value": 0.9333,
+          "k": 28,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.7793,
+            0.9918
+          ]
+        },
+        "precision_vs_all": {
+          "value": 0.3784,
+          "k": 28,
+          "n": 74,
+          "ci95_clopper_pearson": [
+            0.2681,
+            0.4987
+          ]
+        },
+        "recall_vs_all": {
+          "value": 0.9333,
+          "k": 28,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.7793,
+            0.9918
+          ]
+        }
+      },
+      {
+        "rule": "distinct_cities >= 1",
+        "f1": 0.4615,
+        "precision": {
+          "value": 0.375,
+          "k": 18,
+          "n": 48,
+          "ci95_clopper_pearson": [
+            0.2395,
+            0.5265
+          ]
+        },
+        "recall": {
+          "value": 0.6,
+          "k": 18,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.406,
+            0.7734
+          ]
+        },
+        "precision_vs_all": {
+          "value": 0.3333,
+          "k": 18,
+          "n": 54,
+          "ci95_clopper_pearson": [
+            0.2109,
+            0.4747
+          ]
+        },
+        "recall_vs_all": {
+          "value": 0.6,
+          "k": 18,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.406,
+            0.7734
+          ]
+        }
+      },
+      {
+        "rule": "duplicate_key >= 1",
+        "f1": 0.481,
+        "precision": {
+          "value": 0.3878,
+          "k": 19,
+          "n": 49,
+          "ci95_clopper_pearson": [
+            0.252,
+            0.5376
+          ]
+        },
+        "recall": {
+          "value": 0.6333,
+          "k": 19,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.4386,
+            0.8007
+          ]
+        },
+        "precision_vs_all": {
+          "value": 0.3455,
+          "k": 19,
+          "n": 55,
+          "ci95_clopper_pearson": [
+            0.2224,
+            0.4858
+          ]
+        },
+        "recall_vs_all": {
+          "value": 0.6333,
+          "k": 19,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.4386,
+            0.8007
+          ]
+        }
+      },
+      {
+        "rule": "team_notes >= 2",
+        "f1": 0.3561,
+        "precision": {
+          "value": 0.3023,
+          "k": 13,
+          "n": 43,
+          "ci95_clopper_pearson": [
+            0.1718,
+            0.4613
+          ]
+        },
+        "recall": {
+          "value": 0.4333,
+          "k": 13,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.2546,
+            0.6257
+          ]
+        },
+        "precision_vs_all": {
+          "value": 0.2653,
+          "k": 13,
+          "n": 49,
+          "ci95_clopper_pearson": [
+            0.1495,
+            0.4108
+          ]
+        },
+        "recall_vs_all": {
+          "value": 0.4333,
+          "k": 13,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.2546,
+            0.6257
+          ]
+        }
+      },
+      {
+        "rule": "record count > 1",
+        "precision": {
+          "value": 0.4348,
+          "k": 30,
+          "n": 69,
+          "ci95_clopper_pearson": [
+            0.3158,
+            0.5596
+          ]
+        },
+        "recall": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.8843,
+            1.0
+          ]
+        },
+        "precision_vs_all": {
+          "value": 0.3947,
+          "k": 30,
+          "n": 76,
+          "ci95_clopper_pearson": [
+            0.2844,
+            0.5135
+          ]
+        },
+        "recall_vs_all": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.8843,
+            1.0
+          ]
+        },
+        "fixed": true
+      },
+      {
+        "rule": "a person's name appears",
+        "precision": {
+          "value": 0.3478,
+          "k": 16,
+          "n": 46,
+          "ci95_clopper_pearson": [
+            0.2135,
+            0.5025
+          ]
+        },
+        "recall": {
+          "value": 0.5333,
+          "k": 16,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.3433,
+            0.7166
+          ]
+        },
+        "precision_vs_all": {
+          "value": 0.3077,
+          "k": 16,
+          "n": 52,
+          "ci95_clopper_pearson": [
+            0.1872,
+            0.451
+          ]
+        },
+        "recall_vs_all": {
+          "value": 0.5333,
+          "k": 16,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.3433,
+            0.7166
+          ]
+        },
+        "fixed": true
+      },
+      {
+        "rule": "two or more person names",
+        "precision": {
+          "value": 0.3214,
+          "k": 9,
+          "n": 28,
+          "ci95_clopper_pearson": [
+            0.1588,
+            0.5235
+          ]
+        },
+        "recall": {
+          "value": 0.3,
+          "k": 9,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.1473,
+            0.494
+          ]
+        },
+        "precision_vs_all": {
+          "value": 0.2903,
+          "k": 9,
+          "n": 31,
+          "ci95_clopper_pearson": [
+            0.1422,
+            0.4804
+          ]
+        },
+        "recall_vs_all": {
+          "value": 0.3,
+          "k": 9,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.1473,
+            0.494
+          ]
+        },
+        "fixed": true
+      }
+    ],
+    "best_pair_and": {
+      "rule": "reads_memory >= 1 AND account_tier_records >= 2",
+      "precision": {
+        "value": 1.0,
+        "k": 15,
+        "n": 15,
+        "ci95_clopper_pearson": [
+          0.782,
+          1.0
+        ]
+      },
+      "recall": {
+        "value": 0.5,
+        "k": 15,
+        "n": 30,
+        "ci95_clopper_pearson": [
+          0.313,
+          0.687
+        ]
+      },
+      "sum": 1.5
+    },
+    "gate_tripped_by": []
+  }
+}
