@@ -21,7 +21,7 @@ from typing import Any
 from bench.generate import MODELS, SEED
 from bench.heal.config import ConfigPatch
 from bench.heal.generic import Inapplicable, generic_patch
-from bench.heal.harness import PHASE4_CAP_USD, RUNS_PATH, Harness, RunSpec, RunStore
+from bench.heal.harness import PHASE4_CAP_USD, REST_CAP_USD, RUNS_PATH, Harness, RunSpec, RunStore
 from bench.heal.score import (CONFIRM_SEEDS, OUTCOMES, PRIMARY, SEEDS, Scorer, eligible,
                               failure_specs, net_of_noise, summarize)
 from bench.heal.sets import REPO, load_sets
@@ -185,7 +185,7 @@ def build_payloads(sets, s) -> tuple[dict, dict]:
     common = {"failures_n": len(sets["failures"]), "excluded": sets["excluded"],
               "regression": sets["regression"], "seeds": list(SEEDS),
               "selection_sha256": sets["selection_sha256"], "labels_sha256": sets["labels_sha256"],
-              "cap_usd": PHASE4_CAP_USD, "primary_outcome": PRIMARY,
+              "cap_usd": {"preparation": PHASE4_CAP_USD, "rest_of_phase4": REST_CAP_USD}, "primary_outcome": PRIMARY,
               "outcomes": OUTCOME_NAMES, "amendment": "A1 (tag phase4-prereg-a1)"}
     bo = s["by_outcome"]
     noise = {**common, "arm": "H5 no patch",

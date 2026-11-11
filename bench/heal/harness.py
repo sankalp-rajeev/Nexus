@@ -51,7 +51,9 @@ RUNS_PATH = os.path.join(REPO, "results", "heal_runs.jsonl")
 # read. Run ids, config hashes and scoring are unchanged from v1.
 HARNESS_VERSION = "heal-harness-v2"
 TOOL_OUTPUT_CHARS = 2000
-PHASE4_CAP_USD = 1.50
+PHASE4_CAP_USD = 1.50        # preparation (baselines): ledger cost_ledger.jsonl, closed at $0.247
+REST_CAP_USD = 3.00          # rest of Phase 4 (critic arms, confirmations, H6), user 2026-11-11
+REST_LEDGER = "cost_ledger_rest.jsonl"
 MAX_ATTEMPTS = 3  # provider errors (stop_reason llm_error) are retried, then recorded as failed
 
 RULE_FLAG = {"HALLUCINATION": "hallucination", "CONTEXT_BLEED": "bleed", "PLAN_DRIFT": "drift",
@@ -159,14 +161,14 @@ class RunStore:
 
 class Harness:
     def __init__(self, *, runs_path: str = RUNS_PATH, state_dir: str = STATE_DIR,
-                 cap_usd: float = PHASE4_CAP_USD, workers: dict[str, int] | None = None,
+                 cap_usd: float = REST_CAP_USD, ledger_file: str = REST_LEDGER, workers: dict[str, int] | None = None,
                  clients: dict[str, Any] | None = None, env_file: str | None = None) -> None:
         load_env(env_file or os.environ.get("NEXUS_ENV_FILE", os.path.join(REPO, ".env")))
         self.world = build_world()
         self.tasks = {t.task_id: t for t in build_tasks(self.world)}
         self.splits = dev_splits()
         self.store = RunStore(runs_path)
-        self.ledger = PhaseLedger(os.path.join(state_dir, "cost_ledger.jsonl"), cap_usd)
+        self.ledger = PhaseLedger(os.path.join(state_dir, ledger_file), cap_usd)
         self.cache = ResponseCache(os.path.join(state_dir, "llm_cache.jsonl"))
         self._clients = clients or {}
         self.workers = workers or {"deepseek": 8, "ollama": 2}

@@ -534,3 +534,18 @@ rule (§0): the patch is applied to the deployed config. A whole-prompt replacem
 removes the guessing text without the critic having seen it, and rule 1e tags it
 `reverts_injection`, which keeps it out of the headline. Phase 3's own `fix_tag` is
 reported beside it.
+
+**D66. The failure set stays the 59 pre-registered failures; the 33-failure default in A1 §5a is superseded (user decision, 2026-11-11).**
+Phase 3 will generate proposals for exactly the 59 failures in
+`reports/phase4/prereg_sets.json`, so every arm is scored on the same 59 and no A2 is
+needed. The pre-registration is unchanged. The tagged A1 text is left as committed,
+and this entry records that its §5a default no longer applies. *Why:* re-selecting on
+the critic's side would swap 26 failures that already have baseline runs for 27 that
+have none.
+
+**D67. Spend cap for the rest of Phase 4: $3.00 total, in a new ledger.**
+This covers the critic arms, the fresh-seed confirmations, H6 (its own $0.40 sub-cap)
+and the generic confirmation. The preparation ledger (cap $1.50) is closed at $0.247.
+The new ledger (`bench/heal/_state/cost_ledger_rest.jsonl`, cap `REST_CAP_USD`) starts
+at $0, so the two budgets can't mix. It is checked before every paid call against the
+worst case.
