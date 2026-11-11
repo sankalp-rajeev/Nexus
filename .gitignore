@@ -36,3 +36,7 @@ data/master_embeddings.npy
 Thumbs.db
 .idea/
 .vscode/
+
+# Experiment caches and cost ledgers are local state, not outputs; results/ is the
+# only tracked output (DECISIONS D48). data/nexusbench/ is benchmark data, tracked.
+data/phase2/

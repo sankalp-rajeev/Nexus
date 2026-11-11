@@ -357,3 +357,18 @@ The first kg rule, max(abs, rel), rejected correct 0.454-factor answers
 rounded to 0.01 kg, contradicting its own justification. It became additive
 (rel + abs) before anything was tagged. The correction is recorded in
 REVISIONS.md, and it changed no label in the data.
+
+**D48. Judge caches and ledgers are untracked; `results/` is the only tracked output.**
+*Why:* tracked caches that experiments append to made the one-time test rows
+"dirty" (D42), even though no source changed. From now on `data/phase2/` is
+gitignored. The files stay on disk, so caching still saves money, but they
+don't affect provenance. The committed copies remain in history up to this
+commit. The existing test result rows are left as they are, still marked
+`+dirty` (D42). `data/nexusbench/` is benchmark *input* data and stays
+tracked; its manifest is CI-checked. Phase 2 spend stays auditable: $0.0285
+over 149 judge calls, as recorded in the committed ledger history.
+
+**D49. `bench/llm.py` now picks the thinking field by Gemini major version.**
+`thinkingBudget: 0` for 2.x and `thinkingLevel: low` for 3.x+. Unit-tested and
+verified with one live call. The frozen judge keeps its own override; the
+detectors are not edited after `phase2-detectors-frozen`.
