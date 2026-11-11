@@ -50,7 +50,6 @@ def from_detector(prediction, view: CompleteTrace) -> FailureEvidence | None:
         return None
     calls = _calls(view)
     candidates = []
-    method = "candidate heuristic; Phase 2 has no span attribution"
     if failure_type == FailureType.LOOP_DETECTED:
         for a, b, c in zip(calls, calls[1:], calls[2:]):
             if a[2] == b[2] == c[2] and all(x[1].error_type is None for x in (a, b, c)):
@@ -75,11 +74,12 @@ def from_detector(prediction, view: CompleteTrace) -> FailureEvidence | None:
         candidates = [(i, s) for i, s in enumerate(view.spans) if s.metadata.get("role") == "root"]
     if not candidates:
         candidates = list(enumerate(view.spans[-1:], start=max(len(view.spans)-1, 0)))
-        method = "last-span fallback; Phase 2 has no span attribution"
     if not candidates:
         raise ValueError("Failure prediction has no observed spans")
     step, span = candidates[0]
-    return FailureEvidence(failure_type=failure_type, span_id=span.span_id, step=step,
-        supporting_text=json.dumps({"input": span.input, "output": span.output,
-            "error": span.error_message, "metadata": span.metadata,
-            "localization": method}, ensure_ascii=False))
+    # A complete canonical span is a contiguous substring of the canonical
+    # detector_view serialization. No class label or adapter-authored prose is
+    # inserted into this observation-only packet. Localization remains heuristic.
+    return FailureEvidence(span_id=span.span_id, step=step,
+        supporting_text=json.dumps(span.model_dump(mode="json"), ensure_ascii=False,
+                                   sort_keys=True, separators=(",", ":")))

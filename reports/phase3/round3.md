@@ -1,4 +1,6 @@
-# Phase 3 round 3: stopped at the required leak gate
+# Phase 3 round 3: initial stop and corrected-gate continuation
+
+> Pre-generation continuation: the mis-specified check is corrected below. All 58 actual evidence objects pass the corrected invariant. Generation is pending; no LLM call has occurred.
 
 **Result:** rebase and implementation completed; CI passed. The Part B command stopped before any LLM call because **27 of 58 detector evidence objects contained residual injection text**. No generation results exist. **Spend: $0.00 of the $1.00 cap.**
 
@@ -109,3 +111,17 @@ Kappa uses `(observed agreement - expected agreement) / (1 - expected agreement)
 Aggregate authorized cap: **$1.00**. Actual spend for this Part B attempt: **$0.00**. No billable request or reservation occurred.
 
 The requested three-arm generation and its C1/C2/specificity/C3/latency/cost table remain unmeasured because the required leak gate failed. Continuing would require a deliberate decision about the evidence contract, followed by a fresh clean-input assertion; this attempt did not silently change that contract. The complete preflight work, audit and stop evidence are committed.
+
+## Correction before any LLM call: mis-specified leak check
+
+The initial check was mis-specified: it banned observed injection text that Phase 2 intentionally preserves. The initial stop was correct under that check. This correction is recorded before any generation provider construction or LLM call; the previous attempt spent $0.00.
+
+All 27 earlier text hits (33 matches) appear verbatim in their official detector views: 12 loop messages, 9 misfire error messages and 6 drift notes (two matched patterns each). See [the per-hit diagnosis](leak_gate_diagnosis.md). These matched phrases are not real leaks.
+
+The corrected invariant requires every string field of detector-arm FailureEvidence to be a literal substring of the canonical official detector_view serialization. The supporting_text field is now a complete canonical span excerpt, not a newly assembled narrative or JSON subset. Canonicalization uses UTF-8 JSON, sorted keys, no ASCII escaping, and compact separators. The checker also recursively decodes JSON within the excerpt to ban the keys dev_label, item_users, item_sessions, item_owners, source, task_id, family, model and provider; raw injection-registry canary tokens or the raw drift target; and any failure label string used as a field value. Observed SYSTEM NOTICE notes, still-loading messages and code-422 errors are allowed only when the literal-substring check passes.
+
+The adapter previously added a detector label and a localization sentence to the packet; those do not satisfy the corrected observation-only invariant. Detector evidence now leaves failure_type null and omits localization prose. The predicted label remains in the Alert and outside the evidence in prompt context; ground truth remains scoring only. Oracle evidence retains its explicitly gated historical format. No observed input/output/error text was redacted, and the adapter never receives the raw injection registry.
+
+Before generation: 60 DEV inputs checked, 58 evidence objects, 116 wire string values; 0 remaining invariant violations. All 27 previously flagged objects pass. Both stand-in reference tokens and pseudonymized drift IDs remain allowed. The injection registry is consulted by the checker only, never supplied to the critic.
+
+The string-match grounded proxy is **UNVALIDATED** (review kappa 0.20 / 0.03). It will not be aggregated or used for cross-arm comparisons. Historical proxy agreement remains diagnostic only; exact/near patch distinctness and C3 are reported separately.

@@ -7,7 +7,9 @@ from nexus_agent.models import FailureType
 class FailureEvidence(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    failure_type: FailureType
+    # Detector evidence is observation-only; its predicted type lives in Alert.
+    # Historical, explicitly enabled oracle evidence may still carry a type.
+    failure_type: FailureType | None = None
     span_id: str | None = None
     step: int | None = Field(default=None, ge=0)
     supporting_text: str = Field(min_length=1)

@@ -5,7 +5,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 from nexus_agent.models import FailureType, PatchProposal, PatchType
 
-PROMPT_VERSION = "critic-round3-v1"
+PROMPT_VERSION = "critic-round3-v2"
 
 
 class CriticConfig(BaseModel):

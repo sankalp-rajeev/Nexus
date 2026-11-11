@@ -63,7 +63,7 @@ def make_context_loader(db):
                 raise ValueError("Trace identity does not match the alert")
             ConfigRegistry(config)
             evidence = FailureEvidence.model_validate(evidence)
-            if evidence.failure_type.value != state["failure_type"]:
+            if evidence.failure_type is not None and evidence.failure_type.value != state["failure_type"]:
                 raise ValueError("Evidence failure type does not match the alert")
             if evidence.span_id and evidence.span_id not in {s.span_id for s in trace.spans}:
                 raise ValueError("Evidence span is absent from the full trace")
@@ -97,6 +97,7 @@ def build_prompt(state):
             "indices. Do not simply copy the detector evidence location."
         ),
         "full_trace": state["trace"].model_dump(mode="json"),
+        "detector_prediction": state.get("failure_type"),
         "current_config": state["current_config"],
         "failure_evidence": state["evidence"].model_dump(mode="json"),
         "previous_rejection": state.get("rejection_reason", ""),

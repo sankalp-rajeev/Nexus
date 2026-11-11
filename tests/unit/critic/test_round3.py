@@ -189,7 +189,7 @@ def test_detector_adapter_cannot_reach_label_or_injection_fields(monkeypatch):
     monkeypatch.setattr(builtins, "open", no_io)
     monkeypatch.setattr(Path, "open", no_io)
     ev = from_detector(prediction, view)
-    assert ev.failure_type.value == "CONTEXT_BLEED"
+    assert ev.failure_type is None  # detector prediction is kept outside evidence
     assert json.loads(ev.supporting_text)["metadata"] == {"tool_name": "read_memory"}
     assert set(inspect.signature(from_detector).parameters) == {"prediction", "view"}
 
@@ -209,8 +209,8 @@ def test_detector_prediction_and_observation_are_only_evidence_sources(ft):
     view = view_fixture(("tool_call", "memory_read", "agent_step"))
     before = view.model_dump(mode="json")
     ev = from_detector({"pred": ft, "label_v1": "NORMAL"}, view)
-    assert ev.failure_type.value == ft and ev.span_id in {s.span_id for s in view.spans}
-    assert "Phase 2 has no span attribution" in ev.supporting_text
+    assert ev.failure_type is None and ev.span_id in {s.span_id for s in view.spans}
+    assert "localization" not in json.loads(ev.supporting_text)
     assert view.model_dump(mode="json") == before
 
 

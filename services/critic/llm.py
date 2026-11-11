@@ -98,11 +98,12 @@ class MockProvider:
             raise LLMConfigError("MockProvider requires NEXUS_LLM=mock")
         self.last_provenance = Provenance(source="llm", model="MockProvider",
                                           model_version="unit-v1", temperature=0, mock=True)
+        self.failure_type = failure_type
 
     def complete_diagnosis(self, prompt, **kwargs):
         data = json.loads(prompt)
         ev = data["failure_evidence"]
-        return json.dumps({"diagnosed_failure_type": ev["failure_type"],
+        return json.dumps({"diagnosed_failure_type": self.failure_type,
             "cited_span_id": ev["span_id"], "cited_step": ev.get("step"),
             "root_cause_analysis": "Mock diagnosis of the observed output, for transport tests only."})
 

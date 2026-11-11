@@ -99,7 +99,7 @@ def load_inputs():
     # Deliberately project pred only; label_v1, source model, judge and injection
     # information cannot enter detector/critic inputs via saved result records.
     predictions = {tid: {"pred": saved["predictions"][tid]["pred"]} for tid in traces}
-    views = {tid: critic_view(detector_view(t.model_dump(mode="json"))) for tid, t in traces.items()}
+    views = {tid: detector_view(t.model_dump(mode="json")) for tid, t in traces.items()}
     evidence = {tid: from_detector(predictions[tid], views[tid]) for tid in traces}
     return rows, traces, predictions, views, evidence
 
@@ -128,7 +128,8 @@ def metrics(records, vectors):
                                                     vectors[generated]),
             "specificity_llm_only": distinctness([records[i]["proposal"]["patch_content"] for i in llm_only],
                                                  vectors[llm_only]),
-            "grounding": interval(sum(r["grounding"]["grounded"] for r in rows), len(generated)),
+            "grounding_proxy": {"validated": False, "used_for_comparisons": False,
+                                "review_kappa_sensitivity": [.20, .03225806451612906]},
             "C3": summarize_c3([r["c3"] for r in rows])}
     return {"overall": block(list(range(len(records)))),
             "per_class": {ft: block([i for i, r in enumerate(records) if r["failure_type"] == ft])
@@ -148,7 +149,7 @@ def run_experiment(rows, traces, predictions, views, evidence, *, legacy, provid
             tid = row["trace_id"]
             for arm in ARMS:
                 ledger.arm = arm
-                ev, view = evidence[tid], views[tid]
+                ev, view = evidence[tid], critic_view(views[tid])
                 before = {r["call_id"] for r in ledger.rows()}
                 started = time.perf_counter()
                 proposal, valid, applied = None, False, False
@@ -201,7 +202,7 @@ def run_experiment(rows, traces, predictions, views, evidence, *, legacy, provid
                     "proposal": proposal.model_dump(mode="json") if proposal else None,
                     "c1_valid": valid, "dry_run_applied": applied,
                     "wall_latency_ms": wall_latency_ms,
-                    "grounding": grounding(proposal.patch_content, anchors) if proposal else {"grounded": False},
+                    "grounding_proxy_unvalidated": grounding(proposal.patch_content, anchors) if proposal else None,
                     "c3": score_c3(proposal, truth, detector_type=predictions[tid]["pred"]),
                     "scoring_truth": truth.model_dump(mode="json"),
                     "call_ids": [c["call_id"] for c in calls]}
@@ -237,9 +238,10 @@ def main():
     args = parser.parse_args()
     preflight()
     rows, traces, predictions, views, evidence = load_inputs()
-    from bench.detector_view import RESIDUAL_INJECTION_TEXT
-    leak_audit = assert_no_evidence_leaks(evidence, OUT / "leak_assert.json",
-                                        injection_texts=RESIDUAL_INJECTION_TEXT)
+    from bench.tools import DRIFT_CUSTOMER
+    from bench.world import build_world
+    leak_audit = assert_no_evidence_leaks(evidence, views, OUT / "leak_assert.json",
+        raw_canaries=tuple(u.canary for u in build_world().users), raw_drift_target=DRIFT_CUSTOMER)
     legacy, embedder, config = OriginalCritic(), MiniLMEmbeddings(), baseline_config()
     commit = git("rev-parse", "HEAD")
     OUT.mkdir(parents=True, exist_ok=True)
