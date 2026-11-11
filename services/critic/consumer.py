@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import logging
 import os
+import json
 
 from nexus_agent.models import Alert
+from services.critic.accounting import BudgetExceeded
 
 logger = logging.getLogger("nexus.critic.consumer")
 
@@ -54,17 +56,24 @@ class CriticConsumer:
                     logger.warning("nexus-critic: consume error %s", msg.error())
                     continue
                 try:
-                    alert = Alert.model_validate_json(msg.value())
+                    raw = json.loads(msg.value())
+                    alert = Alert.model_validate(raw)
                     logger.info("nexus-critic: processing alert %s (type=%s)",
                                 alert.alert_id, alert.failure_type.value)
                     proposal = run_critic(
                         alert, self.db,
                         llm_factory=self.llm_factory,
                         kafka_producer=producer,
+                        evidence=raw.get("failure_evidence"),
                     )
                     if proposal:
                         producer.flush(1)
-                        logger.info("nexus-critic: published patch %s", proposal.proposal_id)
+                        logger.info("nexus-critic: proposal %s source=%s dry_run=%s",
+                                    proposal.proposal_id, proposal.provenance.source,
+                                    proposal.dry_run_applied)
+                except BudgetExceeded:
+                    logger.error("nexus-critic: Phase 3 spend cap reached; stopping")
+                    raise
                 except Exception as exc:  # noqa: BLE001
                     logger.exception("nexus-critic: failed to process alert (%s)", exc)
         finally:

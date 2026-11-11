@@ -1,0 +1,36 @@
+"""Append-only per-call accounting; unsupported paid providers fail closed."""
+
+import json
+import threading
+from pathlib import Path
+
+CAP_USD = 0.75
+
+
+class BudgetExceeded(RuntimeError):
+    pass
+
+
+class CostLedger:
+    def __init__(self, path="results/critic_dev/calls.jsonl"):
+        self.path = Path(path)
+        self.lock = threading.Lock()
+
+    def rows(self):
+        if not self.path.exists():
+            return []
+        return [json.loads(line) for line in self.path.read_text(encoding="utf-8").splitlines()]
+
+    @property
+    def spent(self):
+        return sum(row["cost_usd"] for row in self.rows())
+
+    def check(self, worst_case_usd=0):
+        if self.spent >= CAP_USD or self.spent + worst_case_usd > CAP_USD:
+            raise BudgetExceeded("Phase 3 $0.75 branch cap reached")
+
+    def append(self, row):
+        with self.lock:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            with self.path.open("a", encoding="utf-8", newline="\n") as out:
+                out.write(json.dumps(row, sort_keys=True, allow_nan=False) + "\n")
