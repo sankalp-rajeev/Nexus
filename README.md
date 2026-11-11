@@ -4,6 +4,24 @@ End-to-end observability and autonomous self-healing for multi-agent AI pipeline
 
 > **Status:** results are being rebuilt on real runs. Every number Nexus claims lives in [RESULTS.md](RESULTS.md) with a committed result file; anything not listed there is unmeasured. Progress: [status.md](status.md).
 
+## What Nexus Evaluates
+
+Nexus targets five agent failure modes:
+
+- Hallucination
+- Context bleed
+- Plan drift
+- Tool misfire
+- Repetitive loops
+
+For each detected failure:
+
+1. Capture the execution trace
+2. Classify the failure
+3. Diagnose the root cause
+4. Propose a structured configuration patch
+5. Re-run the same task
+6. Compare before/after evaluation metrics
 ```
 OBSERVE → STREAM → DETECT → DIAGNOSE → PATCH → EVALUATE → OBSERVE
   SDK       Kafka   Classifier  Critic    Healer   DeepEval    (loop)
