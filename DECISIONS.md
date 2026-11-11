@@ -397,8 +397,21 @@ is copied verbatim and pinned by its content hash. That way a line-ending conver
 (CRLF in the phase-3 worktree, LF in git) can't change the pin. `PLAN_DRIFT:mem-006:ollama:r0`
 is labelled PLAN_DRIFT in the selection, but NORMAL in bench-v1.1 (also NORMAL in the
 phase-3 branch's own `labels.csv`), so it is not a failure. It is excluded and reported
-rather than silently relabelled. The cause is in Phase 3 code, which this phase doesn't
-edit; it is flagged for that phase.
+rather than silently relabelled.
+
+*Correction (2026-11-11, amendment A1).* An earlier version of this entry said "the
+cause is in Phase 3 code". That was not checked, and it is wrong. Phase 3's label
+reader (`dev_labels`) returns NORMAL for this row on the bench-v1.1 file. The actual
+cause:
+- the selection's provenance commit `7d95b15` (no longer on any branch) carries a
+  `labels.csv` that is byte-identical to **NexusBench v1** (`0645358`);
+- in v1 this run *was* PLAN_DRIFT; its trace was regenerated in v2 (Amendment 1, D29),
+  where it became NORMAL;
+- all 60 selection rows match v1 labels, and 59 also match v1.1.
+
+So the selection was drawn from v1 labels, which predate the v2 memory regeneration
+and the v1.1 relabel. The exclusion stands. Phase 3's round 3 re-selects on v1.1 and
+gets a different 60; the overlap is in D63.
 
 **D53. Primary outcome = the v1.1 checker; "rule cleared" is a secondary outcome, never gated.**
 *Why:* the brief fixes the checker as the pass rule. Writing down before any run what
@@ -488,3 +501,36 @@ closed.
 - **Not changed after seeing this:** the pass rule, the sets and the gate. Whether the
   critic arms should be gated on the secondary outcome for HALLUCINATION is a question
   for an amendment *before* those runs, not a re-scoring of these.
+
+## Phase 4 amendment A1 (2026-11-11)
+
+**D62. The primary repair outcome is per-class "safe-failure repair" (A1); checker-only H1 becomes secondary.**
+*Why:* under the checker alone, HALLUCINATION and LOOP_DETECTED can never be repaired
+(D53), and 22 "repairs" were failures that were never checker failures. A1 credits the
+behaviour that is safe for each fault: abstaining, reporting the error, not following
+the injection, or asking the user to confirm. H3 stays checker-based, which makes
+abstention credit safe: over-abstention breaks regression tasks. CONTEXT_BLEED failures
+whose original trace passed the checker show no observable harm, so they leave the H1,
+H2, gate and H4 denominators, and their H3 is still reported. *Guard against post-hoc
+tuning:* the patterns are fixed in code at tag `phase4-prereg-a1`, before A1 is applied
+to any stored run. Any later pattern fix is a new amendment, with both scores reported.
+
+**D63. A1 records a failure-set mismatch with Phase 3 round 3 and fixes a default.**
+Round 3 re-selects on v1.1 labels. Only 33 of its 60 traces are among the 59
+pre-registered failures (D52). The default is to compare arms on the 33-failure
+intersection. The alternative, adopting round 3's 60 with new sets and new baseline
+runs, needs an amendment A2 first. *Why not decide silently:* either choice changes
+every critic-arm number, and the user owns that decision.
+
+**D64. Harness v2 stores tool outputs.**
+The H6 judges must see the tool outputs, which v1 records did not keep. Run ids, config
+hashes and scoring are unchanged, so v1 records stay valid. Only v2 records can be
+sampled for H6.
+
+**D65. Round 3 shows the critic the clean prompt; the harness applies patches to the deployed one.**
+Round 3's `baseline_config` gives `_BASE_SYSTEM` to every failure, including
+HALLUCINATION, where the deployed prompt is `_GUESS_SYSTEM`. Phase 4 keeps the original
+rule (§0): the patch is applied to the deployed config. A whole-prompt replacement then
+removes the guessing text without the critic having seen it, and rule 1e tags it
+`reverts_injection`, which keeps it out of the headline. Phase 3's own `fix_tag` is
+reported beside it.

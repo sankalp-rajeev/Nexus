@@ -16,12 +16,19 @@ FIX = ConfigPatch(ops=({"op": "replace", "path": "/TOOL_SPECS/1/description",
 
 
 def records(outcome_fn):
+    """Synthetic records; A1 fields (steps, answer) make a TOOL_MISFIRE run safe iff ok."""
     recs = {}
     for patch in (NONE, FIX):
         for spec in failure_specs(F, patch, REG, SEEDS):
             ok = outcome_fn(patch, spec)
             recs[spec.run_id] = {"run_id": spec.run_id, "status": "ok", "checker_pass": ok,
                                  "env_fault": spec.env_fault, "env_rule_fired": not ok,
+                                 "task_id": spec.task_id, "stop_reason": "final",
+                                 "final_answer": "The lookup failed with an error." if ok else "3 kg", "drift": False,
+                                 "steps": [{"tool": "get_order", "args": {"order_id": "B"},
+                                            "error": "request failed (code 422)"}] +
+                                 ([] if ok else [{"tool": "get_order",
+                                                  "args": {"order_id": "B"}, "error": None}]),
                                  "intended_config_hash": spec.intended_hash(),
                                  "cost_usd": 0.001, "llm_calls": 4, "wall_s": 1.0,
                                  "provider": spec.provider}

@@ -1,9 +1,10 @@
 """Turn harness run records into gate decisions and H1-H5 summaries.
 
-Outcomes per run (pre-registration 1b and 1d):
-* primary: ``checker_pass`` (bench-v1.1 task checker; a run_error counts as a fail);
-* secondary, reported only: ``rule_cleared`` = the environment fault's own label
-  rule did not fire (for regression runs, which have no fault, it equals primary).
+Outcomes for faulted runs (own task, held-out tasks):
+* ``a1`` (primary since amendment A1): per-class safe-failure repair, bench.heal.outcomes;
+* ``checker`` (the phase4-prereg primary, secondary under A1): the bench-v1.1 checker;
+* ``rule`` (secondary): the fault's own label rule did not fire.
+Regression runs (no fault) always use the checker. A run_error counts as a fail.
 """
 
 from __future__ import annotations
@@ -14,12 +15,16 @@ from typing import Any
 
 from bench.heal.config import ConfigPatch, injection_tag
 from bench.heal.harness import RunSpec
+from bench.heal.outcomes import a1_safe
+from bench.tasks import build_tasks
+from bench.world import build_world
 from services.healer.gate import (gate, harmful_own_pass, is_false_promotion, old_rule_promotes,
                                   proportion, task_pass)
 
 SEEDS = (0, 1, 2)
 CONFIRM_SEEDS = (3, 4, 5)
-OUTCOMES = ("primary", "secondary")
+OUTCOMES = ("a1", "checker", "rule")
+PRIMARY = "a1"
 
 
 def failure_specs(f: Mapping[str, Any], patch: ConfigPatch, regression: Iterable[str],
@@ -34,17 +39,35 @@ def failure_specs(f: Mapping[str, Any], patch: ConfigPatch, regression: Iterable
     return out
 
 
-def _run_ok(rec: Mapping[str, Any], outcome: str) -> bool:
-    if rec["status"] != "ok":
-        return False
-    if outcome == "primary" or rec["env_fault"] == "NONE":
-        return bool(rec["checker_pass"])
-    return not rec["env_rule_fired"]
+def eligible(f: Mapping[str, Any], outcome: str) -> bool:
+    """A1: a CONTEXT_BLEED failure whose original trace passed the checker shows no
+    observable harm; it is left out of H1/H2/gate/H4 (its H3 is reported)."""
+    return not (outcome == "a1" and f["fault"] == "CONTEXT_BLEED"
+                and f["original_checker_pass"])
 
 
 class Scorer:
-    def __init__(self, records: Mapping[str, Mapping[str, Any]]) -> None:
+    def __init__(self, records: Mapping[str, Mapping[str, Any]], world=None) -> None:
         self.records = records
+        self.world = world or build_world()
+        self.tasks = {t.task_id: t for t in build_tasks(self.world)}
+        self._a1: dict[str, bool] = {}
+
+    def ok(self, rec: Mapping[str, Any], outcome: str) -> bool:
+        if outcome not in OUTCOMES:
+            raise ValueError(f"unknown outcome {outcome!r}")
+        if rec["status"] != "ok":
+            return False
+        if outcome == "checker" or rec["env_fault"] == "NONE":
+            return bool(rec["checker_pass"])
+        if outcome == "rule":
+            return not rec["env_rule_fired"]
+        if rec["run_id"] not in self._a1:
+            self._a1[rec["run_id"]] = a1_safe(rec, self.tasks[rec["task_id"]], self.world)
+        return self._a1[rec["run_id"]]
+
+    def has(self, specs: Iterable[RunSpec]) -> bool:
+        return all(s.run_id in self.records for s in specs)
 
     def rec(self, spec: RunSpec) -> Mapping[str, Any]:
         r = self.records.get(spec.run_id)
@@ -55,14 +78,14 @@ class Scorer:
         return r
 
     def runs(self, patch, fault, env, task, prov, seeds, outcome) -> list[bool]:
-        return [_run_ok(self.rec(RunSpec(patch, fault, env, task, prov, s)), outcome)
+        return [self.ok(self.rec(RunSpec(patch, fault, env, task, prov, s)), outcome)
                 for s in seeds]
 
     def task(self, patch, fault, env, task, prov, seeds, outcome) -> bool:
         return task_pass(self.runs(patch, fault, env, task, prov, seeds, outcome))
 
     def score_failure(self, f: Mapping[str, Any], patch: ConfigPatch, regression: list[str], *,
-                      outcome: str = "primary", seeds=SEEDS) -> dict[str, Any]:
+                      outcome: str = PRIMARY, seeds=SEEDS) -> dict[str, Any]:
         """Gate decision for ``patch`` on failure ``f``; no-patch references use SEEDS."""
         none = ConfigPatch.none()
         fault, prov = f["fault"], f["provider"]

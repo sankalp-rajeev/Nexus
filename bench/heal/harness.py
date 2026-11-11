@@ -47,7 +47,10 @@ from bench.world import build_world
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 STATE_DIR = os.path.join(os.path.dirname(__file__), "_state")
 RUNS_PATH = os.path.join(REPO, "results", "heal_runs.jsonl")
-HARNESS_VERSION = "heal-harness-v1"
+# v2 (amendment A1): records also store each tool output (truncated), which the H6 judges
+# read. Run ids, config hashes and scoring are unchanged from v1.
+HARNESS_VERSION = "heal-harness-v2"
+TOOL_OUTPUT_CHARS = 2000
 PHASE4_CAP_USD = 1.50
 MAX_ATTEMPTS = 3  # provider errors (stop_reason llm_error) are retried, then recorded as failed
 
@@ -219,7 +222,9 @@ class Harness:
             **flags,
             "env_rule_fired": bool(flags.get(RULE_FLAG.get(spec.env_fault, ""), False)),
             "stop_reason": res.stop_reason, "n_steps": len(res.steps),
-            "steps": [{"tool": s.tool, "args": s.args, "error": s.error} for s in res.steps],
+            "steps": [{"tool": s.tool, "args": s.args, "error": s.error,
+                       "output": None if s.output is None else s.output[:TOOL_OUTPUT_CHARS]}
+                      for s in res.steps],
             "final_answer": (res.final_answer or "")[:300],
             "llm_calls": res.llm_calls, "invalid_json": res.invalid_json,
             "cost_usd": round(res.cost_usd, 8), "wall_s": round(time.perf_counter() - t0, 3),
