@@ -1,4 +1,4 @@
-"""nexus-agent — zero-config observability SDK for multi-agent AI systems.
+"""nexus_agent (dist: nexus-selfheal) — zero-config observability SDK for multi-agent AI systems.
 
 Quickstart::
 
@@ -23,7 +23,7 @@ from nexus_agent import models  # noqa: F401
 from nexus_agent.config import NexusConfig
 from nexus_agent.client import NexusClient
 
-__version__ = "1.0.0"
+__version__ = "0.1.0"
 
 logger = logging.getLogger("nexus_agent")
 

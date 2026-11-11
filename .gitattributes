@@ -1,0 +1,3 @@
+# NexusBench data is hashed by manifest.sha256; never convert line endings.
+data/nexusbench/** text eol=lf
+bench/spotcheck/** text eol=lf

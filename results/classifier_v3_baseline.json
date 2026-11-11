@@ -1,0 +1,173 @@
+{
+  "experiment_id": "D0-baseline",
+  "summary": "binary P=1.000 R=0.473 (TP=52 FP=0 FN=58 TN=110) on 220 real HaluEval/ToolBench traces",
+  "provenance": {
+    "date_utc": "2026-11-10T23:13:23+00:00",
+    "git_commit": "9ce9535",
+    "git_dirty": false,
+    "provider": "none (no LLM)",
+    "model": "svm.joblib v3 (scikit-learn SVM) + all-MiniLM-L6-v2 + cross-encoder/nli-MiniLM2-L6-H768",
+    "mock": false,
+    "seed": 0
+  },
+  "results": {
+    "dataset": "tests/fixtures/master_traces.json",
+    "strategy": "source-stratified (train=synthetic, test=real-world)",
+    "n_train": 212,
+    "n_test": 220,
+    "binary": {
+      "precision": {
+        "value": 1.0,
+        "k": 52,
+        "n": 52,
+        "ci95": [
+          0.9312,
+          1.0
+        ]
+      },
+      "recall": {
+        "value": 0.4727,
+        "k": 52,
+        "n": 110,
+        "ci95": [
+          0.3819,
+          0.5654
+        ]
+      },
+      "f1": 0.642,
+      "confusion": {
+        "tp": 52,
+        "fp": 0,
+        "fn": 58,
+        "tn": 110
+      }
+    },
+    "multiclass_accuracy": 0.7364,
+    "per_class": {
+      "NORMAL": {
+        "precision": {
+          "value": 0.6548,
+          "k": 110,
+          "n": 168,
+          "ci95": [
+            0.5801,
+            0.7225
+          ]
+        },
+        "recall": {
+          "value": 1.0,
+          "k": 110,
+          "n": 110,
+          "ci95": [
+            0.9663,
+            1.0
+          ]
+        },
+        "support": 110
+      },
+      "HALLUCINATION": {
+        "precision": {
+          "value": 1.0,
+          "k": 2,
+          "n": 2,
+          "ci95": [
+            0.3424,
+            1.0
+          ]
+        },
+        "recall": {
+          "value": 0.0333,
+          "k": 2,
+          "n": 60,
+          "ci95": [
+            0.0092,
+            0.1136
+          ]
+        },
+        "support": 60
+      },
+      "CONTEXT_BLEED": {
+        "precision": {
+          "value": null,
+          "k": 0,
+          "n": 0,
+          "ci95": null
+        },
+        "recall": {
+          "value": null,
+          "k": 0,
+          "n": 0,
+          "ci95": null
+        },
+        "support": 0
+      },
+      "PLAN_DRIFT": {
+        "precision": {
+          "value": null,
+          "k": 0,
+          "n": 0,
+          "ci95": null
+        },
+        "recall": {
+          "value": null,
+          "k": 0,
+          "n": 0,
+          "ci95": null
+        },
+        "support": 0
+      },
+      "TOOL_MISFIRE": {
+        "precision": {
+          "value": 1.0,
+          "k": 50,
+          "n": 50,
+          "ci95": [
+            0.9286,
+            1.0
+          ]
+        },
+        "recall": {
+          "value": 1.0,
+          "k": 50,
+          "n": 50,
+          "ci95": [
+            0.9286,
+            1.0
+          ]
+        },
+        "support": 50
+      },
+      "LOOP_DETECTED": {
+        "precision": {
+          "value": null,
+          "k": 0,
+          "n": 0,
+          "ci95": null
+        },
+        "recall": {
+          "value": null,
+          "k": 0,
+          "n": 0,
+          "ci95": null
+        },
+        "support": 0
+      }
+    },
+    "per_source": {
+      "halueval": {
+        "n": 120,
+        "precision": 1.0,
+        "recall": 0.0333,
+        "f1": 0.0645,
+        "accuracy": 0.5167
+      },
+      "toolbench": {
+        "n": 100,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0
+      }
+    }
+  }
+}

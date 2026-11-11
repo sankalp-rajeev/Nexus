@@ -1,0 +1,231 @@
+{
+  "experiment_id": "B0-dataset",
+  "summary": "NexusBench: 716 labelled traces over 140 tasks; test split per class NORMAL=118, LOOP_DETECTED=29, TOOL_MISFIRE=38, CONTEXT_BLEED=30, PLAN_DRIFT=31, HALLUCINATION=36, OTHER_FAILURE=75",
+  "provenance": {
+    "date_utc": "2026-11-11T01:52:42+00:00",
+    "git_commit": "a04c528",
+    "git_dirty": false,
+    "provider": "deepseek+ollama",
+    "model": "deepseek-flash + qwen2.5:7b-instruct",
+    "mock": false,
+    "seed": 20261110
+  },
+  "results": {
+    "n_traces": 716,
+    "n_tasks": 140,
+    "labels_total": {
+      "CONTEXT_BLEED": 60,
+      "HALLUCINATION": 70,
+      "OTHER_FAILURE": 160,
+      "NORMAL": 236,
+      "LOOP_DETECTED": 63,
+      "PLAN_DRIFT": 55,
+      "TOOL_MISFIRE": 72
+    },
+    "labels_by_split": {
+      "dev": {
+        "CONTEXT_BLEED": 30,
+        "HALLUCINATION": 34,
+        "OTHER_FAILURE": 85,
+        "NORMAL": 118,
+        "LOOP_DETECTED": 34,
+        "PLAN_DRIFT": 24,
+        "TOOL_MISFIRE": 34
+      },
+      "test": {
+        "CONTEXT_BLEED": 30,
+        "HALLUCINATION": 36,
+        "OTHER_FAILURE": 75,
+        "NORMAL": 118,
+        "LOOP_DETECTED": 29,
+        "PLAN_DRIFT": 31,
+        "TOOL_MISFIRE": 38
+      }
+    },
+    "labels_by_provider": {
+      "deepseek": {
+        "CONTEXT_BLEED": 30,
+        "HALLUCINATION": 70,
+        "NORMAL": 147,
+        "LOOP_DETECTED": 36,
+        "TOOL_MISFIRE": 61,
+        "OTHER_FAILURE": 14
+      },
+      "ollama": {
+        "CONTEXT_BLEED": 30,
+        "OTHER_FAILURE": 146,
+        "LOOP_DETECTED": 27,
+        "NORMAL": 89,
+        "PLAN_DRIFT": 55,
+        "TOOL_MISFIRE": 11
+      }
+    },
+    "injection_effectiveness": {
+      "CONTEXT_BLEED": {
+        "all": {
+          "value": 1.0,
+          "k": 60,
+          "n": 60,
+          "ci95": [
+            0.9398,
+            1.0
+          ]
+        },
+        "deepseek": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95": [
+            0.8865,
+            1.0
+          ]
+        },
+        "ollama": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95": [
+            0.8865,
+            1.0
+          ]
+        }
+      },
+      "HALLUCINATION": {
+        "all": {
+          "value": 0.4861,
+          "k": 70,
+          "n": 144,
+          "ci95": [
+            0.4059,
+            0.567
+          ]
+        },
+        "deepseek": {
+          "value": 0.9722,
+          "k": 70,
+          "n": 72,
+          "ci95": [
+            0.9043,
+            0.9923
+          ]
+        },
+        "ollama": {
+          "value": 0.0,
+          "k": 0,
+          "n": 72,
+          "ci95": [
+            0.0,
+            0.0507
+          ]
+        }
+      },
+      "LOOP_DETECTED": {
+        "all": {
+          "value": 0.8611,
+          "k": 62,
+          "n": 72,
+          "ci95": [
+            0.7629,
+            0.9228
+          ]
+        },
+        "deepseek": {
+          "value": 1.0,
+          "k": 36,
+          "n": 36,
+          "ci95": [
+            0.9036,
+            1.0
+          ]
+        },
+        "ollama": {
+          "value": 0.7222,
+          "k": 26,
+          "n": 36,
+          "ci95": [
+            0.5601,
+            0.8415
+          ]
+        }
+      },
+      "PLAN_DRIFT": {
+        "all": {
+          "value": 0.3667,
+          "k": 55,
+          "n": 150,
+          "ci95": [
+            0.2938,
+            0.4462
+          ]
+        },
+        "deepseek": {
+          "value": 0.0,
+          "k": 0,
+          "n": 75,
+          "ci95": [
+            0.0,
+            0.0487
+          ]
+        },
+        "ollama": {
+          "value": 0.7333,
+          "k": 55,
+          "n": 75,
+          "ci95": [
+            0.6237,
+            0.8202
+          ]
+        }
+      },
+      "TOOL_MISFIRE": {
+        "all": {
+          "value": 0.48,
+          "k": 72,
+          "n": 150,
+          "ci95": [
+            0.4015,
+            0.5594
+          ]
+        },
+        "deepseek": {
+          "value": 0.8133,
+          "k": 61,
+          "n": 75,
+          "ci95": [
+            0.7107,
+            0.8854
+          ]
+        },
+        "ollama": {
+          "value": 0.1467,
+          "k": 11,
+          "n": 75,
+          "ci95": [
+            0.0839,
+            0.2438
+          ]
+        }
+      }
+    },
+    "uninjected_runs": {
+      "n": 140,
+      "labels": {
+        "NORMAL": 140
+      },
+      "task_success": {
+        "value": 1.0,
+        "k": 140,
+        "n": 140,
+        "ci95": [
+          0.9733,
+          1.0
+        ]
+      }
+    },
+    "test_manifest_digest": "0f664774995b6a9334500212a93bb698c350190f00397260f196f9c25266d9c0",
+    "spend_usd_all_time": {
+      "gemini": 0.0017,
+      "deepseek": 0.3727
+    }
+  }
+}

@@ -1,0 +1,488 @@
+{
+  "experiment_id": "D2",
+  "summary": "TEST headline macro recall 0.9556 vs SVM baseline 0.2889 (secondary 1.0 vs 0.4334)",
+  "provenance": {
+    "date_utc": "2026-11-11T01:42:22+00:00",
+    "git_commit": "d293ab6",
+    "git_dirty": true,
+    "provider": "local NLI + rules",
+    "model": "cross-encoder/nli-deberta-v3-base",
+    "mock": false,
+    "seed": null
+  },
+  "results": {
+    "split": "test",
+    "detectors": {
+      "HALLUCINATION": {
+        "support": 30,
+        "recall": {
+          "value": 1.0,
+          "k": 30,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.8843,
+            1.0
+          ]
+        },
+        "precision": {
+          "value": 0.8108,
+          "k": 30,
+          "n": 37,
+          "ci95_clopper_pearson": [
+            0.6484,
+            0.9204
+          ]
+        },
+        "kind": "headline",
+        "f1": 0.8955
+      },
+      "CONTEXT_BLEED": {
+        "support": 30,
+        "recall": {
+          "value": 0.8667,
+          "k": 26,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.6928,
+            0.9624
+          ]
+        },
+        "precision": {
+          "value": 1.0,
+          "k": 26,
+          "n": 26,
+          "ci95_clopper_pearson": [
+            0.8677,
+            1.0
+          ]
+        },
+        "kind": "headline",
+        "f1": 0.9286
+      },
+      "PLAN_DRIFT": {
+        "support": 31,
+        "recall": {
+          "value": 1.0,
+          "k": 31,
+          "n": 31,
+          "ci95_clopper_pearson": [
+            0.8878,
+            1.0
+          ]
+        },
+        "precision": {
+          "value": 1.0,
+          "k": 31,
+          "n": 31,
+          "ci95_clopper_pearson": [
+            0.8878,
+            1.0
+          ]
+        },
+        "kind": "headline",
+        "f1": 1.0
+      },
+      "TOOL_MISFIRE": {
+        "support": 38,
+        "recall": {
+          "value": 1.0,
+          "k": 38,
+          "n": 38,
+          "ci95_clopper_pearson": [
+            0.9075,
+            1.0
+          ]
+        },
+        "precision": {
+          "value": 1.0,
+          "k": 38,
+          "n": 38,
+          "ci95_clopper_pearson": [
+            0.9075,
+            1.0
+          ]
+        },
+        "kind": "rule-defined",
+        "f1": 1.0
+      },
+      "LOOP_DETECTED": {
+        "support": 29,
+        "recall": {
+          "value": 1.0,
+          "k": 29,
+          "n": 29,
+          "ci95_clopper_pearson": [
+            0.8806,
+            1.0
+          ]
+        },
+        "precision": {
+          "value": 1.0,
+          "k": 29,
+          "n": 29,
+          "ci95_clopper_pearson": [
+            0.8806,
+            1.0
+          ]
+        },
+        "kind": "rule-defined",
+        "f1": 1.0
+      },
+      "macro_recall_headline": 0.9556,
+      "headline_classes_scored": [
+        "HALLUCINATION",
+        "CONTEXT_BLEED",
+        "PLAN_DRIFT"
+      ],
+      "macro_recall_secondary_H_PD": 1.0
+    },
+    "baseline_svm": {
+      "HALLUCINATION": {
+        "support": 30,
+        "recall": {
+          "value": 0.8667,
+          "k": 26,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.6928,
+            0.9624
+          ]
+        },
+        "precision": {
+          "value": 0.1226,
+          "k": 26,
+          "n": 212,
+          "ci95_clopper_pearson": [
+            0.0817,
+            0.1745
+          ]
+        },
+        "kind": "headline",
+        "f1": 0.2148
+      },
+      "CONTEXT_BLEED": {
+        "support": 30,
+        "recall": {
+          "value": 0.0,
+          "k": 0,
+          "n": 30,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.1157
+          ]
+        },
+        "precision": {
+          "value": null,
+          "k": 0,
+          "n": 0,
+          "ci95_clopper_pearson": null
+        },
+        "kind": "headline",
+        "f1": null
+      },
+      "PLAN_DRIFT": {
+        "support": 31,
+        "recall": {
+          "value": 0.0,
+          "k": 0,
+          "n": 31,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.1122
+          ]
+        },
+        "precision": {
+          "value": null,
+          "k": 0,
+          "n": 0,
+          "ci95_clopper_pearson": null
+        },
+        "kind": "headline",
+        "f1": null
+      },
+      "TOOL_MISFIRE": {
+        "support": 38,
+        "recall": {
+          "value": 0.9211,
+          "k": 35,
+          "n": 38,
+          "ci95_clopper_pearson": [
+            0.7862,
+            0.9834
+          ]
+        },
+        "precision": {
+          "value": 1.0,
+          "k": 35,
+          "n": 35,
+          "ci95_clopper_pearson": [
+            0.9,
+            1.0
+          ]
+        },
+        "kind": "rule-defined",
+        "f1": 0.9589
+      },
+      "LOOP_DETECTED": {
+        "support": 29,
+        "recall": {
+          "value": 1.0,
+          "k": 29,
+          "n": 29,
+          "ci95_clopper_pearson": [
+            0.8806,
+            1.0
+          ]
+        },
+        "precision": {
+          "value": 0.8056,
+          "k": 29,
+          "n": 36,
+          "ci95_clopper_pearson": [
+            0.6398,
+            0.9181
+          ]
+        },
+        "kind": "rule-defined",
+        "f1": 0.8923
+      },
+      "macro_recall_headline": 0.2889,
+      "headline_classes_scored": [
+        "HALLUCINATION",
+        "CONTEXT_BLEED",
+        "PLAN_DRIFT"
+      ],
+      "macro_recall_secondary_H_PD": 0.4334
+    },
+    "baseline_per_model": {
+      "deepseek-flash": {
+        "HALLUCINATION": {
+          "support": 30,
+          "recall": {
+            "value": 0.8667,
+            "k": 26,
+            "n": 30,
+            "ci95_clopper_pearson": [
+              0.6928,
+              0.9624
+            ]
+          },
+          "precision": {
+            "value": 0.208,
+            "k": 26,
+            "n": 125,
+            "ci95_clopper_pearson": [
+              0.1406,
+              0.2897
+            ]
+          },
+          "kind": "headline",
+          "f1": 0.3355
+        },
+        "CONTEXT_BLEED": {
+          "support": 18,
+          "recall": {
+            "value": 0.0,
+            "k": 0,
+            "n": 18,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.1853
+            ]
+          },
+          "precision": {
+            "value": null,
+            "k": 0,
+            "n": 0,
+            "ci95_clopper_pearson": null
+          },
+          "kind": "headline",
+          "f1": null
+        },
+        "PLAN_DRIFT": {
+          "support": 0,
+          "recall": {
+            "value": null,
+            "k": 0,
+            "n": 0,
+            "ci95_clopper_pearson": null
+          },
+          "precision": {
+            "value": null,
+            "k": 0,
+            "n": 0,
+            "ci95_clopper_pearson": null
+          },
+          "kind": "headline",
+          "f1": null
+        },
+        "TOOL_MISFIRE": {
+          "support": 33,
+          "recall": {
+            "value": 1.0,
+            "k": 33,
+            "n": 33,
+            "ci95_clopper_pearson": [
+              0.8942,
+              1.0
+            ]
+          },
+          "precision": {
+            "value": 1.0,
+            "k": 33,
+            "n": 33,
+            "ci95_clopper_pearson": [
+              0.8942,
+              1.0
+            ]
+          },
+          "kind": "rule-defined",
+          "f1": 1.0
+        },
+        "LOOP_DETECTED": {
+          "support": 19,
+          "recall": {
+            "value": 1.0,
+            "k": 19,
+            "n": 19,
+            "ci95_clopper_pearson": [
+              0.8235,
+              1.0
+            ]
+          },
+          "precision": {
+            "value": 0.8261,
+            "k": 19,
+            "n": 23,
+            "ci95_clopper_pearson": [
+              0.6122,
+              0.9505
+            ]
+          },
+          "kind": "rule-defined",
+          "f1": 0.9048
+        },
+        "macro_recall_headline": 0.4334,
+        "headline_classes_scored": [
+          "HALLUCINATION",
+          "CONTEXT_BLEED"
+        ],
+        "macro_recall_secondary_H_PD": 0.8667
+      },
+      "qwen2.5:7b-instruct": {
+        "HALLUCINATION": {
+          "support": 0,
+          "recall": {
+            "value": null,
+            "k": 0,
+            "n": 0,
+            "ci95_clopper_pearson": null
+          },
+          "precision": {
+            "value": 0.0,
+            "k": 0,
+            "n": 87,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0415
+            ]
+          },
+          "kind": "headline",
+          "f1": null
+        },
+        "CONTEXT_BLEED": {
+          "support": 12,
+          "recall": {
+            "value": 0.0,
+            "k": 0,
+            "n": 12,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "precision": {
+            "value": null,
+            "k": 0,
+            "n": 0,
+            "ci95_clopper_pearson": null
+          },
+          "kind": "headline",
+          "f1": null
+        },
+        "PLAN_DRIFT": {
+          "support": 31,
+          "recall": {
+            "value": 0.0,
+            "k": 0,
+            "n": 31,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.1122
+            ]
+          },
+          "precision": {
+            "value": null,
+            "k": 0,
+            "n": 0,
+            "ci95_clopper_pearson": null
+          },
+          "kind": "headline",
+          "f1": null
+        },
+        "TOOL_MISFIRE": {
+          "support": 5,
+          "recall": {
+            "value": 0.4,
+            "k": 2,
+            "n": 5,
+            "ci95_clopper_pearson": [
+              0.0527,
+              0.8534
+            ]
+          },
+          "precision": {
+            "value": 1.0,
+            "k": 2,
+            "n": 2,
+            "ci95_clopper_pearson": [
+              0.1581,
+              1.0
+            ]
+          },
+          "kind": "rule-defined",
+          "f1": 0.5714
+        },
+        "LOOP_DETECTED": {
+          "support": 10,
+          "recall": {
+            "value": 1.0,
+            "k": 10,
+            "n": 10,
+            "ci95_clopper_pearson": [
+              0.6915,
+              1.0
+            ]
+          },
+          "precision": {
+            "value": 0.7692,
+            "k": 10,
+            "n": 13,
+            "ci95_clopper_pearson": [
+              0.4619,
+              0.9496
+            ]
+          },
+          "kind": "rule-defined",
+          "f1": 0.8695
+        },
+        "macro_recall_headline": 0.0,
+        "headline_classes_scored": [
+          "CONTEXT_BLEED",
+          "PLAN_DRIFT"
+        ],
+        "macro_recall_secondary_H_PD": 0.0
+      }
+    }
+  }
+}

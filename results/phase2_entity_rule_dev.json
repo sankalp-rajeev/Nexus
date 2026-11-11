@@ -1,0 +1,37 @@
+{
+  "experiment_id": "A3-entity-rule-dev",
+  "summary": "entity-absence rule alone (dev): P=0.8571 R=1.0",
+  "provenance": {
+    "date_utc": "2026-11-11T01:47:53+00:00",
+    "git_commit": "284fb25",
+    "git_dirty": false,
+    "provider": "local NLI + Gemini judge (cached)",
+    "model": "cross-encoder/nli-deberta-v3-base; gemini-3.5-flash-lite",
+    "mock": false,
+    "seed": null
+  },
+  "results": {
+    "split": "dev",
+    "rule": "flag iff a factual claim names an entity absent from every premise unit",
+    "precision": {
+      "value": 0.8571,
+      "k": 30,
+      "n": 35,
+      "ci95_clopper_pearson": [
+        0.6974,
+        0.9519
+      ]
+    },
+    "recall": {
+      "value": 1.0,
+      "k": 30,
+      "n": 30,
+      "ci95_clopper_pearson": [
+        0.8843,
+        1.0
+      ]
+    },
+    "flagged_hallucination_traces": 30,
+    "disclosure_required": true
+  }
+}

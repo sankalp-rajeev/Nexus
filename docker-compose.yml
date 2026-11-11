@@ -1,6 +1,6 @@
 # Nexus — full stack (11 services). Section 4.2.
-# Phase 1 skeleton: infra images are real; application service Dockerfiles are
-# added in later phases (build contexts are declared, Dockerfiles are TODO).
+# App services wait for healthy infra and restart on failure, because several
+# connect to Postgres/Kafka once at startup.
 
 services:
   # ── Infrastructure ──────────────────────────────────────────────────
@@ -25,6 +25,12 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: "0"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 20s
 
   postgres:
     image: timescale/timescaledb:latest-pg15
@@ -37,11 +43,24 @@ services:
     volumes:
       - ./infra/init/postgres_init.sql:/docker-entrypoint-initdb.d/postgres_init.sql:ro
       - nexus_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      # -h 127.0.0.1: the first-boot init server listens on the socket only, so
+      # this stays unhealthy until the real server is up after init.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U $${POSTGRES_USER:-nexus} -d $${POSTGRES_DB:-nexus}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
 
   redis:
     image: redis:7
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
   mlflow:
     image: ghcr.io/mlflow/mlflow:v2.13.0
@@ -54,7 +73,7 @@ services:
     volumes:
       - nexus_mlflow:/mlflow
 
-  # ── Nexus application services (Dockerfiles: TODO in later phases) ───
+  # ── Nexus application services ───────────────────────────────────────
   nexus-collector:
     build:
       context: .
@@ -62,35 +81,50 @@ services:
     ports:
       - "8000:8000"
     env_file: [.env]
-    depends_on: [kafka]
+    restart: unless-stopped
+    depends_on:
+      kafka: {condition: service_healthy}
 
   nexus-assembler:
     build:
       context: .
       dockerfile: services/assembler/Dockerfile
     env_file: [.env]
-    depends_on: [kafka, postgres]
+    restart: unless-stopped
+    depends_on:
+      kafka: {condition: service_healthy}
+      postgres: {condition: service_healthy}
 
   nexus-classifier:
     build:
       context: .
       dockerfile: services/classifier/Dockerfile
     env_file: [.env]
-    depends_on: [kafka, postgres]
+    restart: unless-stopped
+    depends_on:
+      kafka: {condition: service_healthy}
+      postgres: {condition: service_healthy}
 
   nexus-critic:
     build:
       context: .
       dockerfile: services/critic/Dockerfile
     env_file: [.env]
-    depends_on: [kafka, postgres]
+    restart: unless-stopped
+    depends_on:
+      kafka: {condition: service_healthy}
+      postgres: {condition: service_healthy}
 
   nexus-healer:
     build:
       context: .
       dockerfile: services/healer/Dockerfile
     env_file: [.env]
-    depends_on: [postgres, redis, mlflow]
+    restart: unless-stopped
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      mlflow: {condition: service_started}
 
   nexus-api:
     build:
@@ -99,7 +133,10 @@ services:
     ports:
       - "8001:8001"
     env_file: [.env]
-    depends_on: [postgres, redis]
+    restart: unless-stopped
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
 
   nexus-dashboard:
     build:
@@ -107,6 +144,7 @@ services:
       dockerfile: dashboard/Dockerfile
     ports:
       - "3000:3000"
+    restart: unless-stopped
     depends_on: [nexus-api]
 
 volumes:

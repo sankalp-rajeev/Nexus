@@ -37,7 +37,8 @@ jobs:
 
       - name: Unit + e2e tests with coverage
         env:
-          # Force deterministic mock LLM paths (no real API calls in CI)
+          # Explicitly select the deterministic mock LLM (no real API calls in CI)
+          NEXUS_LLM: mock
           GEMINI_API_KEY: ""
           TOKENIZERS_PARALLELISM: "false"
           HF_HUB_DISABLE_SYMLINKS_WARNING: "1"
@@ -88,6 +89,7 @@ jobs:
 
       - name: Run integration tests
         env:
+          NEXUS_LLM: mock
           GEMINI_API_KEY: ""
           POSTGRES_HOST: localhost
           POSTGRES_PORT: "55432"

@@ -8,8 +8,8 @@ Usage:
     # Make sure the Nexus stack is running:
     docker compose up --build
 
-    # In a separate terminal with nexus-agent installed:
-    pip install nexus-agent
+    # In a separate terminal, install the SDK from the repo:
+    pip install -e sdk/
     python examples/crewai_agent/run_demo.py
 
 The script:

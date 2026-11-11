@@ -1,0 +1,20 @@
+# Build context is the repo root for every image; keep it small and keep
+# host-built artifacts (Windows node_modules, venvs) out of Linux images.
+.git
+.venv
+venv
+**/__pycache__
+**/*.pyc
+**/node_modules
+**/dist
+.env
+.coverage
+coverage.xml
+htmlcov
+.pytest_cache
+.ruff_cache
+.mypy_cache
+mlruns
+data/*.npy
+data/nexusbench
+results

@@ -1,8 +1,9 @@
 """LLM client abstraction for the critic agent (Section 9.3).
 
-Priority order:
-  1. Gemini 2.0 Flash  — if GEMINI_API_KEY is set
-  2. Mock provider     — deterministic, structured, no API key needed
+Provider selection (see services/common/llm_config.py):
+  * NEXUS_LLM=gemini (default) — Gemini, model pinned in llm_config; raises if
+    GEMINI_API_KEY is missing (never silently degrades to the mock)
+  * NEXUS_LLM=mock             — deterministic, structured, no API key needed
 
 The mock returns realistic-looking but hardcoded responses keyed to failure
 type, so all tests and the retry-loop logic work without any API key.
@@ -17,7 +18,9 @@ from typing import Protocol
 
 logger = logging.getLogger("nexus.critic.llm")
 
-_DEFAULT_MODEL = os.getenv("CRITIC_MODEL", "gemini-2.0-flash")
+from services.common import llm_config  # noqa: E402
+
+_DEFAULT_MODEL = llm_config.gemini_model()
 _MAX_RETRIES = int(os.getenv("CRITIC_MAX_RETRIES", "2"))
 
 
@@ -33,9 +36,7 @@ class GeminiProvider:
     def __init__(self, model: str = _DEFAULT_MODEL) -> None:
         import google.generativeai as genai  # noqa: PLC0415
 
-        api_key = os.getenv("GEMINI_API_KEY", "")
-        if not api_key:
-            raise ValueError("GEMINI_API_KEY not set")
+        api_key = llm_config.gemini_api_key()
         genai.configure(api_key=api_key)
         self._model = genai.GenerativeModel(model)
 
@@ -174,13 +175,14 @@ class MockProvider:
 # ── Factory ──────────────────────────────────────────────────────────────────
 
 def make_provider(failure_type: str = "HALLUCINATION", span_id: str = "span_00") -> LLMProvider:
-    """Return a Gemini provider if the API key is present, else the mock."""
-    api_key = os.getenv("GEMINI_API_KEY", "").strip()
-    if api_key and api_key != "your_gemini_api_key_here":
-        logger.info("nexus-critic: using Gemini provider (model=%s)", _DEFAULT_MODEL)
-        try:
-            return GeminiProvider(_DEFAULT_MODEL)
-        except Exception as exc:
-            logger.warning("nexus-critic: Gemini init failed (%s); falling back to mock", exc)
-    logger.info("nexus-critic: using mock LLM provider (failure_type=%s)", failure_type)
-    return MockProvider(failure_type=failure_type, span_id=span_id)
+    """Return the provider selected by NEXUS_LLM.
+
+    The mock is used only when NEXUS_LLM=mock is set explicitly. A missing key
+    or a failed Gemini init raises instead of silently degrading to the mock.
+    """
+    if llm_config.is_mock():
+        logger.info("nexus-critic: NEXUS_LLM=mock (failure_type=%s)", failure_type)
+        return MockProvider(failure_type=failure_type, span_id=span_id)
+    model = llm_config.gemini_model()
+    logger.info("nexus-critic: using Gemini provider (model=%s)", model)
+    return GeminiProvider(model)
