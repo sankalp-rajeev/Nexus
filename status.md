@@ -73,6 +73,16 @@ Scope agreed 2026-11-10: Phases 0 + 1, then stop for review. Spend cap Phase 1: 
   - D6: p50 0.4 ms, p95 674 ms; SDK 0.01 ms/call.
   - Spend: Gemini judge $0.029. Tagged `phase2-test-scored`. **Stopped.**
 
+## Phase 2 — follow-ups  ·  tag `bench-v1.1`
+
+- [x] Judge–NLI independence audit. ⚠️ They share `retrieved_context()` and the no-documents gate, so they are not independent; the claim was removed (D41, D43). Dev: 0 disagreements in 96. Test per-trace predictions were never persisted (D45).
+- [x] Entity-absence rule alone (dev): R 1.00, P 0.857, the same as the full NLI detector. Disclosure added to the Phase 2 reports (D44).
+- [x] NexusBench v1.1 (announced first in `bench/REVISIONS.md`): per-field numeric checker; 11 labels changed; new manifest `0f664774…`. ⚠️ The kg rule was corrected before tagging (D47).
+- [x] v1.1 sensitivity (exact from stored predictions): test H P 0.811 → 0.973, FA/1000 56 → 8.5, headline 0.956 unchanged.
+- [x] `bench/llm.py` Gemini 3.x fix + tests + live check (D49).
+- [x] `data/phase2/` untracked; `results/` is the only tracked output (D48).
+- [x] Secret scan, then pushed `phase-2` + Phase 2 tags + `bench-v1.1`.
+
 ## Phases 3–6
 
 - [ ] Phase 3 critic (Codex on `phase-3-critic`; not touched here)
