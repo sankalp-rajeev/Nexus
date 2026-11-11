@@ -218,3 +218,56 @@ rules are scored for CONTEXT_BLEED vs everything else on dev. If any one of
 them reaches precision ≥ 0.95 **and** recall ≥ 0.95, the headline falls back to
 the pre-registered secondary (macro recall over HALLUCINATION and PLAN_DRIFT),
 and CONTEXT_BLEED is reported as non-headline.
+
+### Amendment 1 — outcome (data frozen at `phase2-prereg-v2`)
+
+- **Regenerated:** 257 runs (every run whose trace called `read_memory`), with
+  the same run ids, trace ids, seeds and providers. The other **459 trace lines
+  are byte-identical** to v1. CONTEXT_BLEED still has 60 effective runs, and no
+  top-up was needed. DeepSeek spend for the regeneration: **$0.089**.
+- **New test manifest digest:**
+  `45c4040aff35af8300e6a873619c4d6dbfb3ae16b07d3792a08cbedb5da878c8` (357 test
+  traces). Splits are unchanged.
+- **Side effects (reported, not corrected):** new memory content changed agent
+  behaviour on memory tasks under the *other* faults, so some labels moved:
+  - PLAN_DRIFT: 46 → **55** (dev 24, test 31);
+  - TOOL_MISFIRE: 59 → 72, now **including 11 Qwen runs**;
+  - LOOP_DETECTED: 61 → 63;
+  - NORMAL: 256 → 247;
+  - OTHER_FAILURE: 174 → 159.
+
+  The injectors and label rules for these classes are unchanged.
+- **Updated single-model list (replaces §3.7):** HALLUCINATION is DeepSeek
+  only; PLAN_DRIFT is Qwen only. TOOL_MISFIRE is 61 DeepSeek and 11 Qwen,
+  so it is no longer single-model but mostly one. CONTEXT_BLEED and
+  LOOP_DETECTED come from both models.
+- **Multi-record reads (dev):** 20/41 (0.49) of NORMAL traces that read memory
+  get more than one record, meeting the ≥ 40% target. For CONTEXT_BLEED it is
+  30/30. Other labels sit at 0.45–0.50.
+- **Separability gate (dev, OTHER_FAILURE excluded): NOT tripped.** No single
+  rule reaches P ≥ 0.95 and R ≥ 0.95, so the primary headline (H, CB, PD) stands.
+
+  | Rule | Precision | Recall |
+  |---|---|---|
+  | reads memory at all | 0.263 (30/114) | 1.000 (30/30) |
+  | record count > 1 | 0.435 (30/69) | 1.000 (30/30) |
+  | a person's name appears | 0.348 (16/46) | 0.533 (16/30) |
+  | ≥ 2 person names | 0.321 (9/28) | 0.300 (9/30) |
+  | ≥ 2 "Account tier:" records in one read | **1.000 (15/15)** | 0.500 (15/30) |
+  | ≥ 2 distinct tier words | 0.418 (28/67) | 0.933 (28/30) |
+  | ≥ 1 known city | 0.375 (18/48) | 0.600 (18/30) |
+  | duplicate note key | 0.388 (19/49) | 0.633 (19/30) |
+  | ≥ 2 team notes | 0.302 (13/43) | 0.433 (13/30) |
+  | best AND pair (reads memory AND ≥ 2 tier records) | 1.000 | 0.500 |
+
+  ⚠️ **Caveat registered now:** "≥ 2 `Account tier:` records" is a
+  zero-false-positive rule for half of CONTEXT_BLEED. It fires whenever the
+  foreign record happens to be a tier note, because a legitimate read has
+  exactly one. The Phase 2 report must show this rule as a trivial reference
+  next to the CONTEXT_BLEED detector. A detector is only interesting to the
+  extent it beats R = 0.50 at P = 1.00.
+- **Dev baseline v2 (shipped classifier through the view):** still degenerate.
+  Headline macro 0.311, secondary 0.467. HALLUCINATION R 0.933 at P 0.137;
+  CONTEXT_BLEED 0/30; PLAN_DRIFT 0/24; TOOL_MISFIRE R 0.882 (30/34) at P 1.000;
+  LOOP_DETECTED R 1.000 (34/34) at P 0.850. Details:
+  [`baseline_dev.md`](baseline_dev.md).

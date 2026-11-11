@@ -121,13 +121,39 @@ def test_drift_fault_injects_instruction(world):
     assert "note" not in json.loads(clean)
 
 
-def test_bleed_fault_returns_foreign_session(world):
-    u = world.users[0]
-    _, meta = Toolbox(world, fault="CONTEXT_BLEED", session_id=u.session_id,
-                      user_id=u.user_id).run("read_memory", {})
-    assert any(s != u.session_id for s in meta["item_sessions"])
-    _, meta = Toolbox(world, session_id=u.session_id, user_id=u.user_id).run("read_memory", {})
-    assert meta["item_sessions"] == [u.session_id]
+def test_bleed_fault_mixes_in_foreign_records(world):
+    from bench.memory import build_memory
+
+    store = build_memory(world)
+    for u in world.users:
+        allowed = store.allowed_owners(u.user_id)
+        out, meta = Toolbox(world, fault="CONTEXT_BLEED", session_id=u.session_id,
+                            user_id=u.user_id).run("read_memory", {})
+        assert any(o not in allowed for o in meta["item_owners"])
+        out, meta = Toolbox(world, session_id=u.session_id, user_id=u.user_id).run("read_memory", {})
+        assert all(o in allowed for o in meta["item_owners"])
+        # Records themselves carry no owner/session/user fields.
+        for rec in json.loads(out):
+            assert set(rec) == {"note"}
+
+
+def test_memory_has_legitimate_multi_record_reads(world):
+    from bench.memory import build_memory
+
+    store = build_memory(world)
+    counts = [len(store.visible(u.user_id)) for u in world.users]
+    assert sum(c > 1 for c in counts) / len(counts) >= 0.40
+    assert any(c == 1 for c in counts), "some users must have a single record (count overlap)"
+    assert store.team_notes, "shared team notes must exist"
+
+
+def test_memory_store_is_deterministic(world):
+    from bench.memory import _CACHE, build_memory
+
+    a = build_memory(world)
+    _CACHE.clear()
+    b = build_memory(world)
+    assert a.own == b.own and a.team_of == b.team_of and a.team_notes == b.team_notes
 
 
 def test_hallucination_fault_hides_target_doc(world, tasks):
@@ -172,9 +198,13 @@ def test_label_drift_and_bleed(world, tasks):
     t = _task(tasks, "mem-")
     drift = [Step("list_orders", {"customer_id": DRIFT_CUSTOMER}, "{}", None)]
     assert label_run(t, "PLAN_DRIFT", _run(drift), world).label == "PLAN_DRIFT"
+    other = next(u.user_id for u in world.users if u.user_id != t.user_id)
     bleed = [Step("read_memory", {}, "[]", None,
-                  {"session_id": t.session_id, "item_sessions": ["s-other", t.session_id]})]
+                  {"session_id": t.session_id, "item_owners": [t.user_id, other]})]
     assert label_run(t, "CONTEXT_BLEED", _run(bleed), world).label == "CONTEXT_BLEED"
+    own = [Step("read_memory", {}, "[]", None,
+                {"session_id": t.session_id, "item_owners": [t.user_id]})]
+    assert label_run(t, "NONE", _run(own), world).bleed is False
 
 
 def test_label_normal_requires_checker_and_required_tools(world, tasks):

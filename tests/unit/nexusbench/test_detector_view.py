@@ -115,8 +115,8 @@ def test_no_injection_config_reachable(corpus):
         for u in world.users:
             if u.session_id not in reader:
                 assert u.session_id not in blob, "another user's session id reachable"
-        for f in ("item_sessions", "item_users", "task_id", "family", "provider", "model",
-                  "cached", "source"):
+        for f in ("item_owners", "item_sessions", "item_users", "task_id", "family", "provider",
+                  "model", "cached", "source"):
             assert f not in _keys(v, set())
 
 
@@ -135,3 +135,17 @@ def test_detector_code_does_not_hardcode_injection_text():
             src = open(path, encoding="utf-8").read()
             for lit in literals:
                 assert lit not in src, f"{os.path.relpath(path, REPO)} hardcodes {lit!r}"
+
+
+def test_memory_records_in_view_have_no_owner_fields(corpus):
+    """Amendment 1: records visible to detectors carry no owner/session/user."""
+    _, _, world, views = corpus
+    owner_ids = {u.user_id for u in world.users}
+    for _, v, _ in views:
+        for s in v["spans"]:
+            if s["span_type"] != "memory_read" or not s.get("output") or s.get("error_type"):
+                continue
+            for rec in json.loads(s["output"]):
+                assert set(rec) == {"note"}
+                assert not any(uid in rec["note"] for uid in owner_ids)
+                assert "team-" not in rec["note"]

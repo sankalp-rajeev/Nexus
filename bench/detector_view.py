@@ -9,7 +9,8 @@ strips everything a production system would not know:
   root span     task_id, family
   llm_call      provider, model, cached        (model is a label confound: most
                                                classes come from one model)
-  memory_read   item_sessions, item_users      (written by the fault injector from
+  memory_read   item_owners (v2), item_sessions, item_users (v1)
+                                              (written by the fault injector from
                                                the world's ownership registry, i.e.
                                                the CONTEXT_BLEED label's own evidence)
   text          canary registry tokens -> per-trace pseudonyms (REF-xxxxxx)
@@ -40,7 +41,7 @@ STRIP_TRACE_FIELDS = ("source",)
 STRIP_METADATA = {
     "agent_step": ("task_id", "family"),
     "llm_call": ("provider", "model", "cached"),
-    "memory_read": ("item_sessions", "item_users"),
+    "memory_read": ("item_owners", "item_sessions", "item_users"),
 }
 # Strings the agent really saw that reveal an injection mechanism. Kept in the
 # view (realistic), reported, and forbidden as literals in detector code.

@@ -45,6 +45,17 @@ Scope agreed 2026-11-10: Phases 0 + 1, then stop for review. Spend cap Phase 1: 
 - [x] Dev baseline (shipped SVM through the view): degenerate. It predicts HALLUCINATION for every non-rule trace. H R=0.93 at P=0.14; CB 0/30; PD 0/20; MISFIRE 27/27 (P 1.00); LOOP 33/33 (P 0.92). Headline macro 0.311, secondary 0.467.
 - [x] Committed and tagged `phase2-prereg`. **Stopped.** The test split hasn't been touched.
 
+## Phase 2 — Amendment 1 (CONTEXT_BLEED made non-trivial)  ·  branch `phase-2`, tag `phase2-prereg-v2`
+
+- [x] Amendment written and committed before any code (`8207df3`).
+- [x] Memory v2 (`bench/memory.py`): 1–4 own notes per user plus shared team notes; records carry no owner fields; bleed mixes 1–2 foreign records in; label comes from the ownership registry. Separate RNG stream, so tasks, gold answers and splits are unchanged.
+- [x] Regenerated only the 257 memory-reading runs (459 lines byte-identical); CB still 60 effective; DeepSeek spend $0.089 (cap $1.00). Relabel check 0 diffs; leak and integrity tests pass (167 + RESULTS freshness).
+- [x] New manifest `45c4040a…`; new tag `phase2-prereg-v2`; `phase2-prereg` untouched.
+- [x] Separability gate (dev): **not tripped.** Record count > 1 gives P 0.435 / R 1.00. ⚠️ "≥ 2 Account-tier records" gives P 1.00 / R 0.50: registered as the trivial reference a CB detector must beat.
+- [x] Dev baseline v2: still degenerate (headline 0.311, secondary 0.467).
+- [x] ⚠️ Side effects: PLAN_DRIFT 46 → 55; TOOL_MISFIRE now 61 DeepSeek + 11 Qwen; NORMAL 256 → 247. **Stopped.**
+- [x] `DECISIONS.md` started (interview-ready "why" log).
+
 ## Phases 2 (detectors) – 6
 
 - [ ] Phase 2: detector work (waits for review of the pre-registration)
