@@ -5,6 +5,15 @@ import json
 import math
 
 from nexus_agent.models import PatchType
+from services.critic.hardening import inspect_patch
+
+
+class NoOpPatchError(ValueError):
+    pass
+
+
+class BadReferenceError(ValueError):
+    pass
 
 
 class ConfigRegistry:
@@ -14,6 +23,11 @@ class ConfigRegistry:
         self.config = copy.deepcopy(config)
 
     def apply(self, proposal):
+        checks = inspect_patch(proposal, self.config)
+        if checks.bad_references:
+            raise BadReferenceError("Bad tool reference: " + "; ".join(checks.bad_references))
+        if checks.no_op:
+            raise NoOpPatchError("No-op patch: replacement equals current config value")
         key = proposal.target_component
         if key not in self.config:
             raise ValueError(f"Unknown config key: {key}")

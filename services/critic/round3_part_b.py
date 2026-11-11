@@ -1,4 +1,4 @@
-"""Deferred Part B. Run once on main; no fetch/rebase/checkout/replay/TEST access.
+"""Part B: merged main or the explicitly authorized rebased phase-3-critic branch.
 
 python -m services.critic.round3_part_b [--env-file PATH]
 """
@@ -13,6 +13,8 @@ from pathlib import Path
 import subprocess
 import sys
 import threading
+import time
+import statistics
 
 ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT / "sdk") not in sys.path:
@@ -25,6 +27,9 @@ from services.critic.detector_adapter import critic_view, from_detector  # noqa:
 from services.critic.dev_adapter import CLASSES, dev_labels, dev_traces  # noqa: E402
 from services.critic.experiments import interval, select_labels  # noqa: E402
 from services.critic.graph import run_critic  # noqa: E402
+from services.critic.fault_reversal import snapshots, tag_fix  # noqa: E402
+from services.critic.hardening import inspect_patch  # noqa: E402
+from services.critic.leak_assert import assert_no_evidence_leaks  # noqa: E402
 from services.critic.llm import DeepSeekProvider  # noqa: E402
 from services.critic.proposal import CriticProposal  # noqa: E402
 from services.critic.registry import ConfigRegistry  # noqa: E402
@@ -43,14 +48,18 @@ OUT = ROOT / "reports/phase3/round3"
 
 def git(*args):
     return subprocess.check_output(["git", "-c", f"safe.directory={ROOT.as_posix()}", *args],
-                                   cwd=ROOT, text=True, encoding="utf-8").strip()
+                                   cwd=ROOT, text=True, encoding="utf-8").rstrip("\r\n")
 
 
 def preflight():
-    if git("branch", "--show-current") != "main":
-        raise RuntimeError("Part B must run on main after Phase 2 and this work are merged")
-    if git("status", "--porcelain"):
-        raise RuntimeError("Part B requires a clean worktree")
+    branch = git("branch", "--show-current")
+    if branch not in {"main", "phase-3-critic"}:
+        raise RuntimeError("Part B requires main or the authorized rebased phase-3-critic branch")
+    if branch == "phase-3-critic":
+        git("merge-base", "--is-ancestor", "origin/main", "HEAD")
+    dirty = git("status", "--porcelain")
+    if any(not line[3:].startswith("reports/phase3/") for line in dirty.splitlines()):
+        raise RuntimeError("Commit code before Part B; only report artifacts may be dirty")
     for path in ("data/nexusbench/traces.jsonl", "data/nexusbench/labels.csv"):
         if git("rev-parse", f"HEAD:{path}") != git("rev-parse", f"bench-v1.1:{path}"):
             raise RuntimeError(f"Expected unchanged bench-v1.1 object: {path}")
@@ -101,8 +110,16 @@ def metrics(records, vectors):
         generated = [i for i in indices if records[i]["proposal"] is not None]
         llm_only = [i for i in generated if records[i]["proposal"]["provenance"]["source"] == "llm"]
         valid = [r for r in rows if r["c1_valid"]]
+        latency = [r["wall_latency_ms"] for r in rows if r.get("wall_latency_ms") is not None]
+        costs = sum(r["proposal"]["provenance"]["cost_usd"] for r in rows if r["proposal"])
         return {"selected_dev_failures": len(rows), "proposals": len(generated),
             "detector_misses": sum(r["detector_type"] == "NORMAL" for r in rows),
+            "no_op_rejections": sum(r["proposal"]["no_op_patch"] for r in rows if r["proposal"]),
+            "bad_reference_rejections": sum(bool(r["proposal"]["bad_references"]) for r in rows if r["proposal"]),
+            "fix_tags": {tag: interval(sum(r["proposal"]["fix_tag"] == tag for r in rows if r["proposal"]), len(generated))
+                         for tag in ("reverts_injection", "other_fix")},
+            "latency_p50_ms": statistics.median(latency) if latency else None,
+            "cost_usd": costs, "cost_per_proposal_usd": costs/len(generated) if generated else None,
             "C1_over_generated": interval(sum(r["c1_valid"] for r in rows), len(generated)),
             "C1_pipeline_coverage": interval(len(valid), len(rows)),
             "C2": interval(sum(r["dry_run_applied"] for r in valid), len(valid)),
@@ -133,6 +150,7 @@ def run_experiment(rows, traces, predictions, views, evidence, *, legacy, provid
                 ledger.arm = arm
                 ev, view = evidence[tid], views[tid]
                 before = {r["call_id"] for r in ledger.rows()}
+                started = time.perf_counter()
                 proposal, valid, applied = None, False, False
                 if ev is not None:
                     provider = providers[arm]
@@ -143,16 +161,20 @@ def run_experiment(rows, traces, predictions, views, evidence, *, legacy, provid
                         provider.trace_id, provider.call_index = view.trace_id, 0
                         p, fallback, attempts = legacy.run(alert, store, provider)
                         valid = not fallback and bool(attempts) and attempts[-1]["passed"]
+                        checks = inspect_patch(p, config)
+                        rejection_reasons = []
                         try:
                             ConfigRegistry(config).apply(p)
                             applied = valid
-                        except (ValueError, TypeError):
-                            pass
+                        except (ValueError, TypeError) as exc:
+                            rejection_reasons.append(str(exc))
                         prov = provider.last_provenance.model_copy(update={
                             "source": "fallback" if fallback else "llm",
                             "prompt_hashes": legacy.hashes})
                         proposal = CriticProposal.model_validate({**p.model_dump(mode="json"),
                             "critic_arm": "original", "provenance": prov,
+                            "no_op_patch": checks.no_op, "bad_references": checks.bad_references,
+                            "rejection_reasons": rejection_reasons,
                             "valid_without_fallback": valid, "dry_run_applied": applied})
                     else:
                         proposal = run_critic(alert, store, llm_factory=lambda chosen=provider, **_: chosen,
@@ -165,6 +187,12 @@ def run_experiment(rows, traces, predictions, views, evidence, *, legacy, provid
                         values = [c.get(field) for c in calls]
                         setattr(proposal.provenance, field, sum(values) if all(v is not None for v in values) else None)
                 # Scoring happens after generation; raw traces and labels never enter Store.
+                wall_latency_ms = (time.perf_counter()-started)*1000 if proposal else None
+                if proposal:
+                    injected, clean = snapshots(row)
+                    tag = tag_fix(proposal, injected, clean)
+                    proposal.fix_tag = tag["fix_tag"]
+                    proposal.clean_config_diff = tag["clean_config_diff"]
                 truth = truth_from_dev(row, traces[tid])
                 anchors = evidence_anchors(ev) if ev is not None else {}
                 record = {"trace_id": tid, "view_id": view.trace_id, "arm": arm,
@@ -172,6 +200,7 @@ def run_experiment(rows, traces, predictions, views, evidence, *, legacy, provid
                     "evidence_mode": "detector", "evidence": ev.model_dump(mode="json") if ev else None,
                     "proposal": proposal.model_dump(mode="json") if proposal else None,
                     "c1_valid": valid, "dry_run_applied": applied,
+                    "wall_latency_ms": wall_latency_ms,
                     "grounding": grounding(proposal.patch_content, anchors) if proposal else {"grounded": False},
                     "c3": score_c3(proposal, truth, detector_type=predictions[tid]["pred"]),
                     "scoring_truth": truth.model_dump(mode="json"),
@@ -193,6 +222,11 @@ def run_experiment(rows, traces, predictions, views, evidence, *, legacy, provid
             texts = [r["proposal"]["patch_content"] if r["proposal"] else "" for r in arm_records]
             vectors, _ = embedder.encode(texts) if texts else (np.zeros((0, 384)), [])
             summary["arms"][arm] = metrics(arm_records, vectors)
+            # Include costs of interrupted proposals as well as completed ones.
+            accounted = sum(c["cost_usd"] for c in ledger.rows() if c.get("arm") == arm)
+            n = summary["arms"][arm]["overall"]["proposals"]
+            summary["arms"][arm]["overall"].update(cost_usd=accounted,
+                cost_per_proposal_usd=accounted/n if n else None)
         (output / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     return summary
 
@@ -203,6 +237,9 @@ def main():
     args = parser.parse_args()
     preflight()
     rows, traces, predictions, views, evidence = load_inputs()
+    from bench.detector_view import RESIDUAL_INJECTION_TEXT
+    leak_audit = assert_no_evidence_leaks(evidence, OUT / "leak_assert.json",
+                                        injection_texts=RESIDUAL_INJECTION_TEXT)
     legacy, embedder, config = OriginalCritic(), MiniLMEmbeddings(), baseline_config()
     commit = git("rev-parse", "HEAD")
     OUT.mkdir(parents=True, exist_ok=True)
@@ -214,6 +251,9 @@ def main():
         "detector_view_sha256": hashlib.sha256((ROOT / "bench/detector_view.py").read_bytes()).hexdigest(),
         "original_source_sha256": legacy.hashes, "config": config,
         "evidence_mode": "detector", "oracle_enabled": False,
+        "leak_assert": leak_audit,
+        "hardening": "reject exact no-ops and explicit unregistered tool/argument references",
+        "fix_tag": "scoring only: exact restoration of changed injected config leaves against clean snapshot",
         "embedding": {"model": EMBED_MODEL, "revision": EMBED_REVISION, "threshold": COSINE_THRESHOLD},
         "C3": "proposal_type_match compares the proposal label; type_match scores independent diagnosis only; explicit citations; unknown truth locations excluded and counted",
         "config_limit": "common baseline deployment snapshot; injected active prompt not inferred from labels",

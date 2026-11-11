@@ -348,7 +348,7 @@ def test_part_b_aggregate_cap_survives_restart(tmp_path):
     assert resumed.rows()[0]["evidence_mode"] == "detector"
 
 
-@pytest.mark.parametrize("branch,object_id,dirty", [("phase-3-critic", "same", ""),
+@pytest.mark.parametrize("branch,object_id,dirty", [("unrelated-branch", "same", ""),
     ("main", "changed", ""), ("main", "same", " M code.py")])
 def test_part_b_preflight_requires_main_clean_and_exact_bench_revision(monkeypatch, tmp_path, branch, object_id, dirty):
     import services.critic.round3_part_b as module

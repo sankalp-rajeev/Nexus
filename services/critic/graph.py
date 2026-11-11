@@ -14,6 +14,7 @@ from services.critic.accounting import BudgetExceeded
 from services.critic.evidence import FailureEvidence
 from services.critic.proposal import PROMPT_VERSION, CriticConfig, CriticProposal, StructuredDiagnosis, StructuredPatch
 from services.critic.registry import ConfigRegistry
+from services.critic.hardening import inspect_patch
 from services.critic.validator import validate_patch_proposal
 
 TOPIC_PATCHES = "nexus.patches"
@@ -42,6 +43,8 @@ class CriticState(TypedDict, total=False):
     final_proposal: object
     provenance: object
     calls: list
+    no_op_patch: bool
+    bad_references: list[str]
 
 
 def make_context_loader(db):
@@ -155,11 +158,13 @@ def validator_node(state):
     valid, reason = validate_patch_proposal(proposal) if proposal else (
         False, state.get("rejection_reason") or "No proposal produced")
     applied = None
+    checks = None
     if valid and "current_config" in state:
         try:
             model = PatchProposal.model_validate({**proposal, "alert_id": state["alert_id"],
                                                   "trace_id": state["trace_id"],
                                                   "failure_type": state["failure_type"]})
+            checks = inspect_patch(model, state["current_config"])
             applied = ConfigRegistry(state["current_config"]).apply(model)
         except (ValueError, TypeError) as exc:
             reason = f"Dry-run rejected: {exc}"
@@ -167,6 +172,8 @@ def validator_node(state):
     if reason:
         reasons.append(reason)
     return {**state, "validation_passed": valid, "dry_run_applied": applied is not None,
+            "no_op_patch": checks.no_op if checks else False,
+            "bad_references": checks.bad_references if checks else [],
             "applied_config": applied, "rejection_reason": reason,
             "rejection_reasons": reasons,
             "retry_count": state.get("retry_count", 0) + (0 if valid and not reason else 1)}
@@ -201,7 +208,13 @@ def make_publisher_node(db, kafka_producer=None):
                 "dry_run_applied": state.get("dry_run_applied", False),
                 "status": "PENDING_REVIEW" if state.get("dry_run_applied") else "REJECTED",
                 "rejection_reasons": state.get("rejection_reasons", []),
+                "no_op_patch": state.get("no_op_patch", False),
+                "bad_references": state.get("bad_references", []),
             })
+        if isinstance(state.get("current_config"), dict):
+            checks = inspect_patch(proposal, state["current_config"])
+            proposal.no_op_patch = checks.no_op
+            proposal.bad_references = checks.bad_references
         calls = state.get("calls", [])
         # Aggregate all attempts so a retry's cost is never lost from the proposal.
         if calls:

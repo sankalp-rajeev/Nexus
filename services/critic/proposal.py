@@ -77,3 +77,8 @@ class CriticProposal(PatchProposal):
     valid_without_fallback: bool = False
     dry_run_applied: bool = False
     rejection_reasons: list[str] = Field(default_factory=list)
+    no_op_patch: bool = False
+    bad_references: list[str] = Field(default_factory=list)
+    # Populated by post-generation scoring only. Never part of response schemas.
+    fix_tag: Literal["reverts_injection", "other_fix"] | None = None
+    clean_config_diff: list[dict] = Field(default_factory=list)
