@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CheckCircle, XCircle, ChevronDown, ChevronUp } from 'lucide-react'
 import type { PatchProposal } from '../types'
 
@@ -20,10 +20,12 @@ function ProposalCard({
   proposal,
   onApprove,
   onReject,
+  readOnly,
 }: {
   proposal: PatchProposal
   onApprove: (id: string) => void
   onReject: (id: string) => void
+  readOnly: boolean
 }) {
   const [expanded, setExpanded] = useState(false)
   const isPending = proposal.status === 'PENDING_REVIEW'
@@ -52,7 +54,7 @@ function ProposalCard({
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0 pt-0.5">
-          {isPending ? (
+          {isPending && !readOnly ? (
             <>
               <button
                 onClick={e => { e.stopPropagation(); onApprove(proposal.proposal_id) }}
@@ -101,13 +103,14 @@ function ProposalCard({
   )
 }
 
-export default function CriticPanel({ proposals }: { proposals: PatchProposal[] }) {
+export default function CriticPanel({ proposals, readOnly = false }: { proposals: PatchProposal[]; readOnly?: boolean }) {
   const [items, setItems] = useState(proposals)
 
   // Sync external updates (WebSocket)
-  if (proposals.length !== items.length) setItems(proposals)
+  useEffect(() => { setItems(proposals) }, [proposals])
 
   async function handleApprove(id: string) {
+    if (readOnly) return
     try {
       await fetch(`/v1/patches/${id}/approve`, { method: 'POST' })
       setItems(prev => prev.map(p =>
@@ -117,6 +120,7 @@ export default function CriticPanel({ proposals }: { proposals: PatchProposal[] 
   }
 
   async function handleReject(id: string) {
+    if (readOnly) return
     try {
       await fetch(`/v1/patches/${id}/reject`, { method: 'POST' })
       setItems(prev => prev.map(p =>
@@ -130,7 +134,7 @@ export default function CriticPanel({ proposals }: { proposals: PatchProposal[] 
       <header className="mb-3">
         <h2 className="text-sm font-semibold text-stone-800 tracking-tight">Critic Panel</h2>
         <p className="text-xs text-stone-400 font-mono mt-0.5">
-          {items.filter(p => p.status === 'PENDING_REVIEW').length} pending review
+          {readOnly ? 'Illustrative mock template excerpts · read-only' : `${items.filter(p => p.status === 'PENDING_REVIEW').length} pending review`}
         </p>
       </header>
 
@@ -146,6 +150,7 @@ export default function CriticPanel({ proposals }: { proposals: PatchProposal[] 
               proposal={p}
               onApprove={handleApprove}
               onReject={handleReject}
+              readOnly={readOnly}
             />
           ))
         )}

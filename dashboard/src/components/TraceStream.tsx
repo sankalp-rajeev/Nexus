@@ -9,7 +9,7 @@ const SPAN_TYPE_COLOR: Record<string, string> = {
   retrieval: 'text-teal-700 bg-teal-50',
 }
 
-function statusBadge(span: Span) {
+function statusBadge(span: Span, replay = false) {
   if (span.error_type) {
     return (
       <span className="inline-flex items-center gap-1 font-mono text-xs px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-medium">
@@ -21,7 +21,7 @@ function statusBadge(span: Span) {
   return (
     <span className="inline-flex items-center gap-1 font-mono text-xs px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-medium">
       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-      NORMAL
+      {replay ? 'NO SPAN ERROR' : 'NORMAL'}
     </span>
   )
 }
@@ -43,7 +43,7 @@ function fmtTime(ts: string) {
   } catch { return ts }
 }
 
-export default function TraceStream({ spans }: { spans: Span[] }) {
+export default function TraceStream({ spans, replay = false }: { spans: Span[]; replay?: boolean }) {
   const [paused, setPaused] = useState(false)
   const [displayed, setDisplayed] = useState<Span[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
@@ -64,7 +64,7 @@ export default function TraceStream({ spans }: { spans: Span[] }) {
     <section className="flex flex-col h-full">
       <header className="flex items-center justify-between mb-3">
         <div>
-          <h2 className="text-sm font-semibold text-stone-800 tracking-tight">Live Trace Stream</h2>
+          <h2 className="text-sm font-semibold text-stone-800 tracking-tight">{replay ? 'Recorded spans' : 'Live Trace Stream'}</h2>
           <p className="text-xs text-stone-400 font-mono mt-0.5">
             {displayed.length} spans &bull; last 50
           </p>
@@ -112,7 +112,7 @@ export default function TraceStream({ spans }: { spans: Span[] }) {
                   <td className="py-2 pr-3 font-mono text-stone-500 text-right tabular-nums">
                     {span.duration_ms != null ? span.duration_ms.toFixed(0) : '—'}
                   </td>
-                  <td className="py-2">{statusBadge(span)}</td>
+                  <td className="py-2">{statusBadge(span, replay)}</td>
                 </tr>
               ))
             )}

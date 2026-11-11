@@ -1,0 +1,24 @@
+# Single-process collector + deterministic detectors + generic critic fallback.
+# One store: SQLite on a named volume. No Kafka, Postgres, Redis or MLflow.
+# Docker validation intentionally deferred until Phase 4 experiments finish.
+name: nexus-lite
+services:
+  nexus-lite:
+    build:
+      context: .
+      dockerfile: services/collector/Dockerfile.lite
+    ports:
+      - "127.0.0.1:18000:8000"
+    environment:
+      NEXUS_QUEUE: inprocess
+      NEXUS_SQLITE_PATH: /data/nexus-lite.db
+      NEXUS_LLM: mock
+    volumes:
+      - nexus_lite_data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import json,urllib.request; assert json.load(urllib.request.urlopen('http://localhost:8000/health'))['status'] == 'ok'"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+volumes:
+  nexus_lite_data:
