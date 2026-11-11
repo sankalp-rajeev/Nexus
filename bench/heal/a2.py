@@ -205,9 +205,16 @@ def selection(arms: dict[str, dict[str, Any]], outcome: str = PRIMARY) -> dict[s
     best = order[0]
     tie = [a for a in order if (table[a]["gate_false_promotions"], table[a]["H2"]) ==
            (table[best]["gate_false_promotions"], table[best]["H2"])]
+    # A2 §2: the same rule on per-distinct-patch counts, reported (not used to select).
+    dt = {name: {"gate_false_promotions": s["by_outcome"][outcome]["summary_per_distinct_patch"][
+                     "all"]["gate_false_promotions"],
+                 "H2": s["by_outcome"][outcome]["summary_per_distinct_patch"]["all"][
+                     "H2_generalize"]["value"]} for name, s in arms.items()}
+    dbest = sorted(dt, key=lambda a: (dt[a]["gate_false_promotions"], -(dt[a]["H2"] or 0.0)))[0]
     return {"rule": "fewest gate false promotions on seeds 3-5; ties by higher H2 (per patch)",
             "outcome": outcome, "table": table, "selected": best,
-            "unresolved_tie": tie if len(tie) > 1 else []}
+            "unresolved_tie": tie if len(tie) > 1 else [],
+            "per_distinct": {"table": dt, "selected": dbest, "same_as_selected": dbest == best}}
 
 
 def write_results(sets, records, only: str | None = None) -> dict[str, Any]:

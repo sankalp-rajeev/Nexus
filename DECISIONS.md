@@ -614,3 +614,17 @@ sub-cap. H6 checks both its own ledger and the $7.50 total.
   (`data/phase4/runs/resume_arms.cmd`, logging to `data/phase4/runs/arms_run.log`).
   It reported "11403 runs, 9444 done, 1959 to run". **No completed record was
   altered.** The store is append-only, and the resume only adds the missing run ids.
+
+**D72. The rest-of-Phase-4 cap rises from $7.50 to $9.50 for the fresh-seed confirmations (user decision, 2026-11-11).**
+The arms finished at 11,403/11,403 with 0 run errors and $4.7683 spent. The gate
+promoted 58 patches on seeds 0–2 (29 per arm). Confirming all of them on seeds 3–5 is
+6,090 runs (5,250 DeepSeek). At the measured $0.00071 per arm DeepSeek run, that is about
+$3.74, more than the $2.33 left. (The ~$0.5 confirmation estimate in D70 assumed few
+promotions.) The user chose to raise the cap and confirm all 58, rather than confirm a
+subset or stop. With a subset, the selection rule could not be applied. Arm and
+confirmation runs stop at $9.10, which keeps H6's $0.40 sub-cap. The selection rule is
+unchanged. The report adds three descriptive items requested by the user:
+- the seed-disagreement rate in the arm runs;
+- gate promotions per class and per distinct patch, split into `reverts_injection` and
+  `other_fix`;
+- a cost estimate for the one-time test scoring, made before anything runs on test.
