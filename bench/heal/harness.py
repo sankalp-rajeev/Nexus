@@ -37,7 +37,7 @@ from bench.generate import MODELS
 from bench.heal.agent import ConfiguredAgent
 from bench.heal.config import (ConfigPatch, apply_patch, base_tag, config_hash,
                                faulted_config)
-from bench.heal.sets import assert_dev, dev_splits
+from bench.heal.sets import assert_split, dev_splits
 from bench.labeler import label_run
 from bench.llm import BudgetExceeded, CostLedger, LLMClient, ResponseCache, load_env
 from bench.tasks import COMPATIBLE, build_tasks
@@ -163,7 +163,14 @@ class RunStore:
 class Harness:
     def __init__(self, *, runs_path: str = RUNS_PATH, state_dir: str = STATE_DIR,
                  cap_usd: float = REST_CAP_USD, ledger_file: str = REST_LEDGER, workers: dict[str, int] | None = None,
-                 clients: dict[str, Any] | None = None, env_file: str | None = None) -> None:
+                 clients: dict[str, Any] | None = None, env_file: str | None = None,
+                 split: str = "dev") -> None:
+        if split not in ("dev", "test"):
+            raise ValueError(split)
+        if split == "test":   # amendment A3: only after the dev freeze
+            from bench.heal.freeze import assert_frozen
+            assert_frozen()
+        self.split = split
         load_env(env_file or os.environ.get("NEXUS_ENV_FILE", os.path.join(REPO, ".env")))
         self.world = build_world()
         self.tasks = {t.task_id: t for t in build_tasks(self.world)}
@@ -194,7 +201,7 @@ class Harness:
     # -- one run ------------------------------------------------------------
     def execute(self, spec: RunSpec) -> dict[str, Any]:
         task = self.tasks[spec.task_id]
-        assert_dev([spec.task_id], self.splits)
+        assert_split([spec.task_id], self.split, self.splits)
         if spec.env_fault not in COMPATIBLE[task.family]:
             raise ValueError(f"{spec.env_fault} is not injectable for {task.family} tasks")
         intended = spec.intended_config()
@@ -249,7 +256,7 @@ class Harness:
             if prev is not None and prev.identity() != s.identity():
                 raise RunIdCollision(f"two different specs share {s.run_id}")
             unique[s.run_id] = s
-        assert_dev({s.task_id for s in unique.values()}, self.splits)
+        assert_split({s.task_id for s in unique.values()}, self.split, self.splits)
         pending = [s for s in unique.values() if not self.store.check(s, s.intended_hash())]
         stats = {"requested": len(unique), "already_done": len(unique) - len(pending),
                  "ran": 0, "run_error": 0}

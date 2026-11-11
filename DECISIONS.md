@@ -671,3 +671,30 @@ new file, `results/heal_seed_noise_dev.json`, written by `--score --only seed_no
 the report reads them from there. The numbers are unchanged: seeds 0–2 disagree in
 45 of 3,683 cells, and 9 of 2,073 promoted task outcomes flip on seeds 3–5. The critic-arm
 and selection result files are untouched.
+
+**D75. Amendment A3 (test scoring protocol), the test cap and the dev freeze (2026-11-11).**
+The pre-registration says the test sets are built "by the same code and rules", but the
+dev failures came from a Phase 3 file, so the test failure sample was not fixed. Nor
+was the test evidence, the set of arms, or the cap. A3
+(`reports/phase4/amendment_a3.md`) fixes them before any test run.
+- **Failures.** Phase 3's `select_labels` runs on the test labels (12 per class), with
+  the dev exclusions and the A1 no-observable-harm rule unchanged. Held-out and A2
+  regression sets use the dev code and seed strings. This gives 60 failures, 0 label
+  exclusions and 9 CONTEXT_BLEED no-harm exclusions, so 51 are scored for
+  H1/H2/gate. The TOOL_MISFIRE/ollama held-out pool has only 4 test tasks, so those 4
+  failures get 3 held-out tasks; there is no top-up.
+- **Evidence.** The frozen Phase 2 detectors run on the 60 selected test traces only,
+  using `pred` only, and feed `from_detector`. 59 of the 60 have evidence, and the leak
+  assert passed. The output is `reports/phase4/test/evidence.json`. No Phase 2 test
+  metric was computed or written.
+- **Arms.** No patch, generic, and `v1_structured`. Proposals are generated once, as in
+  Phase 3 round 3. Seeds 0–2 for every arm; seeds 3–5 for every gate-promoted patch.
+- **Cap.** $5.50 for the whole test scoring (user decision): a critic sub-cap of $0.60,
+  and runs capped at $5.50 minus the critic's actual spend. The estimate before any
+  test run is $4.54 expected and $5.34 worst case.
+- **Freeze.** Tag `phase4-dev-frozen`. Test mode refuses to start unless the tag is an
+  ancestor of HEAD and the frozen paths (`bench/heal/freeze.py`) are unchanged.
+- **Hygiene.** The older critic integration tests wrote mock proposals to
+  `results/critic_dev/proposals.jsonl` whenever Postgres was up. An autouse fixture now
+  sends that output to a temp path, and the stray file, which was untracked mock
+  output, was removed.

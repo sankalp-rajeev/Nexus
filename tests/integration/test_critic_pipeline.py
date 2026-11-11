@@ -28,6 +28,12 @@ def _pg_available() -> bool:
 pytestmark = pytest.mark.skipif(not _pg_available(), reason="Postgres not running on localhost:55432")
 
 
+@pytest.fixture(autouse=True)
+def _audit_to_tmp(tmp_path, monkeypatch):
+    """Keep mock proposals out of results/critic_dev/proposals.jsonl (the default path)."""
+    monkeypatch.setenv("CRITIC_AUDIT_PATH", str(tmp_path / "audit.jsonl"))
+
+
 @pytest.fixture(scope="module")
 def db():
     from services.critic.db import CriticDB
