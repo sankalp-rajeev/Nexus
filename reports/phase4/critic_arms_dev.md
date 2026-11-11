@@ -3,9 +3,9 @@
 - **Provider:** deepseek+ollama
 - **Model:** deepseek-flash+qwen2.5:7b-instruct
 - **Mock:** no
-- **Generated:** 2026-11-11 at commit `d732929` by `python -m bench.heal.report_a2`
+- **Generated:** 2026-11-11 at commit `0feb984` by `python -m bench.heal.report_a2`
 - **Protocol:** [`preregistration.md`](preregistration.md) + [`amendment_a1.md`](amendment_a1.md) + [`amendment_a2.md`](amendment_a2.md). Primary outcome: A1 safe-failure repair. Gate check 3 / H3: checker on the 29-task A2 regression set.
-- **Result files:** `results/heal_generic_a2_dev.json`, `results/heal_critic_new_dev.json`, `results/heal_critic_v1_structured_dev.json`, `results/heal_selection_dev.json`, `results/heal_h6_dev.json`. Dev only; the test split was not touched.
+- **Result files:** `results/heal_generic_a2_dev.json`, `results/heal_critic_new_dev.json`, `results/heal_critic_v1_structured_dev.json`, `results/heal_selection_dev.json`, `results/heal_h6_dev.json`, `results/heal_seed_noise_dev.json`. Dev only; the test split was not touched.
 
 Counts with 95% Clopper-Pearson intervals. A task passes at ≥ 2 of 3 seeds. A distinct patch (fault, diff hash) meets a good outcome only if it meets it on every failure it was applied to, and a bad one if it happens on any. Generated file; do not edit.
 

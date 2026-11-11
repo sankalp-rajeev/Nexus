@@ -34,6 +34,7 @@ from services.healer.gate import is_false_promotion, proportion
 ROUND3 = os.path.join(REPO, "reports", "phase3", "round3")
 REG_KEY = "regression_a2"
 TAGS = ("other_fix", "reverts_injection")
+GENERIC_RUN_CAP_USD = 3.0   # cap in force when the generic A2 re-run was made (D69, D74)
 
 
 def reg(sets) -> list[str]:
@@ -264,15 +265,23 @@ def write_results(sets, records, only: str | None = None) -> dict[str, Any]:
               "regression": reg(sets), "seeds": list(SEEDS), "confirm_seeds": list(CONFIRM_SEEDS),
               "primary_outcome": PRIMARY, "cap_usd_rest_of_phase4": REST_CAP_USD}
     gen = score_arm(sets, records, generic_hallucination(sets))
-    write_result("A2 generic", "heal_generic_a2_dev.json", {**common, "arm": "generic (HALLUCINATION, A2)", **gen},
-                 provenance_info=prov, summary=_line("generic HALLUCINATION under A2", gen))
+    noise = {"generic": gen.pop("seed_noise")}
     out = {"generic": gen}
     if only == "generic":
+        # Written once, when the generic re-run finished (D74): the cap recorded is the
+        # one in force at run time, and seed noise lives in heal_seed_noise_dev.json.
+        write_result("A2 generic", "heal_generic_a2_dev.json",
+                     {**common, "cap_usd_rest_of_phase4": GENERIC_RUN_CAP_USD,
+                      "arm": "generic (HALLUCINATION, A2)", **gen},
+                     provenance_info=prov, summary=_line("generic HALLUCINATION under A2", gen))
         return out
     arms = {}
     for arm in ARMS:
         patches, props = critic_arm(sets, arm)
         s = score_arm(sets, records, patches, props)
+        noise[arm] = s["seed_noise"]
+        if only == "seed_noise":
+            continue
         s["proposals"] = {k: {"status": p.status, "reason": p.reason,
                               "phase3_fix_tag": p.phase3_fix_tag,
                               "patch_hash": p.patch.patch_hash if p.patch else None}
@@ -281,6 +290,9 @@ def write_results(sets, records, only: str | None = None) -> dict[str, Any]:
                      {**common, "arm": f"critic {arm} (detector evidence)", **s},
                      provenance_info=prov, summary=_line(f"critic {arm}", s))
         arms[arm] = s
+    write_seed_noise(prov, common, noise)
+    if only == "seed_noise":
+        return {"seed_noise": noise}
     out.update(arms)
     try:
         out["selection"] = selection(arms)
@@ -292,6 +304,20 @@ def write_results(sets, records, only: str | None = None) -> dict[str, Any]:
     write_result("A2 selection", "heal_selection_dev.json", {**common, **out["selection"]},
                  provenance_info=prov, summary=f"selected: {out['selection'].get('selected')}")
     return out
+
+
+def write_seed_noise(prov, common, noise: dict[str, Any]) -> None:
+    """D72 item 1 / D74: descriptive seed-disagreement rates, one file for all arms."""
+    tot = {k: sum(n["within_s0_2_all"][k] for n in noise.values()) for k in ("k", "n")}
+    fl = {k: sum(n["confirm_task_flips_all"][k] for n in noise.values()) for k in ("k", "n")}
+    write_result("A2 seed noise", "heal_seed_noise_dev.json",
+                 {**common, "note": "Descriptive only; not used by the gate or the selection "
+                  "rule (D72).", "arms": noise,
+                  "all_arms": {"within_s0_2": proportion(tot["k"], tot["n"]),
+                               "confirm_task_flips": proportion(fl["k"], fl["n"])}},
+                 provenance_info=prov,
+                 summary=f"seeds 0-2 disagree in {tot['k']}/{tot['n']} cells; "
+                         f"{fl['k']}/{fl['n']} promoted task outcomes flip on seeds 3-5")
 
 
 # Phase 3 round 3, dollars per retained proposal (reports/phase3/round3.md).
@@ -379,8 +405,9 @@ def main() -> int:
     g.add_argument("--run", choices=["generic", "arms", "confirm"])
     g.add_argument("--score", action="store_true")
     ap.add_argument("--arm", choices=list(ARMS), action="append")
-    ap.add_argument("--only", choices=["generic"], default=None,
-                    help="with --score: score and write the generic A2 result only")
+    ap.add_argument("--only", choices=["generic", "seed_noise"], default=None,
+                    help="with --score: write only the generic A2 result, or only "
+                         "heal_seed_noise_dev.json")
     ap.add_argument("--env-file", default=None)
     args = ap.parse_args()
     sets = load_sets()

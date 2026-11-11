@@ -659,3 +659,15 @@ with the 29-task A2 regression set.
 - **Test scoring:** estimated at about $4.67 plus about 3.5 h of local Qwen. Nothing was
   run on test; it needs its own cap and go-ahead.
 - **Spend:** $8.5624 of the $9.50 cap ($8.5129 runs + $0.0495 H6).
+
+**D74. The generic A2 result goes back to its committed values; seed noise gets its own file (2026-11-11).**
+Re-scoring for D73 had rewritten `results/heal_generic_a2_dev.json`. Its scored numbers
+did not change, but it gained a `seed_noise` block, and the cap it recorded went from
+$3.00 (the cap in force when the generic run was made) to $9.50. The file is restored
+byte for byte to commit `6403c0d`. `--score` now writes the generic file only under
+`--only generic`, and always records the run-time cap (`GENERIC_RUN_CAP_USD = 3.0`).
+The seed-disagreement rates for all three arms (D72 item 1, descriptive only) are in a
+new file, `results/heal_seed_noise_dev.json`, written by `--score --only seed_noise`;
+the report reads them from there. The numbers are unchanged: seeds 0–2 disagree in
+45 of 3,683 cells, and 9 of 2,073 promoted task outcomes flip on seeds 3–5. The critic-arm
+and selection result files are untouched.

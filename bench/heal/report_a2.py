@@ -225,6 +225,10 @@ def spend_lines() -> list[str]:
 
 def main() -> int:
     docs = {a: d for a, f in ARMS if (d := _load(f)) is not None}
+    noise = (_load("heal_seed_noise_dev.json") or {}).get("arms", {})
+    for a, d in docs.items():   # D74: seed noise has its own result file
+        if a in noise:
+            d["seed_noise"] = noise[a]
     sel = _load("heal_selection_dev.json") or {}
     h6 = _load("heal_h6_dev.json")
     lines = ["# Phase 4 critic arms on dev (amendment A2)", "",
@@ -236,7 +240,8 @@ def main() -> int:
              "A2 regression set.",
              "- **Result files:** `results/heal_generic_a2_dev.json`, "
              "`results/heal_critic_new_dev.json`, `results/heal_critic_v1_structured_dev.json`, "
-             "`results/heal_selection_dev.json`, `results/heal_h6_dev.json`. Dev only; the test "
+             "`results/heal_selection_dev.json`, `results/heal_h6_dev.json`, "
+             "`results/heal_seed_noise_dev.json`. Dev only; the test "
              "split was not touched.", "",
              "Counts with 95% Clopper-Pearson intervals. A task passes at ≥ 2 of 3 seeds. A distinct "
              "patch (fault, diff hash) meets a good outcome only if it meets it on every failure it "
