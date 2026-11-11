@@ -1,0 +1,38 @@
+{
+  "evidence_label": "oracle evidence (dev labels)",
+  "generation_implementation_commit": "bbbac9507263d5d583741fdc93c657ea6570443b",
+  "date_utc": "2026-11-11T01:31:27.144305+00:00",
+  "issue": "Some analysis JSONL readers used platform-default cp1252 on Windows; generation records were correctly written as UTF-8. Final metrics use explicit UTF-8.",
+  "raw_generation_sha256_before": {
+    "old_deepseek": "c1432bcd7193be51f0e1f061c7d450fcbad799840e804d8d8f7793f97a016624",
+    "new_deepseek": "95fe21aec91ef43657531ae7cfcbd4ba279ef550f219f7324bf8bef666f5939f",
+    "new_gemini": "22e0727df6f5704cf96ddbef36aa7d41d56b2cfd4cde08c8f1120fe94ada0924",
+    "new_qwen": "767c9bed8a7f46384a74d7f1349773977a57cad1562a70db2d603df0cd84c94d"
+  },
+  "pre_fix_summary_sha256": "3153e054bfc946390da0c353a338a67df9ac6d134915242a3acd5b1dbab11175",
+  "pre_fix_within_class_near_components": {
+    "old_deepseek": 48,
+    "new_deepseek": 19,
+    "new_gemini": 10,
+    "new_qwen": 24
+  },
+  "pre_fix_generation_calls": 342,
+  "pre_fix_spend_usd": 0.3591569519999999,
+  "raw_generation_sha256_after": {
+    "old_deepseek": "c1432bcd7193be51f0e1f061c7d450fcbad799840e804d8d8f7793f97a016624",
+    "new_deepseek": "95fe21aec91ef43657531ae7cfcbd4ba279ef550f219f7324bf8bef666f5939f",
+    "new_gemini": "22e0727df6f5704cf96ddbef36aa7d41d56b2cfd4cde08c8f1120fe94ada0924",
+    "new_qwen": "767c9bed8a7f46384a74d7f1349773977a57cad1562a70db2d603df0cd84c94d"
+  },
+  "post_fix_within_class_near_components": {
+    "old_deepseek": 49,
+    "new_deepseek": 18,
+    "new_gemini": 10,
+    "new_qwen": 24
+  },
+  "analysis_commit": "d60649f2d9be2b41400d2ccdda7ee66456286f5c",
+  "post_fix_generation_calls": 342,
+  "post_fix_spend_usd": 0.3591569519999999,
+  "raw_generation_unchanged": true,
+  "additional_generation_calls": 0
+}

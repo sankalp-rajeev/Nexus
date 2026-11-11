@@ -1,0 +1,185 @@
+{
+  "evidence_label": "oracle evidence (dev labels)",
+  "implementation_commit": "bbbac9507263d5d583741fdc93c657ea6570443b",
+  "analysis_commit": "d60649f2d9be2b41400d2ccdda7ee66456286f5c",
+  "date_utc": "2026-11-11T01:31:27.144305+00:00",
+  "context_bleed_regeneration_pending": true,
+  "distinctness_aggregation": "Sum of within-class unique strings/components divided by completed proposals; see per-class summary.json",
+  "rows": {
+    "new_deepseek": {
+      "evidence_label": "oracle evidence (dev labels)",
+      "status": {
+        "status": "complete",
+        "reason": "",
+        "evidence_label": "oracle evidence (dev labels)",
+        "completed": 60,
+        "model": "deepseek-flash",
+        "model_version": "DeepSeek-V4.1-Flash (provider-managed alias); fingerprint=bc19ba97cbe016479903222bb1578db6"
+      },
+      "C1": {
+        "successes": 60,
+        "total": 60,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.9403705077138331,
+          1.0
+        ]
+      },
+      "C2": {
+        "successes": 56,
+        "total": 60,
+        "rate": 0.9333333333333333,
+        "ci95_clopper_pearson": [
+          0.8380132448022711,
+          0.9815382224241185
+        ]
+      },
+      "n": 60,
+      "exact_unique_within_class_sum": 60,
+      "near_components_within_class_sum": 18,
+      "exact_distinct_rate": 1.0,
+      "near_distinct_rate": 0.3,
+      "grounding": {
+        "successes": 11,
+        "total": 60,
+        "rate": 0.18333333333333332,
+        "ci95_clopper_pearson": [
+          0.09523582291656378,
+          0.3043960547407762
+        ]
+      },
+      "latency_ms": {
+        "p50": 3614.127799999551,
+        "p90": 4285.418070003652
+      },
+      "observed_cost_per_proposal_usd": 0.0007072591999999996,
+      "uncached_token_cost_estimate_per_proposal_usd": 0.0027914350000000005,
+      "input_cache_hit_tokens": 425342,
+      "input_tokens": 437011
+    },
+    "new_gemini": {
+      "evidence_label": "oracle evidence (dev labels)",
+      "status": {
+        "status": "complete",
+        "reason": "",
+        "evidence_label": "oracle evidence (dev labels)",
+        "completed": 60,
+        "model": "gemini-3.5-flash-lite",
+        "model_version": "gemini-3.5-flash-lite"
+      },
+      "C1": {
+        "successes": 60,
+        "total": 60,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.9403705077138331,
+          1.0
+        ]
+      },
+      "C2": {
+        "successes": 60,
+        "total": 60,
+        "rate": 1.0,
+        "ci95_clopper_pearson": [
+          0.9403705077138331,
+          1.0
+        ]
+      },
+      "n": 60,
+      "exact_unique_within_class_sum": 54,
+      "near_components_within_class_sum": 10,
+      "exact_distinct_rate": 0.9,
+      "near_distinct_rate": 0.16666666666666666,
+      "grounding": {
+        "successes": 3,
+        "total": 60,
+        "rate": 0.05,
+        "ci95_clopper_pearson": [
+          0.010432329644348225,
+          0.1392432467210728
+        ]
+      },
+      "latency_ms": {
+        "p50": 1263.7879499998235,
+        "p90": 1364.803119996941
+      },
+      "observed_cost_per_proposal_usd": 0.0029470733333333337,
+      "uncached_token_cost_estimate_per_proposal_usd": 0.0029470733333333337,
+      "input_cache_hit_tokens": 0,
+      "input_tokens": 481348
+    },
+    "new_qwen": {
+      "evidence_label": "oracle evidence (dev labels)",
+      "status": {
+        "status": "complete",
+        "reason": "",
+        "evidence_label": "oracle evidence (dev labels)",
+        "completed": 60,
+        "model": "qwen2.5:7b-instruct",
+        "model_version": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e"
+      },
+      "C1": {
+        "successes": 27,
+        "total": 60,
+        "rate": 0.45,
+        "ci95_clopper_pearson": [
+          0.3212215234633568,
+          0.5838808543667839
+        ]
+      },
+      "C2": {
+        "successes": 0,
+        "total": 27,
+        "rate": 0.0,
+        "ci95_clopper_pearson": [
+          0.0,
+          0.12770286761543234
+        ]
+      },
+      "n": 60,
+      "exact_unique_within_class_sum": 30,
+      "near_components_within_class_sum": 24,
+      "exact_distinct_rate": 0.5,
+      "near_distinct_rate": 0.4,
+      "grounding": {
+        "successes": 11,
+        "total": 60,
+        "rate": 0.18333333333333332,
+        "ci95_clopper_pearson": [
+          0.09523582291656378,
+          0.3043960547407762
+        ]
+      },
+      "latency_ms": {
+        "p50": 15211.945999999443,
+        "p90": 23731.672400005482
+      },
+      "observed_cost_per_proposal_usd": 0.0,
+      "uncached_token_cost_estimate_per_proposal_usd": 0.0,
+      "input_cache_hit_tokens": 0,
+      "input_tokens": 736554
+    }
+  },
+  "spend": {
+    "cap_usd": 1.0,
+    "accounted_usd": 0.3591569519999999,
+    "generation_calls": 342,
+    "unsettled_reservations": 0,
+    "known_input_tokens": 1855195,
+    "known_output_tokens": 128555,
+    "unknown_usage_calls": 2,
+    "by_arm": {
+      "diagnostic_gemini": 0.00038889999999999997,
+      "new_deepseek": 0.04243555199999998,
+      "new_gemini": 0.17682440000000002,
+      "new_qwen": 0,
+      "old_deepseek": 0.1395080999999999
+    },
+    "provider_versions": [
+      "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "DeepSeek-V4.1-Flash (provider-managed alias); fingerprint=bc19ba97cbe016479903222bb1578db6",
+      "DeepSeek-V4.1-Flash-1017; fingerprint=bc19ba97cbe016479903222bb1578db6",
+      "gemini-3.5-flash-lite"
+    ]
+  }
+}
