@@ -14,6 +14,10 @@ committed dev labels and fixed seeds, so rerunning prints the same file.
   pool tasks that are not its own task.
 * **Regression set**: ``REG_PER_FAMILY`` dev tasks per family (all four families),
   seeded, from tasks whose committed uninjected run passed the checker.
+* **A2 regression set** (``regression_a2``, amendment A2): the regression set with its
+  qa part widened to *every* dev qa task whose committed uninjected run passed the
+  checker; the tool, plan and memory tasks are unchanged. ``regression`` is kept as
+  written so scores made under A1 stay reproducible.
 """
 
 from __future__ import annotations
@@ -37,6 +41,7 @@ SETS_PATH = os.path.join(REPO, "reports", "phase4", "prereg_sets.json")
 HELDOUT_K = 5
 REG_PER_FAMILY = 3
 FAMILIES = ("qa", "tool", "plan", "memory")
+A2_WIDENED_FAMILY = "qa"   # amendment A2: over-abstention guard
 FAILURE_CLASSES = ("HALLUCINATION", "CONTEXT_BLEED", "PLAN_DRIFT", "TOOL_MISFIRE",
                    "LOOP_DETECTED")
 
@@ -123,8 +128,11 @@ def build_sets(selection_path: str) -> dict[str, Any]:
         cands = sorted(passed_none[fam])
         random.Random(f"{SEED}:heal:regression:{fam}").shuffle(cands)
         regression += sorted(cands[:REG_PER_FAMILY])
+    # A2: every dev qa task that passes with no fault, plus the other families as before.
+    regression_a2 = sorted(passed_none[A2_WIDENED_FAMILY]) + [
+        t for t in regression if not t.startswith(f"{A2_WIDENED_FAMILY}-")]
 
-    all_ids = {f["task_id"] for f in failures} | set(regression)
+    all_ids = {f["task_id"] for f in failures} | set(regression) | set(regression_a2)
     all_ids |= {t for p in pools.values() for t in p}
     assert_dev(all_ids)
 
@@ -137,6 +145,7 @@ def build_sets(selection_path: str) -> dict[str, Any]:
         "labels_sha256": file_sha256(LABELS),
         "heldout_pools": pools,
         "regression": regression,
+        "regression_a2": regression_a2,
         "failures": failures,
         "excluded": excluded,
     }
@@ -158,7 +167,8 @@ def main() -> int:
         json.dump(sets, fh, indent=1, sort_keys=True)
         fh.write("\n")
     print(f"{len(sets['failures'])} failures, {len(sets['excluded'])} excluded, "
-          f"{len(sets['regression'])} regression tasks -> {args.out}")
+          f"{len(sets['regression'])} regression tasks "
+          f"({len(sets['regression_a2'])} under A2) -> {args.out}")
     return 0
 
 

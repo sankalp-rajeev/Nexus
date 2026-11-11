@@ -141,6 +141,62 @@ def summarize(scored: list[dict[str, Any]]) -> dict[str, Any]:
     return out
 
 
+def summarize_distinct(scored: list[dict[str, Any]],
+                       confirmations: Mapping[str, Mapping[str, Any]] | None = None
+                       ) -> dict[str, Any]:
+    """Amendment A2: the same metrics per *distinct* patch (deduplicated by diff hash).
+
+    Patches are grouped by (fault, patch_hash): the same diff on two faults runs on a
+    different deployed config only for HALLUCINATION, and is a different experiment. A
+    distinct patch meets a good outcome (check 1, check 2, promoted) only if it meets it
+    on *every* failure it was applied to; it counts as a regression (H3), a harmful own
+    pass or a false promotion if that happens on *any* of them. ``failures`` is how many
+    failures each distinct patch stands for (the generic HALLUCINATION diff: 1 patch,
+    12 failures). ``confirmations`` maps failure_id -> fresh-seed confirmation record.
+    """
+    confirmations = confirmations or {}
+    groups: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    for r in scored:
+        groups[(r["fault"], r["patch_hash"])].append(r)
+    rows = []
+    for (fault, ph), rs in sorted(groups.items()):
+        g = [r["gate"] for r in rs]
+        conf = [confirmations[r["failure_id"]] for r in rs if r["failure_id"] in confirmations]
+        rows.append({
+            "fault": fault, "patch_hash": ph, "tag": rs[0]["tag"], "provider": rs[0]["provider"],
+            "failures": len(rs),
+            "check1_all": all(x["check1_own_task"] for x in g),
+            "check2_all": all(x["check2_heldout"] for x in g),
+            "regress_any": any(bool(x["regression_breaks"]) for x in g),
+            "promoted_all": all(x["promoted"] for x in g),
+            "promoted_any": any(x["promoted"] for x in g),
+            "old_rule_false_any": any(r["old_rule_false_promotion"] for r in rs),
+            "harmful_any": any(r["harmful_own_pass"] for r in rs),
+            "confirmed_failures": sum(c.get("status") == "scored" for c in conf),
+            "false_promotion_any": any(c.get("false_promotion", False) for c in conf),
+        })
+
+    def block(rs: list[dict[str, Any]]) -> dict[str, Any]:
+        n = len(rs)
+        return {"n_distinct": n, "failures_covered": sum(r["failures"] for r in rs),
+                "max_failures_per_patch": max((r["failures"] for r in rs), default=0),
+                "H1_repair": proportion(sum(r["check1_all"] for r in rs), n),
+                "H2_generalize": proportion(sum(r["check2_all"] for r in rs), n),
+                "H3_regress": proportion(sum(r["regress_any"] for r in rs), n),
+                "gate_promoted": proportion(sum(r["promoted_any"] for r in rs), n),
+                "gate_promoted_all_failures": sum(r["promoted_all"] for r in rs),
+                "old_rule_false_promotions": sum(r["old_rule_false_any"] for r in rs),
+                "harmful_own_pass": sum(r["harmful_any"] for r in rs),
+                "gate_false_promotions": sum(r["false_promotion_any"] for r in rs)}
+    out: dict[str, Any] = {"all": block(rows), "patches": rows}
+    for key in ("fault", "tag", "provider"):
+        gg: dict[str, list] = defaultdict(list)
+        for r in rows:
+            gg[r[key]].append(r)
+        out[f"by_{key}"] = {k: block(v) for k, v in sorted(gg.items())}
+    return out
+
+
 def net_of_noise(arm: list[dict[str, Any]], noise: list[dict[str, Any]]) -> dict[str, Any]:
     """H1 net of H5 on the same failures: difference plus the paired discordant counts."""
     base = {r["failure_id"]: r["gate"]["check1_own_task"] for r in noise}

@@ -564,3 +564,14 @@ worst case.
   regression runs. This is one patch confirmed on 12 own tasks, not 12 independent
   confirmations. Its credit comes from blanket abstention, which H3 guards only on the
   12-task regression set (3 qa tasks).
+
+**D69. Amendment A2: every passing dev QA task in the regression set; report per distinct patch (user decision, 2026-11-11).**
+The regression set's QA part grows from 3 tasks to all 20 dev QA tasks that pass with no
+fault (`regression_a2`, 29 tasks in all). Tool, plan and memory tasks are unchanged.
+Every H metric is reported per failure and per distinct patch (deduplicated by diff
+hash). The generic arm's 12 HALLUCINATION promotions are re-scored against the wider
+set. *Why:* with 3 QA tasks, an abstain-everything prompt can pass check 3, and A1 gives
+abstention repair credit. One diff promoted on 12 failures is one patch, not 12. Tagged
+`phase4-prereg-a2` before any critic-arm run. The planned critic-arm spend under A2
+(~$6.0 DeepSeek) exceeds the $3.00 cap. This is recorded in A2 and resolved before any
+critic-arm run.
