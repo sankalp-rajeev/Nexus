@@ -1,9 +1,9 @@
 {
   "experiment_id": "B0-dataset",
-  "summary": "NexusBench: 716 labelled traces over 140 tasks; test split per class NORMAL=125, LOOP_DETECTED=29, TOOL_MISFIRE=38, CONTEXT_BLEED=30, PLAN_DRIFT=31, HALLUCINATION=30, OTHER_FAILURE=74",
+  "summary": "NexusBench: 716 labelled traces over 140 tasks; test split per class NORMAL=118, LOOP_DETECTED=29, TOOL_MISFIRE=38, CONTEXT_BLEED=30, PLAN_DRIFT=31, HALLUCINATION=36, OTHER_FAILURE=75",
   "provenance": {
-    "date_utc": "2026-11-11T01:10:37+00:00",
-    "git_commit": "1c23fe4",
+    "date_utc": "2026-11-11T01:52:42+00:00",
+    "git_commit": "a04c528",
     "git_dirty": false,
     "provider": "deepseek+ollama",
     "model": "deepseek-flash + qwen2.5:7b-instruct",
@@ -15,9 +15,9 @@
     "n_tasks": 140,
     "labels_total": {
       "CONTEXT_BLEED": 60,
-      "HALLUCINATION": 60,
-      "OTHER_FAILURE": 159,
-      "NORMAL": 247,
+      "HALLUCINATION": 70,
+      "OTHER_FAILURE": 160,
+      "NORMAL": 236,
       "LOOP_DETECTED": 63,
       "PLAN_DRIFT": 55,
       "TOOL_MISFIRE": 72
@@ -25,18 +25,18 @@
     "labels_by_split": {
       "dev": {
         "CONTEXT_BLEED": 30,
-        "HALLUCINATION": 30,
+        "HALLUCINATION": 34,
         "OTHER_FAILURE": 85,
-        "NORMAL": 122,
+        "NORMAL": 118,
         "LOOP_DETECTED": 34,
         "PLAN_DRIFT": 24,
         "TOOL_MISFIRE": 34
       },
       "test": {
         "CONTEXT_BLEED": 30,
-        "NORMAL": 125,
-        "OTHER_FAILURE": 74,
-        "HALLUCINATION": 30,
+        "HALLUCINATION": 36,
+        "OTHER_FAILURE": 75,
+        "NORMAL": 118,
         "LOOP_DETECTED": 29,
         "PLAN_DRIFT": 31,
         "TOOL_MISFIRE": 38
@@ -45,17 +45,17 @@
     "labels_by_provider": {
       "deepseek": {
         "CONTEXT_BLEED": 30,
-        "HALLUCINATION": 60,
-        "NORMAL": 157,
+        "HALLUCINATION": 70,
+        "NORMAL": 147,
         "LOOP_DETECTED": 36,
         "TOOL_MISFIRE": 61,
         "OTHER_FAILURE": 14
       },
       "ollama": {
         "CONTEXT_BLEED": 30,
-        "OTHER_FAILURE": 145,
+        "OTHER_FAILURE": 146,
         "LOOP_DETECTED": 27,
-        "NORMAL": 90,
+        "NORMAL": 89,
         "PLAN_DRIFT": 55,
         "TOOL_MISFIRE": 11
       }
@@ -92,21 +92,21 @@
       },
       "HALLUCINATION": {
         "all": {
-          "value": 0.4167,
-          "k": 60,
+          "value": 0.4861,
+          "k": 70,
           "n": 144,
           "ci95": [
-            0.3393,
-            0.4983
+            0.4059,
+            0.567
           ]
         },
         "deepseek": {
-          "value": 0.8333,
-          "k": 60,
+          "value": 0.9722,
+          "k": 70,
           "n": 72,
           "ci95": [
-            0.7309,
-            0.902
+            0.9043,
+            0.9923
           ]
         },
         "ollama": {
@@ -222,7 +222,7 @@
         ]
       }
     },
-    "test_manifest_digest": "45c4040aff35af8300e6a873619c4d6dbfb3ae16b07d3792a08cbedb5da878c8",
+    "test_manifest_digest": "0f664774995b6a9334500212a93bb698c350190f00397260f196f9c25266d9c0",
     "spend_usd_all_time": {
       "gemini": 0.0017,
       "deepseek": 0.3727

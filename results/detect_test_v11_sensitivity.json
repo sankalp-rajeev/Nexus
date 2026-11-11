@@ -1,0 +1,1045 @@
+{
+  "experiment_id": "S-v1.1-test",
+  "summary": "SENSITIVITY (v1.1 labels, stored test predictions): headline 0.9556; H P=0.973 R=1.0; FA/1000 8.5",
+  "provenance": {
+    "date_utc": "2026-11-11T01:52:41+00:00",
+    "git_commit": "a04c528",
+    "git_dirty": false,
+    "provider": "none (stored predictions)",
+    "model": "frozen Phase 2 detectors",
+    "mock": false,
+    "seed": null
+  },
+  "results": {
+    "all": {
+      "v1": {
+        "per_class": {
+          "HALLUCINATION": {
+            "support": 30,
+            "recall": {
+              "value": 1.0,
+              "k": 30,
+              "n": 30,
+              "ci95_clopper_pearson": [
+                0.8843,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 0.8108,
+              "k": 30,
+              "n": 37,
+              "ci95_clopper_pearson": [
+                0.6484,
+                0.9204
+              ]
+            },
+            "f1": 0.8955
+          },
+          "CONTEXT_BLEED": {
+            "support": 30,
+            "recall": {
+              "value": 0.8667,
+              "k": 26,
+              "n": 30,
+              "ci95_clopper_pearson": [
+                0.6928,
+                0.9624
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 26,
+              "n": 26,
+              "ci95_clopper_pearson": [
+                0.8677,
+                1.0
+              ]
+            },
+            "f1": 0.9286
+          },
+          "PLAN_DRIFT": {
+            "support": 31,
+            "recall": {
+              "value": 1.0,
+              "k": 31,
+              "n": 31,
+              "ci95_clopper_pearson": [
+                0.8878,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 31,
+              "n": 31,
+              "ci95_clopper_pearson": [
+                0.8878,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "TOOL_MISFIRE": {
+            "support": 38,
+            "recall": {
+              "value": 1.0,
+              "k": 38,
+              "n": 38,
+              "ci95_clopper_pearson": [
+                0.9075,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 38,
+              "n": 38,
+              "ci95_clopper_pearson": [
+                0.9075,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "LOOP_DETECTED": {
+            "support": 29,
+            "recall": {
+              "value": 1.0,
+              "k": 29,
+              "n": 29,
+              "ci95_clopper_pearson": [
+                0.8806,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 29,
+              "n": 29,
+              "ci95_clopper_pearson": [
+                0.8806,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "macro_recall_headline": 0.9556,
+          "macro_recall_secondary_H_PD": 1.0
+        },
+        "any_failure": {
+          "recall": {
+            "value": 0.6638,
+            "k": 154,
+            "n": 232,
+            "ci95_clopper_pearson": [
+              0.599,
+              0.7243
+            ]
+          },
+          "precision": {
+            "value": 0.9565,
+            "k": 154,
+            "n": 161,
+            "ci95_clopper_pearson": [
+              0.9125,
+              0.9823
+            ]
+          }
+        },
+        "false_alerts_per_1000_normal": 56.0,
+        "false_alerts": {
+          "value": 0.056,
+          "k": 7,
+          "n": 125,
+          "ci95_clopper_pearson": [
+            0.0228,
+            0.112
+          ]
+        }
+      },
+      "v1_1": {
+        "per_class": {
+          "HALLUCINATION": {
+            "support": 36,
+            "recall": {
+              "value": 1.0,
+              "k": 36,
+              "n": 36,
+              "ci95_clopper_pearson": [
+                0.9026,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 0.973,
+              "k": 36,
+              "n": 37,
+              "ci95_clopper_pearson": [
+                0.8584,
+                0.9993
+              ]
+            },
+            "f1": 0.9863
+          },
+          "CONTEXT_BLEED": {
+            "support": 30,
+            "recall": {
+              "value": 0.8667,
+              "k": 26,
+              "n": 30,
+              "ci95_clopper_pearson": [
+                0.6928,
+                0.9624
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 26,
+              "n": 26,
+              "ci95_clopper_pearson": [
+                0.8677,
+                1.0
+              ]
+            },
+            "f1": 0.9286
+          },
+          "PLAN_DRIFT": {
+            "support": 31,
+            "recall": {
+              "value": 1.0,
+              "k": 31,
+              "n": 31,
+              "ci95_clopper_pearson": [
+                0.8878,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 31,
+              "n": 31,
+              "ci95_clopper_pearson": [
+                0.8878,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "TOOL_MISFIRE": {
+            "support": 38,
+            "recall": {
+              "value": 1.0,
+              "k": 38,
+              "n": 38,
+              "ci95_clopper_pearson": [
+                0.9075,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 38,
+              "n": 38,
+              "ci95_clopper_pearson": [
+                0.9075,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "LOOP_DETECTED": {
+            "support": 29,
+            "recall": {
+              "value": 1.0,
+              "k": 29,
+              "n": 29,
+              "ci95_clopper_pearson": [
+                0.8806,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 29,
+              "n": 29,
+              "ci95_clopper_pearson": [
+                0.8806,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "macro_recall_headline": 0.9556,
+          "macro_recall_secondary_H_PD": 1.0
+        },
+        "any_failure": {
+          "recall": {
+            "value": 0.6695,
+            "k": 160,
+            "n": 239,
+            "ci95_clopper_pearson": [
+              0.6059,
+              0.7287
+            ]
+          },
+          "precision": {
+            "value": 0.9938,
+            "k": 160,
+            "n": 161,
+            "ci95_clopper_pearson": [
+              0.9659,
+              0.9998
+            ]
+          }
+        },
+        "false_alerts_per_1000_normal": 8.5,
+        "false_alerts": {
+          "value": 0.0085,
+          "k": 1,
+          "n": 118,
+          "ci95_clopper_pearson": [
+            0.0002,
+            0.0463
+          ]
+        }
+      },
+      "moved": [
+        {
+          "trace_id": "nb-29758e272754182e",
+          "v1": "NORMAL",
+          "v1_1": "HALLUCINATION",
+          "pred": "HALLUCINATION",
+          "determined_by": "stored year-tolerance id list"
+        },
+        {
+          "trace_id": "nb-5c6c559ca59d0998",
+          "v1": "NORMAL",
+          "v1_1": "HALLUCINATION",
+          "pred": "HALLUCINATION",
+          "determined_by": "stored year-tolerance id list"
+        },
+        {
+          "trace_id": "nb-3316699becc868f4",
+          "v1": "NORMAL",
+          "v1_1": "HALLUCINATION",
+          "pred": "HALLUCINATION",
+          "determined_by": "stored year-tolerance id list"
+        },
+        {
+          "trace_id": "nb-6fef5adb18916b6e",
+          "v1": "NORMAL",
+          "v1_1": "HALLUCINATION",
+          "pred": "HALLUCINATION",
+          "determined_by": "stored year-tolerance id list"
+        },
+        {
+          "trace_id": "nb-e9f36f9949ac68ad",
+          "v1": "NORMAL",
+          "v1_1": "HALLUCINATION",
+          "pred": "HALLUCINATION",
+          "determined_by": "stored year-tolerance id list"
+        },
+        {
+          "trace_id": "nb-4400c73cadec62be",
+          "v1": "NORMAL",
+          "v1_1": "HALLUCINATION",
+          "pred": "HALLUCINATION",
+          "determined_by": "stored year-tolerance id list"
+        },
+        {
+          "trace_id": "nb-04d45c1b5a35ad50",
+          "v1": "NORMAL",
+          "v1_1": "OTHER_FAILURE",
+          "pred": "NORMAL",
+          "determined_by": "all qwen2.5:7b-instruct NORMAL rows predicted alike"
+        }
+      ],
+      "confusion_v1_1": {
+        "CONTEXT_BLEED": {
+          "CONTEXT_BLEED": 26,
+          "NORMAL": 4
+        },
+        "NORMAL": {
+          "HALLUCINATION": 1,
+          "NORMAL": 117
+        },
+        "OTHER_FAILURE": {
+          "NORMAL": 75
+        },
+        "HALLUCINATION": {
+          "HALLUCINATION": 36
+        },
+        "LOOP_DETECTED": {
+          "LOOP_DETECTED": 29
+        },
+        "PLAN_DRIFT": {
+          "PLAN_DRIFT": 31
+        },
+        "TOOL_MISFIRE": {
+          "TOOL_MISFIRE": 38
+        }
+      }
+    },
+    "deepseek-flash": {
+      "v1": {
+        "per_class": {
+          "HALLUCINATION": {
+            "support": 30,
+            "recall": {
+              "value": 1.0,
+              "k": 30,
+              "n": 30,
+              "ci95_clopper_pearson": [
+                0.8843,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 0.8108,
+              "k": 30,
+              "n": 37,
+              "ci95_clopper_pearson": [
+                0.6484,
+                0.9204
+              ]
+            },
+            "f1": 0.8955
+          },
+          "CONTEXT_BLEED": {
+            "support": 18,
+            "recall": {
+              "value": 0.8333,
+              "k": 15,
+              "n": 18,
+              "ci95_clopper_pearson": [
+                0.5858,
+                0.9642
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 15,
+              "n": 15,
+              "ci95_clopper_pearson": [
+                0.782,
+                1.0
+              ]
+            },
+            "f1": 0.9091
+          },
+          "PLAN_DRIFT": {
+            "support": 0,
+            "recall": {
+              "value": null,
+              "k": 0,
+              "n": 0,
+              "ci95_clopper_pearson": null
+            },
+            "precision": {
+              "value": null,
+              "k": 0,
+              "n": 0,
+              "ci95_clopper_pearson": null
+            },
+            "f1": null
+          },
+          "TOOL_MISFIRE": {
+            "support": 33,
+            "recall": {
+              "value": 1.0,
+              "k": 33,
+              "n": 33,
+              "ci95_clopper_pearson": [
+                0.8942,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 33,
+              "n": 33,
+              "ci95_clopper_pearson": [
+                0.8942,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "LOOP_DETECTED": {
+            "support": 19,
+            "recall": {
+              "value": 1.0,
+              "k": 19,
+              "n": 19,
+              "ci95_clopper_pearson": [
+                0.8235,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 19,
+              "n": 19,
+              "ci95_clopper_pearson": [
+                0.8235,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "macro_recall_headline": 0.9166,
+          "macro_recall_secondary_H_PD": 1.0
+        },
+        "any_failure": {
+          "recall": {
+            "value": 0.9151,
+            "k": 97,
+            "n": 106,
+            "ci95_clopper_pearson": [
+              0.8449,
+              0.9604
+            ]
+          },
+          "precision": {
+            "value": 0.9327,
+            "k": 97,
+            "n": 104,
+            "ci95_clopper_pearson": [
+              0.8662,
+              0.9725
+            ]
+          }
+        },
+        "false_alerts_per_1000_normal": 86.4,
+        "false_alerts": {
+          "value": 0.0864,
+          "k": 7,
+          "n": 81,
+          "ci95_clopper_pearson": [
+            0.0355,
+            0.17
+          ]
+        }
+      },
+      "v1_1": {
+        "per_class": {
+          "HALLUCINATION": {
+            "support": 36,
+            "recall": {
+              "value": 1.0,
+              "k": 36,
+              "n": 36,
+              "ci95_clopper_pearson": [
+                0.9026,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 0.973,
+              "k": 36,
+              "n": 37,
+              "ci95_clopper_pearson": [
+                0.8584,
+                0.9993
+              ]
+            },
+            "f1": 0.9863
+          },
+          "CONTEXT_BLEED": {
+            "support": 18,
+            "recall": {
+              "value": 0.8333,
+              "k": 15,
+              "n": 18,
+              "ci95_clopper_pearson": [
+                0.5858,
+                0.9642
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 15,
+              "n": 15,
+              "ci95_clopper_pearson": [
+                0.782,
+                1.0
+              ]
+            },
+            "f1": 0.9091
+          },
+          "PLAN_DRIFT": {
+            "support": 0,
+            "recall": {
+              "value": null,
+              "k": 0,
+              "n": 0,
+              "ci95_clopper_pearson": null
+            },
+            "precision": {
+              "value": null,
+              "k": 0,
+              "n": 0,
+              "ci95_clopper_pearson": null
+            },
+            "f1": null
+          },
+          "TOOL_MISFIRE": {
+            "support": 33,
+            "recall": {
+              "value": 1.0,
+              "k": 33,
+              "n": 33,
+              "ci95_clopper_pearson": [
+                0.8942,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 33,
+              "n": 33,
+              "ci95_clopper_pearson": [
+                0.8942,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "LOOP_DETECTED": {
+            "support": 19,
+            "recall": {
+              "value": 1.0,
+              "k": 19,
+              "n": 19,
+              "ci95_clopper_pearson": [
+                0.8235,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 19,
+              "n": 19,
+              "ci95_clopper_pearson": [
+                0.8235,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "macro_recall_headline": 0.9166,
+          "macro_recall_secondary_H_PD": 1.0
+        },
+        "any_failure": {
+          "recall": {
+            "value": 0.9196,
+            "k": 103,
+            "n": 112,
+            "ci95_clopper_pearson": [
+              0.8529,
+              0.9626
+            ]
+          },
+          "precision": {
+            "value": 0.9904,
+            "k": 103,
+            "n": 104,
+            "ci95_clopper_pearson": [
+              0.9476,
+              0.9998
+            ]
+          }
+        },
+        "false_alerts_per_1000_normal": 13.3,
+        "false_alerts": {
+          "value": 0.0133,
+          "k": 1,
+          "n": 75,
+          "ci95_clopper_pearson": [
+            0.0003,
+            0.0721
+          ]
+        }
+      },
+      "moved": [
+        {
+          "trace_id": "nb-29758e272754182e",
+          "v1": "NORMAL",
+          "v1_1": "HALLUCINATION",
+          "pred": "HALLUCINATION",
+          "determined_by": "stored year-tolerance id list"
+        },
+        {
+          "trace_id": "nb-5c6c559ca59d0998",
+          "v1": "NORMAL",
+          "v1_1": "HALLUCINATION",
+          "pred": "HALLUCINATION",
+          "determined_by": "stored year-tolerance id list"
+        },
+        {
+          "trace_id": "nb-3316699becc868f4",
+          "v1": "NORMAL",
+          "v1_1": "HALLUCINATION",
+          "pred": "HALLUCINATION",
+          "determined_by": "stored year-tolerance id list"
+        },
+        {
+          "trace_id": "nb-6fef5adb18916b6e",
+          "v1": "NORMAL",
+          "v1_1": "HALLUCINATION",
+          "pred": "HALLUCINATION",
+          "determined_by": "stored year-tolerance id list"
+        },
+        {
+          "trace_id": "nb-e9f36f9949ac68ad",
+          "v1": "NORMAL",
+          "v1_1": "HALLUCINATION",
+          "pred": "HALLUCINATION",
+          "determined_by": "stored year-tolerance id list"
+        },
+        {
+          "trace_id": "nb-4400c73cadec62be",
+          "v1": "NORMAL",
+          "v1_1": "HALLUCINATION",
+          "pred": "HALLUCINATION",
+          "determined_by": "stored year-tolerance id list"
+        }
+      ],
+      "confusion_v1_1": {
+        "CONTEXT_BLEED": {
+          "CONTEXT_BLEED": 15,
+          "NORMAL": 3
+        },
+        "NORMAL": {
+          "HALLUCINATION": 1,
+          "NORMAL": 74
+        },
+        "HALLUCINATION": {
+          "HALLUCINATION": 36
+        },
+        "LOOP_DETECTED": {
+          "LOOP_DETECTED": 19
+        },
+        "TOOL_MISFIRE": {
+          "TOOL_MISFIRE": 33
+        },
+        "OTHER_FAILURE": {
+          "NORMAL": 6
+        }
+      }
+    },
+    "qwen2.5:7b-instruct": {
+      "v1": {
+        "per_class": {
+          "HALLUCINATION": {
+            "support": 0,
+            "recall": {
+              "value": null,
+              "k": 0,
+              "n": 0,
+              "ci95_clopper_pearson": null
+            },
+            "precision": {
+              "value": null,
+              "k": 0,
+              "n": 0,
+              "ci95_clopper_pearson": null
+            },
+            "f1": null
+          },
+          "CONTEXT_BLEED": {
+            "support": 12,
+            "recall": {
+              "value": 0.9167,
+              "k": 11,
+              "n": 12,
+              "ci95_clopper_pearson": [
+                0.6152,
+                0.9979
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 11,
+              "n": 11,
+              "ci95_clopper_pearson": [
+                0.7151,
+                1.0
+              ]
+            },
+            "f1": 0.9565
+          },
+          "PLAN_DRIFT": {
+            "support": 31,
+            "recall": {
+              "value": 1.0,
+              "k": 31,
+              "n": 31,
+              "ci95_clopper_pearson": [
+                0.8878,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 31,
+              "n": 31,
+              "ci95_clopper_pearson": [
+                0.8878,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "TOOL_MISFIRE": {
+            "support": 5,
+            "recall": {
+              "value": 1.0,
+              "k": 5,
+              "n": 5,
+              "ci95_clopper_pearson": [
+                0.4782,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 5,
+              "n": 5,
+              "ci95_clopper_pearson": [
+                0.4782,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "LOOP_DETECTED": {
+            "support": 10,
+            "recall": {
+              "value": 1.0,
+              "k": 10,
+              "n": 10,
+              "ci95_clopper_pearson": [
+                0.6915,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 10,
+              "n": 10,
+              "ci95_clopper_pearson": [
+                0.6915,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "macro_recall_headline": 0.9584,
+          "macro_recall_secondary_H_PD": 1.0
+        },
+        "any_failure": {
+          "recall": {
+            "value": 0.4524,
+            "k": 57,
+            "n": 126,
+            "ci95_clopper_pearson": [
+              0.3636,
+              0.5435
+            ]
+          },
+          "precision": {
+            "value": 1.0,
+            "k": 57,
+            "n": 57,
+            "ci95_clopper_pearson": [
+              0.9373,
+              1.0
+            ]
+          }
+        },
+        "false_alerts_per_1000_normal": 0.0,
+        "false_alerts": {
+          "value": 0.0,
+          "k": 0,
+          "n": 44,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.0804
+          ]
+        }
+      },
+      "v1_1": {
+        "per_class": {
+          "HALLUCINATION": {
+            "support": 0,
+            "recall": {
+              "value": null,
+              "k": 0,
+              "n": 0,
+              "ci95_clopper_pearson": null
+            },
+            "precision": {
+              "value": null,
+              "k": 0,
+              "n": 0,
+              "ci95_clopper_pearson": null
+            },
+            "f1": null
+          },
+          "CONTEXT_BLEED": {
+            "support": 12,
+            "recall": {
+              "value": 0.9167,
+              "k": 11,
+              "n": 12,
+              "ci95_clopper_pearson": [
+                0.6152,
+                0.9979
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 11,
+              "n": 11,
+              "ci95_clopper_pearson": [
+                0.7151,
+                1.0
+              ]
+            },
+            "f1": 0.9565
+          },
+          "PLAN_DRIFT": {
+            "support": 31,
+            "recall": {
+              "value": 1.0,
+              "k": 31,
+              "n": 31,
+              "ci95_clopper_pearson": [
+                0.8878,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 31,
+              "n": 31,
+              "ci95_clopper_pearson": [
+                0.8878,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "TOOL_MISFIRE": {
+            "support": 5,
+            "recall": {
+              "value": 1.0,
+              "k": 5,
+              "n": 5,
+              "ci95_clopper_pearson": [
+                0.4782,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 5,
+              "n": 5,
+              "ci95_clopper_pearson": [
+                0.4782,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "LOOP_DETECTED": {
+            "support": 10,
+            "recall": {
+              "value": 1.0,
+              "k": 10,
+              "n": 10,
+              "ci95_clopper_pearson": [
+                0.6915,
+                1.0
+              ]
+            },
+            "precision": {
+              "value": 1.0,
+              "k": 10,
+              "n": 10,
+              "ci95_clopper_pearson": [
+                0.6915,
+                1.0
+              ]
+            },
+            "f1": 1.0
+          },
+          "macro_recall_headline": 0.9584,
+          "macro_recall_secondary_H_PD": 1.0
+        },
+        "any_failure": {
+          "recall": {
+            "value": 0.4488,
+            "k": 57,
+            "n": 127,
+            "ci95_clopper_pearson": [
+              0.3605,
+              0.5396
+            ]
+          },
+          "precision": {
+            "value": 1.0,
+            "k": 57,
+            "n": 57,
+            "ci95_clopper_pearson": [
+              0.9373,
+              1.0
+            ]
+          }
+        },
+        "false_alerts_per_1000_normal": 0.0,
+        "false_alerts": {
+          "value": 0.0,
+          "k": 0,
+          "n": 43,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.0822
+          ]
+        }
+      },
+      "moved": [
+        {
+          "trace_id": "nb-04d45c1b5a35ad50",
+          "v1": "NORMAL",
+          "v1_1": "OTHER_FAILURE",
+          "pred": "NORMAL",
+          "determined_by": "all qwen2.5:7b-instruct NORMAL rows predicted alike"
+        }
+      ],
+      "confusion_v1_1": {
+        "CONTEXT_BLEED": {
+          "CONTEXT_BLEED": 11,
+          "NORMAL": 1
+        },
+        "OTHER_FAILURE": {
+          "NORMAL": 69
+        },
+        "LOOP_DETECTED": {
+          "LOOP_DETECTED": 10
+        },
+        "NORMAL": {
+          "NORMAL": 43
+        },
+        "PLAN_DRIFT": {
+          "PLAN_DRIFT": 31
+        },
+        "TOOL_MISFIRE": {
+          "TOOL_MISFIRE": 5
+        }
+      }
+    }
+  }
+}
