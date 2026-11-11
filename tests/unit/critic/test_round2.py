@@ -2,6 +2,7 @@
 import hashlib
 import json
 import sys
+from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
 import httpx
@@ -141,3 +142,29 @@ def test_gemini_transport_timeout_retains_reservation(tmp_path):
     row, = ledger.rows()
     assert row["cost_usd"] == row["reserved_usd"] > 0
     assert row["input_tokens"] is None
+
+
+def test_analysis_preserves_unicode_under_windows_default_encoding(tmp_path, monkeypatch):
+    import services.critic.round2 as round2
+    text = "Preserve \u201cGruost Systems\u201d and its observed claim."
+    row = {"trace_id": "unit", "failure_type": "HALLUCINATION", "source_model": "unit", "source": "llm",
+           "proposal": {"patch_content": text}, "c1_valid": True, "dry_run_applied": True,
+           "validator_failures": [], "grounding": {"grounded": True, "matches": {}},
+           "grounding_with_explanation": {"grounded": True}, "wall_latency_ms": 1, "cost_usd": 0}
+    (tmp_path / "old_deepseek.jsonl").write_text(json.dumps(row, ensure_ascii=False)+"\n", encoding="utf-8")
+    reader = Path.read_text
+    def windows_default(path, encoding=None, **kwargs):
+        return reader(path, encoding=encoding or "cp1252", **kwargs)
+    monkeypatch.setattr(Path, "read_text", windows_default)
+    monkeypatch.setattr(round2, "OUT", tmp_path)
+    received = []
+    class EmbeddingDouble:
+        def encode(self, texts):
+            received.extend(texts)
+            vectors = np.zeros((len(texts), 384))
+            vectors[:, 0] = 1
+            return vectors, [1]*len(texts)
+    monkeypatch.setattr(round2, "MiniLMEmbeddings", EmbeddingDouble)
+    result = round2.analyze({"implementation_commit": "unit"})
+    assert received == [text]
+    assert result["arms"]["old_deepseek"]["overall"]["specificity_all_sources"]["exact_unique"] == 1

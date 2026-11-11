@@ -53,7 +53,7 @@ class Store:
 
 
 def load_selection():
-    selected = json.loads((ROOT / "results/critic_dev/selection.json").read_text())
+    selected = json.loads((ROOT / "results/critic_dev/selection.json").read_text(encoding="utf-8"))
     ids = [r["trace_id"] for r in selected["selection"]]
     if len(ids) != 60 or len(set(ids)) != 60:
         raise ValueError("Expected the exact recorded 60 DEV traces")
@@ -100,20 +100,23 @@ def summarize_arm(records, vectors):
 
 def analyze(protocol):
     embedder = MiniLMEmbeddings()
-    results = {"evidence_label": LABEL, "protocol": protocol, "arms": {}}
+    analysis = {"git_commit": git("rev-parse", "HEAD"), "date_utc": datetime.now(timezone.utc).isoformat(),
+                "text_encoding": "utf-8"}
+    results = {"evidence_label": LABEL, "protocol": protocol, "analysis": analysis, "arms": {}}
     for arm in ARMS:
         path = OUT / f"{arm}.jsonl"
-        records = [json.loads(line) for line in path.read_text().splitlines()] if path.exists() else []
+        records = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()] if path.exists() else []
         texts = [r["proposal"]["patch_content"] for r in records]
         vectors, chunks = embedder.encode(texts)
         status_path = OUT / f"{arm}_status.json"
-        status = json.loads(status_path.read_text()) if status_path.exists() else {"status": "not_run"}
+        status = json.loads(status_path.read_text(encoding="utf-8")) if status_path.exists() else {"status": "not_run"}
         results["arms"][arm] = {"evidence_label": LABEL, "status": status,
                                 "embedding_chunks_per_patch": chunks, "trace_order": [r["trace_id"] for r in records],
                                 **summarize_arm(records, vectors)}
         if records:
             (OUT / f"{arm}_embeddings.json").write_text(json.dumps({
                 "evidence_label": LABEL, "implementation_commit": protocol["implementation_commit"],
+                "analysis_commit": analysis["git_commit"], "date_utc": analysis["date_utc"],
                 "model": EMBED_MODEL, "revision": EMBED_REVISION,
                 "trace_ids": [r["trace_id"] for r in records], "vectors": vectors.tolist(),
             }), encoding="utf-8")
@@ -142,7 +145,7 @@ def main():
     if ROOT.name != "nexus-phase3" or git("branch", "--show-current") != "phase-3-critic":
         raise RuntimeError("Wrong branch/worktree")
     if args.analyze_only:
-        analyze(json.loads((OUT / "protocol.json").read_text()))
+        analyze(json.loads((OUT / "protocol.json").read_text(encoding="utf-8")))
         return
     selected, rows, traces, evidence = load_selection()
     legacy = OriginalCritic()
