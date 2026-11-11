@@ -285,3 +285,53 @@ def test_stability_requires_three_valid_nonfallback_outputs():
     summary = stability([base, base, changed])["overall"]
     assert summary["type_stable"]["successes"] == 1
     assert summary["key_stable"]["successes"] == 0
+
+
+@pytest.mark.parametrize("kind", ["success", "timeout", "rejected", "malformed_tool"])
+def test_deepseek_strict_tools_and_conservative_accounting(tmp_path, kind):
+    from services.critic.llm import DeepSeekProvider
+    requests = []
+    def handler(request):
+        requests.append(json.loads(request.content))
+        if kind == "timeout":
+            raise httpx.ReadTimeout("unit timeout")
+        if kind == "rejected":
+            return httpx.Response(400)
+        return httpx.Response(200, json={"model": "deepseek-flash", "system_fingerprint": "f1",
+                    "usage": {"prompt_tokens": 100, "completion_tokens": 20, "prompt_cache_hit_tokens": 60},
+                    "choices": [{"finish_reason": "tool_calls", "message": {"tool_calls": [
+                        {"function": {"name": "wrong_tool" if kind == "malformed_tool" else "propose_patch",
+                                      "arguments": json.dumps(response())}}]}}]})
+    ledger = CostLedger(tmp_path / "paid_calls.jsonl")
+    provider = DeepSeekProvider(ledger=ledger, client=client_for(handler), api_key="unit-only")
+    if kind == "success":
+        assert provider.complete_patch("prompt") == json.dumps(response())
+    else:
+        with pytest.raises(ProviderError):
+            provider.complete_patch("prompt")
+    row, = ledger.rows()
+    events = [json.loads(x) for x in ledger.path.read_text().splitlines()]
+    assert len(events) == 2 and events[0]["status"] == "reserved"
+    assert requests[0]["tools"][0]["function"]["strict"] is True
+    assert "$defs" not in requests[0]["tools"][0]["function"]["parameters"]
+    assert requests[0]["tool_choice"]["function"]["name"] == "propose_patch"
+    if kind == "timeout":
+        assert ledger.spent == events[0]["cost_usd"] > 0
+        assert row["input_tokens"] is None
+    elif kind == "rejected":
+        assert ledger.spent == 0
+    else:
+        assert ledger.spent == pytest.approx((60*.006 + 40*.30 + 20*1.20)/1e6)
+        assert row["model_version"].endswith("fingerprint=f1")
+    assert "unit-only" not in ledger.path.read_text()
+
+
+def test_paid_request_is_blocked_before_http_at_cap(tmp_path):
+    from services.critic.llm import DeepSeekProvider
+    ledger = CostLedger(tmp_path / "paid_calls.jsonl")
+    ledger.append({"cost_usd": .75})
+    client = MagicMock()
+    provider = DeepSeekProvider(ledger=ledger, client=client, api_key="unit-only")
+    with pytest.raises(BudgetExceeded):
+        provider.complete_patch("prompt")
+    client.post.assert_not_called()

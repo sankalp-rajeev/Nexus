@@ -19,7 +19,12 @@ class CostLedger:
     def rows(self):
         if not self.path.exists():
             return []
-        return [json.loads(line) for line in self.path.read_text(encoding="utf-8").splitlines()]
+        events = [json.loads(line) for line in self.path.read_text(encoding="utf-8").splitlines()]
+        # A reservation is replaced logically by its settlement, never deleted.
+        calls = {}
+        for i, row in enumerate(events):
+            calls[row.get("call_id", f"legacy-{i}")] = row
+        return list(calls.values())
 
     @property
     def spent(self):

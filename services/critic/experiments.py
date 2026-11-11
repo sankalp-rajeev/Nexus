@@ -30,7 +30,7 @@ from services.critic.dev_adapter import (  # noqa: E402
     CLASSES, current_config, dev_labels, dev_traces, evidence_from_dev,
 )
 from services.critic.graph import build_prompt, run_critic  # noqa: E402
-from services.critic.llm import MODEL, TEMPERATURE, OllamaProvider  # noqa: E402
+from services.critic.llm import TEMPERATURE, DeepSeekProvider, OllamaProvider  # noqa: E402
 from services.critic.proposal import PROMPT_VERSION  # noqa: E402
 
 SEED = 20261110
@@ -144,6 +144,8 @@ def stability(rows):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--preflight", action="store_true")
+    parser.add_argument("--provider", choices=["ollama", "deepseek"], default="ollama")
+    parser.add_argument("--env-file")
     args = parser.parse_args()
     if git("branch", "--show-current") != "phase-3-critic" or ROOT.name != "nexus-phase3":
         raise RuntimeError("Wrong branch or worktree")
@@ -167,11 +169,14 @@ def main():
     trials_path = OUT / "trials.jsonl"
     if trials_path.exists():
         raise RuntimeError("Refusing to overwrite an existing run; preserve all calls and trials")
-    os.environ["NEXUS_LLM"] = "ollama"
+    os.environ["NEXUS_LLM"] = args.provider
+    if args.env_file:
+        from bench.llm import load_env
+        load_env(args.env_file)
     ledger = CostLedger(OUT / "calls.jsonl")
     ledger.check()
-    provider = OllamaProvider(ledger=ledger)
-    provenance = {"provider": "ollama", "model": MODEL, "model_version": provider.version,
+    provider = (OllamaProvider if args.provider == "ollama" else DeepSeekProvider)(ledger=ledger)
+    provenance = {"provider": provider.provider, "model": provider.model, "model_version": provider.version,
                   "temperature": TEMPERATURE, "prompt_version": PROMPT_VERSION, "mock": False,
                   "seed": SEED, "sampling_seed": None, "git_commit": git("rev-parse", "HEAD"),
                   "date_utc": datetime.now(timezone.utc).isoformat(), "dataset": "NexusBench DEV only"}
@@ -187,6 +192,7 @@ def main():
                        current_config=configs[tid], evidence=evidences[tid])
         if p.provenance.mock:
             raise RuntimeError("Mock output cannot enter experiment results")
+        provenance["model_version"] = p.provenance.model_version
         record = {"experiment": experiment, "repeat": rep, "trace_id": tid,
                   "task_id": row["task_id"], "failure_type": row["label"],
                   "source_model": f'{row["provider"]}/{row["model"]}',
