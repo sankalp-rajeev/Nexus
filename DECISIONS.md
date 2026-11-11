@@ -465,3 +465,26 @@ the failure's fault) instead of the experiment. The guard now compares patch has
 intended config hash, env fault, task, provider and seed. Nothing had been recorded,
 so no protocol or result changed. This was the guard working as intended: it fails
 closed.
+
+**D61. Baseline outcome (dev), reported as scored.**
+609 runs, $0.247 of the $1.50 cap, 0 run errors. Runs were made at `59eb90d`, scored at
+`924680c`.
+- **H5 (null patch):** the own task passes for 22 of 59 failures. These are exactly the
+  11 CONTEXT_BLEED and 11 PLAN_DRIFT failures whose original trace already passed. 0 of
+  the HALLUCINATION, LOOP_DETECTED and TOOL_MISFIRE failures pass. At temperature 0 the
+  3 seeds never disagreed (0 of 111 cells), so "noise" here is "the failure was not a
+  checker failure", not run-to-run variance.
+  - The **old rule would promote the do-nothing patch for 22 of 59 failures**. All 22
+    are false promotions (no held-out gain). The gate promotes none.
+- **Generic templates:** 24 inapplicable, 35 run.
+  - H1 1/35, H2 0/35, H3 0/35, gate promoted 0.
+  - **Net of H5, H1 is −0.29.** The plan-adherence template made Qwen emit empty tool
+    calls until `max_steps`, which broke 10 of the 11 PLAN_DRIFT tasks that pass with no
+    patch. It still followed the drift (rule fired in all 39 runs).
+  - On the secondary outcome, the HALLUCINATION template clears the rule in 12/12 (the
+    agent abstains) and the gate promotes it 12/12. The primary outcome credits none of
+    it, as pre-registered.
+  - No gate promotion on the primary outcome, so no confirmation runs were needed.
+- **Not changed after seeing this:** the pass rule, the sets and the gate. Whether the
+  critic arms should be gated on the secondary outcome for HALLUCINATION is a question
+  for an amendment *before* those runs, not a re-scoring of these.

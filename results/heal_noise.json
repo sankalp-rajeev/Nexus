@@ -1,0 +1,3450 @@
+{
+  "experiment_id": "H5",
+  "summary": "No-patch rerun of 59 dev failures x3: own task passes (>=2/3) 22/59; old rule would promote the null patch 22/59; gate promotes 0",
+  "provenance": {
+    "date_utc": "2026-11-11T04:39:12+00:00",
+    "git_commit": "924680c",
+    "git_dirty": false,
+    "provider": "deepseek+ollama",
+    "model": "deepseek-flash+qwen2.5:7b-instruct",
+    "mock": false,
+    "seed": 20261110
+  },
+  "results": {
+    "failures_n": 59,
+    "excluded": [
+      {
+        "family": "memory",
+        "fault": "PLAN_DRIFT",
+        "model": "qwen2.5:7b-instruct",
+        "original_checker_pass": true,
+        "provider": "ollama",
+        "reason": "bench-v1.1 label is NORMAL (fault PLAN_DRIFT), not PLAN_DRIFT",
+        "selection_label": "PLAN_DRIFT",
+        "task_id": "mem-006",
+        "trace_id": "nb-b88ecbb93f704868",
+        "v11_label": "NORMAL"
+      }
+    ],
+    "regression": [
+      "qa-007",
+      "qa-026",
+      "qa-037",
+      "tool-001",
+      "tool-022",
+      "tool-024",
+      "plan-003",
+      "plan-016",
+      "plan-017",
+      "mem-002",
+      "mem-010",
+      "mem-029"
+    ],
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "selection_sha256": "04db058716d74efc5287a958c7bb16aa1a14d861b42fa8b4bfb63c3fac585f5d",
+    "labels_sha256": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
+    "cap_usd": 1.5,
+    "arm": "H5 no patch",
+    "primary": {
+      "all": {
+        "n_patches": 59,
+        "H1_repair": {
+          "k": 22,
+          "n": 59,
+          "value": 0.3729,
+          "ci95_clopper_pearson": [
+            0.2504,
+            0.5085
+          ]
+        },
+        "H2_generalize": {
+          "k": 0,
+          "n": 59,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.0606
+          ]
+        },
+        "H3_regress": {
+          "k": 0,
+          "n": 59,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.0606
+          ]
+        },
+        "gate_promoted": {
+          "k": 0,
+          "n": 59,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.0606
+          ]
+        },
+        "old_rule_promoted": {
+          "k": 22,
+          "n": 59,
+          "value": 0.3729,
+          "ci95_clopper_pearson": [
+            0.2504,
+            0.5085
+          ]
+        },
+        "old_rule_false_promotions": 22,
+        "harmful_own_pass": 0,
+        "mean_heldout_rate_patch": 0.3898,
+        "mean_heldout_rate_nopatch": 0.3898
+      },
+      "by_fault": {
+        "CONTEXT_BLEED": {
+          "n_patches": 12,
+          "H1_repair": {
+            "k": 11,
+            "n": 12,
+            "value": 0.9167,
+            "ci95_clopper_pearson": [
+              0.6152,
+              0.9979
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 11,
+            "n": 12,
+            "value": 0.9167,
+            "ci95_clopper_pearson": [
+              0.6152,
+              0.9979
+            ]
+          },
+          "old_rule_false_promotions": 11,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 1.0,
+          "mean_heldout_rate_nopatch": 1.0
+        },
+        "HALLUCINATION": {
+          "n_patches": 12,
+          "H1_repair": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_false_promotions": 0,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.0,
+          "mean_heldout_rate_nopatch": 0.0
+        },
+        "LOOP_DETECTED": {
+          "n_patches": 12,
+          "H1_repair": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_false_promotions": 0,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.0,
+          "mean_heldout_rate_nopatch": 0.0
+        },
+        "PLAN_DRIFT": {
+          "n_patches": 11,
+          "H1_repair": {
+            "k": 11,
+            "n": 11,
+            "value": 1.0,
+            "ci95_clopper_pearson": [
+              0.7151,
+              1.0
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 11,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2849
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 11,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2849
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 11,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2849
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 11,
+            "n": 11,
+            "value": 1.0,
+            "ci95_clopper_pearson": [
+              0.7151,
+              1.0
+            ]
+          },
+          "old_rule_false_promotions": 11,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 1.0,
+          "mean_heldout_rate_nopatch": 1.0
+        },
+        "TOOL_MISFIRE": {
+          "n_patches": 12,
+          "H1_repair": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_false_promotions": 0,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.0,
+          "mean_heldout_rate_nopatch": 0.0
+        }
+      },
+      "by_tag": {
+        "none": {
+          "n_patches": 59,
+          "H1_repair": {
+            "k": 22,
+            "n": 59,
+            "value": 0.3729,
+            "ci95_clopper_pearson": [
+              0.2504,
+              0.5085
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 59,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0606
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 59,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0606
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 59,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0606
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 22,
+            "n": 59,
+            "value": 0.3729,
+            "ci95_clopper_pearson": [
+              0.2504,
+              0.5085
+            ]
+          },
+          "old_rule_false_promotions": 22,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.3898,
+          "mean_heldout_rate_nopatch": 0.3898
+        }
+      },
+      "by_provider": {
+        "deepseek": {
+          "n_patches": 36,
+          "H1_repair": {
+            "k": 6,
+            "n": 36,
+            "value": 0.1667,
+            "ci95_clopper_pearson": [
+              0.0637,
+              0.3281
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 36,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0974
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 36,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0974
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 36,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0974
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 6,
+            "n": 36,
+            "value": 0.1667,
+            "ci95_clopper_pearson": [
+              0.0637,
+              0.3281
+            ]
+          },
+          "old_rule_false_promotions": 6,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.1667,
+          "mean_heldout_rate_nopatch": 0.1667
+        },
+        "ollama": {
+          "n_patches": 23,
+          "H1_repair": {
+            "k": 16,
+            "n": 23,
+            "value": 0.6957,
+            "ci95_clopper_pearson": [
+              0.4708,
+              0.8679
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 23,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.1482
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 23,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.1482
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 23,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.1482
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 16,
+            "n": 23,
+            "value": 0.6957,
+            "ci95_clopper_pearson": [
+              0.4708,
+              0.8679
+            ]
+          },
+          "old_rule_false_promotions": 16,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.7391,
+          "mean_heldout_rate_nopatch": 0.7391
+        }
+      }
+    },
+    "secondary": {
+      "all": {
+        "n_patches": 59,
+        "H1_repair": {
+          "k": 3,
+          "n": 59,
+          "value": 0.0508,
+          "ci95_clopper_pearson": [
+            0.0106,
+            0.1415
+          ]
+        },
+        "H2_generalize": {
+          "k": 0,
+          "n": 59,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.0606
+          ]
+        },
+        "H3_regress": {
+          "k": 0,
+          "n": 59,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.0606
+          ]
+        },
+        "gate_promoted": {
+          "k": 0,
+          "n": 59,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.0606
+          ]
+        },
+        "old_rule_promoted": {
+          "k": 3,
+          "n": 59,
+          "value": 0.0508,
+          "ci95_clopper_pearson": [
+            0.0106,
+            0.1415
+          ]
+        },
+        "old_rule_false_promotions": 3,
+        "harmful_own_pass": 0,
+        "mean_heldout_rate_patch": 0.0712,
+        "mean_heldout_rate_nopatch": 0.0712
+      },
+      "by_fault": {
+        "CONTEXT_BLEED": {
+          "n_patches": 12,
+          "H1_repair": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_false_promotions": 0,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.0,
+          "mean_heldout_rate_nopatch": 0.0
+        },
+        "HALLUCINATION": {
+          "n_patches": 12,
+          "H1_repair": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_false_promotions": 0,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.0,
+          "mean_heldout_rate_nopatch": 0.0
+        },
+        "LOOP_DETECTED": {
+          "n_patches": 12,
+          "H1_repair": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_false_promotions": 0,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.0,
+          "mean_heldout_rate_nopatch": 0.0
+        },
+        "PLAN_DRIFT": {
+          "n_patches": 11,
+          "H1_repair": {
+            "k": 2,
+            "n": 11,
+            "value": 0.1818,
+            "ci95_clopper_pearson": [
+              0.0228,
+              0.5178
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 11,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2849
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 11,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2849
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 11,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2849
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 2,
+            "n": 11,
+            "value": 0.1818,
+            "ci95_clopper_pearson": [
+              0.0228,
+              0.5178
+            ]
+          },
+          "old_rule_false_promotions": 2,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.1818,
+          "mean_heldout_rate_nopatch": 0.1818
+        },
+        "TOOL_MISFIRE": {
+          "n_patches": 12,
+          "H1_repair": {
+            "k": 1,
+            "n": 12,
+            "value": 0.0833,
+            "ci95_clopper_pearson": [
+              0.0021,
+              0.3848
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 12,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2646
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 1,
+            "n": 12,
+            "value": 0.0833,
+            "ci95_clopper_pearson": [
+              0.0021,
+              0.3848
+            ]
+          },
+          "old_rule_false_promotions": 1,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.1833,
+          "mean_heldout_rate_nopatch": 0.1833
+        }
+      },
+      "by_tag": {
+        "none": {
+          "n_patches": 59,
+          "H1_repair": {
+            "k": 3,
+            "n": 59,
+            "value": 0.0508,
+            "ci95_clopper_pearson": [
+              0.0106,
+              0.1415
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 59,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0606
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 59,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0606
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 59,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0606
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 3,
+            "n": 59,
+            "value": 0.0508,
+            "ci95_clopper_pearson": [
+              0.0106,
+              0.1415
+            ]
+          },
+          "old_rule_false_promotions": 3,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.0712,
+          "mean_heldout_rate_nopatch": 0.0712
+        }
+      },
+      "by_provider": {
+        "deepseek": {
+          "n_patches": 36,
+          "H1_repair": {
+            "k": 1,
+            "n": 36,
+            "value": 0.0278,
+            "ci95_clopper_pearson": [
+              0.0007,
+              0.1453
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 36,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0974
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 36,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0974
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 36,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0974
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 1,
+            "n": 36,
+            "value": 0.0278,
+            "ci95_clopper_pearson": [
+              0.0007,
+              0.1453
+            ]
+          },
+          "old_rule_false_promotions": 1,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.0611,
+          "mean_heldout_rate_nopatch": 0.0611
+        },
+        "ollama": {
+          "n_patches": 23,
+          "H1_repair": {
+            "k": 2,
+            "n": 23,
+            "value": 0.087,
+            "ci95_clopper_pearson": [
+              0.0107,
+              0.2804
+            ]
+          },
+          "H2_generalize": {
+            "k": 0,
+            "n": 23,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.1482
+            ]
+          },
+          "H3_regress": {
+            "k": 0,
+            "n": 23,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.1482
+            ]
+          },
+          "gate_promoted": {
+            "k": 0,
+            "n": 23,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.1482
+            ]
+          },
+          "old_rule_promoted": {
+            "k": 2,
+            "n": 23,
+            "value": 0.087,
+            "ci95_clopper_pearson": [
+              0.0107,
+              0.2804
+            ]
+          },
+          "old_rule_false_promotions": 2,
+          "harmful_own_pass": 0,
+          "mean_heldout_rate_patch": 0.087,
+          "mean_heldout_rate_nopatch": 0.087
+        }
+      }
+    },
+    "note": "No-patch reruns. H2 and H3 are 0 by construction here: the no-patch runs are also the gate's reference. See noise_companions for seed-level noise.",
+    "noise_companions": {
+      "faulted": {
+        "cells": 75,
+        "mixed_seeds": {
+          "k": 0,
+          "n": 75,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.048
+          ]
+        },
+        "any_seed_pass": {
+          "k": 29,
+          "n": 75,
+          "value": 0.3867,
+          "ci95_clopper_pearson": [
+            0.2764,
+            0.5062
+          ]
+        },
+        "all_seeds_pass": {
+          "k": 29,
+          "n": 75,
+          "value": 0.3867,
+          "ci95_clopper_pearson": [
+            0.2764,
+            0.5062
+          ]
+        }
+      },
+      "regression": {
+        "cells": 36,
+        "mixed_seeds": {
+          "k": 0,
+          "n": 36,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.0974
+          ]
+        },
+        "any_seed_pass": {
+          "k": 36,
+          "n": 36,
+          "value": 1.0,
+          "ci95_clopper_pearson": [
+            0.9026,
+            1.0
+          ]
+        },
+        "all_seeds_pass": {
+          "k": 36,
+          "n": 36,
+          "value": 1.0,
+          "ci95_clopper_pearson": [
+            0.9026,
+            1.0
+          ]
+        }
+      },
+      "own_task_seed0_pass": {
+        "k": 22,
+        "n": 59,
+        "value": 0.3729,
+        "ci95_clopper_pearson": [
+          0.2504,
+          0.5085
+        ]
+      }
+    },
+    "spend": {
+      "runs": 333,
+      "cost_usd": 0.187193,
+      "llm_calls": 1702,
+      "wall_s_sum": 2780.9,
+      "run_errors": 0,
+      "by_provider": {
+        "deepseek": 0.187193,
+        "ollama": 0.0
+      }
+    },
+    "per_failure": [
+      {
+        "failure_id": "HALLUCINATION|deepseek|qa-003",
+        "fault": "HALLUCINATION",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-009": false,
+          "qa-037": false
+        },
+        "heldout_nopatch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-009": false,
+          "qa-037": false
+        }
+      },
+      {
+        "failure_id": "HALLUCINATION|deepseek|qa-013",
+        "fault": "HALLUCINATION",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        },
+        "heldout_nopatch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        }
+      },
+      {
+        "failure_id": "HALLUCINATION|deepseek|qa-026",
+        "fault": "HALLUCINATION",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        },
+        "heldout_nopatch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        }
+      },
+      {
+        "failure_id": "HALLUCINATION|deepseek|qa-021",
+        "fault": "HALLUCINATION",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "qa-024": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false,
+          "qa-037": false
+        },
+        "heldout_nopatch": {
+          "qa-024": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false,
+          "qa-037": false
+        }
+      },
+      {
+        "failure_id": "HALLUCINATION|deepseek|qa-039",
+        "fault": "HALLUCINATION",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        },
+        "heldout_nopatch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        }
+      },
+      {
+        "failure_id": "HALLUCINATION|deepseek|qa-009",
+        "fault": "HALLUCINATION",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-037": false
+        },
+        "heldout_nopatch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-037": false
+        }
+      },
+      {
+        "failure_id": "HALLUCINATION|deepseek|qa-005",
+        "fault": "HALLUCINATION",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        },
+        "heldout_nopatch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        }
+      },
+      {
+        "failure_id": "HALLUCINATION|deepseek|qa-007",
+        "fault": "HALLUCINATION",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-003": false,
+          "qa-009": false,
+          "qa-037": false
+        },
+        "heldout_nopatch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-003": false,
+          "qa-009": false,
+          "qa-037": false
+        }
+      },
+      {
+        "failure_id": "HALLUCINATION|deepseek|qa-016",
+        "fault": "HALLUCINATION",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        },
+        "heldout_nopatch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        }
+      },
+      {
+        "failure_id": "HALLUCINATION|deepseek|qa-002",
+        "fault": "HALLUCINATION",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        },
+        "heldout_nopatch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        }
+      },
+      {
+        "failure_id": "HALLUCINATION|deepseek|qa-035",
+        "fault": "HALLUCINATION",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        },
+        "heldout_nopatch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        }
+      },
+      {
+        "failure_id": "HALLUCINATION|deepseek|qa-000",
+        "fault": "HALLUCINATION",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        },
+        "heldout_nopatch": {
+          "qa-024": false,
+          "qa-021": false,
+          "qa-007": false,
+          "qa-003": false,
+          "qa-009": false
+        }
+      },
+      {
+        "failure_id": "TOOL_MISFIRE|deepseek|tool-007",
+        "fault": "TOOL_MISFIRE",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        },
+        "heldout_nopatch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        }
+      },
+      {
+        "failure_id": "TOOL_MISFIRE|deepseek|tool-020",
+        "fault": "TOOL_MISFIRE",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        },
+        "heldout_nopatch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        }
+      },
+      {
+        "failure_id": "TOOL_MISFIRE|deepseek|plan-009",
+        "fault": "TOOL_MISFIRE",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "mem-003": false,
+          "plan-003": false
+        },
+        "heldout_nopatch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "mem-003": false,
+          "plan-003": false
+        }
+      },
+      {
+        "failure_id": "TOOL_MISFIRE|deepseek|tool-009",
+        "fault": "TOOL_MISFIRE",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-010": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false,
+          "plan-003": false
+        },
+        "heldout_nopatch": {
+          "mem-010": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false,
+          "plan-003": false
+        }
+      },
+      {
+        "failure_id": "TOOL_MISFIRE|deepseek|plan-015",
+        "fault": "TOOL_MISFIRE",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-009": false,
+          "mem-003": false,
+          "plan-003": false
+        },
+        "heldout_nopatch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-009": false,
+          "mem-003": false,
+          "plan-003": false
+        }
+      },
+      {
+        "failure_id": "TOOL_MISFIRE|deepseek|mem-029",
+        "fault": "TOOL_MISFIRE",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        },
+        "heldout_nopatch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        }
+      },
+      {
+        "failure_id": "TOOL_MISFIRE|deepseek|mem-030",
+        "fault": "TOOL_MISFIRE",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        },
+        "heldout_nopatch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        }
+      },
+      {
+        "failure_id": "TOOL_MISFIRE|deepseek|mem-010",
+        "fault": "TOOL_MISFIRE",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false,
+          "plan-003": false
+        },
+        "heldout_nopatch": {
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false,
+          "plan-003": false
+        }
+      },
+      {
+        "failure_id": "TOOL_MISFIRE|deepseek|mem-023",
+        "fault": "TOOL_MISFIRE",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        },
+        "heldout_nopatch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        }
+      },
+      {
+        "failure_id": "TOOL_MISFIRE|deepseek|mem-016",
+        "fault": "TOOL_MISFIRE",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        },
+        "heldout_nopatch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        }
+      },
+      {
+        "failure_id": "TOOL_MISFIRE|deepseek|plan-018",
+        "fault": "TOOL_MISFIRE",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        },
+        "heldout_nopatch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        }
+      },
+      {
+        "failure_id": "TOOL_MISFIRE|deepseek|mem-032",
+        "fault": "TOOL_MISFIRE",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        },
+        "heldout_nopatch": {
+          "mem-010": false,
+          "tool-009": false,
+          "plan-015": false,
+          "plan-009": false,
+          "mem-003": false
+        }
+      },
+      {
+        "failure_id": "CONTEXT_BLEED|deepseek|mem-033",
+        "fault": "CONTEXT_BLEED",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-030": true,
+          "mem-027": true,
+          "mem-002": true,
+          "mem-010": true,
+          "mem-031": true
+        },
+        "heldout_nopatch": {
+          "mem-030": true,
+          "mem-027": true,
+          "mem-002": true,
+          "mem-010": true,
+          "mem-031": true
+        }
+      },
+      {
+        "failure_id": "CONTEXT_BLEED|ollama|mem-021",
+        "fault": "CONTEXT_BLEED",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-026": true,
+          "mem-032": true,
+          "mem-007": true,
+          "mem-023": true,
+          "mem-028": true
+        },
+        "heldout_nopatch": {
+          "mem-026": true,
+          "mem-032": true,
+          "mem-007": true,
+          "mem-023": true,
+          "mem-028": true
+        }
+      },
+      {
+        "failure_id": "CONTEXT_BLEED|deepseek|mem-016",
+        "fault": "CONTEXT_BLEED",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-030": true,
+          "mem-027": true,
+          "mem-002": true,
+          "mem-010": true,
+          "mem-031": true
+        },
+        "heldout_nopatch": {
+          "mem-030": true,
+          "mem-027": true,
+          "mem-002": true,
+          "mem-010": true,
+          "mem-031": true
+        }
+      },
+      {
+        "failure_id": "CONTEXT_BLEED|ollama|mem-027",
+        "fault": "CONTEXT_BLEED",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-026": true,
+          "mem-032": true,
+          "mem-007": true,
+          "mem-023": true,
+          "mem-028": true
+        },
+        "heldout_nopatch": {
+          "mem-026": true,
+          "mem-032": true,
+          "mem-007": true,
+          "mem-023": true,
+          "mem-028": true
+        }
+      },
+      {
+        "failure_id": "CONTEXT_BLEED|deepseek|mem-010",
+        "fault": "CONTEXT_BLEED",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-030": true,
+          "mem-027": true,
+          "mem-002": true,
+          "mem-031": true,
+          "mem-026": true
+        },
+        "heldout_nopatch": {
+          "mem-030": true,
+          "mem-027": true,
+          "mem-002": true,
+          "mem-031": true,
+          "mem-026": true
+        }
+      },
+      {
+        "failure_id": "CONTEXT_BLEED|ollama|mem-028",
+        "fault": "CONTEXT_BLEED",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-026": true,
+          "mem-032": true,
+          "mem-007": true,
+          "mem-023": true,
+          "mem-027": true
+        },
+        "heldout_nopatch": {
+          "mem-026": true,
+          "mem-032": true,
+          "mem-007": true,
+          "mem-023": true,
+          "mem-027": true
+        }
+      },
+      {
+        "failure_id": "CONTEXT_BLEED|deepseek|mem-026",
+        "fault": "CONTEXT_BLEED",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-030": true,
+          "mem-027": true,
+          "mem-002": true,
+          "mem-010": true,
+          "mem-031": true
+        },
+        "heldout_nopatch": {
+          "mem-030": true,
+          "mem-027": true,
+          "mem-002": true,
+          "mem-010": true,
+          "mem-031": true
+        }
+      },
+      {
+        "failure_id": "CONTEXT_BLEED|ollama|mem-017",
+        "fault": "CONTEXT_BLEED",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-026": true,
+          "mem-032": true,
+          "mem-007": true,
+          "mem-023": true,
+          "mem-028": true
+        },
+        "heldout_nopatch": {
+          "mem-026": true,
+          "mem-032": true,
+          "mem-007": true,
+          "mem-023": true,
+          "mem-028": true
+        }
+      },
+      {
+        "failure_id": "CONTEXT_BLEED|deepseek|mem-002",
+        "fault": "CONTEXT_BLEED",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-030": true,
+          "mem-027": true,
+          "mem-010": true,
+          "mem-031": true,
+          "mem-026": true
+        },
+        "heldout_nopatch": {
+          "mem-030": true,
+          "mem-027": true,
+          "mem-010": true,
+          "mem-031": true,
+          "mem-026": true
+        }
+      },
+      {
+        "failure_id": "CONTEXT_BLEED|ollama|mem-003",
+        "fault": "CONTEXT_BLEED",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-026": true,
+          "mem-032": true,
+          "mem-007": true,
+          "mem-023": true,
+          "mem-028": true
+        },
+        "heldout_nopatch": {
+          "mem-026": true,
+          "mem-032": true,
+          "mem-007": true,
+          "mem-023": true,
+          "mem-028": true
+        }
+      },
+      {
+        "failure_id": "CONTEXT_BLEED|deepseek|mem-031",
+        "fault": "CONTEXT_BLEED",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-030": true,
+          "mem-027": true,
+          "mem-002": true,
+          "mem-010": true,
+          "mem-026": true
+        },
+        "heldout_nopatch": {
+          "mem-030": true,
+          "mem-027": true,
+          "mem-002": true,
+          "mem-010": true,
+          "mem-026": true
+        }
+      },
+      {
+        "failure_id": "CONTEXT_BLEED|ollama|mem-032",
+        "fault": "CONTEXT_BLEED",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-026": true,
+          "mem-007": true,
+          "mem-023": true,
+          "mem-028": true,
+          "mem-027": true
+        },
+        "heldout_nopatch": {
+          "mem-026": true,
+          "mem-007": true,
+          "mem-023": true,
+          "mem-028": true,
+          "mem-027": true
+        }
+      },
+      {
+        "failure_id": "PLAN_DRIFT|ollama|mem-031",
+        "fault": "PLAN_DRIFT",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        },
+        "heldout_nopatch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        }
+      },
+      {
+        "failure_id": "PLAN_DRIFT|ollama|tool-018",
+        "fault": "PLAN_DRIFT",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        },
+        "heldout_nopatch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        }
+      },
+      {
+        "failure_id": "PLAN_DRIFT|ollama|tool-016",
+        "fault": "PLAN_DRIFT",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        },
+        "heldout_nopatch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        }
+      },
+      {
+        "failure_id": "PLAN_DRIFT|ollama|mem-021",
+        "fault": "PLAN_DRIFT",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "tool-018": true
+        },
+        "heldout_nopatch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "tool-018": true
+        }
+      },
+      {
+        "failure_id": "PLAN_DRIFT|ollama|plan-025",
+        "fault": "PLAN_DRIFT",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        },
+        "heldout_nopatch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        }
+      },
+      {
+        "failure_id": "PLAN_DRIFT|ollama|plan-023",
+        "fault": "PLAN_DRIFT",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        },
+        "heldout_nopatch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        }
+      },
+      {
+        "failure_id": "PLAN_DRIFT|ollama|plan-015",
+        "fault": "PLAN_DRIFT",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        },
+        "heldout_nopatch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        }
+      },
+      {
+        "failure_id": "PLAN_DRIFT|ollama|plan-017",
+        "fault": "PLAN_DRIFT",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        },
+        "heldout_nopatch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        }
+      },
+      {
+        "failure_id": "PLAN_DRIFT|ollama|plan-013",
+        "fault": "PLAN_DRIFT",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "mem-021": true,
+          "tool-018": true
+        },
+        "heldout_nopatch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "mem-021": true,
+          "tool-018": true
+        }
+      },
+      {
+        "failure_id": "PLAN_DRIFT|ollama|plan-001",
+        "fault": "PLAN_DRIFT",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-013": true,
+          "mem-021": true,
+          "tool-018": true
+        },
+        "heldout_nopatch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-013": true,
+          "mem-021": true,
+          "tool-018": true
+        }
+      },
+      {
+        "failure_id": "PLAN_DRIFT|ollama|plan-004",
+        "fault": "PLAN_DRIFT",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          true,
+          true,
+          true
+        ],
+        "gate": {
+          "check1_own_task": true,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 1.0,
+          "heldout_rate_nopatch": 1.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": true,
+        "old_rule_false_promotion": true,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        },
+        "heldout_nopatch": {
+          "mem-007": true,
+          "mem-016": true,
+          "plan-001": true,
+          "plan-013": true,
+          "mem-021": true
+        }
+      },
+      {
+        "failure_id": "LOOP_DETECTED|deepseek|mem-026",
+        "fault": "LOOP_DETECTED",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "plan-010": false,
+          "mem-017": false,
+          "tool-020": false,
+          "plan-016": false,
+          "mem-006": false
+        },
+        "heldout_nopatch": {
+          "plan-010": false,
+          "mem-017": false,
+          "tool-020": false,
+          "plan-016": false,
+          "mem-006": false
+        }
+      },
+      {
+        "failure_id": "LOOP_DETECTED|ollama|plan-025",
+        "fault": "LOOP_DETECTED",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "plan-011": false,
+          "tool-024": false,
+          "tool-012": false,
+          "tool-022": false,
+          "tool-016": false
+        },
+        "heldout_nopatch": {
+          "plan-011": false,
+          "tool-024": false,
+          "tool-012": false,
+          "tool-022": false,
+          "tool-016": false
+        }
+      },
+      {
+        "failure_id": "LOOP_DETECTED|deepseek|tool-007",
+        "fault": "LOOP_DETECTED",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "plan-010": false,
+          "mem-017": false,
+          "tool-020": false,
+          "plan-016": false,
+          "mem-006": false
+        },
+        "heldout_nopatch": {
+          "plan-010": false,
+          "mem-017": false,
+          "tool-020": false,
+          "plan-016": false,
+          "mem-006": false
+        }
+      },
+      {
+        "failure_id": "LOOP_DETECTED|ollama|tool-022",
+        "fault": "LOOP_DETECTED",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "plan-011": false,
+          "tool-024": false,
+          "tool-012": false,
+          "plan-025": false,
+          "tool-016": false
+        },
+        "heldout_nopatch": {
+          "plan-011": false,
+          "tool-024": false,
+          "tool-012": false,
+          "plan-025": false,
+          "tool-016": false
+        }
+      },
+      {
+        "failure_id": "LOOP_DETECTED|deepseek|plan-001",
+        "fault": "LOOP_DETECTED",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "plan-010": false,
+          "mem-017": false,
+          "tool-020": false,
+          "plan-016": false,
+          "mem-006": false
+        },
+        "heldout_nopatch": {
+          "plan-010": false,
+          "mem-017": false,
+          "tool-020": false,
+          "plan-016": false,
+          "mem-006": false
+        }
+      },
+      {
+        "failure_id": "LOOP_DETECTED|ollama|tool-016",
+        "fault": "LOOP_DETECTED",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "plan-011": false,
+          "tool-024": false,
+          "tool-012": false,
+          "tool-022": false,
+          "plan-025": false
+        },
+        "heldout_nopatch": {
+          "plan-011": false,
+          "tool-024": false,
+          "tool-012": false,
+          "tool-022": false,
+          "plan-025": false
+        }
+      },
+      {
+        "failure_id": "LOOP_DETECTED|deepseek|mem-017",
+        "fault": "LOOP_DETECTED",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "plan-010": false,
+          "tool-020": false,
+          "plan-016": false,
+          "mem-006": false,
+          "tool-027": false
+        },
+        "heldout_nopatch": {
+          "plan-010": false,
+          "tool-020": false,
+          "plan-016": false,
+          "mem-006": false,
+          "tool-027": false
+        }
+      },
+      {
+        "failure_id": "LOOP_DETECTED|ollama|tool-010",
+        "fault": "LOOP_DETECTED",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "plan-011": false,
+          "tool-024": false,
+          "tool-012": false,
+          "tool-022": false,
+          "plan-025": false
+        },
+        "heldout_nopatch": {
+          "plan-011": false,
+          "tool-024": false,
+          "tool-012": false,
+          "tool-022": false,
+          "plan-025": false
+        }
+      },
+      {
+        "failure_id": "LOOP_DETECTED|deepseek|tool-020",
+        "fault": "LOOP_DETECTED",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "plan-010": false,
+          "mem-017": false,
+          "plan-016": false,
+          "mem-006": false,
+          "tool-027": false
+        },
+        "heldout_nopatch": {
+          "plan-010": false,
+          "mem-017": false,
+          "plan-016": false,
+          "mem-006": false,
+          "tool-027": false
+        }
+      },
+      {
+        "failure_id": "LOOP_DETECTED|ollama|tool-012",
+        "fault": "LOOP_DETECTED",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "plan-011": false,
+          "tool-024": false,
+          "tool-022": false,
+          "plan-025": false,
+          "tool-016": false
+        },
+        "heldout_nopatch": {
+          "plan-011": false,
+          "tool-024": false,
+          "tool-022": false,
+          "plan-025": false,
+          "tool-016": false
+        }
+      },
+      {
+        "failure_id": "LOOP_DETECTED|deepseek|plan-016",
+        "fault": "LOOP_DETECTED",
+        "provider": "deepseek",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "plan-010": false,
+          "mem-017": false,
+          "tool-020": false,
+          "mem-006": false,
+          "tool-027": false
+        },
+        "heldout_nopatch": {
+          "plan-010": false,
+          "mem-017": false,
+          "tool-020": false,
+          "mem-006": false,
+          "tool-027": false
+        }
+      },
+      {
+        "failure_id": "LOOP_DETECTED|ollama|mem-021",
+        "fault": "LOOP_DETECTED",
+        "provider": "ollama",
+        "patch_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tag": "none",
+        "own_runs": [
+          false,
+          false,
+          false
+        ],
+        "gate": {
+          "check1_own_task": false,
+          "check2_heldout": false,
+          "check3_no_regression": true,
+          "promoted": false,
+          "heldout_rate_patch": 0.0,
+          "heldout_rate_nopatch": 0.0,
+          "heldout_n": 5,
+          "regression_breaks": [],
+          "regression_checked": 12
+        },
+        "old_rule_promoted": false,
+        "old_rule_false_promotion": false,
+        "harmful_own_pass": false,
+        "heldout_patch": {
+          "plan-011": false,
+          "tool-024": false,
+          "tool-012": false,
+          "tool-022": false,
+          "plan-025": false
+        },
+        "heldout_nopatch": {
+          "plan-011": false,
+          "tool-024": false,
+          "tool-012": false,
+          "tool-022": false,
+          "plan-025": false
+        }
+      }
+    ]
+  }
+}
