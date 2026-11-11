@@ -166,3 +166,55 @@ deviation made before any test scoring.
 ## Deviations
 
 None.
+
+## Amendment 1 — make CONTEXT_BLEED non-trivial (2026-11-10)
+
+Committed **before** any code change. The test split had not been scored,
+loaded or inspected beyond label counts when this amendment was written. The
+original pre-registration stays at tag `phase2-prereg`; this amendment and its
+data are frozen at tag `phase2-prereg-v2`.
+
+**Why.** On dev, "a memory read returned more than one record" matches the
+CONTEXT_BLEED label exactly (30/30 positives, 0 false positives), because in
+NexusBench v1 only the fault injector ever produced multi-record reads. A
+detector using that signal measures the injector, not bleed (§2, §5).
+
+**What changes (in `bench/` only):**
+
+1. **Memory content.** Each user has 1–4 of their own notes: an account-tier
+   note plus optional notes such as home city, contact preference, account
+   manager and tier or address history. Some users belong to a team whose
+   shared notes are visible to every member. A seeded share of users has a
+   single note and no team, so record counts overlap between NORMAL and bleed
+   runs. Target: at least 40% of NORMAL traces that read memory get more
+   than one record. The memory content uses its own RNG stream, so the world,
+   the tasks and their gold answers don't change.
+2. **Records carry no owner, session or user fields**, in the record text or in
+   anything visible through `detector_view`. Canary tokens are removed from the
+   note text.
+3. **Bleed injection.** The store returns 1–2 records belonging to another user,
+   mixed in with the user's own and team records at seeded positions.
+4. **CONTEXT_BLEED label.** A memory read returned a record whose owner, per
+   the ownership registry, is neither the reading user nor a team the user
+   belongs to. The registry is never visible to detectors. The v1 "foreign
+   canary in the answer" clause is dropped, because canaries no longer appear
+   in text.
+5. **Regeneration.** Only traces whose run called `read_memory` are regenerated
+   (257 of 716). They keep their run ids, trace ids, seeds, providers and
+   attempt order. The other 459 trace lines stay byte-identical. If the bleed
+   injection becomes less effective, the CONTEXT_BLEED attempt sequence
+   continues in the same seeded order, up to the existing 150-attempt cap. No
+   other class is topped up. Spend cap for the regeneration: $1.00 DeepSeek.
+6. A **new test manifest** is written, and the leak and integrity checks re-run.
+
+**What stays fixed:** task ids and the dev/test assignment (`splits.json`); all
+other fault injectors (HALLUCINATION, PLAN_DRIFT, TOOL_MISFIRE, LOOP_DETECTED);
+the other label rules; the metrics, targets and operating-point rule (§3); the
+scoring code and the detector input contract, except that the memory metadata
+the injector writes is still stripped.
+
+**Separability gate (dev only).** Before detector work, trivial single-field
+rules are scored for CONTEXT_BLEED vs everything else on dev. If any one of
+them reaches precision ≥ 0.95 **and** recall ≥ 0.95, the headline falls back to
+the pre-registered secondary (macro recall over HALLUCINATION and PLAN_DRIFT),
+and CONTEXT_BLEED is reported as non-headline.
