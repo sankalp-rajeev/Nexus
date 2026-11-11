@@ -223,9 +223,9 @@ def write_report(noise, gen, prov) -> None:
     lines = [
         "# Phase 4 no-critic baselines (dev)", "",
         *report_header(provider=prov["provider"], model=prov["model"], mock=False,
-                       generator="python -m bench.heal.baselines --score",
-                       result_file="results/heal_generic_dev.json"),
-        "- **Also:** [`results/heal_noise.json`](../../results/heal_noise.json), per-run "
+                       generator="python -m bench.heal.baselines --score"),
+        "- **Result files:** [`results/heal_generic_dev.json`](../../results/heal_generic_dev.json), "
+        "[`results/heal_noise.json`](../../results/heal_noise.json), per-run "
         "records in [`results/heal_runs.jsonl`](../../results/heal_runs.jsonl)",
         "- **Pre-registration:** [`preregistration.md`](preregistration.md)", "",
         "Counts are patches (one per failure). Intervals are 95% Clopper-Pearson. A task passes "
