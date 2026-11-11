@@ -457,3 +457,11 @@ call against the worst case. The Phase 1 caps are per provider and all-time, whi
 doesn't match this budget. The ledger and cache are untracked local state (D48). The
 spend of record is the per-run `cost_usd` in `results/heal_runs.jsonl`, which is
 tracked.
+
+**D60. The duplicate-run guard compares experiment identity, not the request.**
+The first launch stopped before any run: a clean-base regression run was requested by
+failures with different faults, and the guard compared the whole request (including
+the failure's fault) instead of the experiment. The guard now compares patch hash,
+intended config hash, env fault, task, provider and seed. Nothing had been recorded,
+so no protocol or result changed. This was the guard working as intended: it fails
+closed.

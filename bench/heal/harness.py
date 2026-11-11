@@ -87,6 +87,11 @@ class RunSpec:
     def intended_hash(self) -> str:
         return config_hash(self.intended_config())
 
+    def identity(self) -> tuple:
+        """What the experiment is: the config actually run and where it runs."""
+        return (self.patch.patch_hash, self.intended_hash(), self.env_fault, self.task_id,
+                self.provider, self.seed)
+
 
 class PhaseLedger(CostLedger):
     """Cost ledger with one cap over every provider (Phase 4 preparation: $1.50)."""
@@ -205,7 +210,7 @@ class Harness:
         return {
             "run_id": spec.run_id, "trace_id": spec.trace_id,
             "patch_hash": spec.patch.patch_hash, "patch_source": spec.patch.source,
-            "base": base_tag(spec.base_fault), "base_fault": spec.base_fault,
+            "base": base_tag(spec.base_fault),
             "env_fault": spec.env_fault, "task_id": spec.task_id, "family": task.family,
             "provider": spec.provider, "model": MODELS[spec.provider], "seed": spec.seed,
             "intended_config_hash": intended_hash, "applied_config_hash": applied_hash,
@@ -227,7 +232,9 @@ class Harness:
         unique: dict[str, RunSpec] = {}
         for s in specs:
             prev = unique.get(s.run_id)
-            if prev is not None and prev != s:
+            # Specs from different failures may describe the same experiment (e.g. two
+            # non-HALLUCINATION faults share the clean base); identity is what must agree.
+            if prev is not None and prev.identity() != s.identity():
                 raise RunIdCollision(f"two different specs share {s.run_id}")
             unique[s.run_id] = s
         assert_dev({s.task_id for s in unique.values()}, self.splits)

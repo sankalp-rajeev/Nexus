@@ -169,3 +169,17 @@ def test_spend_cap_stops_the_run(tmp_path):
                    "input_tokens": 0, "output_tokens": 0})
     with pytest.raises(BudgetExceeded):   # the cap is over all providers
         ledger.check("deepseek", "m", 0.0006)
+
+
+def test_same_experiment_from_two_failures_runs_once(tmp_path):
+    # A clean-base regression run requested by a TOOL_MISFIRE and a PLAN_DRIFT failure
+    # is one experiment: same config, task, provider and seed.
+    h, _ = make_harness(tmp_path)
+    none = ConfigPatch.none()
+    a = H.RunSpec(none, "TOOL_MISFIRE", "NONE", DEV_QA_TASK, "deepseek", 0)
+    b = H.RunSpec(none, "PLAN_DRIFT", "NONE", DEV_QA_TASK, "deepseek", 0)
+    assert a.run_id == b.run_id
+    assert h.run_all([a, b], progress=False)["ran"] == 1
+    # The guessing base is a different config, so it gets a different id.
+    c = H.RunSpec(none, "HALLUCINATION", "NONE", DEV_QA_TASK, "deepseek", 0)
+    assert c.run_id != a.run_id
