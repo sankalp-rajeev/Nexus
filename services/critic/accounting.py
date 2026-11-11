@@ -12,9 +12,12 @@ class BudgetExceeded(RuntimeError):
 
 
 class CostLedger:
-    def __init__(self, path="results/critic_dev/calls.jsonl"):
+    def __init__(self, path="results/critic_dev/calls.jsonl", *, cap_usd=CAP_USD):
         self.path = Path(path)
         self.lock = threading.Lock()
+        if cap_usd <= 0:
+            raise ValueError("A positive explicitly authorized cap is required")
+        self.cap_usd = cap_usd
 
     def rows(self):
         if not self.path.exists():
@@ -31,8 +34,8 @@ class CostLedger:
         return sum(row["cost_usd"] for row in self.rows())
 
     def check(self, worst_case_usd=0):
-        if self.spent >= CAP_USD or self.spent + worst_case_usd > CAP_USD:
-            raise BudgetExceeded("Phase 3 $0.75 branch cap reached")
+        if self.spent >= self.cap_usd or self.spent + worst_case_usd > self.cap_usd:
+            raise BudgetExceeded(f"Phase 3 ${self.cap_usd:.2f} cap reached")
 
     def append(self, row):
         with self.lock:
