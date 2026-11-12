@@ -1,0 +1,60 @@
+{
+  "collected": 459,
+  "command": ".venv/Scripts/python.exe -m scripts.phase5.pytest_dev_only -p no:deepeval -q -ra --basetemp=data/phase5/runs/pytest-full-final --junitxml=data/phase5/runs/full_suite.xml",
+  "elapsed_s": 37.82,
+  "errors": 0,
+  "failed": 0,
+  "frozen_checks": "before and after every part PASS",
+  "full_suite_collected": true,
+  "lint": "ruff check . passed",
+  "network_policy": "Python external test socket connections blocked; no paid API tests",
+  "passed": 450,
+  "skipped": [
+    {
+      "reason": "Phase 5: TEST sealed; this test opens TEST artifacts",
+      "test": "tests.unit.heal.test_a3.test_committed_test_sets_match_the_code"
+    },
+    {
+      "reason": "Phase 5: TEST sealed; this test opens TEST artifacts",
+      "test": "tests.unit.heal.test_a3.test_test_sets_are_test_only_and_follow_the_dev_rules"
+    },
+    {
+      "reason": "Phase 5: TEST sealed; this test opens TEST artifacts",
+      "test": "tests.unit.heal.test_a3.test_split_guard_both_ways"
+    },
+    {
+      "reason": "Phase 5: TEST sealed; this test opens TEST artifacts",
+      "test": "tests.unit.test_reporting_hygiene.test_result_file_has_provenance[detect_test.json]"
+    },
+    {
+      "reason": "Phase 5: TEST sealed; this test opens TEST artifacts",
+      "test": "tests.unit.test_reporting_hygiene.test_result_file_has_provenance[detect_test_v11_sensitivity.json]"
+    },
+    {
+      "reason": "Phase 5: TEST sealed; this test opens TEST artifacts",
+      "test": "tests.unit.test_reporting_hygiene.test_result_file_has_provenance[heal_critic_v1_structured_test.json]"
+    },
+    {
+      "reason": "Phase 5: TEST sealed; this test opens TEST artifacts",
+      "test": "tests.unit.test_reporting_hygiene.test_result_file_has_provenance[heal_generic_test.json]"
+    },
+    {
+      "reason": "Phase 5: TEST sealed; this test opens TEST artifacts",
+      "test": "tests.unit.test_reporting_hygiene.test_result_file_has_provenance[heal_nopatch_test.json]"
+    },
+    {
+      "reason": "auxiliary file",
+      "test": "tests.unit.test_reporting_hygiene.test_result_file_has_provenance[phase2_dev_predictions.json]"
+    }
+  ],
+  "suite_groups": {
+    "e2e": 7,
+    "integration": 12,
+    "unit": 440
+  },
+  "warnings": [
+    "anyio already imported before pytest assertion rewrite",
+    "langsmith already imported before pytest assertion rewrite",
+    "pytest cache write denied; test execution unaffected"
+  ]
+}

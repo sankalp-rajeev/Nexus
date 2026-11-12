@@ -1,0 +1,440 @@
+{
+  "available_model_metadata": {
+    "description": "Gemini 3.5 Flash Lite",
+    "displayName": "Gemini 3.5 Flash Lite",
+    "inputTokenLimit": 1048576,
+    "maxTemperature": 2,
+    "name": "models/gemini-3.5-flash-lite",
+    "outputTokenLimit": 65536,
+    "supportedGenerationMethods": [
+      "generateContent",
+      "countTokens",
+      "createCachedContent",
+      "batchGenerateContent"
+    ],
+    "temperature": 1,
+    "thinking": true,
+    "topK": 64,
+    "topP": 0.95,
+    "version": "3.5-flash-lite-07-2026"
+  },
+  "baseline": {
+    "all_completed_time_s": {
+      "n": 20,
+      "p50": 391.2909429999927,
+      "p90": 469.4282252300109
+    },
+    "api_errors": 0,
+    "completed_n": 20,
+    "critic_call_count": 46,
+    "critic_call_latency_ms": {
+      "n": 46,
+      "p50": 3789.0155000000004,
+      "p90": 4686.9095
+    },
+    "critic_cost_per_completed_heal_usd": 0.00290869155,
+    "critic_cost_total_usd": 0.058173831,
+    "critic_http_status_counts": {
+      "200": 46
+    },
+    "critic_model_versions": [
+      "deepseek-flash"
+    ],
+    "decisions_descriptive_only": {
+      "promoted": 14,
+      "rejected": 6
+    },
+    "full_gate_n": 15,
+    "full_gate_time_s": {
+      "n": 15,
+      "p50": 448.2769247999968,
+      "p90": 485.5643733800098
+    },
+    "per_stage_s": {
+      "classify": {
+        "n": 20,
+        "p50": 0.000297949998639524,
+        "p90": 0.001144720008596778
+      },
+      "critic_call": {
+        "n": 20,
+        "p50": 7.722497849994397,
+        "p90": 13.936297890002608
+      },
+      "detect": {
+        "n": 20,
+        "p50": 0.0008311499987030402,
+        "p90": 7.807293329999084
+      },
+      "gate_heldout": {
+        "n": 15,
+        "p50": 77.67009259999031,
+        "p90": 89.54978283999662
+      },
+      "gate_regression": {
+        "n": 15,
+        "p50": 335.8183546000073,
+        "p90": 364.618551999997
+      },
+      "gate_repair": {
+        "n": 15,
+        "p50": 13.60478239999793,
+        "p90": 20.44094801999454
+      }
+    },
+    "statuses": {
+      "ok": 20
+    },
+    "terminal_n": 20,
+    "timeouts": 0
+  },
+  "baseline_for_completed_ids": {
+    "all_completed_time_s": {
+      "n": 20,
+      "p50": 391.2909429999927,
+      "p90": 469.4282252300109
+    },
+    "api_errors": 0,
+    "completed_n": 20,
+    "critic_call_count": 46,
+    "critic_call_latency_ms": {
+      "n": 46,
+      "p50": 3789.0155000000004,
+      "p90": 4686.9095
+    },
+    "critic_cost_per_completed_heal_usd": 0.00290869155,
+    "critic_cost_total_usd": 0.058173831,
+    "critic_http_status_counts": {
+      "200": 46
+    },
+    "critic_model_versions": [
+      "deepseek-flash"
+    ],
+    "decisions_descriptive_only": {
+      "promoted": 14,
+      "rejected": 6
+    },
+    "full_gate_n": 15,
+    "full_gate_time_s": {
+      "n": 15,
+      "p50": 448.2769247999968,
+      "p90": 485.5643733800098
+    },
+    "per_stage_s": {
+      "classify": {
+        "n": 20,
+        "p50": 0.000297949998639524,
+        "p90": 0.001144720008596778
+      },
+      "critic_call": {
+        "n": 20,
+        "p50": 7.722497849994397,
+        "p90": 13.936297890002608
+      },
+      "detect": {
+        "n": 20,
+        "p50": 0.0008311499987030402,
+        "p90": 7.807293329999084
+      },
+      "gate_heldout": {
+        "n": 15,
+        "p50": 77.67009259999031,
+        "p90": 89.54978283999662
+      },
+      "gate_regression": {
+        "n": 15,
+        "p50": 335.8183546000073,
+        "p90": 364.618551999997
+      },
+      "gate_repair": {
+        "n": 15,
+        "p50": 13.60478239999793,
+        "p90": 20.44094801999454
+      }
+    },
+    "statuses": {
+      "ok": 20
+    },
+    "terminal_n": 20,
+    "timeouts": 0
+  },
+  "baseline_source": "100-heal concurrency-2 DEV run",
+  "current": {
+    "all_completed_time_s": {
+      "n": 20,
+      "p50": 431.6084258000046,
+      "p90": 469.30387717999986
+    },
+    "api_errors": 0,
+    "completed_heals_per_hour": 16.67317492471259,
+    "completed_n": 20,
+    "concurrency": 2,
+    "critic_call_count": 40,
+    "critic_call_latency_ms": {
+      "n": 40,
+      "p50": 1365.8987499948125,
+      "p90": 1588.4116400033236
+    },
+    "critic_cost_per_completed_heal_usd": 0.006668504999999998,
+    "critic_cost_total_usd": 0.13337009999999996,
+    "critic_http_status_counts": {
+      "200": 40
+    },
+    "critic_model_versions": [
+      "gemini-3.5-flash-lite"
+    ],
+    "decisions_descriptive_only": {
+      "promoted": 13,
+      "rejected": 7
+    },
+    "deepseek_budget": {
+      "ledger_accounted_usd": 1.3283847000000069,
+      "ledger_cap_usd": 100.0,
+      "provider_accounted_usd": 0.4051104359999973,
+      "provider_actual_usd": 0.4051104360000028,
+      "provider_cap_usd": 0.75,
+      "stop_reason": null,
+      "stopped": 0
+    },
+    "elapsed_s": 4318.313718,
+    "ended_at": "2026-11-12T20:09:25.114279+00:00",
+    "full_gate_n": 20,
+    "full_gate_time_s": {
+      "n": 20,
+      "p50": 431.6084258000046,
+      "p90": 469.30387717999986
+    },
+    "gate_execution_s": {
+      "n": 20,
+      "p50": 427.6587087499938,
+      "p90": 465.1497380899964
+    },
+    "gemini_budget": {
+      "accounted_usd": 0.1333701,
+      "actual_usage_priced_usd": 0.13337009999999996,
+      "calls": 40,
+      "cap_usd": 2.0,
+      "cost_basis": "API-reported usage at paid published rates, not invoice; includes thinking",
+      "stopped": false,
+      "unknown_calls": 0
+    },
+    "not_started_ids": [],
+    "per_stage_s": {
+      "classify": {
+        "n": 20,
+        "p50": 0.00030920000426704064,
+        "p90": 0.0005568700100411669
+      },
+      "critic_call": {
+        "n": 20,
+        "p50": 3.4704057999988436,
+        "p90": 4.00038932000316
+      },
+      "detect": {
+        "n": 20,
+        "p50": 0.000829550001071766,
+        "p90": 6.446165610000028
+      },
+      "gate_heldout": {
+        "n": 20,
+        "p50": 79.46962164999422,
+        "p90": 105.32159358999925
+      },
+      "gate_regression": {
+        "n": 20,
+        "p50": 332.0624281499986,
+        "p90": 347.5049895599921
+      },
+      "gate_repair": {
+        "n": 20,
+        "p50": 17.814633299996785,
+        "p90": 21.639108020001732
+      }
+    },
+    "planned_n": 20,
+    "started_at": "2026-11-12T18:57:26.800561+00:00",
+    "statuses": {
+      "ok": 20
+    },
+    "terminal_heals_per_hour": 16.67317492471259,
+    "terminal_n": 20,
+    "timeouts": 0
+  },
+  "deepseek_attempt_audit": {
+    "attempts": 7322,
+    "errors": {},
+    "http_status_counts": {
+      "200": 7322
+    },
+    "known_provider_usd": 0.4051104360000028,
+    "note": "Every attempt retained; unknown usage retains its full preflight reservation. Frozen actor transport policy retries eligible errors, up to five attempts.",
+    "statuses": {
+      "settled": 7322
+    },
+    "unknown_provider_reserved_usd": 0
+  },
+  "max_output_tokens": 800,
+  "model": "gemini-3.5-flash-lite",
+  "occurrence_ids": [
+    "heal-001",
+    "heal-002",
+    "heal-003",
+    "heal-004",
+    "heal-005",
+    "heal-006",
+    "heal-007",
+    "heal-008",
+    "heal-009",
+    "heal-010",
+    "heal-011",
+    "heal-012",
+    "heal-013",
+    "heal-014",
+    "heal-015",
+    "heal-016",
+    "heal-017",
+    "heal-018",
+    "heal-019",
+    "heal-020"
+  ],
+  "paired_decisions": [
+    {
+      "baseline": "promoted",
+      "item_id": "heal-002",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-001",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-003",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-004",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-005",
+      "now": "rejected",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-006",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "rejected",
+      "item_id": "heal-007",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-008",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "rejected",
+      "item_id": "heal-009",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "rejected",
+      "item_id": "heal-010",
+      "now": "rejected",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-011",
+      "now": "rejected",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-012",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-014",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-013",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-015",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "rejected",
+      "item_id": "heal-016",
+      "now": "promoted",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-018",
+      "now": "rejected",
+      "status": "ok"
+    },
+    {
+      "baseline": "rejected",
+      "item_id": "heal-017",
+      "now": "rejected",
+      "status": "ok"
+    },
+    {
+      "baseline": "promoted",
+      "item_id": "heal-019",
+      "now": "rejected",
+      "status": "ok"
+    },
+    {
+      "baseline": "rejected",
+      "item_id": "heal-020",
+      "now": "rejected",
+      "status": "ok"
+    }
+  ],
+  "prompt_temperature": 0.2,
+  "provenance": {
+    "dev_only": true,
+    "execution_commits": [
+      "bb0dd8d52328c82eda0acf92b16e0e22357b6226"
+    ],
+    "frozen_reference": "phase4-test-scored",
+    "record_count": 20,
+    "source_note": "Final source hashes; per-heal execution commit set retained; no frozen code change",
+    "source_sha256": {
+      "scripts/phase5/followup.py": "f3a650df261c8f30ebb689b626afc78b4091e96b75a9756ef7db3b065a8b9549",
+      "scripts/phase5/gemini_critic.py": "3eabf5693a8cc39fcaa49bf34ba387b9d9a2817e00017dcf4825e999e2013b98",
+      "scripts/phase5/measurement.py": "5994a60c11f42a88d793b9bd36927cc0abe906b84102c43567872cb786dcb4f0",
+      "scripts/phase5/pipeline.py": "bb4d8a76f29e652e438ad027b24c61f51fd4800a7e5ebd646954a07c978e84c9"
+    }
+  },
+  "side_row_only": true,
+  "wire_adaptation": "unchanged prompt/system/schema; forced strict tool -> application/json responseJsonSchema; minimal thinking; same frozen validation"
+}

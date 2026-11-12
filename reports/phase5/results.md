@@ -1,5 +1,13 @@
 # Phase 5 results
 
+The overnight DEV run completed all 100 heals; median time was 421.641 seconds and p90 was 480.419 seconds.<br>
+Mean provider usage-priced cost was $0.030760 per heal, 43.41% of the ledger estimate; input cache hits were 60.86%.<br>
+The highest sustained tested ingestion rate was 20.122 events/s; the paired heal concurrency results below keep every selected slot.<br>
+Recorded-response SDK replay added 0.033600 ms median and 0.212703 ms p99 per step with the collector up; failed HTTP batches are lost.<br>
+The separate Gemini side row completed 20/20 heals; its results and spend are reported apart from the headline.
+
+Headline sources: [L1/L2 JSON](../../results/phase5/heal_latency_cost.json), [L3 ingestion](../../results/phase5/ingestion_load.json), [L3 heals](../../results/phase5/heal_concurrency.json), [L4 JSON](../../results/phase5/sdk_overhead.json), [Gemini JSON](../../results/phase5/gemini_side.json).
+
 ## Part A: L1 latency and L2 cost
 
 DEV only; fixed concurrency 2. All 100 registered occurrences are retained. Smoke is excluded from per-heal endpoints and reconciled separately below.
@@ -102,6 +110,40 @@ Main 100: ledger $7.08575550, provider $3.075956103. Smoke: ledger $0.15867720, 
 
 Source: registered DEV occurrence JSON plus the read-only SQLite API ledger and local actor/critic retry ledgers. Only aggregate results are committed; raw records remain ignored under `data/phase5/runs/`.
 
+## Part C: L3 load and heal concurrency
+
+### Ingestion, no provider calls
+
+Machine: Intel(R) Core(TM) i9-14900HX, 24 physical cores / 32 logical processors, 31.65 GiB host RAM; Windows-10-10.0.26300-SP0. Docker has 32 CPUs and 9.71 GiB RAM.
+
+Recorded first-20 DEV spans receive fresh synthetic IDs. Warm-up is one 20-trace pass; each measured offered-rate step lasts at least 180 seconds. All spans, accepted/rejected counts, late detections and missing detections are retained. Latency runs from a trace's first HTTP submission until its classification is committed to Postgres, not per-span HTTP response latency. Trace batching creates within-trace bursts, particularly at low rates.
+
+| Offered events/s | Hold s | Accepted events/s | Traces detected/offered | Detection p50/p99 ms | Assembler / classifier lag slope events/s | Sustainable |
+|---:|---:|---:|---:|---:|---:|---|
+| 1 | 180.0 | 1.039 | 11/11 | 100.002/959.934 | -0.097 / -0.097 | True |
+| 5 | 180.0 | 5.033 | 56/56 | 173.417/1458.607 | -0.057 / 0.088 | True |
+| 20 | 180.0 | 20.122 | 224/224 | 772.287/2886.734 | -0.113 / 0.193 | True |
+| 80 | 180.0 | 80.038 | 892/892 | 41133.417/82215.305 | -1.687 / 24.216 | False |
+
+Highest sustainable tested rate: **20.122 accepted events/s**. The bottleneck was the **classifier**, based on growing committed consumer lag while assembler lag remained stable, supported by service CPU samples. Sustainability requires no growing final-120-second committed consumer lag, >=98% accepted target rate, no HTTP/sink error, complete detections and assembled traces. The exact lag thresholds, samples, persistence counts and sampled resource maxima are in the JSON; this is a stepped bound, not an interpolated maximum.
+
+The unmodified deployed classifier uses its rule detectors, PatchCore/SVM, MiniLM embeddings and configured NLI model. This is distinct from the frozen Phase 4 offline detector used by heals. The classifier publishes classifications to Kafka; a measurement-only sink persists them to a separate Postgres table. Assembler persistence runs in parallel. The original image lacked its NLI cache and silently used its existing zero-score fallback; that pilot was stopped, retained under ignored run state and excluded. A read-only mount of the already-cached exact NLI model restored full configured inference offline. No detector code or thresholds changed.
+
+Paid critic/healer consumers were stopped during synthetic ingestion; no repairs/notifications were initiated. They remain stopped to keep all paid calls inside the capped controllers. Automatic approval review rejected advancing Kafka offsets because a future consumer could skip alerts; no offsets were changed. The synthetic backlog remains in Kafka, so starting a paid consumer needs separate attention. This safe alternative does not affect the measurements.
+
+### Paired heal concurrency, DeepSeek
+
+Fixed seed 2026111203; 10 manifest occurrences drawn without replacement, exact IDs in followup_manifest.json and the result JSON. Concurrency 1 runs before 4. Fresh local response caches per heal; frozen seeds, prompts, gate and baseline reuse stay identical. No paid warm-up. Shared provider cap $1.50, including in-flight/unknown reservations.
+
+| Concurrency | Completed / planned | Full gate n | Wall s | Completed heals/hour | Full-gate heal total p50 s | Gate execution p50 s | All-completed time p50 s |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 10/10 | 10 | 4513.467 | 7.976 | 440.582 | 416.873 | 440.582 |
+| 4 | 10/10 | 10 | 1257.276 | 28.633 | 418.726 | 408.500 | 418.726 |
+
+All statuses, not-started IDs, errors, timeouts, per-stage quantiles and decisions are retained in heal_concurrency.json. Throughput uses the full level wall clock, including worker startup and rejected/capped slots; completed throughput excludes unsuccessful slots. Full-gate quantiles require all three gate stages complete. Comparisons confound level order, provider/cache warming and stochastic critic patches, so they are descriptive and do not isolate a causal concurrency effect.
+
+Part C retained **7093 API attempts**, with **1 transport error**, **0 timeouts** and all 20 terminal heal statuses OK. Known provider spend was **$0.43342957**; **$0.00195150** remains reserved for unknown usage. The RemoteProtocolError occurred at concurrency 4; the actor's unchanged retry policy recovered. Its unreported usage is not charged as zero or silently removed.
+
 ## Part B: L4 SDK overhead with recorded DEV response replay
 
 Amendment 1 was committed before execution, including the user's 20-task recorded-response clarification. The exact first 20 manifest occurrences (20 DEV traces, 18 unique task IDs) are retained. Recorded LLM responses, tool/memory outputs and expected errors are replayed on identical scripted paths; this does not re-run agent/gate decisions. There are no live provider calls or API spend.
@@ -192,3 +234,29 @@ all those other allocations. That is a partial text-storage estimate, not a RAM
 limit. The **28.58 MiB added sampled peak RSS** was measured with the collector
 **up**, on the registered replay workload; no outage/worst-case memory claim is
 supported by that number.
+
+## Gemini side row (Part D; separate from headline)
+
+Exact model **gemini-3.5-flash-lite**, confirmed by account models.list; returned model versions are recorded in the JSON. Same first 20 manifest occurrences, in order; concurrency 2, same as baseline. Only critic requests go to Google; all gate agent re-runs remain DeepSeek. Frozen prompts/system text, temperature 0.2, schema and local validation are unchanged. Transport adapts the forced strict DeepSeek propose_patch function to Gemini responseMimeType=application/json and responseJsonSchema with the identical schema. Thinking uses Gemini's minimum supported level, not a promise of zero thought tokens; usage accounting includes any thinking. No additional formatting retries are added.
+
+| Metric | DeepSeek baseline, same 20 | Gemini critic side row |
+|---|---:|---:|
+| Completed heals | 20 | 20 |
+| Full-gate heals | 15 | 20 |
+| Critic HTTP call p50 ms | 3789.016 | 1365.899 |
+| All completed time-to-heal p50 s | 391.291 | 431.608 |
+| Full-gate time-to-heal p50 s | 448.277 | 431.608 |
+| Per-heal critic stage p50 s (all calls/validation) | 7.722 | 3.470 |
+| Critic usage-priced $/completed heal | 0.00290869 | 0.00666850 |
+
+Descriptive decisions: baseline **14 promoted / 6 rejected**; side row **13 promoted / 7 rejected**. These are **not a re-estimate of Phase 4 repair or promotion rates**. Per-occurrence comparisons, denominators, errors and any cap-stopped/not-started slots are in gemini_side.json. If a cap prevents completion, matched-completed baseline metrics are also provided; the original 20-item baseline is never silently reduced.
+
+Gemini spend: **$0.13337010 / $2.00 cap**, across 40 calls. Gate DeepSeek spend: **$0.40511044 / $0.75 cap**, across 7322 attempts. All 20 completed; neither cap hit. There were 0 API errors and 0 timeouts; unknown Gemini calls: 0. All API retries/uncertain calls retain cost reservations. Provider actual here means API-reported usage times verified paid rates, including cache/thinking; neither API response is an invoice. [DeepSeek pricing](https://api-docs.deepseek.com/quick_start/pricing/) and [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing#gemini-3.5-flash-lite) were verified 2026-11-12.
+
+## Part E: spend, limitations and validation
+
+New Parts C/D known DeepSeek provider spend: **$0.83854001**, plus **$0.00195150** retained for unknown usage; Gemini: **$0.13337010**. Tracked calendar-day known DeepSeek spend, including last night's requests after midnight America/New_York: **$3.63825137**. Source: spend_today.json; historical ledgers are not reset. Account balance is checked through the read-only API and reported in the handoff, outside the experiment artifacts.
+
+Limits: one Windows machine, one overnight headline run, repeated source tasks/occurrences and small per-group L3/side-row samples. The recorded hourly provider latency drift is observational; order, cache, load and generated patch variation confound later comparisons. Gate counts are descriptive only. L4 is a deterministic stub-LLM replay using recorded DEV responses, excluding real provider/tool latency; sampled RSS has coarse realized intervals and no worst-case memory guarantee. Its historical source predates the subsequent SDK-only export-loss counters. Ingestion measures the deployed classifier's full configured path plus a measurement Postgres sink, not the Phase 4 offline detector implementation or paid repair throughput.
+
+Deviations are explicit in amendment_1.md and amendment_2.md: recorded-response L4, separate controlled recovery barrier, smaller L3 sample/two concurrency levels, local NLI cache repair, Gemini wire-format/minimal-thinking adaptation, cap censoring if present and sealed-TEST-dependent validation skips. All frozen checks before/after each part remain mandatory. Full-suite outcome and exact skip reasons are in analysis_validation.md and validation.json.

@@ -736,3 +736,35 @@ harness used none of them. Report: `reports/phase4/test_scoring.md`.
 - **Dev vs test.** H3 is higher on test: 12/48 against 3/44 on dev. Gate promotions are
   lower: 25/48 against 29/44.
 - **Spend.** $4.56 of the $5.50 cap: $0.377 on the critic and $4.185 on runs.
+
+**D77. Phase 5 performance endpoints and SDK loss observability (2026-11-12).**
+The headline is the registered 100-occurrence DEV run at concurrency 2; latency,
+cost and provider/cache drift are performance measurements. Gate decisions are
+descriptive only, not a re-estimate of Phase 4 rates. Frozen logic remains at
+`phase4-test-scored`; Windows checkout CRLF-only differences are informational,
+with normalized-content identity and empty Git diff both required.
+
+L4 keeps the registered 20-occurrence paired design, using recorded DEV LLM and
+tool responses as a deterministic stub so provider latency cannot hide SDK cost.
+Two warm-up passes are discarded; latency and fresh-process memory measurements
+are separate. Failed HTTP batches have no retry/persistence. Add public
+`export_failed` and `dropped_total` span counters in the SDK, preserving the
+queue-full-only `dropped` field and all existing export/queue policies. The
+10,000-span default queue drops newest; unrestricted metadata/pending spans mean
+there is no finite total RAM bound. Historical L4 timings precede the counter fix.
+
+The user's follow-up replaces L3's original concurrency grid with 10 fixed-seed
+DEV occurrences at concurrency 1 then 4. Ingestion measures the deployed
+classifier and a measurement Postgres sink, separately from the offline heal
+detectors; mount the configured cached NLI model read-only rather than benchmark
+its missing-model fallback. Keep all paid calls in capped controllers: Part C
+DeepSeek $1.50; separate Gemini critic $2.00 and its DeepSeek gates $0.75. Gemini
+is a separate first-20 side row with provider-format adaptation documented in
+amendment 2. Never pool it into the headline.
+
+The full test suite is collected with `-p no:deepeval`; tests requiring sealed
+TEST artifacts remain explicit skips. Keep raw run files out of Git. The
+collector's synthetic alerts remain in Kafka with offsets unchanged: automatic
+approval review rejected offset advancement as a future-alert skip risk, so
+paid consumers remain stopped. Full results and limitations are in
+`reports/phase5/results.md`, backed by `results/phase5/*.json`.

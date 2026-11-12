@@ -1,6 +1,6 @@
-# Parts A and B validation
+# Phase 5 validation
 
-Both parts are complete without additional provider API spend. The read-only
+At the Parts A/B checkpoint, both parts completed without additional API spend. The read-only
 provider ledger had 29,785 attempts, $7.24443270 ledger and $3.158843631 provider
 usage-priced cost before and after L4. It was not reset or modified.
 
@@ -34,9 +34,65 @@ the benchmark completed all phases and wrote its aggregate outputs.
 Validation: 59 SDK/Phase 5 unit tests passed with `pytest -p no:deepeval`.
 Lint passed. Frozen checks before/after Part A and before/after Part B all passed:
 empty Git diff and matching CRLF-normalized frozen content. SDK source was also
-unchanged (`git diff -- sdk/nexus_agent` empty). No TEST payloads were loaded.
+unchanged at that checkpoint (`git diff -- sdk/nexus_agent` empty). The later
+SDK-only loss counters are described below. No TEST payloads were loaded.
 
 Only scripts, tests, amendment, aggregate JSON/report and the aggregate chart
-are staged. Raw timing vectors, memory trials, logs and event identifiers remain
+were staged for that checkpoint. Raw timing vectors, memory trials, logs and event identifiers remain
 ignored under `data/phase5/runs/`. No tag was moved, no force-push, PR, external
-notification, L3 or Gemini experiment was performed.
+notification was performed at that checkpoint; Parts C–E followed later.
+
+## Parts C–E
+
+Amendment 2 and the fixed follow-up manifest were committed before paid
+execution. All 20 L3 heals completed: 10 per concurrency level, all full-gate.
+The durable ledger retains 7,093 attempts, including one RemoteProtocolError
+recovered by the unchanged actor retry policy. Known cost is $0.433429569;
+$0.0019515 remains reserved for the attempt whose usage was not reported.
+No reservation was erased or reconciled to zero. Ingestion replay used no APIs;
+its first missing-NLI-cache pilot was excluded, and the configured model was
+mounted read-only from the existing cache for the measured run.
+
+All 20 Gemini-side heals completed at concurrency 2. The exact critic model is
+gemini-3.5-flash-lite (account metadata version 3.5-flash-lite-07-2026; generation
+responses report gemini-3.5-flash-lite). Its 40 calls cost $0.13337010 at the
+published paid usage rates. The gate's 7,322 DeepSeek attempts cost $0.405110436.
+There were no API errors/timeouts in this side row and neither cap was hit.
+No additional provider calls were made during write-up or tests; the balance
+endpoint is read-only and its account response stays in ignored local state.
+
+Full-suite command (no test/directory subset):
+
+```powershell
+.venv/Scripts/python.exe -m scripts.phase5.pytest_dev_only -p no:deepeval -q -ra --basetemp=data/phase5/runs/pytest-full-final --junitxml=data/phase5/runs/full_suite.xml
+```
+
+**459 collected; 450 passed; 9 skipped; 0 failures/errors**, in 37.82 seconds.
+The suite collected 440 unit, 12 integration and 7 e2e cases. All integration and
+e2e cases passed against the isolated Phase 5 Kafka/Postgres stack. Eight skips
+protect sealed TEST artifacts (three A3 tests, five result-provenance cases);
+one existing check skips an auxiliary result file. Exact skip cases/reasons are
+in `results/phase5/validation.json`. Three warnings concern already-imported
+pytest plugins and an unavailable pytest cache write; execution passed.
+The wrapper blocks external Python test connections and retains the existing
+DEV adapter substitution; no detector/gate code changes. The integration test
+availability probe now honors its configured endpoint, allowing the isolated
+55433 database to be exercised. This PR's CI uses the full guarded suite too.
+
+`ruff check .` passed. Frozen checks before/after C, D and E passed, as did the
+earlier A/B checks. The only SDK behavior change is loss accounting:
+`export_failed` and `dropped_total`, with queue-full-only `dropped` preserved;
+tests cover failed batches, exporter exceptions and newest-drop queue behavior.
+L4 historical timing numbers were not re-measured after this SDK-only fix.
+
+RESULTS.md is generated from the JSON-backed Phase 5 headline; during this
+phase its already-published earlier table is preserved without opening sealed
+TEST result files. DECISIONS.md records the method and observability decisions.
+Every new result is aggregate-only; raw logs, timing vectors, per-heal records,
+API ledgers, patches and account balance stay out of Git.
+
+Automatic approval review rejected advancing Kafka critic offsets because it
+could skip alerts for a future consumer. No offset mutation was performed.
+The paid critic/healer consumers remain stopped so the synthetic alert backlog
+cannot initiate uncapped work. No ntfy, other external notification, tag move,
+force-push or merge is authorized/performed. The PR target is phase-5-perf -> main.

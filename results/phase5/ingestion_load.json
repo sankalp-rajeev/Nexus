@@ -1,0 +1,648 @@
+{
+  "API_calls": 0,
+  "bottleneck": {
+    "evidence": "consumer committed-lag growth and per-service CPU samples; not a causal isolated-service benchmark",
+    "service": "classifier"
+  },
+  "classifier_nli": "cross-encoder/nli-MiniLM2-L6-H768; cached model, no fallback",
+  "ended_at": "2026-11-12T17:00:55.373513+00:00",
+  "http_errors": [],
+  "machine": {
+    "docker": {
+      "cpus": 32,
+      "ram_bytes": 10424074240
+    },
+    "host": {
+      "cores": 24,
+      "cpu": "Intel(R) Core(TM) i9-14900HX",
+      "ram_bytes": 33986535424,
+      "threads": 32
+    },
+    "platform": "Windows-10-10.0.26300-SP0",
+    "python": "3.11.14"
+  },
+  "max_sustained_events_s": 20.12155830022784,
+  "path": "collector -> Kafka -> deployed classifier -> Kafka -> measurement Postgres sink; assembler -> Postgres in parallel",
+  "pilot": {
+    "raw_diagnostic": "data/phase5/runs/l3_ingestion/pilot_without_nli.json",
+    "reason": "initial image lacked NLI cache and used built-in zero fallback",
+    "status": "aborted_not_headline"
+  },
+  "prefix": "p5load_fb364bdc",
+  "protocol": "reports/phase5/amendment_2.md",
+  "raw_trace_count": 20,
+  "sink_errors": [],
+  "started_at": "2026-11-12T16:47:11.983824+00:00",
+  "steps": [
+    {
+      "accepted_events": 187,
+      "accepted_events_s": 1.038880085534464,
+      "assembled_traces_at_detection_drain": 11,
+      "committed_lag": [
+        {
+          "assembler": 0,
+          "classifier": 125,
+          "s": 8.000002708286047e-06
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 10.017895299999509
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 20.032033199997386
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 30.04335789999459
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 40.062661100004334
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 50.07443730000523
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 60.086601200004225
+        },
+        {
+          "assembler": 11,
+          "classifier": 11,
+          "s": 70.10432169999694
+        },
+        {
+          "assembler": 27,
+          "classifier": 27,
+          "s": 80.10941829999501
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 90.11132949999592
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 100.1263076000032
+        },
+        {
+          "assembler": 14,
+          "classifier": 14,
+          "s": 110.13942300000053
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 120.1507117000001
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 130.15784780000104
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 140.17706349999935
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 150.19316949999484
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 160.204756799998
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 170.22398549999343
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 180.00152530000196
+        }
+      ],
+      "detected_traces": 11,
+      "detection_latency_ms": {
+        "n": 11,
+        "p50": 100.00229999423027,
+        "p99": 959.9343399968349
+      },
+      "errors": 0,
+      "hold_s": 180.00152530000196,
+      "lag_growth": {
+        "assembler": {
+          "end": 0,
+          "growing": false,
+          "slope_events_s": -0.0972233573778609,
+          "start": 0
+        },
+        "classifier": {
+          "end": 0,
+          "growing": false,
+          "slope_events_s": -0.0972233573778609,
+          "start": 0
+        }
+      },
+      "missing_detections": 0,
+      "offered_events": 187,
+      "offered_rate_events_s": 1,
+      "offered_traces": 11,
+      "resources": {
+        "nexus-phase5-kafka-1": {
+          "last_memory_usage": "503.2MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 148.25
+        },
+        "nexus-phase5-nexus-assembler-1": {
+          "last_memory_usage": "30.18MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 4.63
+        },
+        "nexus-phase5-nexus-classifier-1": {
+          "last_memory_usage": "471.1MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 4.94
+        },
+        "nexus-phase5-nexus-collector-1": {
+          "last_memory_usage": "44.58MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 4.38
+        },
+        "nexus-phase5-postgres-1": {
+          "last_memory_usage": "121.5MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 2.12
+        }
+      },
+      "sustainable": true
+    },
+    {
+      "accepted_events": 906,
+      "accepted_events_s": 5.033149970087389,
+      "assembled_traces_at_detection_drain": 56,
+      "committed_lag": [
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 1.0100004146806896e-05
+        },
+        {
+          "assembler": 27,
+          "classifier": 27,
+          "s": 10.019631799994386
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 20.020252899994375
+        },
+        {
+          "assembler": 14,
+          "classifier": 14,
+          "s": 30.033923800001503
+        },
+        {
+          "assembler": 0,
+          "classifier": 45,
+          "s": 40.03511599999911
+        },
+        {
+          "assembler": 28,
+          "classifier": 28,
+          "s": 50.04331619999721
+        },
+        {
+          "assembler": 27,
+          "classifier": 0,
+          "s": 60.05955900000117
+        },
+        {
+          "assembler": 11,
+          "classifier": 11,
+          "s": 70.06746370000474
+        },
+        {
+          "assembler": 11,
+          "classifier": 11,
+          "s": 80.08351549999497
+        },
+        {
+          "assembler": 27,
+          "classifier": 0,
+          "s": 90.09426339999482
+        },
+        {
+          "assembler": 11,
+          "classifier": 0,
+          "s": 100.11409020000428
+        },
+        {
+          "assembler": 11,
+          "classifier": 11,
+          "s": 110.11523450000095
+        },
+        {
+          "assembler": 22,
+          "classifier": 22,
+          "s": 120.12995000000228
+        },
+        {
+          "assembler": 17,
+          "classifier": 17,
+          "s": 130.14826560000074
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 140.15724119999504
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 150.16416440000467
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 160.17096899999888
+        },
+        {
+          "assembler": 34,
+          "classifier": 34,
+          "s": 170.1759078000032
+        },
+        {
+          "assembler": 14,
+          "classifier": 14,
+          "s": 180.00655760000518
+        }
+      ],
+      "detected_traces": 56,
+      "detection_latency_ms": {
+        "n": 56,
+        "p50": 173.4171999996761,
+        "p99": 1458.6066599957132
+      },
+      "errors": 0,
+      "hold_s": 180.00655760000518,
+      "lag_growth": {
+        "assembler": {
+          "end": 14,
+          "growing": false,
+          "slope_events_s": -0.057161589730665645,
+          "start": 27
+        },
+        "classifier": {
+          "end": 14,
+          "growing": false,
+          "slope_events_s": 0.08840951034933565,
+          "start": 0
+        }
+      },
+      "missing_detections": 0,
+      "offered_events": 906,
+      "offered_rate_events_s": 5,
+      "offered_traces": 56,
+      "resources": {
+        "nexus-phase5-kafka-1": {
+          "last_memory_usage": "542.5MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 8.7
+        },
+        "nexus-phase5-nexus-assembler-1": {
+          "last_memory_usage": "28.16MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 5.33
+        },
+        "nexus-phase5-nexus-classifier-1": {
+          "last_memory_usage": "467.8MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 4.55
+        },
+        "nexus-phase5-nexus-collector-1": {
+          "last_memory_usage": "45MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 4.44
+        },
+        "nexus-phase5-postgres-1": {
+          "last_memory_usage": "123.4MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 2.92
+        }
+      },
+      "sustainable": true
+    },
+    {
+      "accepted_events": 3622,
+      "accepted_events_s": 20.12155830022784,
+      "assembled_traces_at_detection_drain": 224,
+      "committed_lag": [
+        {
+          "assembler": 14,
+          "classifier": 14,
+          "s": 3.5999983083456755e-06
+        },
+        {
+          "assembler": 73,
+          "classifier": 73,
+          "s": 10.01352360000601
+        },
+        {
+          "assembler": 52,
+          "classifier": 38,
+          "s": 20.01648340000247
+        },
+        {
+          "assembler": 36,
+          "classifier": 22,
+          "s": 30.01924300000246
+        },
+        {
+          "assembler": 14,
+          "classifier": 14,
+          "s": 40.02032860000327
+        },
+        {
+          "assembler": 119,
+          "classifier": 167,
+          "s": 50.02543969999533
+        },
+        {
+          "assembler": 84,
+          "classifier": 70,
+          "s": 60.04149869999674
+        },
+        {
+          "assembler": 79,
+          "classifier": 52,
+          "s": 70.05810290000227
+        },
+        {
+          "assembler": 60,
+          "classifier": 49,
+          "s": 80.09798479999881
+        },
+        {
+          "assembler": 25,
+          "classifier": 25,
+          "s": 90.10034590000578
+        },
+        {
+          "assembler": 0,
+          "classifier": 0,
+          "s": 100.10686800000258
+        },
+        {
+          "assembler": 109,
+          "classifier": 109,
+          "s": 110.11058510000294
+        },
+        {
+          "assembler": 79,
+          "classifier": 79,
+          "s": 120.11078020000423
+        },
+        {
+          "assembler": 80,
+          "classifier": 69,
+          "s": 130.11765159999777
+        },
+        {
+          "assembler": 45,
+          "classifier": 45,
+          "s": 140.13256179999735
+        },
+        {
+          "assembler": 38,
+          "classifier": 38,
+          "s": 150.13734000000113
+        },
+        {
+          "assembler": 27,
+          "classifier": 0,
+          "s": 160.13803570000164
+        },
+        {
+          "assembler": 0,
+          "classifier": 96,
+          "s": 170.15604529999837
+        },
+        {
+          "assembler": 121,
+          "classifier": 110,
+          "s": 180.00593919999665
+        }
+      ],
+      "detected_traces": 224,
+      "detection_latency_ms": {
+        "n": 224,
+        "p50": 772.2871000005398,
+        "p99": 2886.73431700765
+      },
+      "errors": 0,
+      "hold_s": 180.00593919999665,
+      "lag_growth": {
+        "assembler": {
+          "end": 121,
+          "growing": false,
+          "slope_events_s": -0.113285874006734,
+          "start": 84
+        },
+        "classifier": {
+          "end": 110,
+          "growing": false,
+          "slope_events_s": 0.19349691504343455,
+          "start": 70
+        }
+      },
+      "missing_detections": 0,
+      "offered_events": 3622,
+      "offered_rate_events_s": 20,
+      "offered_traces": 224,
+      "resources": {
+        "nexus-phase5-kafka-1": {
+          "last_memory_usage": "598.8MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 56.22
+        },
+        "nexus-phase5-nexus-assembler-1": {
+          "last_memory_usage": "28.94MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 4.62
+        },
+        "nexus-phase5-nexus-classifier-1": {
+          "last_memory_usage": "476.8MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 4.95
+        },
+        "nexus-phase5-nexus-collector-1": {
+          "last_memory_usage": "45.81MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 4.37
+        },
+        "nexus-phase5-postgres-1": {
+          "last_memory_usage": "129.4MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 4.55
+        }
+      },
+      "sustainable": true
+    },
+    {
+      "accepted_events": 14410,
+      "accepted_events_s": 80.0380271386864,
+      "assembled_traces_at_detection_drain": 892,
+      "committed_lag": [
+        {
+          "assembler": 121,
+          "classifier": 110,
+          "s": 6.89999433234334e-06
+        },
+        {
+          "assembler": 323,
+          "classifier": 576,
+          "s": 10.01860769999621
+        },
+        {
+          "assembler": 213,
+          "classifier": 771,
+          "s": 20.065428499990958
+        },
+        {
+          "assembler": 148,
+          "classifier": 930,
+          "s": 30.071639599991613
+        },
+        {
+          "assembler": 88,
+          "classifier": 1102,
+          "s": 40.079272899994976
+        },
+        {
+          "assembler": 0,
+          "classifier": 1587,
+          "s": 50.09633419998863
+        },
+        {
+          "assembler": 407,
+          "classifier": 1844,
+          "s": 60.10445049998816
+        },
+        {
+          "assembler": 416,
+          "classifier": 2031,
+          "s": 70.10806459999003
+        },
+        {
+          "assembler": 619,
+          "classifier": 2220,
+          "s": 80.14967079999042
+        },
+        {
+          "assembler": 268,
+          "classifier": 2409,
+          "s": 90.16288740000164
+        },
+        {
+          "assembler": 73,
+          "classifier": 2623,
+          "s": 100.20369829999981
+        },
+        {
+          "assembler": 0,
+          "classifier": 3105,
+          "s": 110.20772369999031
+        },
+        {
+          "assembler": 475,
+          "classifier": 3292,
+          "s": 120.21407009998802
+        },
+        {
+          "assembler": 384,
+          "classifier": 3473,
+          "s": 130.25295929999265
+        },
+        {
+          "assembler": 229,
+          "classifier": 3623,
+          "s": 140.26953079999657
+        },
+        {
+          "assembler": 171,
+          "classifier": 3876,
+          "s": 150.30344979999063
+        },
+        {
+          "assembler": 84,
+          "classifier": 4080,
+          "s": 160.31900389998918
+        },
+        {
+          "assembler": 27,
+          "classifier": 4563,
+          "s": 170.33505499998864
+        },
+        {
+          "assembler": 510,
+          "classifier": 4720,
+          "s": 180.03942019998794
+        }
+      ],
+      "detected_traces": 892,
+      "detection_latency_ms": {
+        "n": 892,
+        "p50": 41133.41704999766,
+        "p99": 82215.3050049924
+      },
+      "errors": 0,
+      "hold_s": 180.03942019998794,
+      "lag_growth": {
+        "assembler": {
+          "end": 510,
+          "growing": false,
+          "slope_events_s": -1.6866469764255287,
+          "start": 407
+        },
+        "classifier": {
+          "end": 4720,
+          "growing": true,
+          "slope_events_s": 24.21649562472375,
+          "start": 1844
+        }
+      },
+      "missing_detections": 0,
+      "offered_events": 14410,
+      "offered_rate_events_s": 80,
+      "offered_traces": 892,
+      "resources": {
+        "nexus-phase5-kafka-1": {
+          "last_memory_usage": "787.7MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 231.11
+        },
+        "nexus-phase5-nexus-assembler-1": {
+          "last_memory_usage": "30.07MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 12.84
+        },
+        "nexus-phase5-nexus-classifier-1": {
+          "last_memory_usage": "504.6MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 1750.25
+        },
+        "nexus-phase5-nexus-collector-1": {
+          "last_memory_usage": "45.58MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 9.36
+        },
+        "nexus-phase5-postgres-1": {
+          "last_memory_usage": "147.8MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 27.03
+        }
+      },
+      "sustainable": false
+    }
+  ],
+  "synthetic_alert_cleanup": {
+    "offsets_changed": false,
+    "reason": "Automatic approval review rejected consumer-offset advancement because it could skip alerts for a future consumer",
+    "safe_alternative": "Critic/healer remain stopped; all paid calls stay in capped experiment controllers"
+  },
+  "unique_task_count": 18
+}

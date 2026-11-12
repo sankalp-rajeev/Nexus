@@ -1,6 +1,6 @@
 """Integration test: Alert -> LangGraph critic -> PatchProposal in Postgres.
 
-Skips if Postgres is not reachable at localhost:55432.
+Skips if Postgres is not reachable at the configured endpoint (default localhost:55432).
 """
 
 from __future__ import annotations
@@ -18,14 +18,14 @@ os.environ.setdefault("POSTGRES_PORT", "55432")
 
 def _pg_available() -> bool:
     try:
-        s = socket.create_connection(("localhost", 55432), timeout=1)
+        s = socket.create_connection((os.environ["POSTGRES_HOST"], int(os.environ["POSTGRES_PORT"])), timeout=1)
         s.close()
         return True
     except OSError:
         return False
 
 
-pytestmark = pytest.mark.skipif(not _pg_available(), reason="Postgres not running on localhost:55432")
+pytestmark = pytest.mark.skipif(not _pg_available(), reason="Postgres not reachable at configured endpoint")
 
 
 @pytest.fixture(autouse=True)

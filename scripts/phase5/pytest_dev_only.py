@@ -14,6 +14,9 @@ from services.critic.dev_adapter import dev_labels
 
 
 def guard(event, args):
+    if event in {"socket.connect", "socket.bind"} and isinstance(args[1], tuple):
+        if args[1][0] not in {"127.0.0.1", "::1", "localhost", "0.0.0.0", "::"}:
+            raise RuntimeError("Phase 5 test external network blocked")
     if event != "open" or not args or not isinstance(args[0], (str, bytes, os.PathLike)):
         return
     path = Path(os.fsdecode(args[0])).resolve()
@@ -34,12 +37,26 @@ class DevOnly:
             if node.startswith("tests/unit/test_reporting_hygiene.py::"):
                 name = str(getattr(item, "callspec", None).params.get("path", "")) if hasattr(item, "callspec") else ""
                 sealed_result = bool(name) and Path(name).resolve().parent == ROOT / "results" and ("_test" in Path(name).name or "test_" in Path(name).name)
-                blocked |= sealed_result or "test_results_md_is_up_to_date" in node
+                blocked |= sealed_result
             if blocked:
                 item.add_marker(pytest.mark.skip(reason="Phase 5: TEST sealed; this test opens TEST artifacts"))
 
 
 def main():
+    os.environ["NEXUS_PHASE5_DEV_ONLY"] = "1"
+    os.environ.update(HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1", HF_HUB_DISABLE_TELEMETRY="1",
+                      LANGSMITH_TRACING="false", LANGCHAIN_TRACING_V2="false", SLACK_WEBHOOK_URL="")
+    # Target this worktree's isolated stack, including real DB/Kafka integration
+    # tests. Read only DB credential fields; provider keys are not needed by tests.
+    env_path = ROOT / ".env"
+    for line in env_path.read_text(encoding="utf-8-sig").splitlines() if env_path.exists() else []:
+        if "=" not in line or line.lstrip().startswith("#"):
+            continue
+        key, value = line.split("=",1)
+        if key in {"POSTGRES_USER","POSTGRES_PASSWORD","POSTGRES_DB"}:
+            os.environ[key] = value.split(" #")[0].strip().strip('"').strip("'")
+    for key, value in dict(POSTGRES_HOST="127.0.0.1",POSTGRES_PORT="55433",KAFKA_BOOTSTRAP_SERVERS="localhost:29092").items():
+        os.environ.setdefault(key,value)
     sys.addaudithook(guard)
     # The legacy helper deserializes CSV rows before checking split. Substitute
     # the existing frozen DEV adapter for tests only, yielding identical DEV rows

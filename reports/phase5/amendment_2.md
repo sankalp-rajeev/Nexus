@@ -11,6 +11,10 @@ detector pipeline used in heal decisions. Neither is modified. Critic/healer
 consumers stay stopped to prevent API spend/notifications and synthetic alerts
 from initiating repairs. Their alert offsets will be advanced past this test's
 synthetic traffic before restoration, with the exact offset change recorded.
+Post-test deviation: automatic approval review rejected that offset mutation
+because it could skip alerts for a future consumer. No offsets were changed;
+critic/healer remain stopped instead. The requested measurements continue with
+all paid requests confined to their capped experiment controllers.
 
 Hold offered rates 1, 5, 20, 80, 320, 1280 events/s for at least 180 seconds
 each, stopping after the first saturated step. Warm up with one full 20-trace
