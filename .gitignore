@@ -49,3 +49,7 @@ logs/
 *.patch
 frozen_patches_export.tgz
 data/phase5/runs/
+
+# CI stages exact model revisions locally; inference weights are not source.
+/cross-encoder/
+/sentence-transformers/

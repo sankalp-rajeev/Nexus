@@ -29,7 +29,7 @@ pytestmark = pytest.mark.skipif(
 
 
 @pytest.fixture(scope="module")
-def classifier():
+def classifier(required_classifier_nli):
     return FailureClassifier().load(MODEL_DIR)
 
 

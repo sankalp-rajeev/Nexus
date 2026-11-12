@@ -209,9 +209,9 @@ def detach(root):
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8", errors="backslashreplace")
-    # The user's egress approval is DeepSeek only; use cached local models and
-    # disable optional framework telemetry before importing model libraries.
-    os.environ.update(HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1", HF_HUB_DISABLE_TELEMETRY="1",
+    # Disable optional framework telemetry before importing model libraries.
+    # CI stages pinned local models; do not force global offline mode here.
+    os.environ.update(HF_HUB_DISABLE_TELEMETRY="1",
                       LANGSMITH_TRACING="false", LANGCHAIN_TRACING_V2="false", LANGCHAIN_TRACING="false")
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)

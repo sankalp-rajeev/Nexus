@@ -66,9 +66,8 @@ def test_embedding_is_deterministic(embedder):
 # ── NLIScorer tests ────────────────────────────────────────────────────────────
 
 @pytest.fixture(scope="module")
-def nli():
-    from services.classifier.embedder import NLIScorer
-    return NLIScorer.get()
+def nli(required_classifier_nli):
+    return required_classifier_nli
 
 
 def test_nli_contradiction_high(nli):

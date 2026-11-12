@@ -31,8 +31,9 @@ jobs:
           pip install -e ./sdk
           pip install -r requirements-dev.txt
           pip install -r scripts/phase5/requirements.txt
-          # Download weights before the DEV-only test runner disables networking.
-          python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
+
+      - name: Cache and prepare pinned models
+        uses: ./.github/actions/prepare-models
 
       - name: Lint (ruff)
         run: ruff check .
@@ -86,7 +87,9 @@ jobs:
           pip install -e ./sdk
           pip install -r requirements-dev.txt
           pip install -r scripts/phase5/requirements.txt
-          python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
+
+      - name: Cache and prepare pinned models
+        uses: ./.github/actions/prepare-models
 
       - name: Start infra (Kafka + Postgres + Redis)
         run: |

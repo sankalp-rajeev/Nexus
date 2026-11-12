@@ -34,7 +34,7 @@ WARMUPS = 2
 
 def local_only():
     os.environ.update(NO_PROXY="127.0.0.1,localhost", no_proxy="127.0.0.1,localhost",
-                      HF_HUB_OFFLINE="1", LANGSMITH_TRACING="false", LANGCHAIN_TRACING_V2="false")
+                      LANGSMITH_TRACING="false", LANGCHAIN_TRACING_V2="false")
     def guard(event, args):
         if event in {"socket.connect", "socket.bind"} and isinstance(args[1], tuple):
             if args[1][0] not in {"127.0.0.1", "::1", "localhost"}:
