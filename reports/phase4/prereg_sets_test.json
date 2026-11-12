@@ -1,0 +1,1676 @@
+{
+ "amendment": "A3",
+ "excluded": [],
+ "failures": [
+  {
+   "failure_id": "HALLUCINATION|deepseek|qa-017",
+   "family": "qa",
+   "fault": "HALLUCINATION",
+   "heldout": [
+    "qa-014",
+    "qa-030",
+    "qa-012",
+    "qa-033",
+    "qa-031"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "HALLUCINATION",
+   "task_id": "qa-017",
+   "trace_id": "nb-a69294c4ed7ab4e4",
+   "v11_label": "HALLUCINATION"
+  },
+  {
+   "failure_id": "HALLUCINATION|deepseek|qa-030",
+   "family": "qa",
+   "fault": "HALLUCINATION",
+   "heldout": [
+    "qa-014",
+    "qa-012",
+    "qa-033",
+    "qa-031",
+    "qa-034"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "HALLUCINATION",
+   "task_id": "qa-030",
+   "trace_id": "nb-cd21675b5c628e7c",
+   "v11_label": "HALLUCINATION"
+  },
+  {
+   "failure_id": "HALLUCINATION|deepseek|qa-020",
+   "family": "qa",
+   "fault": "HALLUCINATION",
+   "heldout": [
+    "qa-014",
+    "qa-030",
+    "qa-012",
+    "qa-033",
+    "qa-031"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "HALLUCINATION",
+   "task_id": "qa-020",
+   "trace_id": "nb-489a9a1d8402fa00",
+   "v11_label": "HALLUCINATION"
+  },
+  {
+   "failure_id": "HALLUCINATION|deepseek|qa-022",
+   "family": "qa",
+   "fault": "HALLUCINATION",
+   "heldout": [
+    "qa-014",
+    "qa-030",
+    "qa-012",
+    "qa-033",
+    "qa-031"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "HALLUCINATION",
+   "task_id": "qa-022",
+   "trace_id": "nb-f67c5c61df19f7f5",
+   "v11_label": "HALLUCINATION"
+  },
+  {
+   "failure_id": "HALLUCINATION|deepseek|qa-036",
+   "family": "qa",
+   "fault": "HALLUCINATION",
+   "heldout": [
+    "qa-014",
+    "qa-030",
+    "qa-012",
+    "qa-033",
+    "qa-031"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "HALLUCINATION",
+   "task_id": "qa-036",
+   "trace_id": "nb-4400c73cadec62be",
+   "v11_label": "HALLUCINATION"
+  },
+  {
+   "failure_id": "HALLUCINATION|deepseek|qa-033",
+   "family": "qa",
+   "fault": "HALLUCINATION",
+   "heldout": [
+    "qa-014",
+    "qa-030",
+    "qa-012",
+    "qa-031",
+    "qa-034"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "HALLUCINATION",
+   "task_id": "qa-033",
+   "trace_id": "nb-9e71bb676bbc66bb",
+   "v11_label": "HALLUCINATION"
+  },
+  {
+   "failure_id": "HALLUCINATION|deepseek|qa-011",
+   "family": "qa",
+   "fault": "HALLUCINATION",
+   "heldout": [
+    "qa-014",
+    "qa-030",
+    "qa-012",
+    "qa-033",
+    "qa-031"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "HALLUCINATION",
+   "task_id": "qa-011",
+   "trace_id": "nb-f671b80701aea4c4",
+   "v11_label": "HALLUCINATION"
+  },
+  {
+   "failure_id": "HALLUCINATION|deepseek|qa-027",
+   "family": "qa",
+   "fault": "HALLUCINATION",
+   "heldout": [
+    "qa-014",
+    "qa-030",
+    "qa-012",
+    "qa-033",
+    "qa-031"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "HALLUCINATION",
+   "task_id": "qa-027",
+   "trace_id": "nb-bfa5984b50eaef11",
+   "v11_label": "HALLUCINATION"
+  },
+  {
+   "failure_id": "HALLUCINATION|deepseek|qa-034",
+   "family": "qa",
+   "fault": "HALLUCINATION",
+   "heldout": [
+    "qa-014",
+    "qa-030",
+    "qa-012",
+    "qa-033",
+    "qa-031"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "HALLUCINATION",
+   "task_id": "qa-034",
+   "trace_id": "nb-6cecc6a7b8734c8b",
+   "v11_label": "HALLUCINATION"
+  },
+  {
+   "failure_id": "HALLUCINATION|deepseek|qa-019",
+   "family": "qa",
+   "fault": "HALLUCINATION",
+   "heldout": [
+    "qa-014",
+    "qa-030",
+    "qa-012",
+    "qa-033",
+    "qa-031"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "HALLUCINATION",
+   "task_id": "qa-019",
+   "trace_id": "nb-3b68b89f0cd3b8a8",
+   "v11_label": "HALLUCINATION"
+  },
+  {
+   "failure_id": "HALLUCINATION|deepseek|qa-031",
+   "family": "qa",
+   "fault": "HALLUCINATION",
+   "heldout": [
+    "qa-014",
+    "qa-030",
+    "qa-012",
+    "qa-033",
+    "qa-034"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "HALLUCINATION",
+   "task_id": "qa-031",
+   "trace_id": "nb-b216ec69b4ee83e8",
+   "v11_label": "HALLUCINATION"
+  },
+  {
+   "failure_id": "HALLUCINATION|deepseek|qa-038",
+   "family": "qa",
+   "fault": "HALLUCINATION",
+   "heldout": [
+    "qa-014",
+    "qa-030",
+    "qa-012",
+    "qa-033",
+    "qa-031"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "HALLUCINATION",
+   "task_id": "qa-038",
+   "trace_id": "nb-f57ff7582bfcb213",
+   "v11_label": "HALLUCINATION"
+  },
+  {
+   "failure_id": "TOOL_MISFIRE|deepseek|tool-011",
+   "family": "tool",
+   "fault": "TOOL_MISFIRE",
+   "heldout": [
+    "tool-013",
+    "mem-015",
+    "mem-012",
+    "mem-004",
+    "plan-022"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "TOOL_MISFIRE",
+   "task_id": "tool-011",
+   "trace_id": "nb-ffebe9d7ce5b73b5",
+   "v11_label": "TOOL_MISFIRE"
+  },
+  {
+   "failure_id": "TOOL_MISFIRE|ollama|mem-018",
+   "family": "memory",
+   "fault": "TOOL_MISFIRE",
+   "heldout": [
+    "mem-000",
+    "mem-019",
+    "mem-035"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "TOOL_MISFIRE",
+   "task_id": "mem-018",
+   "trace_id": "nb-dff65d0d75967fb4",
+   "v11_label": "TOOL_MISFIRE"
+  },
+  {
+   "failure_id": "TOOL_MISFIRE|deepseek|tool-014",
+   "family": "tool",
+   "fault": "TOOL_MISFIRE",
+   "heldout": [
+    "tool-013",
+    "mem-015",
+    "mem-012",
+    "mem-004",
+    "plan-022"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "TOOL_MISFIRE",
+   "task_id": "tool-014",
+   "trace_id": "nb-3cb331799f8e6c71",
+   "v11_label": "TOOL_MISFIRE"
+  },
+  {
+   "failure_id": "TOOL_MISFIRE|ollama|mem-019",
+   "family": "memory",
+   "fault": "TOOL_MISFIRE",
+   "heldout": [
+    "mem-018",
+    "mem-000",
+    "mem-035"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "TOOL_MISFIRE",
+   "task_id": "mem-019",
+   "trace_id": "nb-c034efe2b5cf9ad7",
+   "v11_label": "TOOL_MISFIRE"
+  },
+  {
+   "failure_id": "TOOL_MISFIRE|deepseek|plan-028",
+   "family": "plan",
+   "fault": "TOOL_MISFIRE",
+   "heldout": [
+    "tool-013",
+    "mem-015",
+    "mem-012",
+    "mem-004",
+    "plan-022"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "TOOL_MISFIRE",
+   "task_id": "plan-028",
+   "trace_id": "nb-234920c2fd709861",
+   "v11_label": "TOOL_MISFIRE"
+  },
+  {
+   "failure_id": "TOOL_MISFIRE|ollama|mem-035",
+   "family": "memory",
+   "fault": "TOOL_MISFIRE",
+   "heldout": [
+    "mem-018",
+    "mem-000",
+    "mem-019"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "TOOL_MISFIRE",
+   "task_id": "mem-035",
+   "trace_id": "nb-63f71c318520c821",
+   "v11_label": "TOOL_MISFIRE"
+  },
+  {
+   "failure_id": "TOOL_MISFIRE|deepseek|tool-013",
+   "family": "tool",
+   "fault": "TOOL_MISFIRE",
+   "heldout": [
+    "mem-015",
+    "mem-012",
+    "mem-004",
+    "plan-022",
+    "plan-020"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "TOOL_MISFIRE",
+   "task_id": "tool-013",
+   "trace_id": "nb-845986a75f236a23",
+   "v11_label": "TOOL_MISFIRE"
+  },
+  {
+   "failure_id": "TOOL_MISFIRE|ollama|mem-000",
+   "family": "memory",
+   "fault": "TOOL_MISFIRE",
+   "heldout": [
+    "mem-018",
+    "mem-019",
+    "mem-035"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "TOOL_MISFIRE",
+   "task_id": "mem-000",
+   "trace_id": "nb-4a952b614443b841",
+   "v11_label": "TOOL_MISFIRE"
+  },
+  {
+   "failure_id": "TOOL_MISFIRE|deepseek|plan-000",
+   "family": "plan",
+   "fault": "TOOL_MISFIRE",
+   "heldout": [
+    "tool-013",
+    "mem-015",
+    "mem-012",
+    "mem-004",
+    "plan-022"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "TOOL_MISFIRE",
+   "task_id": "plan-000",
+   "trace_id": "nb-cd299444eb4f5d0c",
+   "v11_label": "TOOL_MISFIRE"
+  },
+  {
+   "failure_id": "TOOL_MISFIRE|deepseek|mem-025",
+   "family": "memory",
+   "fault": "TOOL_MISFIRE",
+   "heldout": [
+    "tool-013",
+    "mem-015",
+    "mem-012",
+    "mem-004",
+    "plan-022"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "TOOL_MISFIRE",
+   "task_id": "mem-025",
+   "trace_id": "nb-19c71b90d4f93e58",
+   "v11_label": "TOOL_MISFIRE"
+  },
+  {
+   "failure_id": "TOOL_MISFIRE|deepseek|plan-008",
+   "family": "plan",
+   "fault": "TOOL_MISFIRE",
+   "heldout": [
+    "tool-013",
+    "mem-015",
+    "mem-012",
+    "mem-004",
+    "plan-022"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "TOOL_MISFIRE",
+   "task_id": "plan-008",
+   "trace_id": "nb-ecef48f1f3bcd95d",
+   "v11_label": "TOOL_MISFIRE"
+  },
+  {
+   "failure_id": "TOOL_MISFIRE|deepseek|mem-012",
+   "family": "memory",
+   "fault": "TOOL_MISFIRE",
+   "heldout": [
+    "tool-013",
+    "mem-015",
+    "mem-004",
+    "plan-022",
+    "plan-020"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "TOOL_MISFIRE",
+   "task_id": "mem-012",
+   "trace_id": "nb-2a2c6d68bf6c36cb",
+   "v11_label": "TOOL_MISFIRE"
+  },
+  {
+   "failure_id": "CONTEXT_BLEED|deepseek|mem-035",
+   "family": "memory",
+   "fault": "CONTEXT_BLEED",
+   "heldout": [
+    "mem-036",
+    "mem-022",
+    "mem-000",
+    "mem-018",
+    "mem-038"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": true,
+   "provider": "deepseek",
+   "selection_label": "CONTEXT_BLEED",
+   "task_id": "mem-035",
+   "trace_id": "nb-f9858bde8f0f329c",
+   "v11_label": "CONTEXT_BLEED"
+  },
+  {
+   "failure_id": "CONTEXT_BLEED|ollama|mem-005",
+   "family": "memory",
+   "fault": "CONTEXT_BLEED",
+   "heldout": [
+    "mem-039",
+    "mem-025",
+    "mem-013",
+    "mem-036",
+    "mem-004"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "CONTEXT_BLEED",
+   "task_id": "mem-005",
+   "trace_id": "nb-ed40a896bf213919",
+   "v11_label": "CONTEXT_BLEED"
+  },
+  {
+   "failure_id": "CONTEXT_BLEED|deepseek|mem-009",
+   "family": "memory",
+   "fault": "CONTEXT_BLEED",
+   "heldout": [
+    "mem-036",
+    "mem-022",
+    "mem-000",
+    "mem-018",
+    "mem-038"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": true,
+   "provider": "deepseek",
+   "selection_label": "CONTEXT_BLEED",
+   "task_id": "mem-009",
+   "trace_id": "nb-0d6807da9c16cb00",
+   "v11_label": "CONTEXT_BLEED"
+  },
+  {
+   "failure_id": "CONTEXT_BLEED|ollama|mem-025",
+   "family": "memory",
+   "fault": "CONTEXT_BLEED",
+   "heldout": [
+    "mem-039",
+    "mem-013",
+    "mem-036",
+    "mem-004",
+    "mem-015"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "CONTEXT_BLEED",
+   "task_id": "mem-025",
+   "trace_id": "nb-554d92df641c5ac0",
+   "v11_label": "CONTEXT_BLEED"
+  },
+  {
+   "failure_id": "CONTEXT_BLEED|deepseek|mem-001",
+   "family": "memory",
+   "fault": "CONTEXT_BLEED",
+   "heldout": [
+    "mem-036",
+    "mem-022",
+    "mem-000",
+    "mem-018",
+    "mem-038"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": true,
+   "provider": "deepseek",
+   "selection_label": "CONTEXT_BLEED",
+   "task_id": "mem-001",
+   "trace_id": "nb-8994c3e32cfe16c7",
+   "v11_label": "CONTEXT_BLEED"
+  },
+  {
+   "failure_id": "CONTEXT_BLEED|ollama|mem-039",
+   "family": "memory",
+   "fault": "CONTEXT_BLEED",
+   "heldout": [
+    "mem-025",
+    "mem-013",
+    "mem-036",
+    "mem-004",
+    "mem-015"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "CONTEXT_BLEED",
+   "task_id": "mem-039",
+   "trace_id": "nb-145b67b838b24a3c",
+   "v11_label": "CONTEXT_BLEED"
+  },
+  {
+   "failure_id": "CONTEXT_BLEED|deepseek|mem-008",
+   "family": "memory",
+   "fault": "CONTEXT_BLEED",
+   "heldout": [
+    "mem-036",
+    "mem-022",
+    "mem-000",
+    "mem-018",
+    "mem-038"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": true,
+   "provider": "deepseek",
+   "selection_label": "CONTEXT_BLEED",
+   "task_id": "mem-008",
+   "trace_id": "nb-eb33076717710842",
+   "v11_label": "CONTEXT_BLEED"
+  },
+  {
+   "failure_id": "CONTEXT_BLEED|ollama|mem-004",
+   "family": "memory",
+   "fault": "CONTEXT_BLEED",
+   "heldout": [
+    "mem-039",
+    "mem-025",
+    "mem-013",
+    "mem-036",
+    "mem-015"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "CONTEXT_BLEED",
+   "task_id": "mem-004",
+   "trace_id": "nb-62ac00ebfe222819",
+   "v11_label": "CONTEXT_BLEED"
+  },
+  {
+   "failure_id": "CONTEXT_BLEED|deepseek|mem-000",
+   "family": "memory",
+   "fault": "CONTEXT_BLEED",
+   "heldout": [
+    "mem-036",
+    "mem-022",
+    "mem-018",
+    "mem-038",
+    "mem-014"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": true,
+   "provider": "deepseek",
+   "selection_label": "CONTEXT_BLEED",
+   "task_id": "mem-000",
+   "trace_id": "nb-40ae12cd9385b03a",
+   "v11_label": "CONTEXT_BLEED"
+  },
+  {
+   "failure_id": "CONTEXT_BLEED|ollama|mem-036",
+   "family": "memory",
+   "fault": "CONTEXT_BLEED",
+   "heldout": [
+    "mem-039",
+    "mem-025",
+    "mem-013",
+    "mem-004",
+    "mem-015"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "CONTEXT_BLEED",
+   "task_id": "mem-036",
+   "trace_id": "nb-4906261e257f7f8f",
+   "v11_label": "CONTEXT_BLEED"
+  },
+  {
+   "failure_id": "CONTEXT_BLEED|deepseek|mem-014",
+   "family": "memory",
+   "fault": "CONTEXT_BLEED",
+   "heldout": [
+    "mem-036",
+    "mem-022",
+    "mem-000",
+    "mem-018",
+    "mem-038"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": true,
+   "provider": "deepseek",
+   "selection_label": "CONTEXT_BLEED",
+   "task_id": "mem-014",
+   "trace_id": "nb-191e2df402ad3088",
+   "v11_label": "CONTEXT_BLEED"
+  },
+  {
+   "failure_id": "CONTEXT_BLEED|ollama|mem-019",
+   "family": "memory",
+   "fault": "CONTEXT_BLEED",
+   "heldout": [
+    "mem-039",
+    "mem-025",
+    "mem-013",
+    "mem-036",
+    "mem-004"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "CONTEXT_BLEED",
+   "task_id": "mem-019",
+   "trace_id": "nb-6254652d35bd615d",
+   "v11_label": "CONTEXT_BLEED"
+  },
+  {
+   "failure_id": "PLAN_DRIFT|ollama|plan-028",
+   "family": "plan",
+   "fault": "PLAN_DRIFT",
+   "heldout": [
+    "plan-022",
+    "tool-019",
+    "mem-036",
+    "mem-013",
+    "mem-005"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "PLAN_DRIFT",
+   "task_id": "plan-028",
+   "trace_id": "nb-d5ff965ecd1b6e49",
+   "v11_label": "PLAN_DRIFT"
+  },
+  {
+   "failure_id": "PLAN_DRIFT|ollama|mem-013",
+   "family": "memory",
+   "fault": "PLAN_DRIFT",
+   "heldout": [
+    "plan-022",
+    "tool-019",
+    "mem-036",
+    "mem-005",
+    "plan-008"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "PLAN_DRIFT",
+   "task_id": "mem-013",
+   "trace_id": "nb-2b69a9cfdec86fc8",
+   "v11_label": "PLAN_DRIFT"
+  },
+  {
+   "failure_id": "PLAN_DRIFT|ollama|mem-036",
+   "family": "memory",
+   "fault": "PLAN_DRIFT",
+   "heldout": [
+    "plan-022",
+    "tool-019",
+    "mem-013",
+    "mem-005",
+    "plan-008"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "PLAN_DRIFT",
+   "task_id": "mem-036",
+   "trace_id": "nb-382e028556d8ca9d",
+   "v11_label": "PLAN_DRIFT"
+  },
+  {
+   "failure_id": "PLAN_DRIFT|ollama|plan-005",
+   "family": "plan",
+   "fault": "PLAN_DRIFT",
+   "heldout": [
+    "plan-022",
+    "tool-019",
+    "mem-036",
+    "mem-013",
+    "mem-005"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "PLAN_DRIFT",
+   "task_id": "plan-005",
+   "trace_id": "nb-f90937e0fb64fc7e",
+   "v11_label": "PLAN_DRIFT"
+  },
+  {
+   "failure_id": "PLAN_DRIFT|ollama|plan-024",
+   "family": "plan",
+   "fault": "PLAN_DRIFT",
+   "heldout": [
+    "plan-022",
+    "tool-019",
+    "mem-036",
+    "mem-013",
+    "mem-005"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "PLAN_DRIFT",
+   "task_id": "plan-024",
+   "trace_id": "nb-4d179d63b6093921",
+   "v11_label": "PLAN_DRIFT"
+  },
+  {
+   "failure_id": "PLAN_DRIFT|ollama|mem-005",
+   "family": "memory",
+   "fault": "PLAN_DRIFT",
+   "heldout": [
+    "plan-022",
+    "tool-019",
+    "mem-036",
+    "mem-013",
+    "plan-008"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "PLAN_DRIFT",
+   "task_id": "mem-005",
+   "trace_id": "nb-9fbadb5a1b8d4bcb",
+   "v11_label": "PLAN_DRIFT"
+  },
+  {
+   "failure_id": "PLAN_DRIFT|ollama|mem-038",
+   "family": "memory",
+   "fault": "PLAN_DRIFT",
+   "heldout": [
+    "plan-022",
+    "tool-019",
+    "mem-036",
+    "mem-013",
+    "mem-005"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "PLAN_DRIFT",
+   "task_id": "mem-038",
+   "trace_id": "nb-60cfcf47b64cc7cc",
+   "v11_label": "PLAN_DRIFT"
+  },
+  {
+   "failure_id": "PLAN_DRIFT|ollama|mem-001",
+   "family": "memory",
+   "fault": "PLAN_DRIFT",
+   "heldout": [
+    "plan-022",
+    "tool-019",
+    "mem-036",
+    "mem-013",
+    "mem-005"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "PLAN_DRIFT",
+   "task_id": "mem-001",
+   "trace_id": "nb-3f9db87bbd493b8a",
+   "v11_label": "PLAN_DRIFT"
+  },
+  {
+   "failure_id": "PLAN_DRIFT|ollama|mem-024",
+   "family": "memory",
+   "fault": "PLAN_DRIFT",
+   "heldout": [
+    "plan-022",
+    "tool-019",
+    "mem-036",
+    "mem-013",
+    "mem-005"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "PLAN_DRIFT",
+   "task_id": "mem-024",
+   "trace_id": "nb-1ddd546a7cb2f211",
+   "v11_label": "PLAN_DRIFT"
+  },
+  {
+   "failure_id": "PLAN_DRIFT|ollama|plan-026",
+   "family": "plan",
+   "fault": "PLAN_DRIFT",
+   "heldout": [
+    "plan-022",
+    "tool-019",
+    "mem-036",
+    "mem-013",
+    "mem-005"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "PLAN_DRIFT",
+   "task_id": "plan-026",
+   "trace_id": "nb-d3b9b7bda4a41327",
+   "v11_label": "PLAN_DRIFT"
+  },
+  {
+   "failure_id": "PLAN_DRIFT|ollama|plan-006",
+   "family": "plan",
+   "fault": "PLAN_DRIFT",
+   "heldout": [
+    "plan-022",
+    "tool-019",
+    "mem-036",
+    "mem-013",
+    "mem-005"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "PLAN_DRIFT",
+   "task_id": "plan-006",
+   "trace_id": "nb-55baed1fbb793bdd",
+   "v11_label": "PLAN_DRIFT"
+  },
+  {
+   "failure_id": "PLAN_DRIFT|ollama|plan-027",
+   "family": "plan",
+   "fault": "PLAN_DRIFT",
+   "heldout": [
+    "plan-022",
+    "tool-019",
+    "mem-036",
+    "mem-013",
+    "mem-005"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": true,
+   "provider": "ollama",
+   "selection_label": "PLAN_DRIFT",
+   "task_id": "plan-027",
+   "trace_id": "nb-1f847d0cceceb5e5",
+   "v11_label": "PLAN_DRIFT"
+  },
+  {
+   "failure_id": "LOOP_DETECTED|deepseek|tool-006",
+   "family": "tool",
+   "fault": "LOOP_DETECTED",
+   "heldout": [
+    "tool-013",
+    "tool-026",
+    "tool-004",
+    "mem-019",
+    "mem-005"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "LOOP_DETECTED",
+   "task_id": "tool-006",
+   "trace_id": "nb-5c88b234204b7a2e",
+   "v11_label": "LOOP_DETECTED"
+  },
+  {
+   "failure_id": "LOOP_DETECTED|ollama|tool-021",
+   "family": "tool",
+   "fault": "LOOP_DETECTED",
+   "heldout": [
+    "plan-028",
+    "mem-001",
+    "plan-024",
+    "tool-028",
+    "plan-027"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "LOOP_DETECTED",
+   "task_id": "tool-021",
+   "trace_id": "nb-984b518e389c7b2f",
+   "v11_label": "LOOP_DETECTED"
+  },
+  {
+   "failure_id": "LOOP_DETECTED|deepseek|plan-000",
+   "family": "plan",
+   "fault": "LOOP_DETECTED",
+   "heldout": [
+    "tool-013",
+    "tool-006",
+    "tool-026",
+    "tool-004",
+    "mem-019"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "LOOP_DETECTED",
+   "task_id": "plan-000",
+   "trace_id": "nb-b05f349a7b70a75f",
+   "v11_label": "LOOP_DETECTED"
+  },
+  {
+   "failure_id": "LOOP_DETECTED|ollama|tool-019",
+   "family": "tool",
+   "fault": "LOOP_DETECTED",
+   "heldout": [
+    "plan-028",
+    "mem-001",
+    "plan-024",
+    "tool-028",
+    "tool-021"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "LOOP_DETECTED",
+   "task_id": "tool-019",
+   "trace_id": "nb-9de09ada9bb7793c",
+   "v11_label": "LOOP_DETECTED"
+  },
+  {
+   "failure_id": "LOOP_DETECTED|deepseek|tool-008",
+   "family": "tool",
+   "fault": "LOOP_DETECTED",
+   "heldout": [
+    "tool-013",
+    "tool-006",
+    "tool-026",
+    "tool-004",
+    "mem-019"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "LOOP_DETECTED",
+   "task_id": "tool-008",
+   "trace_id": "nb-e8379be0314080b8",
+   "v11_label": "LOOP_DETECTED"
+  },
+  {
+   "failure_id": "LOOP_DETECTED|ollama|plan-014",
+   "family": "plan",
+   "fault": "LOOP_DETECTED",
+   "heldout": [
+    "plan-028",
+    "mem-001",
+    "plan-024",
+    "tool-028",
+    "tool-021"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "LOOP_DETECTED",
+   "task_id": "plan-014",
+   "trace_id": "nb-5ebf02d4e0a8280a",
+   "v11_label": "LOOP_DETECTED"
+  },
+  {
+   "failure_id": "LOOP_DETECTED|deepseek|mem-014",
+   "family": "memory",
+   "fault": "LOOP_DETECTED",
+   "heldout": [
+    "tool-013",
+    "tool-006",
+    "tool-026",
+    "tool-004",
+    "mem-019"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "LOOP_DETECTED",
+   "task_id": "mem-014",
+   "trace_id": "nb-ca4a5760d23256e2",
+   "v11_label": "LOOP_DETECTED"
+  },
+  {
+   "failure_id": "LOOP_DETECTED|ollama|plan-028",
+   "family": "plan",
+   "fault": "LOOP_DETECTED",
+   "heldout": [
+    "mem-001",
+    "plan-024",
+    "tool-028",
+    "tool-021",
+    "plan-027"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "LOOP_DETECTED",
+   "task_id": "plan-028",
+   "trace_id": "nb-920b32a5ab1655f5",
+   "v11_label": "LOOP_DETECTED"
+  },
+  {
+   "failure_id": "LOOP_DETECTED|deepseek|mem-024",
+   "family": "memory",
+   "fault": "LOOP_DETECTED",
+   "heldout": [
+    "tool-013",
+    "tool-006",
+    "tool-026",
+    "tool-004",
+    "mem-019"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "LOOP_DETECTED",
+   "task_id": "mem-024",
+   "trace_id": "nb-e61dd7e95ad9548b",
+   "v11_label": "LOOP_DETECTED"
+  },
+  {
+   "failure_id": "LOOP_DETECTED|ollama|plan-024",
+   "family": "plan",
+   "fault": "LOOP_DETECTED",
+   "heldout": [
+    "plan-028",
+    "mem-001",
+    "tool-028",
+    "tool-021",
+    "plan-027"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "LOOP_DETECTED",
+   "task_id": "plan-024",
+   "trace_id": "nb-3d4cff9fdf6fd49b",
+   "v11_label": "LOOP_DETECTED"
+  },
+  {
+   "failure_id": "LOOP_DETECTED|deepseek|tool-013",
+   "family": "tool",
+   "fault": "LOOP_DETECTED",
+   "heldout": [
+    "tool-006",
+    "tool-026",
+    "tool-004",
+    "mem-019",
+    "mem-005"
+   ],
+   "model": "deepseek-flash",
+   "original_checker_pass": false,
+   "provider": "deepseek",
+   "selection_label": "LOOP_DETECTED",
+   "task_id": "tool-013",
+   "trace_id": "nb-d5979e33a0270d24",
+   "v11_label": "LOOP_DETECTED"
+  },
+  {
+   "failure_id": "LOOP_DETECTED|ollama|tool-017",
+   "family": "tool",
+   "fault": "LOOP_DETECTED",
+   "heldout": [
+    "plan-028",
+    "mem-001",
+    "plan-024",
+    "tool-028",
+    "tool-021"
+   ],
+   "model": "qwen2.5:7b-instruct",
+   "original_checker_pass": false,
+   "provider": "ollama",
+   "selection_label": "LOOP_DETECTED",
+   "task_id": "tool-017",
+   "trace_id": "nb-a2c80b93eba5beb4",
+   "v11_label": "LOOP_DETECTED"
+  }
+ ],
+ "heldout_k": 5,
+ "heldout_pools": {
+  "CONTEXT_BLEED|deepseek": [
+   "mem-036",
+   "mem-022",
+   "mem-000",
+   "mem-018",
+   "mem-038",
+   "mem-014"
+  ],
+  "CONTEXT_BLEED|ollama": [
+   "mem-039",
+   "mem-025",
+   "mem-013",
+   "mem-036",
+   "mem-004",
+   "mem-015"
+  ],
+  "HALLUCINATION|deepseek": [
+   "qa-014",
+   "qa-030",
+   "qa-012",
+   "qa-033",
+   "qa-031",
+   "qa-034"
+  ],
+  "LOOP_DETECTED|deepseek": [
+   "tool-013",
+   "tool-006",
+   "tool-026",
+   "tool-004",
+   "mem-019",
+   "mem-005"
+  ],
+  "LOOP_DETECTED|ollama": [
+   "plan-028",
+   "mem-001",
+   "plan-024",
+   "tool-028",
+   "tool-021",
+   "plan-027"
+  ],
+  "PLAN_DRIFT|ollama": [
+   "plan-022",
+   "tool-019",
+   "mem-036",
+   "mem-013",
+   "mem-005",
+   "plan-008"
+  ],
+  "TOOL_MISFIRE|deepseek": [
+   "tool-013",
+   "mem-015",
+   "mem-012",
+   "mem-004",
+   "plan-022",
+   "plan-020"
+  ],
+  "TOOL_MISFIRE|ollama": [
+   "mem-018",
+   "mem-000",
+   "mem-019",
+   "mem-035"
+  ]
+ },
+ "labels_sha256": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
+ "regression": [
+  "qa-018",
+  "qa-030",
+  "qa-036",
+  "tool-000",
+  "tool-015",
+  "tool-019",
+  "plan-006",
+  "plan-022",
+  "plan-024",
+  "mem-000",
+  "mem-008",
+  "mem-025"
+ ],
+ "regression_a2": [
+  "qa-004",
+  "qa-010",
+  "qa-011",
+  "qa-012",
+  "qa-014",
+  "qa-017",
+  "qa-018",
+  "qa-019",
+  "qa-020",
+  "qa-022",
+  "qa-023",
+  "qa-025",
+  "qa-027",
+  "qa-028",
+  "qa-030",
+  "qa-031",
+  "qa-033",
+  "qa-034",
+  "qa-036",
+  "qa-038",
+  "tool-000",
+  "tool-015",
+  "tool-019",
+  "plan-006",
+  "plan-022",
+  "plan-024",
+  "mem-000",
+  "mem-008",
+  "mem-025"
+ ],
+ "regression_per_family": 3,
+ "seed": 20261110,
+ "selection": [
+  {
+   "label": "HALLUCINATION",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "qa-017",
+   "trace_id": "nb-a69294c4ed7ab4e4"
+  },
+  {
+   "label": "HALLUCINATION",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "qa-030",
+   "trace_id": "nb-cd21675b5c628e7c"
+  },
+  {
+   "label": "HALLUCINATION",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "qa-020",
+   "trace_id": "nb-489a9a1d8402fa00"
+  },
+  {
+   "label": "HALLUCINATION",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "qa-022",
+   "trace_id": "nb-f67c5c61df19f7f5"
+  },
+  {
+   "label": "HALLUCINATION",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "qa-036",
+   "trace_id": "nb-4400c73cadec62be"
+  },
+  {
+   "label": "HALLUCINATION",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "qa-033",
+   "trace_id": "nb-9e71bb676bbc66bb"
+  },
+  {
+   "label": "HALLUCINATION",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "qa-011",
+   "trace_id": "nb-f671b80701aea4c4"
+  },
+  {
+   "label": "HALLUCINATION",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "qa-027",
+   "trace_id": "nb-bfa5984b50eaef11"
+  },
+  {
+   "label": "HALLUCINATION",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "qa-034",
+   "trace_id": "nb-6cecc6a7b8734c8b"
+  },
+  {
+   "label": "HALLUCINATION",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "qa-019",
+   "trace_id": "nb-3b68b89f0cd3b8a8"
+  },
+  {
+   "label": "HALLUCINATION",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "qa-031",
+   "trace_id": "nb-b216ec69b4ee83e8"
+  },
+  {
+   "label": "HALLUCINATION",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "qa-038",
+   "trace_id": "nb-f57ff7582bfcb213"
+  },
+  {
+   "label": "TOOL_MISFIRE",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "tool-011",
+   "trace_id": "nb-ffebe9d7ce5b73b5"
+  },
+  {
+   "label": "TOOL_MISFIRE",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-018",
+   "trace_id": "nb-dff65d0d75967fb4"
+  },
+  {
+   "label": "TOOL_MISFIRE",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "tool-014",
+   "trace_id": "nb-3cb331799f8e6c71"
+  },
+  {
+   "label": "TOOL_MISFIRE",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-019",
+   "trace_id": "nb-c034efe2b5cf9ad7"
+  },
+  {
+   "label": "TOOL_MISFIRE",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "plan-028",
+   "trace_id": "nb-234920c2fd709861"
+  },
+  {
+   "label": "TOOL_MISFIRE",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-035",
+   "trace_id": "nb-63f71c318520c821"
+  },
+  {
+   "label": "TOOL_MISFIRE",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "tool-013",
+   "trace_id": "nb-845986a75f236a23"
+  },
+  {
+   "label": "TOOL_MISFIRE",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-000",
+   "trace_id": "nb-4a952b614443b841"
+  },
+  {
+   "label": "TOOL_MISFIRE",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "plan-000",
+   "trace_id": "nb-cd299444eb4f5d0c"
+  },
+  {
+   "label": "TOOL_MISFIRE",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "mem-025",
+   "trace_id": "nb-19c71b90d4f93e58"
+  },
+  {
+   "label": "TOOL_MISFIRE",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "plan-008",
+   "trace_id": "nb-ecef48f1f3bcd95d"
+  },
+  {
+   "label": "TOOL_MISFIRE",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "mem-012",
+   "trace_id": "nb-2a2c6d68bf6c36cb"
+  },
+  {
+   "label": "CONTEXT_BLEED",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "mem-035",
+   "trace_id": "nb-f9858bde8f0f329c"
+  },
+  {
+   "label": "CONTEXT_BLEED",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-005",
+   "trace_id": "nb-ed40a896bf213919"
+  },
+  {
+   "label": "CONTEXT_BLEED",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "mem-009",
+   "trace_id": "nb-0d6807da9c16cb00"
+  },
+  {
+   "label": "CONTEXT_BLEED",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-025",
+   "trace_id": "nb-554d92df641c5ac0"
+  },
+  {
+   "label": "CONTEXT_BLEED",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "mem-001",
+   "trace_id": "nb-8994c3e32cfe16c7"
+  },
+  {
+   "label": "CONTEXT_BLEED",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-039",
+   "trace_id": "nb-145b67b838b24a3c"
+  },
+  {
+   "label": "CONTEXT_BLEED",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "mem-008",
+   "trace_id": "nb-eb33076717710842"
+  },
+  {
+   "label": "CONTEXT_BLEED",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-004",
+   "trace_id": "nb-62ac00ebfe222819"
+  },
+  {
+   "label": "CONTEXT_BLEED",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "mem-000",
+   "trace_id": "nb-40ae12cd9385b03a"
+  },
+  {
+   "label": "CONTEXT_BLEED",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-036",
+   "trace_id": "nb-4906261e257f7f8f"
+  },
+  {
+   "label": "CONTEXT_BLEED",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "mem-014",
+   "trace_id": "nb-191e2df402ad3088"
+  },
+  {
+   "label": "CONTEXT_BLEED",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-019",
+   "trace_id": "nb-6254652d35bd615d"
+  },
+  {
+   "label": "PLAN_DRIFT",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "plan-028",
+   "trace_id": "nb-d5ff965ecd1b6e49"
+  },
+  {
+   "label": "PLAN_DRIFT",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-013",
+   "trace_id": "nb-2b69a9cfdec86fc8"
+  },
+  {
+   "label": "PLAN_DRIFT",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-036",
+   "trace_id": "nb-382e028556d8ca9d"
+  },
+  {
+   "label": "PLAN_DRIFT",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "plan-005",
+   "trace_id": "nb-f90937e0fb64fc7e"
+  },
+  {
+   "label": "PLAN_DRIFT",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "plan-024",
+   "trace_id": "nb-4d179d63b6093921"
+  },
+  {
+   "label": "PLAN_DRIFT",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-005",
+   "trace_id": "nb-9fbadb5a1b8d4bcb"
+  },
+  {
+   "label": "PLAN_DRIFT",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-038",
+   "trace_id": "nb-60cfcf47b64cc7cc"
+  },
+  {
+   "label": "PLAN_DRIFT",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-001",
+   "trace_id": "nb-3f9db87bbd493b8a"
+  },
+  {
+   "label": "PLAN_DRIFT",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "mem-024",
+   "trace_id": "nb-1ddd546a7cb2f211"
+  },
+  {
+   "label": "PLAN_DRIFT",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "plan-026",
+   "trace_id": "nb-d3b9b7bda4a41327"
+  },
+  {
+   "label": "PLAN_DRIFT",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "plan-006",
+   "trace_id": "nb-55baed1fbb793bdd"
+  },
+  {
+   "label": "PLAN_DRIFT",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "plan-027",
+   "trace_id": "nb-1f847d0cceceb5e5"
+  },
+  {
+   "label": "LOOP_DETECTED",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "tool-006",
+   "trace_id": "nb-5c88b234204b7a2e"
+  },
+  {
+   "label": "LOOP_DETECTED",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "tool-021",
+   "trace_id": "nb-984b518e389c7b2f"
+  },
+  {
+   "label": "LOOP_DETECTED",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "plan-000",
+   "trace_id": "nb-b05f349a7b70a75f"
+  },
+  {
+   "label": "LOOP_DETECTED",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "tool-019",
+   "trace_id": "nb-9de09ada9bb7793c"
+  },
+  {
+   "label": "LOOP_DETECTED",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "tool-008",
+   "trace_id": "nb-e8379be0314080b8"
+  },
+  {
+   "label": "LOOP_DETECTED",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "plan-014",
+   "trace_id": "nb-5ebf02d4e0a8280a"
+  },
+  {
+   "label": "LOOP_DETECTED",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "mem-014",
+   "trace_id": "nb-ca4a5760d23256e2"
+  },
+  {
+   "label": "LOOP_DETECTED",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "plan-028",
+   "trace_id": "nb-920b32a5ab1655f5"
+  },
+  {
+   "label": "LOOP_DETECTED",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "mem-024",
+   "trace_id": "nb-e61dd7e95ad9548b"
+  },
+  {
+   "label": "LOOP_DETECTED",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "plan-024",
+   "trace_id": "nb-3d4cff9fdf6fd49b"
+  },
+  {
+   "label": "LOOP_DETECTED",
+   "model": "deepseek-flash",
+   "provider": "deepseek",
+   "task_id": "tool-013",
+   "trace_id": "nb-d5979e33a0270d24"
+  },
+  {
+   "label": "LOOP_DETECTED",
+   "model": "qwen2.5:7b-instruct",
+   "provider": "ollama",
+   "task_id": "tool-017",
+   "trace_id": "nb-a2c80b93eba5beb4"
+  }
+ ],
+ "selection_rule": "services.critic.experiments.select_labels on bench-v1.1 test rows",
+ "selection_sha256": "8dc5f3e9c62ba3feb868ce9d5f18ced7fab36f193c201d1522e3293dcfa6ac57",
+ "split": "test"
+}

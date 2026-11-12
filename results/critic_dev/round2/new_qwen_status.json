@@ -1,0 +1,8 @@
+{
+  "status": "complete",
+  "reason": "",
+  "evidence_label": "oracle evidence (dev labels)",
+  "completed": 60,
+  "model": "qwen2.5:7b-instruct",
+  "model_version": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e"
+}

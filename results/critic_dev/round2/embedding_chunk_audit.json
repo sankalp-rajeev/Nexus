@@ -1,0 +1,13 @@
+{
+  "evidence_label": "oracle evidence (dev labels)",
+  "implementation_commit": "bbbac9507263d5d583741fdc93c657ea6570443b",
+  "analysis_commit": "d60649f2d9be2b41400d2ccdda7ee66456286f5c",
+  "date_utc": "2026-11-11T01:56:01.083428+00:00",
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "model_max_sequence_tokens": 256,
+  "chunks": 280,
+  "max_reencoded_chunk_tokens": 256,
+  "overlength_chunks": [],
+  "reason": "Full raw token IDs are chunked before model.encode; no overlength text is fed to the model. All analysis text is explicitly decoded as UTF-8."
+}

@@ -1,0 +1,8 @@
+{
+  "status": "complete",
+  "reason": "",
+  "evidence_label": "oracle evidence (dev labels)",
+  "completed": 60,
+  "model": "deepseek-flash",
+  "model_version": "DeepSeek-V4.1-Flash-1017; fingerprint=bc19ba97cbe016479903222bb1578db6"
+}

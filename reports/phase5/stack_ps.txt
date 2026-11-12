@@ -1,0 +1,12 @@
+﻿NAME                              IMAGE                               COMMAND                  SERVICE            CREATED          STATUS                    PORTS
+nexus-phase5-kafka-1              apache/kafka:3.7.0                  "/__cacert_entrypoin…"   kafka              30 minutes ago   Up 30 minutes (healthy)   0.0.0.0:9092->9092/tcp, [::]:9092->9092/tcp, 0.0.0.0:29092->29092/tcp, [::]:29092->29092/tcp
+nexus-phase5-mlflow-1             ghcr.io/mlflow/mlflow:v2.13.0       "mlflow server --hos…"   mlflow             28 minutes ago   Up 27 minutes (healthy)   0.0.0.0:5000->5000/tcp, [::]:5000->5000/tcp
+nexus-phase5-nexus-api-1          nexus-phase5-nexus-api              "python -m uvicorn s…"   nexus-api          30 minutes ago   Up 25 minutes (healthy)   0.0.0.0:8001->8001/tcp, [::]:8001->8001/tcp
+nexus-phase5-nexus-assembler-1    nexus-phase5-nexus-assembler        "python -m services.…"   nexus-assembler    30 minutes ago   Up 25 minutes (healthy)
+nexus-phase5-nexus-classifier-1   nexus-phase5-nexus-classifier       "python -m services.…"   nexus-classifier   30 minutes ago   Up 25 minutes (healthy)
+nexus-phase5-nexus-collector-1    nexus-phase5-nexus-collector        "uvicorn services.co…"   nexus-collector    30 minutes ago   Up 30 minutes (healthy)   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+nexus-phase5-nexus-critic-1       nexus-phase5-nexus-critic           "python /app/infra/e…"   nexus-critic       30 minutes ago   Up 25 minutes (healthy)
+nexus-phase5-nexus-dashboard-1    nexus-phase5-nexus-dashboard        "/docker-entrypoint.…"   nexus-dashboard    24 minutes ago   Up 24 minutes (healthy)   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+nexus-phase5-nexus-healer-1       nexus-phase5-nexus-healer           "python -m services.…"   nexus-healer       30 minutes ago   Up 25 minutes (healthy)
+nexus-phase5-postgres-1           timescale/timescaledb:latest-pg15   "docker-entrypoint.s…"   postgres           28 minutes ago   Up 27 minutes (healthy)   0.0.0.0:55433->5432/tcp, [::]:55433->5432/tcp
+nexus-phase5-redis-1              redis:7                             "docker-entrypoint.s…"   redis              30 minutes ago   Up 30 minutes (healthy)   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp

@@ -8,7 +8,8 @@ from __future__ import annotations
 
 import json
 
-from nexus_agent.models import FailureType, PatchProposal, PatchType
+from nexus_agent.models import FailureType, PatchType
+from services.critic.proposal import CriticProposal, Provenance
 
 
 _FALLBACKS: dict[FailureType, dict] = {
@@ -111,12 +112,15 @@ _FALLBACKS: dict[FailureType, dict] = {
 
 
 def make_fallback_proposal(alert_id: str, trace_id: str, failure_type: FailureType,
-                           root_cause_analysis: str) -> PatchProposal:
+                           root_cause_analysis: str) -> CriticProposal:
     data = _FALLBACKS.get(failure_type, _FALLBACKS[FailureType.NORMAL])
-    return PatchProposal(
+    return CriticProposal(
         alert_id=alert_id,
         trace_id=trace_id,
         failure_type=failure_type,
         root_cause_analysis=root_cause_analysis,
+        provenance=Provenance(source="fallback", model="none", model_version="template-v1",
+                              temperature=0),
+        status="REJECTED",
         **{k: v for k, v in data.items()},
     )

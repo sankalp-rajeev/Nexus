@@ -1,0 +1,158 @@
+{
+  "reviewer": "model-reviewed, author-confirmed; revised after Codex feedback",
+  "independent_human_validation": false,
+  "counts": {
+    "unclear": 4,
+    "grounded": 10,
+    "ungrounded": 6
+  },
+  "unclear_as_ungrounded": {
+    "n": 20,
+    "agreement_count": 12,
+    "agreement": 0.6,
+    "expected_agreement": 0.5,
+    "cohens_kappa": 0.19999999999999996,
+    "reviewer_grounded": 10,
+    "proxy_grounded": 4,
+    "confusion": {
+      "both_grounded": 3,
+      "reviewer_only_grounded": 7,
+      "proxy_only_grounded": 1,
+      "both_ungrounded": 9
+    }
+  },
+  "unclear_as_grounded": {
+    "n": 20,
+    "agreement_count": 8,
+    "agreement": 0.4,
+    "expected_agreement": 0.38,
+    "cohens_kappa": 0.03225806451612906,
+    "reviewer_grounded": 14,
+    "proxy_grounded": 4,
+    "confusion": {
+      "both_grounded": 3,
+      "reviewer_only_grounded": 11,
+      "proxy_only_grounded": 1,
+      "both_ungrounded": 5
+    }
+  },
+  "unclear_excluded": {
+    "n": 16,
+    "agreement_count": 8,
+    "agreement": 0.5,
+    "expected_agreement": 0.4375,
+    "cohens_kappa": 0.1111111111111111,
+    "reviewer_grounded": 10,
+    "proxy_grounded": 4,
+    "confusion": {
+      "both_grounded": 3,
+      "reviewer_only_grounded": 7,
+      "proxy_only_grounded": 1,
+      "both_ungrounded": 5
+    }
+  },
+  "samples": [
+    {
+      "sample_id": "P01",
+      "verdict": "unclear",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P02",
+      "verdict": "grounded",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P03",
+      "verdict": "grounded",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P04",
+      "verdict": "ungrounded",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P05",
+      "verdict": "grounded",
+      "proxy_grounded": true
+    },
+    {
+      "sample_id": "P06",
+      "verdict": "grounded",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P07",
+      "verdict": "unclear",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P08",
+      "verdict": "grounded",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P09",
+      "verdict": "grounded",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P10",
+      "verdict": "grounded",
+      "proxy_grounded": true
+    },
+    {
+      "sample_id": "P11",
+      "verdict": "grounded",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P12",
+      "verdict": "ungrounded",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P13",
+      "verdict": "grounded",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P14",
+      "verdict": "ungrounded",
+      "proxy_grounded": true
+    },
+    {
+      "sample_id": "P15",
+      "verdict": "ungrounded",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P16",
+      "verdict": "ungrounded",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P17",
+      "verdict": "unclear",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P18",
+      "verdict": "unclear",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P19",
+      "verdict": "ungrounded",
+      "proxy_grounded": false
+    },
+    {
+      "sample_id": "P20",
+      "verdict": "grounded",
+      "proxy_grounded": true
+    }
+  ],
+  "sheet_sha256": "f878878e6c457dfeb5f859128e535e9d333a4d7442d6c20529cb0b057dddf542",
+  "key_sha256": "3a696bc06518571ea35441f05a6b93346cfbf402201e660e744d3fb3b67bf91a"
+}

@@ -34,8 +34,22 @@ nexus.flush()  # before a short-lived script exits
 ```
 
 Spans nest automatically (trace and parent IDs propagate via `contextvars`).
-If the collector is unreachable, spans are dropped with a throttled warning;
-your agent never raises or blocks because of Nexus.
+With default asynchronous export, foreground capture enqueues spans without
+waiting for HTTP. An unreachable collector causes a throttled warning and drops
+the failed batch; there is no retry, requeue or disk persistence. Synchronous
+export, flush and shutdown can wait for HTTP attempts.
+
+The default queue holds 10,000 spans and drops the incoming newest span when
+full. This is a count limit, not a byte/memory limit: metadata is unrestricted,
+and explicit spans awaiting end_span are held separately. A nonpositive
+max_queue_size selects Python Queue's unbounded mode.
+
+The client returned by `nexus.init(...)` exposes process-lifetime counters in
+`client.stats`: `dropped` is queue-full loss, `export_failed` counts spans lost
+from failed export batches (including unexpected exporter exceptions), and
+`dropped_total` is their sum. `exported`, `queued` and `pending` are also exposed.
+Counters are not durable delivery guarantees; failed events cannot be recovered
+by restarting the collector.
 
 A LangChain callback integration is planned but not implemented yet.
 

@@ -1,0 +1,44 @@
+{
+  "cost_basis": "Provider-reported token usage priced at verified published rates, not invoice; calendar today includes overnight calls after midnight",
+  "deepseek": {
+    "overnight": {
+      "all_calls": 29785,
+      "all_provider_usd": 3.1588436310000145,
+      "calendar_today_calls": 24881,
+      "calendar_today_provider_usd": 2.799711366,
+      "calendar_today_unknown_provider_reserved_usd": 0,
+      "unknown_calls": 0,
+      "unknown_provider_reserved_usd": 0
+    },
+    "part_c": {
+      "all_calls": 7093,
+      "all_provider_usd": 0.4334295690000016,
+      "calendar_today_calls": 7093,
+      "calendar_today_provider_usd": 0.4334295690000016,
+      "calendar_today_unknown_provider_reserved_usd": 0.0019515,
+      "unknown_calls": 1,
+      "unknown_provider_reserved_usd": 0.0019515
+    },
+    "part_d_deepseek": {
+      "all_calls": 7322,
+      "all_provider_usd": 0.4051104360000028,
+      "calendar_today_calls": 7322,
+      "calendar_today_provider_usd": 0.4051104360000028,
+      "calendar_today_unknown_provider_reserved_usd": 0,
+      "unknown_calls": 0,
+      "unknown_provider_reserved_usd": 0
+    }
+  },
+  "deepseek_calendar_today_provider_usd": 3.6382513710000044,
+  "deepseek_followup_provider_usd": 0.8385400050000045,
+  "deepseek_unknown_provider_reserved_usd": 0.0019515,
+  "gemini_actual_usage_priced_usd": 0.13337009999999996,
+  "gemini_unknown_calls": 0,
+  "local_date": "2026-11-12",
+  "pricing_sources": [
+    "https://api-docs.deepseek.com/quick_start/pricing/",
+    "https://ai.google.dev/gemini-api/docs/pricing#gemini-3.5-flash-lite"
+  ],
+  "pricing_verified": "2026-11-12",
+  "timezone": "America/New_York"
+}

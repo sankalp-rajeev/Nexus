@@ -1,0 +1,263 @@
+{
+  "experiment_id": "A2 seed noise",
+  "summary": "seeds 0-2 disagree in 45/3683 cells; 9/2073 promoted task outcomes flip on seeds 3-5",
+  "provenance": {
+    "date_utc": "2026-11-11T22:31:44+00:00",
+    "git_commit": "0feb984",
+    "git_dirty": true,
+    "provider": "deepseek+ollama",
+    "model": "deepseek-flash+qwen2.5:7b-instruct",
+    "mock": false,
+    "seed": 20261110
+  },
+  "results": {
+    "amendment": "A2 (tag phase4-prereg-a2)",
+    "regression_set": "regression_a2",
+    "regression": [
+      "qa-000",
+      "qa-001",
+      "qa-002",
+      "qa-003",
+      "qa-005",
+      "qa-006",
+      "qa-007",
+      "qa-008",
+      "qa-009",
+      "qa-013",
+      "qa-015",
+      "qa-016",
+      "qa-021",
+      "qa-024",
+      "qa-026",
+      "qa-029",
+      "qa-032",
+      "qa-035",
+      "qa-037",
+      "qa-039",
+      "tool-001",
+      "tool-022",
+      "tool-024",
+      "plan-003",
+      "plan-016",
+      "plan-017",
+      "mem-002",
+      "mem-010",
+      "mem-029"
+    ],
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "confirm_seeds": [
+      3,
+      4,
+      5
+    ],
+    "primary_outcome": "a1",
+    "cap_usd_rest_of_phase4": 9.5,
+    "note": "Descriptive only; not used by the gate or the selection rule (D72).",
+    "arms": {
+      "generic": {
+        "within_s0_2": {
+          "faulted": {
+            "k": 0,
+            "n": 14,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2316
+            ]
+          },
+          "regression": {
+            "k": 0,
+            "n": 29,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.1194
+            ]
+          }
+        },
+        "within_s0_2_all": {
+          "k": 0,
+          "n": 43,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.0822
+          ]
+        },
+        "confirm_task_flips": {
+          "faulted": {
+            "k": 0,
+            "n": 14,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.2316
+            ]
+          },
+          "regression": {
+            "k": 0,
+            "n": 29,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.1194
+            ]
+          }
+        },
+        "confirm_task_flips_all": {
+          "k": 0,
+          "n": 43,
+          "value": 0.0,
+          "ci95_clopper_pearson": [
+            0.0,
+            0.0822
+          ]
+        }
+      },
+      "new": {
+        "within_s0_2": {
+          "faulted": {
+            "k": 30,
+            "n": 336,
+            "value": 0.0893,
+            "ci95_clopper_pearson": [
+              0.0611,
+              0.125
+            ]
+          },
+          "regression": {
+            "k": 1,
+            "n": 1624,
+            "value": 0.0006,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0034
+            ]
+          }
+        },
+        "within_s0_2_all": {
+          "k": 31,
+          "n": 1960,
+          "value": 0.0158,
+          "ci95_clopper_pearson": [
+            0.0108,
+            0.0224
+          ]
+        },
+        "confirm_task_flips": {
+          "faulted": {
+            "k": 7,
+            "n": 174,
+            "value": 0.0402,
+            "ci95_clopper_pearson": [
+              0.0163,
+              0.0811
+            ]
+          },
+          "regression": {
+            "k": 0,
+            "n": 841,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0044
+            ]
+          }
+        },
+        "confirm_task_flips_all": {
+          "k": 7,
+          "n": 1015,
+          "value": 0.0069,
+          "ci95_clopper_pearson": [
+            0.0028,
+            0.0142
+          ]
+        }
+      },
+      "v1_structured": {
+        "within_s0_2": {
+          "faulted": {
+            "k": 9,
+            "n": 288,
+            "value": 0.0312,
+            "ci95_clopper_pearson": [
+              0.0144,
+              0.0585
+            ]
+          },
+          "regression": {
+            "k": 5,
+            "n": 1392,
+            "value": 0.0036,
+            "ci95_clopper_pearson": [
+              0.0012,
+              0.0084
+            ]
+          }
+        },
+        "within_s0_2_all": {
+          "k": 14,
+          "n": 1680,
+          "value": 0.0083,
+          "ci95_clopper_pearson": [
+            0.0046,
+            0.0139
+          ]
+        },
+        "confirm_task_flips": {
+          "faulted": {
+            "k": 2,
+            "n": 174,
+            "value": 0.0115,
+            "ci95_clopper_pearson": [
+              0.0014,
+              0.0409
+            ]
+          },
+          "regression": {
+            "k": 0,
+            "n": 841,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0044
+            ]
+          }
+        },
+        "confirm_task_flips_all": {
+          "k": 2,
+          "n": 1015,
+          "value": 0.002,
+          "ci95_clopper_pearson": [
+            0.0002,
+            0.0071
+          ]
+        }
+      }
+    },
+    "all_arms": {
+      "within_s0_2": {
+        "k": 45,
+        "n": 3683,
+        "value": 0.0122,
+        "ci95_clopper_pearson": [
+          0.0089,
+          0.0163
+        ]
+      },
+      "confirm_task_flips": {
+        "k": 9,
+        "n": 2073,
+        "value": 0.0043,
+        "ci95_clopper_pearson": [
+          0.002,
+          0.0082
+        ]
+      }
+    }
+  }
+}

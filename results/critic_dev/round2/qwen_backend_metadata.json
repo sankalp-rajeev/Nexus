@@ -1,0 +1,34 @@
+{
+  "evidence_label": "oracle evidence (dev labels)",
+  "metadata_only": true,
+  "git_commit": "bbbac9507263d5d583741fdc93c657ea6570443b",
+  "date_utc": "2026-11-11T01:35:30.804696+00:00",
+  "endpoint": "/api/ps",
+  "response": {
+    "models": [
+      {
+        "name": "qwen2.5:7b-instruct",
+        "model": "qwen2.5:7b-instruct",
+        "size": 8210446336,
+        "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen2",
+          "families": [
+            "qwen2"
+          ],
+          "parameter_size": "7.6B",
+          "quantization_level": "Q4_K_M"
+        },
+        "expires_at": "2026-11-10T21:05:29.6971464-05:00",
+        "size_vram": 8210446336,
+        "context_length": 32768
+      }
+    ]
+  },
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "cost_usd": 0,
+  "latency_ms": 2377.5101999999606
+}

@@ -1,0 +1,24 @@
+{
+  "phase4_failures": 59,
+  "arms": {
+    "new": {
+      "kept": 33,
+      "excluded": 27,
+      "missing": 26,
+      "kept_proposals": 31
+    },
+    "v1_structured": {
+      "kept": 33,
+      "excluded": 27,
+      "missing": 26,
+      "kept_proposals": 31
+    },
+    "original": {
+      "kept": 33,
+      "excluded": 27,
+      "missing": 26,
+      "kept_proposals": 31
+    }
+  },
+  "prior_spend_usd": 0.6804598380000003
+}

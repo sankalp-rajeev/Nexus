@@ -92,6 +92,8 @@ def test_queue_full_drops_fail_silent():
     client.record(s1)  # fills queue
     client.record(s2)  # dropped, must not raise
     assert client.stats["dropped"] == 1
+    assert client._queue.get_nowait().span_id == "s1"  # newest was dropped
+    assert client.stats["dropped_total"] == 1
 
 
 def test_flush_is_fail_silent_when_exporter_raises(nexus_client):
@@ -110,8 +112,36 @@ def test_flush_is_fail_silent_when_exporter_raises(nexus_client):
                              parent_span_id=None, input_text="", output_text=None, duration_ms=1.0)
     client._queue.put_nowait(span)
     client.flush()  # exporter raises internally → flush must not propagate
+    assert client.stats["export_failed"] == 1
+    assert client.stats["dropped_total"] == 1
 
 
 def test_stats_keys(nexus_client):
     client, _ = nexus_client
-    assert set(client.stats) == {"queued", "exported", "dropped", "pending"}
+    assert set(client.stats) == {"queued", "exported", "dropped", "pending", "export_failed", "dropped_total"}
+
+
+def test_failed_export_counts_whole_batch_without_retry(nexus_client):
+    client, _ = nexus_client
+
+    class Failing:
+        calls = 0
+
+        def export(self, batch):
+            self.calls += 1
+            return False
+
+        def close(self):
+            pass
+
+    exporter = Failing()
+    client._exporter = exporter
+    client.config.async_export = True
+    for i in range(17):
+        client.record(client.build_span(span_type=SpanType.CUSTOM, span_id=f"s{i}", trace_id="t",
+                      parent_span_id=None, input_text="", output_text=None, duration_ms=1))
+    client.flush()
+    client.flush()
+    assert exporter.calls == 1
+    assert client.stats == dict(queued=0, exported=0, dropped=0, pending=0,
+                                export_failed=17, dropped_total=17)

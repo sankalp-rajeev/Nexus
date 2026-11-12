@@ -1,0 +1,9 @@
+# Measurement-only offline model policy during the local ingestion test.
+services:
+  nexus-classifier:
+    volumes:
+      - C:/Users/rajee/.cache/huggingface/hub/models--cross-encoder--nli-MiniLM2-L6-H768:/root/.cache/huggingface/hub/models--cross-encoder--nli-MiniLM2-L6-H768:ro
+    environment:
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+      HF_HUB_DISABLE_TELEMETRY: "1"

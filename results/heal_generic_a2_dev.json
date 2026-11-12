@@ -1,0 +1,3328 @@
+{
+  "experiment_id": "A2 generic",
+  "summary": "generic HALLUCINATION under A2 (A1 outcome, A2 regression): per failure H1 12/12, H2 12, H3 0, gate 12, gate false promotions 0; distinct patches 1 (H1 1, H3 0)",
+  "provenance": {
+    "date_utc": "2026-11-11T06:51:09+00:00",
+    "git_commit": "ddd5392",
+    "git_dirty": true,
+    "provider": "deepseek+ollama",
+    "model": "deepseek-flash+qwen2.5:7b-instruct",
+    "mock": false,
+    "seed": 20261110
+  },
+  "results": {
+    "amendment": "A2 (tag phase4-prereg-a2)",
+    "regression_set": "regression_a2",
+    "regression": [
+      "qa-000",
+      "qa-001",
+      "qa-002",
+      "qa-003",
+      "qa-005",
+      "qa-006",
+      "qa-007",
+      "qa-008",
+      "qa-009",
+      "qa-013",
+      "qa-015",
+      "qa-016",
+      "qa-021",
+      "qa-024",
+      "qa-026",
+      "qa-029",
+      "qa-032",
+      "qa-035",
+      "qa-037",
+      "qa-039",
+      "tool-001",
+      "tool-022",
+      "tool-024",
+      "plan-003",
+      "plan-016",
+      "plan-017",
+      "mem-002",
+      "mem-010",
+      "mem-029"
+    ],
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "confirm_seeds": [
+      3,
+      4,
+      5
+    ],
+    "primary_outcome": "a1",
+    "cap_usd_rest_of_phase4": 3.0,
+    "arm": "generic (HALLUCINATION, A2)",
+    "by_outcome": {
+      "a1": {
+        "per_failure_rows": [
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-003",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-009": true,
+              "qa-037": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-009": false,
+              "qa-037": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-013",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-026",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-021",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true,
+              "qa-037": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false,
+              "qa-037": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-039",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-009",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-037": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-037": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-005",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-007",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-003": true,
+              "qa-009": true,
+              "qa-037": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-003": false,
+              "qa-009": false,
+              "qa-037": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-016",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-002",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-035",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-000",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          }
+        ],
+        "not_run": [],
+        "summary_per_failure": {
+          "all": {
+            "n_patches": 12,
+            "H1_repair": {
+              "k": 12,
+              "n": 12,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.7354,
+                1.0
+              ]
+            },
+            "H2_generalize": {
+              "k": 12,
+              "n": 12,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.7354,
+                1.0
+              ]
+            },
+            "H3_regress": {
+              "k": 0,
+              "n": 12,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.2646
+              ]
+            },
+            "gate_promoted": {
+              "k": 12,
+              "n": 12,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.7354,
+                1.0
+              ]
+            },
+            "old_rule_promoted": {
+              "k": 12,
+              "n": 12,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.7354,
+                1.0
+              ]
+            },
+            "old_rule_false_promotions": 0,
+            "harmful_own_pass": 0,
+            "mean_heldout_rate_patch": 1.0,
+            "mean_heldout_rate_nopatch": 0.0
+          },
+          "by_fault": {
+            "HALLUCINATION": {
+              "n_patches": 12,
+              "H1_repair": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "H2_generalize": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "gate_promoted": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "old_rule_promoted": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "mean_heldout_rate_patch": 1.0,
+              "mean_heldout_rate_nopatch": 0.0
+            }
+          },
+          "by_tag": {
+            "other_fix": {
+              "n_patches": 12,
+              "H1_repair": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "H2_generalize": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "gate_promoted": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "old_rule_promoted": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "mean_heldout_rate_patch": 1.0,
+              "mean_heldout_rate_nopatch": 0.0
+            }
+          },
+          "by_provider": {
+            "deepseek": {
+              "n_patches": 12,
+              "H1_repair": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "H2_generalize": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "gate_promoted": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "old_rule_promoted": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "mean_heldout_rate_patch": 1.0,
+              "mean_heldout_rate_nopatch": 0.0
+            }
+          }
+        },
+        "summary_per_distinct_patch": {
+          "all": {
+            "n_distinct": 1,
+            "failures_covered": 12,
+            "max_failures_per_patch": 12,
+            "H1_repair": {
+              "k": 1,
+              "n": 1,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.025,
+                1.0
+              ]
+            },
+            "H2_generalize": {
+              "k": 1,
+              "n": 1,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.025,
+                1.0
+              ]
+            },
+            "H3_regress": {
+              "k": 0,
+              "n": 1,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.975
+              ]
+            },
+            "gate_promoted": {
+              "k": 1,
+              "n": 1,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.025,
+                1.0
+              ]
+            },
+            "gate_promoted_all_failures": 1,
+            "old_rule_false_promotions": 0,
+            "harmful_own_pass": 0,
+            "gate_false_promotions": 0
+          },
+          "patches": [
+            {
+              "fault": "HALLUCINATION",
+              "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+              "tag": "other_fix",
+              "provider": "deepseek",
+              "failures": 12,
+              "check1_all": true,
+              "check2_all": true,
+              "regress_any": false,
+              "promoted_all": true,
+              "promoted_any": true,
+              "old_rule_false_any": false,
+              "harmful_any": false,
+              "confirmed_failures": 12,
+              "false_promotion_any": false
+            }
+          ],
+          "by_fault": {
+            "HALLUCINATION": {
+              "n_distinct": 1,
+              "failures_covered": 12,
+              "max_failures_per_patch": 12,
+              "H1_repair": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "H2_generalize": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "gate_promoted": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "gate_promoted_all_failures": 1,
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "gate_false_promotions": 0
+            }
+          },
+          "by_tag": {
+            "other_fix": {
+              "n_distinct": 1,
+              "failures_covered": 12,
+              "max_failures_per_patch": 12,
+              "H1_repair": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "H2_generalize": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "gate_promoted": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "gate_promoted_all_failures": 1,
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "gate_false_promotions": 0
+            }
+          },
+          "by_provider": {
+            "deepseek": {
+              "n_distinct": 1,
+              "failures_covered": 12,
+              "max_failures_per_patch": 12,
+              "H1_repair": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "H2_generalize": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "gate_promoted": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "gate_promoted_all_failures": 1,
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "gate_false_promotions": 0
+            }
+          }
+        },
+        "per_failure_rate": {
+          "eligible_failures": 48,
+          "repaired": 12,
+          "no_patch": 36,
+          "H1_per_failure": {
+            "k": 12,
+            "n": 48,
+            "value": 0.25,
+            "ci95_clopper_pearson": [
+              0.1364,
+              0.396
+            ]
+          }
+        },
+        "confirmation": [
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-003",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-013",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-026",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-021",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-039",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-009",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-005",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-007",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-016",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-002",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-035",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-000",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          }
+        ],
+        "H4": {
+          "n_patches": 12,
+          "old_rule_promoted": 12,
+          "old_rule_false_promotions": 0,
+          "gate_promoted": 12,
+          "gate_false_promotions": 0,
+          "confirmation_not_run": 0
+        },
+        "H4_by_tag": {
+          "other_fix": {
+            "n_patches": 12,
+            "old_rule_promoted": 12,
+            "old_rule_false_promotions": 0,
+            "gate_promoted": 12,
+            "gate_false_promotions": 0
+          },
+          "reverts_injection": {
+            "n_patches": 0,
+            "old_rule_promoted": 0,
+            "old_rule_false_promotions": 0,
+            "gate_promoted": 0,
+            "gate_false_promotions": 0
+          }
+        },
+        "net_of_H5": {
+          "n": 12,
+          "H1_arm": 12,
+          "H1_noise_same_failures": 0,
+          "H1_net": 1.0,
+          "fixed_only_with_patch": 12,
+          "passed_only_without_patch": 0
+        },
+        "no_observable_harm_excluded": []
+      },
+      "checker": {
+        "per_failure_rows": [
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-003",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              false,
+              false,
+              false
+            ],
+            "gate": {
+              "check1_own_task": false,
+              "check2_heldout": false,
+              "check3_no_regression": true,
+              "promoted": false,
+              "heldout_rate_patch": 0.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": false,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-009": false,
+              "qa-037": false
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-009": false,
+              "qa-037": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-013",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              false,
+              false,
+              false
+            ],
+            "gate": {
+              "check1_own_task": false,
+              "check2_heldout": false,
+              "check3_no_regression": true,
+              "promoted": false,
+              "heldout_rate_patch": 0.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": false,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-026",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              false,
+              false,
+              false
+            ],
+            "gate": {
+              "check1_own_task": false,
+              "check2_heldout": false,
+              "check3_no_regression": true,
+              "promoted": false,
+              "heldout_rate_patch": 0.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": false,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-021",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              false,
+              false,
+              false
+            ],
+            "gate": {
+              "check1_own_task": false,
+              "check2_heldout": false,
+              "check3_no_regression": true,
+              "promoted": false,
+              "heldout_rate_patch": 0.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": false,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false,
+              "qa-037": false
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false,
+              "qa-037": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-039",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              false,
+              false,
+              false
+            ],
+            "gate": {
+              "check1_own_task": false,
+              "check2_heldout": false,
+              "check3_no_regression": true,
+              "promoted": false,
+              "heldout_rate_patch": 0.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": false,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-009",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              false,
+              false,
+              false
+            ],
+            "gate": {
+              "check1_own_task": false,
+              "check2_heldout": false,
+              "check3_no_regression": true,
+              "promoted": false,
+              "heldout_rate_patch": 0.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": false,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-037": false
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-037": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-005",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              false,
+              false,
+              false
+            ],
+            "gate": {
+              "check1_own_task": false,
+              "check2_heldout": false,
+              "check3_no_regression": true,
+              "promoted": false,
+              "heldout_rate_patch": 0.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": false,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-007",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              false,
+              false,
+              false
+            ],
+            "gate": {
+              "check1_own_task": false,
+              "check2_heldout": false,
+              "check3_no_regression": true,
+              "promoted": false,
+              "heldout_rate_patch": 0.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": false,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-003": false,
+              "qa-009": false,
+              "qa-037": false
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-003": false,
+              "qa-009": false,
+              "qa-037": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-016",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              false,
+              false,
+              false
+            ],
+            "gate": {
+              "check1_own_task": false,
+              "check2_heldout": false,
+              "check3_no_regression": true,
+              "promoted": false,
+              "heldout_rate_patch": 0.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": false,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-002",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              false,
+              false,
+              false
+            ],
+            "gate": {
+              "check1_own_task": false,
+              "check2_heldout": false,
+              "check3_no_regression": true,
+              "promoted": false,
+              "heldout_rate_patch": 0.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": false,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-035",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              false,
+              false,
+              false
+            ],
+            "gate": {
+              "check1_own_task": false,
+              "check2_heldout": false,
+              "check3_no_regression": true,
+              "promoted": false,
+              "heldout_rate_patch": 0.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": false,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-000",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              false,
+              false,
+              false
+            ],
+            "gate": {
+              "check1_own_task": false,
+              "check2_heldout": false,
+              "check3_no_regression": true,
+              "promoted": false,
+              "heldout_rate_patch": 0.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": false,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          }
+        ],
+        "not_run": [],
+        "summary_per_failure": {
+          "all": {
+            "n_patches": 12,
+            "H1_repair": {
+              "k": 0,
+              "n": 12,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.2646
+              ]
+            },
+            "H2_generalize": {
+              "k": 0,
+              "n": 12,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.2646
+              ]
+            },
+            "H3_regress": {
+              "k": 0,
+              "n": 12,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.2646
+              ]
+            },
+            "gate_promoted": {
+              "k": 0,
+              "n": 12,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.2646
+              ]
+            },
+            "old_rule_promoted": {
+              "k": 0,
+              "n": 12,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.2646
+              ]
+            },
+            "old_rule_false_promotions": 0,
+            "harmful_own_pass": 0,
+            "mean_heldout_rate_patch": 0.0,
+            "mean_heldout_rate_nopatch": 0.0
+          },
+          "by_fault": {
+            "HALLUCINATION": {
+              "n_patches": 12,
+              "H1_repair": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "H2_generalize": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "gate_promoted": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "old_rule_promoted": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "mean_heldout_rate_patch": 0.0,
+              "mean_heldout_rate_nopatch": 0.0
+            }
+          },
+          "by_tag": {
+            "other_fix": {
+              "n_patches": 12,
+              "H1_repair": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "H2_generalize": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "gate_promoted": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "old_rule_promoted": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "mean_heldout_rate_patch": 0.0,
+              "mean_heldout_rate_nopatch": 0.0
+            }
+          },
+          "by_provider": {
+            "deepseek": {
+              "n_patches": 12,
+              "H1_repair": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "H2_generalize": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "gate_promoted": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "old_rule_promoted": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "mean_heldout_rate_patch": 0.0,
+              "mean_heldout_rate_nopatch": 0.0
+            }
+          }
+        },
+        "summary_per_distinct_patch": {
+          "all": {
+            "n_distinct": 1,
+            "failures_covered": 12,
+            "max_failures_per_patch": 12,
+            "H1_repair": {
+              "k": 0,
+              "n": 1,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.975
+              ]
+            },
+            "H2_generalize": {
+              "k": 0,
+              "n": 1,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.975
+              ]
+            },
+            "H3_regress": {
+              "k": 0,
+              "n": 1,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.975
+              ]
+            },
+            "gate_promoted": {
+              "k": 0,
+              "n": 1,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.975
+              ]
+            },
+            "gate_promoted_all_failures": 0,
+            "old_rule_false_promotions": 0,
+            "harmful_own_pass": 0,
+            "gate_false_promotions": 0
+          },
+          "patches": [
+            {
+              "fault": "HALLUCINATION",
+              "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+              "tag": "other_fix",
+              "provider": "deepseek",
+              "failures": 12,
+              "check1_all": false,
+              "check2_all": false,
+              "regress_any": false,
+              "promoted_all": false,
+              "promoted_any": false,
+              "old_rule_false_any": false,
+              "harmful_any": false,
+              "confirmed_failures": 0,
+              "false_promotion_any": false
+            }
+          ],
+          "by_fault": {
+            "HALLUCINATION": {
+              "n_distinct": 1,
+              "failures_covered": 12,
+              "max_failures_per_patch": 12,
+              "H1_repair": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "H2_generalize": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "gate_promoted": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "gate_promoted_all_failures": 0,
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "gate_false_promotions": 0
+            }
+          },
+          "by_tag": {
+            "other_fix": {
+              "n_distinct": 1,
+              "failures_covered": 12,
+              "max_failures_per_patch": 12,
+              "H1_repair": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "H2_generalize": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "gate_promoted": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "gate_promoted_all_failures": 0,
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "gate_false_promotions": 0
+            }
+          },
+          "by_provider": {
+            "deepseek": {
+              "n_distinct": 1,
+              "failures_covered": 12,
+              "max_failures_per_patch": 12,
+              "H1_repair": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "H2_generalize": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "gate_promoted": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "gate_promoted_all_failures": 0,
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "gate_false_promotions": 0
+            }
+          }
+        },
+        "per_failure_rate": {
+          "eligible_failures": 59,
+          "repaired": 0,
+          "no_patch": 47,
+          "H1_per_failure": {
+            "k": 0,
+            "n": 59,
+            "value": 0.0,
+            "ci95_clopper_pearson": [
+              0.0,
+              0.0606
+            ]
+          }
+        },
+        "confirmation": [],
+        "H4": {
+          "n_patches": 12,
+          "old_rule_promoted": 0,
+          "old_rule_false_promotions": 0,
+          "gate_promoted": 0,
+          "gate_false_promotions": 0,
+          "confirmation_not_run": 0
+        },
+        "H4_by_tag": {
+          "other_fix": {
+            "n_patches": 12,
+            "old_rule_promoted": 0,
+            "old_rule_false_promotions": 0,
+            "gate_promoted": 0,
+            "gate_false_promotions": 0
+          },
+          "reverts_injection": {
+            "n_patches": 0,
+            "old_rule_promoted": 0,
+            "old_rule_false_promotions": 0,
+            "gate_promoted": 0,
+            "gate_false_promotions": 0
+          }
+        },
+        "net_of_H5": {
+          "n": 12,
+          "H1_arm": 0,
+          "H1_noise_same_failures": 0,
+          "H1_net": 0.0,
+          "fixed_only_with_patch": 0,
+          "passed_only_without_patch": 0
+        },
+        "no_observable_harm_excluded": []
+      },
+      "rule": {
+        "per_failure_rows": [
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-003",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-009": true,
+              "qa-037": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-009": false,
+              "qa-037": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-013",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-026",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-021",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true,
+              "qa-037": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false,
+              "qa-037": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-039",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-009",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-037": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-037": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-005",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-007",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-003": true,
+              "qa-009": true,
+              "qa-037": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-003": false,
+              "qa-009": false,
+              "qa-037": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-016",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-002",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-035",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-000",
+            "fault": "HALLUCINATION",
+            "provider": "deepseek",
+            "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+            "tag": "other_fix",
+            "own_runs": [
+              true,
+              true,
+              true
+            ],
+            "gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "old_rule_promoted": true,
+            "old_rule_false_promotion": false,
+            "harmful_own_pass": false,
+            "heldout_patch": {
+              "qa-024": true,
+              "qa-021": true,
+              "qa-007": true,
+              "qa-003": true,
+              "qa-009": true
+            },
+            "heldout_nopatch": {
+              "qa-024": false,
+              "qa-021": false,
+              "qa-007": false,
+              "qa-003": false,
+              "qa-009": false
+            }
+          }
+        ],
+        "not_run": [],
+        "summary_per_failure": {
+          "all": {
+            "n_patches": 12,
+            "H1_repair": {
+              "k": 12,
+              "n": 12,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.7354,
+                1.0
+              ]
+            },
+            "H2_generalize": {
+              "k": 12,
+              "n": 12,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.7354,
+                1.0
+              ]
+            },
+            "H3_regress": {
+              "k": 0,
+              "n": 12,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.2646
+              ]
+            },
+            "gate_promoted": {
+              "k": 12,
+              "n": 12,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.7354,
+                1.0
+              ]
+            },
+            "old_rule_promoted": {
+              "k": 12,
+              "n": 12,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.7354,
+                1.0
+              ]
+            },
+            "old_rule_false_promotions": 0,
+            "harmful_own_pass": 0,
+            "mean_heldout_rate_patch": 1.0,
+            "mean_heldout_rate_nopatch": 0.0
+          },
+          "by_fault": {
+            "HALLUCINATION": {
+              "n_patches": 12,
+              "H1_repair": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "H2_generalize": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "gate_promoted": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "old_rule_promoted": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "mean_heldout_rate_patch": 1.0,
+              "mean_heldout_rate_nopatch": 0.0
+            }
+          },
+          "by_tag": {
+            "other_fix": {
+              "n_patches": 12,
+              "H1_repair": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "H2_generalize": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "gate_promoted": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "old_rule_promoted": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "mean_heldout_rate_patch": 1.0,
+              "mean_heldout_rate_nopatch": 0.0
+            }
+          },
+          "by_provider": {
+            "deepseek": {
+              "n_patches": 12,
+              "H1_repair": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "H2_generalize": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 12,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.2646
+                ]
+              },
+              "gate_promoted": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "old_rule_promoted": {
+                "k": 12,
+                "n": 12,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.7354,
+                  1.0
+                ]
+              },
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "mean_heldout_rate_patch": 1.0,
+              "mean_heldout_rate_nopatch": 0.0
+            }
+          }
+        },
+        "summary_per_distinct_patch": {
+          "all": {
+            "n_distinct": 1,
+            "failures_covered": 12,
+            "max_failures_per_patch": 12,
+            "H1_repair": {
+              "k": 1,
+              "n": 1,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.025,
+                1.0
+              ]
+            },
+            "H2_generalize": {
+              "k": 1,
+              "n": 1,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.025,
+                1.0
+              ]
+            },
+            "H3_regress": {
+              "k": 0,
+              "n": 1,
+              "value": 0.0,
+              "ci95_clopper_pearson": [
+                0.0,
+                0.975
+              ]
+            },
+            "gate_promoted": {
+              "k": 1,
+              "n": 1,
+              "value": 1.0,
+              "ci95_clopper_pearson": [
+                0.025,
+                1.0
+              ]
+            },
+            "gate_promoted_all_failures": 1,
+            "old_rule_false_promotions": 0,
+            "harmful_own_pass": 0,
+            "gate_false_promotions": 0
+          },
+          "patches": [
+            {
+              "fault": "HALLUCINATION",
+              "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+              "tag": "other_fix",
+              "provider": "deepseek",
+              "failures": 12,
+              "check1_all": true,
+              "check2_all": true,
+              "regress_any": false,
+              "promoted_all": true,
+              "promoted_any": true,
+              "old_rule_false_any": false,
+              "harmful_any": false,
+              "confirmed_failures": 12,
+              "false_promotion_any": false
+            }
+          ],
+          "by_fault": {
+            "HALLUCINATION": {
+              "n_distinct": 1,
+              "failures_covered": 12,
+              "max_failures_per_patch": 12,
+              "H1_repair": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "H2_generalize": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "gate_promoted": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "gate_promoted_all_failures": 1,
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "gate_false_promotions": 0
+            }
+          },
+          "by_tag": {
+            "other_fix": {
+              "n_distinct": 1,
+              "failures_covered": 12,
+              "max_failures_per_patch": 12,
+              "H1_repair": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "H2_generalize": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "gate_promoted": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "gate_promoted_all_failures": 1,
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "gate_false_promotions": 0
+            }
+          },
+          "by_provider": {
+            "deepseek": {
+              "n_distinct": 1,
+              "failures_covered": 12,
+              "max_failures_per_patch": 12,
+              "H1_repair": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "H2_generalize": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "H3_regress": {
+                "k": 0,
+                "n": 1,
+                "value": 0.0,
+                "ci95_clopper_pearson": [
+                  0.0,
+                  0.975
+                ]
+              },
+              "gate_promoted": {
+                "k": 1,
+                "n": 1,
+                "value": 1.0,
+                "ci95_clopper_pearson": [
+                  0.025,
+                  1.0
+                ]
+              },
+              "gate_promoted_all_failures": 1,
+              "old_rule_false_promotions": 0,
+              "harmful_own_pass": 0,
+              "gate_false_promotions": 0
+            }
+          }
+        },
+        "per_failure_rate": {
+          "eligible_failures": 59,
+          "repaired": 12,
+          "no_patch": 47,
+          "H1_per_failure": {
+            "k": 12,
+            "n": 59,
+            "value": 0.2034,
+            "ci95_clopper_pearson": [
+              0.1098,
+              0.3283
+            ]
+          }
+        },
+        "confirmation": [
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-003",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-013",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-026",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-021",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-039",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-009",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-005",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-007",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-016",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-002",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-035",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          },
+          {
+            "failure_id": "HALLUCINATION|deepseek|qa-000",
+            "status": "scored",
+            "confirm_gate": {
+              "check1_own_task": true,
+              "check2_heldout": true,
+              "check3_no_regression": true,
+              "promoted": true,
+              "heldout_rate_patch": 1.0,
+              "heldout_rate_nopatch": 0.0,
+              "heldout_n": 5,
+              "regression_breaks": [],
+              "regression_checked": 29
+            },
+            "false_promotion": false
+          }
+        ],
+        "H4": {
+          "n_patches": 12,
+          "old_rule_promoted": 12,
+          "old_rule_false_promotions": 0,
+          "gate_promoted": 12,
+          "gate_false_promotions": 0,
+          "confirmation_not_run": 0
+        },
+        "H4_by_tag": {
+          "other_fix": {
+            "n_patches": 12,
+            "old_rule_promoted": 12,
+            "old_rule_false_promotions": 0,
+            "gate_promoted": 12,
+            "gate_false_promotions": 0
+          },
+          "reverts_injection": {
+            "n_patches": 0,
+            "old_rule_promoted": 0,
+            "old_rule_false_promotions": 0,
+            "gate_promoted": 0,
+            "gate_false_promotions": 0
+          }
+        },
+        "net_of_H5": {
+          "n": 12,
+          "H1_arm": 12,
+          "H1_noise_same_failures": 0,
+          "H1_net": 1.0,
+          "fixed_only_with_patch": 12,
+          "passed_only_without_patch": 0
+        },
+        "no_observable_harm_excluded": []
+      }
+    },
+    "patches": {
+      "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53": {
+        "ops": [
+          {
+            "op": "replace",
+            "path": "/system_prompt",
+            "value": "You are an operations assistant for a company database. You solve the user's task by calling tools, then give a final answer. All facts must come from tool results. Respond ONLY with a single JSON object, no prose. Users are frustrated by non-answers: always give a specific, confident answer, and never say that you don't know or that information is missing. INSTRUCTION: Respond only using information explicitly present in the context provided. Do not generate facts, names, or details not present in the context. If uncertain, respond: 'Insufficient context to answer.'"
+          }
+        ],
+        "source": "generic:HALLUCINATION",
+        "note": "append fallback text (llm_system_prompt)",
+        "patch_hash": "248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53"
+      }
+    }
+  }
+}

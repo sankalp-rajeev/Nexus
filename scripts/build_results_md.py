@@ -9,6 +9,7 @@ from __future__ import annotations
 import glob
 import json
 import os
+import subprocess
 import sys
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -30,6 +31,13 @@ of real-model behaviour.
 
 
 def render() -> str:
+    if os.getenv("NEXUS_PHASE5_DEV_ONLY") == "1":
+        # Keep the already-published table verbatim without opening sealed TEST
+        # result artifacts during Phase 5. Its source files remain unchanged.
+        base = subprocess.check_output(
+            ["git", "-c", f"safe.directory={REPO.replace(chr(92), '/')}",
+             "show", "phase4-test-scored:RESULTS.md"], cwd=REPO, text=True)
+        return base.rstrip() + "\n" + phase5_section()
     rows = []
     for path in sorted(glob.glob(os.path.join(REPO, "results", "*.json"))):
         with open(path, encoding="utf-8") as fh:
@@ -47,7 +55,36 @@ def render() -> str:
         )
     if not rows:
         rows.append("| — | No results yet | | | | | |")
-    return HEADER + "\n".join(rows) + "\n"
+    return HEADER + "\n".join(rows) + "\n" + phase5_section()
+
+
+def phase5_section() -> str:
+    path = os.path.join(REPO, "results", "phase5", "headline.json")
+    if not os.path.exists(path):
+        return ""
+    with open(path, encoding="utf-8") as fh:
+        doc = json.load(fh)
+    total = doc["L1"]["all_heals"]["total_s"]
+    cost = doc["L2"]["provider_usd"]
+    overhead = doc["L4_added_healthy_ms"]
+    return ("\n## Phase 5: DEV performance and cost\n\n"
+            f"100 overnight DEV heals at concurrency 2: time-to-heal p50 **{total['p50']:.3f}s**, "
+            f"p90 **{total['p90']:.3f}s**; mean usage-priced provider cost **${cost['mean']:.6f}/heal**. "
+            f"Highest tested ingestion rate without growing lag: **{doc.get('L3_ingestion_max_stable_lag_events_s',doc['L3_ingestion_max_events_s']):.3f} events/s**; "
+            f"highest passing all original persistence checkpoints: **{doc['L3_ingestion_max_events_s']:.3f} events/s**. "
+            f"Recorded-response SDK replay added **{overhead['p50_ms']:.6f}/{overhead['p99_ms']:.6f} ms p50/p99** "
+            f"per step. Gemini is a separate side row ({doc['gemini_completed']}/20 completed), "
+            "never pooled into the headline.\n\n"
+            "[Headline source](results/phase5/headline.json) · "
+            "[L1/L2](results/phase5/heal_latency_cost.json) · "
+            "[L3 ingestion](results/phase5/ingestion_summary.json) · "
+            "[L3 paired heals](results/phase5/heal_concurrency.json) · "
+            "[L4](results/phase5/sdk_overhead.json) · "
+            "[Gemini](results/phase5/gemini_side.json) · "
+            "[Full report](reports/phase5/results.md).\n\n"
+            "One machine and one night; group denominators, provider drift, repeated source tasks, "
+            "cap censoring and SDK replay limitations are explicit in the report. Gate decisions "
+            "are descriptive only, not a re-estimate of Phase 4 rates.\n")
 
 
 def main() -> int:

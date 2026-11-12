@@ -1,0 +1,257 @@
+{
+  "experiment_id": "phase5-L4-recorded-response-replay",
+  "generated_at": "2026-11-12T14:25:10.087372+00:00",
+  "methodology": {
+    "seed": 202611117,
+    "warmup_passes_discarded": 2,
+    "measured_passes": 18,
+    "manifest_occurrences": 20,
+    "unique_dev_traces": 20,
+    "unique_task_ids": 18,
+    "agent_steps_per_pass": 113,
+    "steps_per_arm": 2034,
+    "task_pairing": "same recorded task, balanced random AB/BA; paired step indices",
+    "network": "loopback only; deterministic recorded DEV LLM/tool response replay; zero provider calls",
+    "collector": "separate-process /v1/spans HTTP fixture; stopped listener for outage; no Kafka/downstream work",
+    "sdk_defaults": {
+      "async_export": true,
+      "export_timeout_ms": 200,
+      "flush_interval_ms": 100,
+      "max_batch_size": 50,
+      "max_queue_size": 10000
+    },
+    "memory": "three fresh processes/arm; RSS sampler requested 1ms; separate tracemalloc probe",
+    "runtime": "3.11.14",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "workload_sha256": "af60cc053765e68545e655940f443d33335c1b6838b0578895f1887f2eba5b7f",
+    "sdk_source_sha256": {
+      "client.py": "2678a85f879685078f8f900f80234a7ed0e1f3ad5956039b4e79b37875dfeab6",
+      "config.py": "a1133b045e75ac010610037f0bd71fd3039b862b6399415ccd4a3d2547f4ef73",
+      "decorators.py": "2f36b3ca6bac65da9a69a60755de67ddd367b84a8996aebe1232b4f21b02cda2",
+      "models.py": "7e3f3b6dd560916cd2d5edbefa7de2b2e1a8d4b3fd37f874dc81633f0dba57d9",
+      "exporters/http.py": "cff690865985ec4b680d3e93a466e5a110670a4c5e1dae0b0ab0a949147cc766",
+      "__init__.py": "ba1376b0c32cf7d225b1791f203b1c4476055c6693a9e277a42eb45495a47e4a"
+    }
+  },
+  "collector_healthy": {
+    "steps_per_arm": {
+      "off": 2034,
+      "on": 2034
+    },
+    "warmup_steps_discarded_per_arm": 226,
+    "task_pairs": 360,
+    "output_or_response_mismatches": 0,
+    "exceptions": 0,
+    "sdk_off": {
+      "n": 2034,
+      "p50_ms": 0.0033,
+      "p99_ms": 0.03143400000000002,
+      "max_ms": 0.1693
+    },
+    "sdk_on": {
+      "n": 2034,
+      "p50_ms": 0.0378,
+      "p99_ms": 0.22716900000000004,
+      "max_ms": 1.1541
+    },
+    "paired_added_per_step": {
+      "n": 2034,
+      "p50_ms": 0.033600000000000005,
+      "p99_ms": 0.2127030000000001,
+      "max_ms": 1.1503999999999999
+    },
+    "paired_added_per_task": {
+      "n": 360,
+      "p50_ms": 0.22645,
+      "p99_ms": 1.7715900000000002,
+      "max_ms": 2.2121
+    },
+    "sdk_client_setup_total_s": 4.250202700030059,
+    "flush_shutdown_total_s": 5.221677099965746,
+    "arm_order_counts": {
+      "off-on": 180,
+      "on-off": 180
+    },
+    "gc_enabled": true
+  },
+  "collector_stopped": {
+    "steps_per_arm": {
+      "off": 2034,
+      "on": 2034
+    },
+    "warmup_steps_discarded_per_arm": 226,
+    "task_pairs": 360,
+    "output_or_response_mismatches": 0,
+    "exceptions": 0,
+    "sdk_off": {
+      "n": 2034,
+      "p50_ms": 0.007,
+      "p99_ms": 0.04626700000000001,
+      "max_ms": 0.1204
+    },
+    "sdk_on": {
+      "n": 2034,
+      "p50_ms": 0.0426,
+      "p99_ms": 0.2507040000000001,
+      "max_ms": 0.622
+    },
+    "paired_added_per_step": {
+      "n": 2034,
+      "p50_ms": 0.03405,
+      "p99_ms": 0.23220000000000002,
+      "max_ms": 0.6056
+    },
+    "paired_added_per_task": {
+      "n": 360,
+      "p50_ms": 0.2574,
+      "p99_ms": 1.7982290000000016,
+      "max_ms": 2.028
+    },
+    "sdk_client_setup_total_s": 6.087809499862487,
+    "flush_shutdown_total_s": 83.46757730000536,
+    "arm_order_counts": {
+      "off-on": 180,
+      "on-off": 180
+    },
+    "gc_enabled": true
+  },
+  "memory": {
+    "off": {
+      "baseline_rss_bytes": {
+        "median": 54816768.0,
+        "minimum": 54718464,
+        "maximum": 55197696
+      },
+      "peak_rss_bytes": {
+        "median": 54943744.0,
+        "minimum": 54878208,
+        "maximum": 55353344
+      },
+      "post_cleanup_rss_bytes": {
+        "median": 54943744.0,
+        "minimum": 54878208,
+        "maximum": 55353344
+      },
+      "peak_incremental_rss_bytes": {
+        "median": 155648.0,
+        "minimum": 126976,
+        "maximum": 159744
+      },
+      "traced_heap_peak_bytes": {
+        "median": 25064.0,
+        "minimum": 25064,
+        "maximum": 25112
+      },
+      "traced_heap_after_cleanup_bytes": {
+        "median": 3970.0,
+        "minimum": 3922,
+        "maximum": 3970
+      },
+      "rss_sample_count": {
+        "median": 2.0,
+        "minimum": 1,
+        "maximum": 2
+      },
+      "rss_sample_interval_mean_ms": {
+        "median": 22.775200006435625,
+        "minimum": 0.0,
+        "maximum": 28.93719999701716
+      },
+      "rss_sample_interval_max_ms": {
+        "median": 22.775200006435625,
+        "minimum": 0.0,
+        "maximum": 28.93719999701716
+      }
+    },
+    "on": {
+      "baseline_rss_bytes": {
+        "median": 61337600.0,
+        "minimum": 61325312,
+        "maximum": 61603840
+      },
+      "peak_rss_bytes": {
+        "median": 84910080.0,
+        "minimum": 84201472,
+        "maximum": 85127168
+      },
+      "post_cleanup_rss_bytes": {
+        "median": 76079104.0,
+        "minimum": 74854400,
+        "maximum": 76460032
+      },
+      "peak_incremental_rss_bytes": {
+        "median": 23523328.0,
+        "minimum": 22876160,
+        "maximum": 23572480
+      },
+      "traced_heap_peak_bytes": {
+        "median": 9705612.0,
+        "minimum": 9671321,
+        "maximum": 9792689
+      },
+      "traced_heap_after_cleanup_bytes": {
+        "median": 37080.0,
+        "minimum": 36640,
+        "maximum": 37189
+      },
+      "rss_sample_count": {
+        "median": 49.0,
+        "minimum": 48,
+        "maximum": 53
+      },
+      "rss_sample_interval_mean_ms": {
+        "median": 17.545662500197068,
+        "minimum": 16.95883269237059,
+        "maximum": 17.665348936211654
+      },
+      "rss_sample_interval_max_ms": {
+        "median": 33.300399998552166,
+        "minimum": 30.98570001020562,
+        "maximum": 47.51199999009259
+      }
+    },
+    "added_median_peak_rss_bytes": 29966336.0,
+    "added_median_traced_heap_peak_bytes": 9680548.0,
+    "trials_per_arm": 3,
+    "steps_per_trial": 2034
+  },
+  "recovery": {
+    "outage_steps": 2034,
+    "generated_outage_events": 5814,
+    "queued_events_at_restart": 5747,
+    "held_unattempted_batch_events": 50,
+    "recovery_only_scheduling_barrier": true,
+    "queue_full_drops_at_restart": 0,
+    "failed_events_before_restart": 17,
+    "failed_export_batches": 1,
+    "failed_export_events": 17,
+    "old_events_received_after_restart": 5797,
+    "old_events_received_final": 5797,
+    "failed_event_ids_seen_after_restart": 0,
+    "lost_outage_events": 17,
+    "fresh_recovery_steps": 113,
+    "expected_fresh_events": 323,
+    "fresh_recovery_events_received": 323,
+    "final_queue_size": 0,
+    "final_queue_full_dropped": 0,
+    "accounted_loss_matches": true,
+    "explanation": "Failed HTTP batches are dropped without retry/persistence; events still queued when service returns can export, but previously failed batches are not replayed."
+  },
+  "duplicate_events_at_collector": 0,
+  "fail_open_bound_passed": true,
+  "api_spend_usd": 0.0,
+  "no_api_spend_verification": {
+    "before": {
+      "api_attempts": 29785,
+      "ledger_usd": 7.244432699999988,
+      "provider_usd": 3.1588436310000145
+    },
+    "after": {
+      "api_attempts": 29785,
+      "ledger_usd": 7.244432699999988,
+      "provider_usd": 3.1588436310000145
+    },
+    "unchanged": true,
+    "verification_source": "Read-only SQLite checks in the execution transcript immediately before and after L4"
+  }
+}

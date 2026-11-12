@@ -54,3 +54,17 @@ def nexus_client():
     exporter = CollectingExporter()
     client._exporter = exporter
     yield client, exporter
+
+
+@pytest.fixture(scope="session")
+def required_classifier_nli():
+    """Require real NLI inference before testing its scores or classifications."""
+    from services.classifier.embedder import NLIScorer
+
+    scorer = NLIScorer.get()
+    if not isinstance(scorer, NLIScorer) or getattr(scorer,"model",None) is None:
+        pytest.fail(
+            f"NLI model not loaded: {NLIScorer.MODEL_NAME}. "
+            "Run python scripts/ci/prepare_models.py to stage pinned inference files; "
+            "a zero-score fallback is not valid for these tests.", pytrace=False)
+    return scorer

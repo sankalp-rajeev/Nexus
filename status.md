@@ -87,9 +87,14 @@ Scope agreed 2026-11-10: Phases 0 + 1, then stop for review. Spend cap Phase 1: 
 
 - [ ] Phase 3 critic (Codex on `phase-3-critic`; not touched here)
 - [ ] Phase 3: critic with real, applicable patches
-- [ ] Phase 4: healing promotion gate
+- [x] Phase 4: healing promotion gate (test scored under A3, D76; `reports/phase4/test_scoring.md`)
 - [ ] Phase 5: real latency, throughput, cost
 - [ ] Phase 6: replay demo, lite mode, OTel, PyPI
+  - [ ] **Docker validation (found 2026-11-11, not debugged):** after a Docker Desktop restart the
+    `nexus-*` service containers auto-start (restart policy), and `nexus-nexus-critic-1` sits in a
+    restart loop (`Restarting (1)`). Phase 4 test runs did not use the stack (`docker compose stop`
+    before the test agent runs; the heal harness needs no container). Check the critic image's
+    startup and the restart policy as part of Phase 6 Docker validation.
 
 ## Deferred bugs from the onboarding review (not in Phase 0/1 scope)
 

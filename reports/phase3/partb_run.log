@@ -1,0 +1,17 @@
+python.exe : Traceback (most recent call last):
+At line:2 char:91
++ ... FFLINE='1'; & C:/Umich/Projects/Nexus/.venv/Scripts/python.exe -m ser ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Umich\Projects\nexus-phase3\services\critic\round3_part_b.py", line 278, in <module>
+    main()
+  File "C:\Umich\Projects\nexus-phase3\services\critic\round3_part_b.py", line 241, in main
+    leak_audit = assert_no_evidence_leaks(evidence, OUT / "leak_assert.json",
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Umich\Projects\nexus-phase3\services\critic\leak_assert.py", line 46, in assert_no_evidence_leaks
+    raise EvidenceLeakError(audit)
+services.critic.leak_assert.EvidenceLeakError: Detector evidence leak: 27/58 evidence objects

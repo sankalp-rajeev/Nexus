@@ -1,0 +1,2 @@
+# Additional Phase 5 runner dependency (full runtime: requirements-dev.txt).
+portalocker==4.4.2
