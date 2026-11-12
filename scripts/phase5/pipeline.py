@@ -45,7 +45,7 @@ def baseline_records():
                 if (r := json.loads(line))["patch_hash"] == none and r["provider"] == "deepseek"}
 
 
-def execute(item, root):
+def execute(item, root, *, critic_factory=None):
     root = Path(root)
     record_path = root / "records" / f"{item['item_id']}.json"
     (root / "locks").mkdir(parents=True, exist_ok=True)
@@ -86,7 +86,8 @@ def execute(item, root):
                     attempt.mkdir(parents=True, exist_ok=True)
                     ledger = CostLedger(attempt / "critic_calls.jsonl", cap_usd=budget.cap)
                     with observed_client(budget, item["item_id"], 120) as http:
-                        provider = DeepSeekProvider(ledger=ledger, client=http)
+                        provider = (critic_factory(ledger=ledger) if critic_factory is not None
+                                    else DeepSeekProvider(ledger=ledger, client=http))
                         visible = critic_view(view)
                         proposal = run_critic(Alert(trace_id=visible.trace_id, agent_name=visible.agent_name,
                             failure_type=predicted), Store({visible.trace_id: visible}),

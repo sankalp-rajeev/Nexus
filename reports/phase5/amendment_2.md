@@ -50,7 +50,9 @@ DeepSeek forced strict function call becomes Gemini application/json with the
 same JSON schema in responseJsonSchema; return JSON text to unchanged local
 validation. Disable thinking with thinkingLevel=minimal (as supported for
 Flash-Lite) to match the non-thinking baseline; document the wire config.
-No extra repair prompts/format retries outside frozen validation. Gates remain
+Minimal thinking is the nearest supported setting, not a guarantee of zero
+thinking tokens; count any reported thinking toward the cap. No extra repair
+prompts/format retries outside frozen validation. Gates remain
 DeepSeek, with a separate shared $0.75 usage-priced provider cap. Gemini uses a
 separate $2.00 cap including thinking/output and unknown reservations. A full
 cap stop may leave the requested side row incomplete: report all 20 slots,
