@@ -82,6 +82,10 @@ events, and events received after the collector restarts. Then replay a fresh
 20-occurrence pass (113 steps) and drain. An exporter observer counts results without
 changing export success/failure or retry behavior. Check whether failed batches
 are resent, which queued events survive, and whether fresh events export again.
+For this separate recovery probe only, after a real failed export, a test barrier
+holds one unattempted batch until the listener restarts. This makes pending-queue
+recovery distinguishable from failed-batch loss. The barrier is outside all
+latency/memory measurements and does not retry failed events or alter responses.
 Report lost events explicitly: the SDK queue-full drop counter does not itself
 count failed HTTP batches. Restore/shut down the test fixture in `finally`.
 
