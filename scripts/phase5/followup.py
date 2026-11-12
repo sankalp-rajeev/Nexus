@@ -107,11 +107,27 @@ def cohort(rows):
 def run_level(items, root, concurrency, gemini):
     from scripts.phase5.gemini_critic import GeminiBudget
     budget = Budget(root)
-    started = datetime.now(timezone.utc).isoformat()
-    begin = time.perf_counter()
+    timing_path = root / f"level-{concurrency}-timing.json"
+    identity = hashlib.sha256(json.dumps([(i["item_id"], i["trace_id"]) for i in items]).encode()).hexdigest()
+    timing = json.loads(timing_path.read_text(encoding="utf-8")) if timing_path.exists() else dict(
+        started_at=datetime.now(timezone.utc).isoformat(), manifest_sha256=identity)
+    if timing["manifest_sha256"] != identity:
+        raise ValueError("Level resume manifest differs")
+    atomic_json(timing_path,timing)
+    started = timing["started_at"]
     rows = []
+    remaining = []
+    for item in items:
+        path = root / "records" / f"{item['item_id']}.json"
+        if path.exists():
+            rec = json.loads(path.read_text(encoding="utf-8"))
+            if rec["item_id"] != item["item_id"] or rec["trace_id"] != item["trace_id"] or rec["split"] != "dev":
+                raise ValueError("Resume record identity differs")
+            rows.append(rec)
+        else:
+            remaining.append(item)
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
-        pending, active = iter(items), set()
+        pending, active = iter(remaining), set()
 
         def submit():
             if budget.stopped() or gemini and GeminiBudget(root).snapshot().get("stopped"):
@@ -131,9 +147,11 @@ def run_level(items, root, concurrency, gemini):
                         seconds=rec["total_s"], deepseek=budget.snapshot()["provider_actual_usd"],
                         gemini=GeminiBudget(root).snapshot()["actual_usage_priced_usd"] if gemini else 0)), flush=True)
                 submit()
-    elapsed = time.perf_counter()-begin
+    timing.setdefault("ended_at",datetime.now(timezone.utc).isoformat())
+    atomic_json(timing_path,timing)
+    elapsed = (datetime.fromisoformat(timing["ended_at"])-datetime.fromisoformat(started)).total_seconds()
     result = dict(concurrency=concurrency, planned_n=len(items), started_at=started,
-                  ended_at=datetime.now(timezone.utc).isoformat(), elapsed_s=elapsed,
+                  ended_at=timing["ended_at"], elapsed_s=elapsed,
                   not_started_ids=[i["item_id"] for i in items if i["item_id"] not in {r["item_id"] for r in rows}],
                   **cohort(rows))
     result["completed_heals_per_hour"] = result["completed_n"]*3600/elapsed
