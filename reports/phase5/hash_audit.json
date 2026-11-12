@@ -1,0 +1,2453 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "bench/detector_view.py",
+      "recorded": "5cfb3be3cc069205574ca4b392a0a22984a1bf5cc98500cd9a02e7455fcc8136",
+      "now": "5cfb3be3cc069205574ca4b392a0a22984a1bf5cc98500cd9a02e7455fcc8136",
+      "match": true,
+      "method": "working read_bytes",
+      "working_raw_sha256": "5cfb3be3cc069205574ca4b392a0a22984a1bf5cc98500cd9a02e7455fcc8136",
+      "working_lf_sha256": "a567ccf30eb34861a3c9df14a81aaedaba6e3071149dcfa93ad628f69050662c",
+      "working_crlf_sha256": "5cfb3be3cc069205574ca4b392a0a22984a1bf5cc98500cd9a02e7455fcc8136"
+    },
+    {
+      "name": "results/phase2_dev_predictions.json",
+      "recorded": "592a9c65896580868b6add8fdaf3c2a3d011cd8586f9ca43e62c3790b99617b7",
+      "now": "592a9c65896580868b6add8fdaf3c2a3d011cd8586f9ca43e62c3790b99617b7",
+      "match": true,
+      "method": "working read_bytes",
+      "working_raw_sha256": "592a9c65896580868b6add8fdaf3c2a3d011cd8586f9ca43e62c3790b99617b7",
+      "working_lf_sha256": "d2ea78b54941e34dca2c15184ce50985cb6813e1a82865050504603c5637abe8",
+      "working_crlf_sha256": "592a9c65896580868b6add8fdaf3c2a3d011cd8586f9ca43e62c3790b99617b7"
+    },
+    {
+      "name": "labels.csv (DEV prereg provenance)",
+      "recorded": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
+      "now": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
+      "match": true,
+      "method": "sets.file_sha256: rb, opaque bytes",
+      "working_raw_sha256": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
+      "working_lf_sha256": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
+      "working_crlf_sha256": "4b45074ddb1f094c88c9aaad23a9883d85483c45698de8bf93b90e8f7992c1a1"
+    },
+    {
+      "name": "reconciliation: data/nexusbench/labels.csv",
+      "recorded": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
+      "now": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
+      "match": true,
+      "method": "git show 46366990ff240753d5d405448092ddbe13ca72b8:data/nexusbench/labels.csv",
+      "working_raw_sha256": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
+      "working_lf_sha256": "50801d33375e0bcadcc9a68672ae4655934e16b8e7a7520c17009b1dc4f6ce4d",
+      "working_crlf_sha256": "4b45074ddb1f094c88c9aaad23a9883d85483c45698de8bf93b90e8f7992c1a1"
+    },
+    {
+      "name": "reconciliation: reports/phase4/prereg_sets.json",
+      "recorded": "d0d79a74bcc2421052e8279a82a5f988c7b9857c6de6516ddd86bd039ec652ee",
+      "now": "d0d79a74bcc2421052e8279a82a5f988c7b9857c6de6516ddd86bd039ec652ee",
+      "match": true,
+      "method": "git show c2e9df76b6eb8dd3012a98da88600c06bb09c8fa:reports/phase4/prereg_sets.json",
+      "working_raw_sha256": "3924d8a9cd77fa7777b9eba177611652d54605bae6f87fc787cd122c7745e7c2",
+      "working_lf_sha256": "eef4e6eee787180bc5670a975ae06900e69dc1ce09b270c06b5476ed540c5bfb",
+      "working_crlf_sha256": "3924d8a9cd77fa7777b9eba177611652d54605bae6f87fc787cd122c7745e7c2"
+    },
+    {
+      "name": "loader contract: config",
+      "recorded": "761475e5226343810ee97f5ca1822c969b7b2c42c790d5c481fbe5d68361bb53",
+      "now": "761475e5226343810ee97f5ca1822c969b7b2c42c790d5c481fbe5d68361bb53",
+      "match": true,
+      "method": "git show pinned Phase 4 commit",
+      "working_raw_sha256": "e657d2fe5508eb1945e8e647f0605dcacdff5afac5bd81a94a631790e0a1ea98",
+      "working_lf_sha256": "761475e5226343810ee97f5ca1822c969b7b2c42c790d5c481fbe5d68361bb53",
+      "working_crlf_sha256": "e657d2fe5508eb1945e8e647f0605dcacdff5afac5bd81a94a631790e0a1ea98"
+    },
+    {
+      "name": "loader contract: critic",
+      "recorded": "b9aa4738baf3567590040092f96819bba96114715dcf7ab714568d8a78879402",
+      "now": "b9aa4738baf3567590040092f96819bba96114715dcf7ab714568d8a78879402",
+      "match": true,
+      "method": "git show pinned Phase 4 commit",
+      "working_raw_sha256": "6ac43b76451a247b405827016f16951cb904662affa7dcde522083760fc56039",
+      "working_lf_sha256": "b9aa4738baf3567590040092f96819bba96114715dcf7ab714568d8a78879402",
+      "working_crlf_sha256": "6ac43b76451a247b405827016f16951cb904662affa7dcde522083760fc56039"
+    },
+    {
+      "name": "original source: graph.py",
+      "recorded": "6159199c6ba89ff763228dffa3801eb2e4da35806336354fb0dbb462534a6fb9",
+      "now": "6159199c6ba89ff763228dffa3801eb2e4da35806336354fb0dbb462534a6fb9",
+      "match": true,
+      "method": "git show 75c17e2e168afed5a66e0fab2fd2112cdbf83ec5",
+      "working_raw_sha256": "f9d382b42e11138fd8c93339ab5fbe5a1be9a76081abf690f7d0d61859562321",
+      "working_lf_sha256": "8fd72dd481a85090594f9f980d737cd71d8b0f158dc24389cc68c74d8cc84353",
+      "working_crlf_sha256": "f9d382b42e11138fd8c93339ab5fbe5a1be9a76081abf690f7d0d61859562321"
+    },
+    {
+      "name": "original source: validator.py",
+      "recorded": "72279a034de6119783b81dad13fec12bcbecfe15262f29a70030ec4afe11e985",
+      "now": "72279a034de6119783b81dad13fec12bcbecfe15262f29a70030ec4afe11e985",
+      "match": true,
+      "method": "git show 75c17e2e168afed5a66e0fab2fd2112cdbf83ec5",
+      "working_raw_sha256": "3fafec870950319da2ef8d1d2e5ca579518cae29a01c5126c8b1b97a76b9e4cf",
+      "working_lf_sha256": "72279a034de6119783b81dad13fec12bcbecfe15262f29a70030ec4afe11e985",
+      "working_crlf_sha256": "3fafec870950319da2ef8d1d2e5ca579518cae29a01c5126c8b1b97a76b9e4cf"
+    },
+    {
+      "name": "original source: fallback.py",
+      "recorded": "607032f54bf707dd4492c8385047335771140d0e4882f0d39a69b5cdd4455cdd",
+      "now": "607032f54bf707dd4492c8385047335771140d0e4882f0d39a69b5cdd4455cdd",
+      "match": true,
+      "method": "git show 75c17e2e168afed5a66e0fab2fd2112cdbf83ec5",
+      "working_raw_sha256": "a71fcf12414886fad08856c1a593aa29b4fbfc21a9a57870dc649ff648b3268d",
+      "working_lf_sha256": "0588e75bb110aabe6d6a71fda005358b1c9635480bf73564dbf8a073d6d9293f",
+      "working_crlf_sha256": "a71fcf12414886fad08856c1a593aa29b4fbfc21a9a57870dc649ff648b3268d"
+    },
+    {
+      "name": "original source: prompts/root_cause.txt",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "git show 75c17e2e168afed5a66e0fab2fd2112cdbf83ec5",
+      "working_raw_sha256": "947781be362bffd780c1861fc4bb7c0cbe935c4261fcc9be330c1d812a53164f",
+      "working_lf_sha256": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "working_crlf_sha256": "947781be362bffd780c1861fc4bb7c0cbe935c4261fcc9be330c1d812a53164f"
+    },
+    {
+      "name": "original source: prompts/patch_proposer.txt",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "git show 75c17e2e168afed5a66e0fab2fd2112cdbf83ec5",
+      "working_raw_sha256": "5c3d09303de3d2065d72ad2a00734745658492d4765ecc553e8ca7be9d05c54a",
+      "working_lf_sha256": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "working_crlf_sha256": "5c3d09303de3d2065d72ad2a00734745658492d4765ecc553e8ca7be9d05c54a"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-6dbb58488330a80f/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-6dbb58488330a80f/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-9990dbe1533e57cd/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-9990dbe1533e57cd/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-15859db288dce42a/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-15859db288dce42a/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-a00364af41bc3a6c/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-a00364af41bc3a6c/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b45b1b6781209a74/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b45b1b6781209a74/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-52265d2d66872e32/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-52265d2d66872e32/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-a1fa57de4db47000/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-a1fa57de4db47000/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-13f328949ad89635/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-13f328949ad89635/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-f0052b13c35b8359/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-f0052b13c35b8359/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-5fcd0bf88d71523c/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-5fcd0bf88d71523c/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-7aefb4e62a75e56c/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-7aefb4e62a75e56c/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b0f3fd1a37fb212a/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b0f3fd1a37fb212a/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-4ce6973554a43cd0/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-4ce6973554a43cd0/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-fb4b825f6e52387e/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-fb4b825f6e52387e/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-a4ecb4af52fab017/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-a4ecb4af52fab017/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-d265991f904f89b0/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-d265991f904f89b0/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-964c9220ee8995e7/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-964c9220ee8995e7/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-02d9c47d716be568/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-02d9c47d716be568/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-2fbf514fb538859e/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-2fbf514fb538859e/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-9726e50c17720901/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-9726e50c17720901/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-de54943ad9878f3d/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-de54943ad9878f3d/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-339d566e09f3112e/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-339d566e09f3112e/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-9970890ca06afcd6/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-9970890ca06afcd6/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-bff4382e5ee4651b/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-bff4382e5ee4651b/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-e59fbbd2931a908d/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-e59fbbd2931a908d/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-d718182cfb24a4e7/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-d718182cfb24a4e7/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-9e71dbcc911efe4c/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-9e71dbcc911efe4c/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-348240159a82f3c4/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-348240159a82f3c4/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-07e4c8d981075429/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-07e4c8d981075429/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-f7b5cab4a0888fd6/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-f7b5cab4a0888fd6/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-ca2b234340e0a271/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-ca2b234340e0a271/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b2427bae8d537813/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b2427bae8d537813/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-45b250f18d956c3c/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-45b250f18d956c3c/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-1906cb9e17860106/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-1906cb9e17860106/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-3e8f0b64257115fe/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-3e8f0b64257115fe/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-666d28fc02c0cca6/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-666d28fc02c0cca6/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-53b105147dd52938/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-53b105147dd52938/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-c38d34356209b802/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-c38d34356209b802/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-0faa2cfca0d13235/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-0faa2cfca0d13235/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-7e401d45b8b7df47/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-7e401d45b8b7df47/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b2dd92928d71f79c/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b2dd92928d71f79c/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b3f5e27874c93fcf/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b3f5e27874c93fcf/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-cdedf6d06ad45e23/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-cdedf6d06ad45e23/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-0e440b88a0c42aef/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-0e440b88a0c42aef/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-215b721d0a097686/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-215b721d0a097686/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-415e294ca79dde6c/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-415e294ca79dde6c/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-27e4d03d7673e9ea/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-27e4d03d7673e9ea/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b11eda8193af8566/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b11eda8193af8566/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b50f707894c8dc1c/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b50f707894c8dc1c/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-e23b5527665ae3b1/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-e23b5527665ae3b1/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-8b2c56834c35aaea/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-8b2c56834c35aaea/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b80c43b419d9d201/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-b80c43b419d9d201/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-bdd8ceac24d8d46a/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-bdd8ceac24d8d46a/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-647c5abb43e92735/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-647c5abb43e92735/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-c734c74349234112/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-c734c74349234112/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-92d8cfd5311962df/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-92d8cfd5311962df/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-f76bcdfd53d48fd5/root_cause",
+      "recorded": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "now": "8ddaf8bcb7d13770b8fcb90b9c3e2aef1fb9cadc9e815d85f9803c6214e7603d",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "prompt provenance: v1_structured/nb-f76bcdfd53d48fd5/patch_proposer",
+      "recorded": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "now": "156c4369b145902e1943a5fbc1108799085184126c457c578e2285741e7595cf",
+      "match": true,
+      "method": "arms.original_prompts(): pinned git bytes"
+    },
+    {
+      "name": "config intended: clean/00d083b90201356c0f8d980f977d2aa7ed95f0afb0aa6ae7a7817afc1c91155c",
+      "recorded": "30ce3027d670a3e733dfe9b99d4df4323de549e9319fe1be8c49c97b4cad3e7c",
+      "now": "30ce3027d670a3e733dfe9b99d4df4323de549e9319fe1be8c49c97b4cad3e7c",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/00d083b90201356c0f8d980f977d2aa7ed95f0afb0aa6ae7a7817afc1c91155c",
+      "recorded": "30ce3027d670a3e733dfe9b99d4df4323de549e9319fe1be8c49c97b4cad3e7c",
+      "now": "30ce3027d670a3e733dfe9b99d4df4323de549e9319fe1be8c49c97b4cad3e7c",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/04ceb3af56ebb6c45e589f0a5b534a2e363fc6c94b226eef95f3a33afa51855f",
+      "recorded": "0a6f5722512ff055ea2715b0c109010f4884eab9c2304a02420a34945995405e",
+      "now": "0a6f5722512ff055ea2715b0c109010f4884eab9c2304a02420a34945995405e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/04ceb3af56ebb6c45e589f0a5b534a2e363fc6c94b226eef95f3a33afa51855f",
+      "recorded": "0a6f5722512ff055ea2715b0c109010f4884eab9c2304a02420a34945995405e",
+      "now": "0a6f5722512ff055ea2715b0c109010f4884eab9c2304a02420a34945995405e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/0c8e941d9704cd24544654f1f31cd0a1793cf7dbc211d92a8f2d21b8abed7d1d",
+      "recorded": "dcbfcaf11b6eb647939e2de6744e92d4e307c30a233ecf9f28ce924fcf47540f",
+      "now": "dcbfcaf11b6eb647939e2de6744e92d4e307c30a233ecf9f28ce924fcf47540f",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/0c8e941d9704cd24544654f1f31cd0a1793cf7dbc211d92a8f2d21b8abed7d1d",
+      "recorded": "dcbfcaf11b6eb647939e2de6744e92d4e307c30a233ecf9f28ce924fcf47540f",
+      "now": "dcbfcaf11b6eb647939e2de6744e92d4e307c30a233ecf9f28ce924fcf47540f",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/133f94f7171723ec051654ccc525836b1e26ce880b1cd3dca449a86c2cc2339f",
+      "recorded": "72728b5b7fd880bdeef34d504f1a2ae1118d1a8134f8cc52bf39c5170d350cbd",
+      "now": "72728b5b7fd880bdeef34d504f1a2ae1118d1a8134f8cc52bf39c5170d350cbd",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/133f94f7171723ec051654ccc525836b1e26ce880b1cd3dca449a86c2cc2339f",
+      "recorded": "72728b5b7fd880bdeef34d504f1a2ae1118d1a8134f8cc52bf39c5170d350cbd",
+      "now": "72728b5b7fd880bdeef34d504f1a2ae1118d1a8134f8cc52bf39c5170d350cbd",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/1488bd81a4729d589079ad58e0c39b02cfaefcd6980ef7cf717508a53d4c9a05",
+      "recorded": "355d1edffd810994ebc2f11d82de12a9dcb167df6a59e32d4c8b21ffd6a796c0",
+      "now": "355d1edffd810994ebc2f11d82de12a9dcb167df6a59e32d4c8b21ffd6a796c0",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/1488bd81a4729d589079ad58e0c39b02cfaefcd6980ef7cf717508a53d4c9a05",
+      "recorded": "355d1edffd810994ebc2f11d82de12a9dcb167df6a59e32d4c8b21ffd6a796c0",
+      "now": "355d1edffd810994ebc2f11d82de12a9dcb167df6a59e32d4c8b21ffd6a796c0",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/16c9f0ee8ffbf21ceabe52afcad5edb142c54e09d007913bb5f635d8af7b1c49",
+      "recorded": "ab40abd9ffb52a5605ff60b32f0a866ad524eca6c9b7e3993b8c26b7301eb2fa",
+      "now": "ab40abd9ffb52a5605ff60b32f0a866ad524eca6c9b7e3993b8c26b7301eb2fa",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/16c9f0ee8ffbf21ceabe52afcad5edb142c54e09d007913bb5f635d8af7b1c49",
+      "recorded": "ab40abd9ffb52a5605ff60b32f0a866ad524eca6c9b7e3993b8c26b7301eb2fa",
+      "now": "ab40abd9ffb52a5605ff60b32f0a866ad524eca6c9b7e3993b8c26b7301eb2fa",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/1a3684a2d4f5eb0d02a2de78b38e08bd14cefbce0068435315a0317f9b43211c",
+      "recorded": "f565d0fee0b5b458966b5badb3a8a2a5b3a0f2f31feaa0e3a46cc6b08c10bed7",
+      "now": "f565d0fee0b5b458966b5badb3a8a2a5b3a0f2f31feaa0e3a46cc6b08c10bed7",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/1a3684a2d4f5eb0d02a2de78b38e08bd14cefbce0068435315a0317f9b43211c",
+      "recorded": "f565d0fee0b5b458966b5badb3a8a2a5b3a0f2f31feaa0e3a46cc6b08c10bed7",
+      "now": "f565d0fee0b5b458966b5badb3a8a2a5b3a0f2f31feaa0e3a46cc6b08c10bed7",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/1b995f4c52d2187f9bbc31913a31a1c35fc675f38dc93308a9ee375cd50faeec",
+      "recorded": "b2543585d33f07e588286f99cc4581fa75f552d53974a34accfaf258cba3cc26",
+      "now": "b2543585d33f07e588286f99cc4581fa75f552d53974a34accfaf258cba3cc26",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/1b995f4c52d2187f9bbc31913a31a1c35fc675f38dc93308a9ee375cd50faeec",
+      "recorded": "b2543585d33f07e588286f99cc4581fa75f552d53974a34accfaf258cba3cc26",
+      "now": "b2543585d33f07e588286f99cc4581fa75f552d53974a34accfaf258cba3cc26",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/1bfbd06623a64bef8355a9cf8fbe9f9224b74a16a2e96ce864b236e8dc238cbe",
+      "recorded": "5f36d16ef829311c036fcc530cf72c02687b13c0ac6444e1057f3e62966fc631",
+      "now": "5f36d16ef829311c036fcc530cf72c02687b13c0ac6444e1057f3e62966fc631",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/1bfbd06623a64bef8355a9cf8fbe9f9224b74a16a2e96ce864b236e8dc238cbe",
+      "recorded": "5f36d16ef829311c036fcc530cf72c02687b13c0ac6444e1057f3e62966fc631",
+      "now": "5f36d16ef829311c036fcc530cf72c02687b13c0ac6444e1057f3e62966fc631",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/1cdc2c8f6cfeec63c3ab137903c9682f3c81eb699f63adea9f9507e40833210c",
+      "recorded": "963371c14ac19482b08af321b0595a375ca78dbd57e003ce53a7e5a2099b6a1a",
+      "now": "963371c14ac19482b08af321b0595a375ca78dbd57e003ce53a7e5a2099b6a1a",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/1cdc2c8f6cfeec63c3ab137903c9682f3c81eb699f63adea9f9507e40833210c",
+      "recorded": "963371c14ac19482b08af321b0595a375ca78dbd57e003ce53a7e5a2099b6a1a",
+      "now": "963371c14ac19482b08af321b0595a375ca78dbd57e003ce53a7e5a2099b6a1a",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/1ff353d33412b0e1598bab44bfd69435e3c018636956f77c1d2830d62ffc1984",
+      "recorded": "82f6cc4888740d25694b81ae93ad231e359f3733a73ef3162cf5ea7e38d82043",
+      "now": "82f6cc4888740d25694b81ae93ad231e359f3733a73ef3162cf5ea7e38d82043",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/1ff353d33412b0e1598bab44bfd69435e3c018636956f77c1d2830d62ffc1984",
+      "recorded": "82f6cc4888740d25694b81ae93ad231e359f3733a73ef3162cf5ea7e38d82043",
+      "now": "82f6cc4888740d25694b81ae93ad231e359f3733a73ef3162cf5ea7e38d82043",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/22b9848627d493f66aff535d1e2d4e9e4e74499f9e193e1bd58bc0396cbf41fb",
+      "recorded": "eace3f48620add4d8ef5932beaa2c46653855a980a6ff4bec563b551f6212d2b",
+      "now": "eace3f48620add4d8ef5932beaa2c46653855a980a6ff4bec563b551f6212d2b",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/22b9848627d493f66aff535d1e2d4e9e4e74499f9e193e1bd58bc0396cbf41fb",
+      "recorded": "eace3f48620add4d8ef5932beaa2c46653855a980a6ff4bec563b551f6212d2b",
+      "now": "eace3f48620add4d8ef5932beaa2c46653855a980a6ff4bec563b551f6212d2b",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/22c4fc7d5c5b4b8ce9a420c7ef29b96403ffc700d4199f42edc15d920e66ca0c",
+      "recorded": "1453aae726c2e4c17b32354ae4db4a7e82672c2ab602a2c546deed4fe1384bf6",
+      "now": "1453aae726c2e4c17b32354ae4db4a7e82672c2ab602a2c546deed4fe1384bf6",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/22c4fc7d5c5b4b8ce9a420c7ef29b96403ffc700d4199f42edc15d920e66ca0c",
+      "recorded": "1453aae726c2e4c17b32354ae4db4a7e82672c2ab602a2c546deed4fe1384bf6",
+      "now": "1453aae726c2e4c17b32354ae4db4a7e82672c2ab602a2c546deed4fe1384bf6",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/267cee42f7309d847fddb28fd93a1beb4139b410f620ad2625f1c06efb615ccf",
+      "recorded": "19f7f17cf8718929bbb3e3a011a46466cd39c910bc03c85b14f5367e567ddca4",
+      "now": "19f7f17cf8718929bbb3e3a011a46466cd39c910bc03c85b14f5367e567ddca4",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/267cee42f7309d847fddb28fd93a1beb4139b410f620ad2625f1c06efb615ccf",
+      "recorded": "19f7f17cf8718929bbb3e3a011a46466cd39c910bc03c85b14f5367e567ddca4",
+      "now": "19f7f17cf8718929bbb3e3a011a46466cd39c910bc03c85b14f5367e567ddca4",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/274ea7fe7fb44575ec4c895aeb2ff9bdac7e6fb8dbb400929263b1cf40b1a6a0",
+      "recorded": "bb9f846c3691cc2ab9078a1ad30ebcca5b8e1ea9589eea1f4dd1cc729e2d143c",
+      "now": "bb9f846c3691cc2ab9078a1ad30ebcca5b8e1ea9589eea1f4dd1cc729e2d143c",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/274ea7fe7fb44575ec4c895aeb2ff9bdac7e6fb8dbb400929263b1cf40b1a6a0",
+      "recorded": "bb9f846c3691cc2ab9078a1ad30ebcca5b8e1ea9589eea1f4dd1cc729e2d143c",
+      "now": "bb9f846c3691cc2ab9078a1ad30ebcca5b8e1ea9589eea1f4dd1cc729e2d143c",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/2a6d6e75004b904b9228f33804e0f92c12f47898c3ddaf72653f93b95ba12028",
+      "recorded": "6d934b99bb4d8784856d48344eff5f2f88b7dc3867e05631ef009d5757f9b110",
+      "now": "6d934b99bb4d8784856d48344eff5f2f88b7dc3867e05631ef009d5757f9b110",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/2a6d6e75004b904b9228f33804e0f92c12f47898c3ddaf72653f93b95ba12028",
+      "recorded": "6d934b99bb4d8784856d48344eff5f2f88b7dc3867e05631ef009d5757f9b110",
+      "now": "6d934b99bb4d8784856d48344eff5f2f88b7dc3867e05631ef009d5757f9b110",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/2bdc1b4c50c48668f73a53552ca10e0f6dd63f50f2d7eebad2d67e09caea5f97",
+      "recorded": "b1944ae9aaaf0172d74558699749a2c02623e4dc54eabba55dc5bc04ab8405f3",
+      "now": "b1944ae9aaaf0172d74558699749a2c02623e4dc54eabba55dc5bc04ab8405f3",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/2bdc1b4c50c48668f73a53552ca10e0f6dd63f50f2d7eebad2d67e09caea5f97",
+      "recorded": "b1944ae9aaaf0172d74558699749a2c02623e4dc54eabba55dc5bc04ab8405f3",
+      "now": "b1944ae9aaaf0172d74558699749a2c02623e4dc54eabba55dc5bc04ab8405f3",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/2be2a0c1bae251869ff4e69f91a205fd0085ad6c721c44553116197ae3f4da62",
+      "recorded": "d2a634fffa0cbef764be3efd2d15c471c0095ccf9a817c40852d25c9a84b933a",
+      "now": "d2a634fffa0cbef764be3efd2d15c471c0095ccf9a817c40852d25c9a84b933a",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/2be2a0c1bae251869ff4e69f91a205fd0085ad6c721c44553116197ae3f4da62",
+      "recorded": "d2a634fffa0cbef764be3efd2d15c471c0095ccf9a817c40852d25c9a84b933a",
+      "now": "d2a634fffa0cbef764be3efd2d15c471c0095ccf9a817c40852d25c9a84b933a",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/2da69eb52aa79db97d28cf79f31cfaae0f605ea38389879fdfc6ef83d84e2e9f",
+      "recorded": "1030aa7c97c9ef60b19860b96ffcb988a28cbfd529caed8978752acff4bec42e",
+      "now": "1030aa7c97c9ef60b19860b96ffcb988a28cbfd529caed8978752acff4bec42e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/2da69eb52aa79db97d28cf79f31cfaae0f605ea38389879fdfc6ef83d84e2e9f",
+      "recorded": "1030aa7c97c9ef60b19860b96ffcb988a28cbfd529caed8978752acff4bec42e",
+      "now": "1030aa7c97c9ef60b19860b96ffcb988a28cbfd529caed8978752acff4bec42e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/3242ee78943770a2c3fbf3c7ffc670c6270280216b883b586d5da0241945361d",
+      "recorded": "4e5511bf0a6f0ef7bd6a42388525d6394fa8385a48162aada187216a55e0a39e",
+      "now": "4e5511bf0a6f0ef7bd6a42388525d6394fa8385a48162aada187216a55e0a39e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/3242ee78943770a2c3fbf3c7ffc670c6270280216b883b586d5da0241945361d",
+      "recorded": "4e5511bf0a6f0ef7bd6a42388525d6394fa8385a48162aada187216a55e0a39e",
+      "now": "4e5511bf0a6f0ef7bd6a42388525d6394fa8385a48162aada187216a55e0a39e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/38bac3b4969df1ce1683df539bdc5ada74cf6e9863836fe8e4cc85c032bbea84",
+      "recorded": "a5b2d853d325ec9b7c50cc80cc87e9b2f2e6161ab441bb160790883480ceeda3",
+      "now": "a5b2d853d325ec9b7c50cc80cc87e9b2f2e6161ab441bb160790883480ceeda3",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/38bac3b4969df1ce1683df539bdc5ada74cf6e9863836fe8e4cc85c032bbea84",
+      "recorded": "a5b2d853d325ec9b7c50cc80cc87e9b2f2e6161ab441bb160790883480ceeda3",
+      "now": "a5b2d853d325ec9b7c50cc80cc87e9b2f2e6161ab441bb160790883480ceeda3",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/3b8afc315fe1a2e0a9388ed4751bf3fdf5656d59f1e60974f0432af31f55cd8c",
+      "recorded": "fb80d2f14fb8390914d03d61ff9b8595853a382a806554b91a858fb84d0cb95c",
+      "now": "fb80d2f14fb8390914d03d61ff9b8595853a382a806554b91a858fb84d0cb95c",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/3b8afc315fe1a2e0a9388ed4751bf3fdf5656d59f1e60974f0432af31f55cd8c",
+      "recorded": "fb80d2f14fb8390914d03d61ff9b8595853a382a806554b91a858fb84d0cb95c",
+      "now": "fb80d2f14fb8390914d03d61ff9b8595853a382a806554b91a858fb84d0cb95c",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/40289eed502a44456d121058825b47cf37732ec9630135ddc89aead450802fed",
+      "recorded": "8c4247179d426dda3fd800f93e74d0175819430892f4b5acb37b5d7e5fe97517",
+      "now": "8c4247179d426dda3fd800f93e74d0175819430892f4b5acb37b5d7e5fe97517",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/40289eed502a44456d121058825b47cf37732ec9630135ddc89aead450802fed",
+      "recorded": "8c4247179d426dda3fd800f93e74d0175819430892f4b5acb37b5d7e5fe97517",
+      "now": "8c4247179d426dda3fd800f93e74d0175819430892f4b5acb37b5d7e5fe97517",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/43b5f712a5bcab5a65b3fa2b7bf3fa981c50662af1f63c0e94066b943347486c",
+      "recorded": "ca420041905f49330486d501920b49d20c07466c0f904dd885c9c923ceaaf41b",
+      "now": "ca420041905f49330486d501920b49d20c07466c0f904dd885c9c923ceaaf41b",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/43b5f712a5bcab5a65b3fa2b7bf3fa981c50662af1f63c0e94066b943347486c",
+      "recorded": "ca420041905f49330486d501920b49d20c07466c0f904dd885c9c923ceaaf41b",
+      "now": "ca420041905f49330486d501920b49d20c07466c0f904dd885c9c923ceaaf41b",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/43ce9c8a50a8801237ead8f18c884d70fc126d679847c6960a18614e17367e85",
+      "recorded": "0b8a7465d0ae831e3f572de65aadef0179e06ca7cdefdece66e32b944a9d009b",
+      "now": "0b8a7465d0ae831e3f572de65aadef0179e06ca7cdefdece66e32b944a9d009b",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/43ce9c8a50a8801237ead8f18c884d70fc126d679847c6960a18614e17367e85",
+      "recorded": "0b8a7465d0ae831e3f572de65aadef0179e06ca7cdefdece66e32b944a9d009b",
+      "now": "0b8a7465d0ae831e3f572de65aadef0179e06ca7cdefdece66e32b944a9d009b",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/4834b4dbd4fa0f1e1c92ddc2e22890d731f7f50679fec3daa615001b218dcc8e",
+      "recorded": "0a8e9387ecc79668329218d8671caf56f6e07047be1596f8f6381681c86fc2ee",
+      "now": "0a8e9387ecc79668329218d8671caf56f6e07047be1596f8f6381681c86fc2ee",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/4834b4dbd4fa0f1e1c92ddc2e22890d731f7f50679fec3daa615001b218dcc8e",
+      "recorded": "0a8e9387ecc79668329218d8671caf56f6e07047be1596f8f6381681c86fc2ee",
+      "now": "0a8e9387ecc79668329218d8671caf56f6e07047be1596f8f6381681c86fc2ee",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/4857b9fcf6e60f8bee92c5f6859bb958dd3abaf4f0d95088e080265f11aa7084",
+      "recorded": "25d14dc609b646f5127df3357e6073d780f38cc1722bd168ad3dc40245f1ce0b",
+      "now": "25d14dc609b646f5127df3357e6073d780f38cc1722bd168ad3dc40245f1ce0b",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/4857b9fcf6e60f8bee92c5f6859bb958dd3abaf4f0d95088e080265f11aa7084",
+      "recorded": "25d14dc609b646f5127df3357e6073d780f38cc1722bd168ad3dc40245f1ce0b",
+      "now": "25d14dc609b646f5127df3357e6073d780f38cc1722bd168ad3dc40245f1ce0b",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/4916c60a8f1776d9f948118a62e3e807ede8cd722c30007f196defd804708221",
+      "recorded": "07278c3636d0e48c6cc56f24b814eed3770bb2ffb4c34c3bfb664a5a9aaa9f14",
+      "now": "07278c3636d0e48c6cc56f24b814eed3770bb2ffb4c34c3bfb664a5a9aaa9f14",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/4916c60a8f1776d9f948118a62e3e807ede8cd722c30007f196defd804708221",
+      "recorded": "07278c3636d0e48c6cc56f24b814eed3770bb2ffb4c34c3bfb664a5a9aaa9f14",
+      "now": "07278c3636d0e48c6cc56f24b814eed3770bb2ffb4c34c3bfb664a5a9aaa9f14",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/4aa71cd4e4bf4cf088085434e3ecb0326f8b99577aeb3612dad38422aded85f6",
+      "recorded": "a7d6ad59be4cc7bf1da98f25bc0eb948e7e4ea0c4ef9ecf853c86ee6dad43eb2",
+      "now": "a7d6ad59be4cc7bf1da98f25bc0eb948e7e4ea0c4ef9ecf853c86ee6dad43eb2",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/4aa71cd4e4bf4cf088085434e3ecb0326f8b99577aeb3612dad38422aded85f6",
+      "recorded": "a7d6ad59be4cc7bf1da98f25bc0eb948e7e4ea0c4ef9ecf853c86ee6dad43eb2",
+      "now": "a7d6ad59be4cc7bf1da98f25bc0eb948e7e4ea0c4ef9ecf853c86ee6dad43eb2",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/4b72e36716ca0f0e556160b9f6ea81bfe58a62448b9099c5f6a050cf13cebf46",
+      "recorded": "734d1b80b2472f0c5af7010b4dc7b0e161ccd683830c8ebc1a0bf1849ce6dabc",
+      "now": "734d1b80b2472f0c5af7010b4dc7b0e161ccd683830c8ebc1a0bf1849ce6dabc",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/4b72e36716ca0f0e556160b9f6ea81bfe58a62448b9099c5f6a050cf13cebf46",
+      "recorded": "734d1b80b2472f0c5af7010b4dc7b0e161ccd683830c8ebc1a0bf1849ce6dabc",
+      "now": "734d1b80b2472f0c5af7010b4dc7b0e161ccd683830c8ebc1a0bf1849ce6dabc",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "recorded": "903fb12a6beed91a51e212031ed0300997e74c0ab5e31b89e9e750c42fda1f0c",
+      "now": "903fb12a6beed91a51e212031ed0300997e74c0ab5e31b89e9e750c42fda1f0c",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "recorded": "903fb12a6beed91a51e212031ed0300997e74c0ab5e31b89e9e750c42fda1f0c",
+      "now": "903fb12a6beed91a51e212031ed0300997e74c0ab5e31b89e9e750c42fda1f0c",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/500d89ac02ff1be7b4288c981970c655fc50eff251b3e8eb03c8b3095237304a",
+      "recorded": "75094e7151887a66c0f06f67d2a7ee5a017003847a0477d095f00c4a606ad2fe",
+      "now": "75094e7151887a66c0f06f67d2a7ee5a017003847a0477d095f00c4a606ad2fe",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/500d89ac02ff1be7b4288c981970c655fc50eff251b3e8eb03c8b3095237304a",
+      "recorded": "75094e7151887a66c0f06f67d2a7ee5a017003847a0477d095f00c4a606ad2fe",
+      "now": "75094e7151887a66c0f06f67d2a7ee5a017003847a0477d095f00c4a606ad2fe",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/5360b271b958114f93c88bbc04752ad606b72a46ad510bec630702d24ec93321",
+      "recorded": "f328b4095a3534d959b191166e6cd98bf3a7781ff2b5167c8fee1f41077f5764",
+      "now": "f328b4095a3534d959b191166e6cd98bf3a7781ff2b5167c8fee1f41077f5764",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/5360b271b958114f93c88bbc04752ad606b72a46ad510bec630702d24ec93321",
+      "recorded": "f328b4095a3534d959b191166e6cd98bf3a7781ff2b5167c8fee1f41077f5764",
+      "now": "f328b4095a3534d959b191166e6cd98bf3a7781ff2b5167c8fee1f41077f5764",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/58018109d9a08228f4005166397adebad9d486cfc669cf6926444be6516d4bff",
+      "recorded": "4dd5d9f4baf57e38871a1ac0d6026aa529551cae9b2fb99487c4ff21904b7c82",
+      "now": "4dd5d9f4baf57e38871a1ac0d6026aa529551cae9b2fb99487c4ff21904b7c82",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/58018109d9a08228f4005166397adebad9d486cfc669cf6926444be6516d4bff",
+      "recorded": "4dd5d9f4baf57e38871a1ac0d6026aa529551cae9b2fb99487c4ff21904b7c82",
+      "now": "4dd5d9f4baf57e38871a1ac0d6026aa529551cae9b2fb99487c4ff21904b7c82",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/58418b590461346b1cfe362154c61b927d6b46de03ef56736d5900fdd76b2940",
+      "recorded": "62190b9eee6dfef443200b2bc5a6e1412624b8a5ed2dca57ea08627dd6287717",
+      "now": "62190b9eee6dfef443200b2bc5a6e1412624b8a5ed2dca57ea08627dd6287717",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/58418b590461346b1cfe362154c61b927d6b46de03ef56736d5900fdd76b2940",
+      "recorded": "62190b9eee6dfef443200b2bc5a6e1412624b8a5ed2dca57ea08627dd6287717",
+      "now": "62190b9eee6dfef443200b2bc5a6e1412624b8a5ed2dca57ea08627dd6287717",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/595695d729ec5de23253ce106165a88902ae967e26824423f3d4d52a1013b95b",
+      "recorded": "460b1d9589b49c38612ad236bab1b69e85f3f9ce7185cc8c56b4df8d79aec6f9",
+      "now": "460b1d9589b49c38612ad236bab1b69e85f3f9ce7185cc8c56b4df8d79aec6f9",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/595695d729ec5de23253ce106165a88902ae967e26824423f3d4d52a1013b95b",
+      "recorded": "460b1d9589b49c38612ad236bab1b69e85f3f9ce7185cc8c56b4df8d79aec6f9",
+      "now": "460b1d9589b49c38612ad236bab1b69e85f3f9ce7185cc8c56b4df8d79aec6f9",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/5f8c8224c2ecf0da198d51bdec6f8d8ed5a1a65858a052c400c6f1b405f8f965",
+      "recorded": "bd0b12117e62f8e59668f19212bba5203d0b53d0c121cba2c7944308c2f3f3d7",
+      "now": "bd0b12117e62f8e59668f19212bba5203d0b53d0c121cba2c7944308c2f3f3d7",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/5f8c8224c2ecf0da198d51bdec6f8d8ed5a1a65858a052c400c6f1b405f8f965",
+      "recorded": "bd0b12117e62f8e59668f19212bba5203d0b53d0c121cba2c7944308c2f3f3d7",
+      "now": "bd0b12117e62f8e59668f19212bba5203d0b53d0c121cba2c7944308c2f3f3d7",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/611c98e2b0a409e807587f8d41934a96b63481307bd4667681d539396b555da8",
+      "recorded": "52fe3a5bf84315335ea783a292b2df73588e3e92e567df2e8feb80553ac59bed",
+      "now": "52fe3a5bf84315335ea783a292b2df73588e3e92e567df2e8feb80553ac59bed",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/611c98e2b0a409e807587f8d41934a96b63481307bd4667681d539396b555da8",
+      "recorded": "52fe3a5bf84315335ea783a292b2df73588e3e92e567df2e8feb80553ac59bed",
+      "now": "52fe3a5bf84315335ea783a292b2df73588e3e92e567df2e8feb80553ac59bed",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/621b2fbc94979783684f522f2dbf4830bd38128ecf8976bae3373a915cdab9e0",
+      "recorded": "b63140ee69d799b551716bacc4ee6a572f89dd25ba9814d4b1fe454c2cb7e12e",
+      "now": "b63140ee69d799b551716bacc4ee6a572f89dd25ba9814d4b1fe454c2cb7e12e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/621b2fbc94979783684f522f2dbf4830bd38128ecf8976bae3373a915cdab9e0",
+      "recorded": "b63140ee69d799b551716bacc4ee6a572f89dd25ba9814d4b1fe454c2cb7e12e",
+      "now": "b63140ee69d799b551716bacc4ee6a572f89dd25ba9814d4b1fe454c2cb7e12e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/665b3f10c8aabbcfd2ea00a5d33d0407c8f78d06cf2ca22fb8c3dc45f451323a",
+      "recorded": "51d07ad1c52a45f6420fe3b97533ff785e94272789fdb6d40508b7827e5dd3cb",
+      "now": "51d07ad1c52a45f6420fe3b97533ff785e94272789fdb6d40508b7827e5dd3cb",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/665b3f10c8aabbcfd2ea00a5d33d0407c8f78d06cf2ca22fb8c3dc45f451323a",
+      "recorded": "51d07ad1c52a45f6420fe3b97533ff785e94272789fdb6d40508b7827e5dd3cb",
+      "now": "51d07ad1c52a45f6420fe3b97533ff785e94272789fdb6d40508b7827e5dd3cb",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/692d9003adc6206ea74864857a3612ae0dfe7f13e5a9c5a001b77c2b1d9737d7",
+      "recorded": "2b9a18cc5706ac076efbed69c24e96117ad52d8dff68fa06a977a405b79752b1",
+      "now": "2b9a18cc5706ac076efbed69c24e96117ad52d8dff68fa06a977a405b79752b1",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/692d9003adc6206ea74864857a3612ae0dfe7f13e5a9c5a001b77c2b1d9737d7",
+      "recorded": "2b9a18cc5706ac076efbed69c24e96117ad52d8dff68fa06a977a405b79752b1",
+      "now": "2b9a18cc5706ac076efbed69c24e96117ad52d8dff68fa06a977a405b79752b1",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/6b95759656ef89728a092aac5ae8ee21c5b60a3ae6cd37df714b0ed7652c9ec7",
+      "recorded": "f8da92a18314747a8aa465a35b9deede3d15657d509022d1a750d7490320fcb7",
+      "now": "f8da92a18314747a8aa465a35b9deede3d15657d509022d1a750d7490320fcb7",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/6b95759656ef89728a092aac5ae8ee21c5b60a3ae6cd37df714b0ed7652c9ec7",
+      "recorded": "f8da92a18314747a8aa465a35b9deede3d15657d509022d1a750d7490320fcb7",
+      "now": "f8da92a18314747a8aa465a35b9deede3d15657d509022d1a750d7490320fcb7",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/6c3b19cc50d4619a9bdd87d9dbfa7b8edd96f33e6b9fa786886635f581063717",
+      "recorded": "0e7b6037880e1eedbf2b53af724e51166ab2053ff7b3916456aaa67ab4d54042",
+      "now": "0e7b6037880e1eedbf2b53af724e51166ab2053ff7b3916456aaa67ab4d54042",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/6c3b19cc50d4619a9bdd87d9dbfa7b8edd96f33e6b9fa786886635f581063717",
+      "recorded": "0e7b6037880e1eedbf2b53af724e51166ab2053ff7b3916456aaa67ab4d54042",
+      "now": "0e7b6037880e1eedbf2b53af724e51166ab2053ff7b3916456aaa67ab4d54042",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/770172a71e45cb41d106a6c0f4b283ccdef16066828aa193fe0c6166c729bbff",
+      "recorded": "adb25979d9230549e61bb6c8351428d45326f41b05a6ed5adeb1e7ba3f9f556d",
+      "now": "adb25979d9230549e61bb6c8351428d45326f41b05a6ed5adeb1e7ba3f9f556d",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/770172a71e45cb41d106a6c0f4b283ccdef16066828aa193fe0c6166c729bbff",
+      "recorded": "adb25979d9230549e61bb6c8351428d45326f41b05a6ed5adeb1e7ba3f9f556d",
+      "now": "adb25979d9230549e61bb6c8351428d45326f41b05a6ed5adeb1e7ba3f9f556d",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/77ad377795e8e15e3a8ace9a6f3ad1029b05244247ef2eb8094b7f7e306ac6d3",
+      "recorded": "a56b95fbec83395ee13ea8b01154e79343b913dd9efdda4974d70a96c6fb2ec0",
+      "now": "a56b95fbec83395ee13ea8b01154e79343b913dd9efdda4974d70a96c6fb2ec0",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/77ad377795e8e15e3a8ace9a6f3ad1029b05244247ef2eb8094b7f7e306ac6d3",
+      "recorded": "a56b95fbec83395ee13ea8b01154e79343b913dd9efdda4974d70a96c6fb2ec0",
+      "now": "a56b95fbec83395ee13ea8b01154e79343b913dd9efdda4974d70a96c6fb2ec0",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/79cdcdbe18d3da576ccba965aec5a10293bbcfa1d1be415526d3a45079d4b19c",
+      "recorded": "9ee2688d3b14a557f8f3e3572339a0d5462add77c3fcf4af8ad21c2fe633955d",
+      "now": "9ee2688d3b14a557f8f3e3572339a0d5462add77c3fcf4af8ad21c2fe633955d",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/79cdcdbe18d3da576ccba965aec5a10293bbcfa1d1be415526d3a45079d4b19c",
+      "recorded": "9ee2688d3b14a557f8f3e3572339a0d5462add77c3fcf4af8ad21c2fe633955d",
+      "now": "9ee2688d3b14a557f8f3e3572339a0d5462add77c3fcf4af8ad21c2fe633955d",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/7a655a73d9a6314dfa9f2699a0c6c1d0bc15d38eda65f33222bb2415cbb00f58",
+      "recorded": "02984f8e6fb396a533085ad2d3078ab726ad4a6063fb0d91655c313f3cb6affd",
+      "now": "02984f8e6fb396a533085ad2d3078ab726ad4a6063fb0d91655c313f3cb6affd",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/7a655a73d9a6314dfa9f2699a0c6c1d0bc15d38eda65f33222bb2415cbb00f58",
+      "recorded": "02984f8e6fb396a533085ad2d3078ab726ad4a6063fb0d91655c313f3cb6affd",
+      "now": "02984f8e6fb396a533085ad2d3078ab726ad4a6063fb0d91655c313f3cb6affd",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/7bf0e748fff44bdc5efb2c20fafb8083d14a7dd4a967feeebe382ce8742960b0",
+      "recorded": "6cc7f05d1c624eb52e240939801c70622387a7f598ba5b16f34502939e8dab02",
+      "now": "6cc7f05d1c624eb52e240939801c70622387a7f598ba5b16f34502939e8dab02",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/7bf0e748fff44bdc5efb2c20fafb8083d14a7dd4a967feeebe382ce8742960b0",
+      "recorded": "6cc7f05d1c624eb52e240939801c70622387a7f598ba5b16f34502939e8dab02",
+      "now": "6cc7f05d1c624eb52e240939801c70622387a7f598ba5b16f34502939e8dab02",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/7e8df8a4aa8f23a1142f63bb7b18481e10f526a388b4879af09a94d2e6520d1a",
+      "recorded": "2fc6717323ce5c835e7d987bc42256ef894641235b49d721497b16e2d1d09d45",
+      "now": "2fc6717323ce5c835e7d987bc42256ef894641235b49d721497b16e2d1d09d45",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/7e8df8a4aa8f23a1142f63bb7b18481e10f526a388b4879af09a94d2e6520d1a",
+      "recorded": "2fc6717323ce5c835e7d987bc42256ef894641235b49d721497b16e2d1d09d45",
+      "now": "2fc6717323ce5c835e7d987bc42256ef894641235b49d721497b16e2d1d09d45",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/7f7598ee87da110a9e11245b555ac5736bd9785a0809d1c1062d3d97f055f96c",
+      "recorded": "4dc7e4c74886d2eb9df6cd8fd1578a1f42daa6f968791649bcf732765fa5df82",
+      "now": "4dc7e4c74886d2eb9df6cd8fd1578a1f42daa6f968791649bcf732765fa5df82",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/7f7598ee87da110a9e11245b555ac5736bd9785a0809d1c1062d3d97f055f96c",
+      "recorded": "4dc7e4c74886d2eb9df6cd8fd1578a1f42daa6f968791649bcf732765fa5df82",
+      "now": "4dc7e4c74886d2eb9df6cd8fd1578a1f42daa6f968791649bcf732765fa5df82",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/8180414f03c0f16addcd8b46124eb16da0657001c8dfbcd3b532112a135f7dd9",
+      "recorded": "2ec870ff618703ae9bfb5702c1b0d3bb3f87bdaf0e791963ea9cf6b66cdf0340",
+      "now": "2ec870ff618703ae9bfb5702c1b0d3bb3f87bdaf0e791963ea9cf6b66cdf0340",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/8180414f03c0f16addcd8b46124eb16da0657001c8dfbcd3b532112a135f7dd9",
+      "recorded": "2ec870ff618703ae9bfb5702c1b0d3bb3f87bdaf0e791963ea9cf6b66cdf0340",
+      "now": "2ec870ff618703ae9bfb5702c1b0d3bb3f87bdaf0e791963ea9cf6b66cdf0340",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/8dc6fc477c2140c2e420d77cfc0734784f60f30c7b964b113411c48e461b006c",
+      "recorded": "3cf75757e79c432513d6938f07f23a6385cfa23367f46899c1523112eec6e570",
+      "now": "3cf75757e79c432513d6938f07f23a6385cfa23367f46899c1523112eec6e570",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/8dc6fc477c2140c2e420d77cfc0734784f60f30c7b964b113411c48e461b006c",
+      "recorded": "3cf75757e79c432513d6938f07f23a6385cfa23367f46899c1523112eec6e570",
+      "now": "3cf75757e79c432513d6938f07f23a6385cfa23367f46899c1523112eec6e570",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/90ba472316eca52e95668636a90d548361fc6a1579b85224ac172f6760f0136a",
+      "recorded": "9cef8ae45192ff9017d40af5fc1c5089a18bc4c0c9afb94fdd1da0f2ab551199",
+      "now": "9cef8ae45192ff9017d40af5fc1c5089a18bc4c0c9afb94fdd1da0f2ab551199",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/90ba472316eca52e95668636a90d548361fc6a1579b85224ac172f6760f0136a",
+      "recorded": "9cef8ae45192ff9017d40af5fc1c5089a18bc4c0c9afb94fdd1da0f2ab551199",
+      "now": "9cef8ae45192ff9017d40af5fc1c5089a18bc4c0c9afb94fdd1da0f2ab551199",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/91d0b76b32451bc3abd6d98cb5edf220b985cc775638ba3d1275b1a71b5438be",
+      "recorded": "6e25abbe2eeeb3c05170819292e940744c09ecdcb1b7f1f7a5a235ea1e9f120d",
+      "now": "6e25abbe2eeeb3c05170819292e940744c09ecdcb1b7f1f7a5a235ea1e9f120d",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/91d0b76b32451bc3abd6d98cb5edf220b985cc775638ba3d1275b1a71b5438be",
+      "recorded": "6e25abbe2eeeb3c05170819292e940744c09ecdcb1b7f1f7a5a235ea1e9f120d",
+      "now": "6e25abbe2eeeb3c05170819292e940744c09ecdcb1b7f1f7a5a235ea1e9f120d",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/92cc302e80863869259377620f250c206248fb326810e64190403c63fbb0ffcb",
+      "recorded": "b0a0283f2270aac1c180645eec748e907445af8455b150413383d756e5d50896",
+      "now": "b0a0283f2270aac1c180645eec748e907445af8455b150413383d756e5d50896",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/92cc302e80863869259377620f250c206248fb326810e64190403c63fbb0ffcb",
+      "recorded": "b0a0283f2270aac1c180645eec748e907445af8455b150413383d756e5d50896",
+      "now": "b0a0283f2270aac1c180645eec748e907445af8455b150413383d756e5d50896",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/9a5155b35cc840c73b70ae592e3fb20f01a4ac910e10eb91ff82d1b7439f8611",
+      "recorded": "5564b4970e61468fd58266096d7373073b93aa28d90b426fd0a39d1b5d624c47",
+      "now": "5564b4970e61468fd58266096d7373073b93aa28d90b426fd0a39d1b5d624c47",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/9a5155b35cc840c73b70ae592e3fb20f01a4ac910e10eb91ff82d1b7439f8611",
+      "recorded": "5564b4970e61468fd58266096d7373073b93aa28d90b426fd0a39d1b5d624c47",
+      "now": "5564b4970e61468fd58266096d7373073b93aa28d90b426fd0a39d1b5d624c47",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/9c8e7cc0d6b17874b79d2c06b4d79d4bc9d2c4f1f601fcddd0f97bcd2c75f6ea",
+      "recorded": "f06b8c0a6521eaf086c53f92cb0ba17c038781414bda3ca160b9815599aaefbb",
+      "now": "f06b8c0a6521eaf086c53f92cb0ba17c038781414bda3ca160b9815599aaefbb",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/9c8e7cc0d6b17874b79d2c06b4d79d4bc9d2c4f1f601fcddd0f97bcd2c75f6ea",
+      "recorded": "f06b8c0a6521eaf086c53f92cb0ba17c038781414bda3ca160b9815599aaefbb",
+      "now": "f06b8c0a6521eaf086c53f92cb0ba17c038781414bda3ca160b9815599aaefbb",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/a2f42d12f295826a4cff8530ec88c48a2258d127998e67486369f823233541a6",
+      "recorded": "f11b86786177a7a65e1292d294d5f33bbc975842529e810f2b5f3957f8497f46",
+      "now": "f11b86786177a7a65e1292d294d5f33bbc975842529e810f2b5f3957f8497f46",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/a2f42d12f295826a4cff8530ec88c48a2258d127998e67486369f823233541a6",
+      "recorded": "f11b86786177a7a65e1292d294d5f33bbc975842529e810f2b5f3957f8497f46",
+      "now": "f11b86786177a7a65e1292d294d5f33bbc975842529e810f2b5f3957f8497f46",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/a5d9ab1a236bb5c9ebc80536c4a5045fa3a93b28b553ae8d14e18286de68eecd",
+      "recorded": "00b9ee4905a7791c46adf631ce28a209b5039b02c249a35eac3cf519fd042cd3",
+      "now": "00b9ee4905a7791c46adf631ce28a209b5039b02c249a35eac3cf519fd042cd3",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/a5d9ab1a236bb5c9ebc80536c4a5045fa3a93b28b553ae8d14e18286de68eecd",
+      "recorded": "00b9ee4905a7791c46adf631ce28a209b5039b02c249a35eac3cf519fd042cd3",
+      "now": "00b9ee4905a7791c46adf631ce28a209b5039b02c249a35eac3cf519fd042cd3",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/a7528b7b94ba5f2d21673042d96df498f6ed02c34349ea9810a3465307f71037",
+      "recorded": "f312374828a2bb141cd4cd3d8910a22821ecea7e02ccb3187ee5203359d13ce8",
+      "now": "f312374828a2bb141cd4cd3d8910a22821ecea7e02ccb3187ee5203359d13ce8",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/a7528b7b94ba5f2d21673042d96df498f6ed02c34349ea9810a3465307f71037",
+      "recorded": "f312374828a2bb141cd4cd3d8910a22821ecea7e02ccb3187ee5203359d13ce8",
+      "now": "f312374828a2bb141cd4cd3d8910a22821ecea7e02ccb3187ee5203359d13ce8",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/a795b611859ebd9ead02849c60b26166278ae4b37f14c7600b6c7ddaeb3e36f1",
+      "recorded": "e924f5b58e88323f5af333fe535807a4cafeade5dd66d3812e758d32e1a47b53",
+      "now": "e924f5b58e88323f5af333fe535807a4cafeade5dd66d3812e758d32e1a47b53",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/a795b611859ebd9ead02849c60b26166278ae4b37f14c7600b6c7ddaeb3e36f1",
+      "recorded": "e924f5b58e88323f5af333fe535807a4cafeade5dd66d3812e758d32e1a47b53",
+      "now": "e924f5b58e88323f5af333fe535807a4cafeade5dd66d3812e758d32e1a47b53",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/aaec2672d31853e4ae03e1a9691939e689291a242e10b8f2128a076e3c451a43",
+      "recorded": "32b11d4628b04682095c3482be43cb9a6ada24fc5a1d10c27b4fa44bcce4b659",
+      "now": "32b11d4628b04682095c3482be43cb9a6ada24fc5a1d10c27b4fa44bcce4b659",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/aaec2672d31853e4ae03e1a9691939e689291a242e10b8f2128a076e3c451a43",
+      "recorded": "32b11d4628b04682095c3482be43cb9a6ada24fc5a1d10c27b4fa44bcce4b659",
+      "now": "32b11d4628b04682095c3482be43cb9a6ada24fc5a1d10c27b4fa44bcce4b659",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/ad88cdbedeb5becfaa5d5b21fa19d7a7fa0b2ab966b45459c8908bcba0dcc9fa",
+      "recorded": "16ce03d1dbb147fe163c704e8da7e101a553e6d58e27eafaedac4ab11481aae3",
+      "now": "16ce03d1dbb147fe163c704e8da7e101a553e6d58e27eafaedac4ab11481aae3",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/ad88cdbedeb5becfaa5d5b21fa19d7a7fa0b2ab966b45459c8908bcba0dcc9fa",
+      "recorded": "16ce03d1dbb147fe163c704e8da7e101a553e6d58e27eafaedac4ab11481aae3",
+      "now": "16ce03d1dbb147fe163c704e8da7e101a553e6d58e27eafaedac4ab11481aae3",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/b1159622d6ae74a24b94362e01f7e5aa3173f20929dbcc753cb5662443ec0677",
+      "recorded": "77ece152277d15a347169809565f1754de8563fd66428e1cbb9655519d40d618",
+      "now": "77ece152277d15a347169809565f1754de8563fd66428e1cbb9655519d40d618",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/b1159622d6ae74a24b94362e01f7e5aa3173f20929dbcc753cb5662443ec0677",
+      "recorded": "77ece152277d15a347169809565f1754de8563fd66428e1cbb9655519d40d618",
+      "now": "77ece152277d15a347169809565f1754de8563fd66428e1cbb9655519d40d618",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/b4ecae3fc3e483f05caa9892e02ee575d731fd796fee44af98362949c72e02bb",
+      "recorded": "1c5a623f7ecceab878f65c0fd37cb654e6708d4f392f7a39b1f2eba7274621ce",
+      "now": "1c5a623f7ecceab878f65c0fd37cb654e6708d4f392f7a39b1f2eba7274621ce",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/b4ecae3fc3e483f05caa9892e02ee575d731fd796fee44af98362949c72e02bb",
+      "recorded": "1c5a623f7ecceab878f65c0fd37cb654e6708d4f392f7a39b1f2eba7274621ce",
+      "now": "1c5a623f7ecceab878f65c0fd37cb654e6708d4f392f7a39b1f2eba7274621ce",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/b5605aba2f1ae805b649fc24554fa66188a4bd9a861021c2366eb7ca998139e6",
+      "recorded": "6421b5314cb8e3fcb25fb1a7072ebeb7d70ac73dced9ce0ab92894d939e2970b",
+      "now": "6421b5314cb8e3fcb25fb1a7072ebeb7d70ac73dced9ce0ab92894d939e2970b",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/b5605aba2f1ae805b649fc24554fa66188a4bd9a861021c2366eb7ca998139e6",
+      "recorded": "6421b5314cb8e3fcb25fb1a7072ebeb7d70ac73dced9ce0ab92894d939e2970b",
+      "now": "6421b5314cb8e3fcb25fb1a7072ebeb7d70ac73dced9ce0ab92894d939e2970b",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/bac264d264f84eabc3f08c73cf54cc260b5d7762e710dfa3166ebb6bc613c770",
+      "recorded": "b525f5dc88699a1475381b180985ead26636c3976e5bb20de99af9177105d850",
+      "now": "b525f5dc88699a1475381b180985ead26636c3976e5bb20de99af9177105d850",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/bac264d264f84eabc3f08c73cf54cc260b5d7762e710dfa3166ebb6bc613c770",
+      "recorded": "b525f5dc88699a1475381b180985ead26636c3976e5bb20de99af9177105d850",
+      "now": "b525f5dc88699a1475381b180985ead26636c3976e5bb20de99af9177105d850",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/c0009e3087912db08b2d0f6d7323f15c7fc1068850aee7d9ee957a7ccb88e76f",
+      "recorded": "f19a8804269d1f6eb7ef233fa70b308d81a7b6f8f7c480dcae6778e100b31a13",
+      "now": "f19a8804269d1f6eb7ef233fa70b308d81a7b6f8f7c480dcae6778e100b31a13",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/c0009e3087912db08b2d0f6d7323f15c7fc1068850aee7d9ee957a7ccb88e76f",
+      "recorded": "f19a8804269d1f6eb7ef233fa70b308d81a7b6f8f7c480dcae6778e100b31a13",
+      "now": "f19a8804269d1f6eb7ef233fa70b308d81a7b6f8f7c480dcae6778e100b31a13",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/c2ea994f7bb56198d897f648911de29e0d2906237b6764f6b0faaa1145555e6d",
+      "recorded": "460a38c9b756dddb0fd0f28e7d8958589f0688b7b29baa1e5fafd6d9c1a63981",
+      "now": "460a38c9b756dddb0fd0f28e7d8958589f0688b7b29baa1e5fafd6d9c1a63981",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/c2ea994f7bb56198d897f648911de29e0d2906237b6764f6b0faaa1145555e6d",
+      "recorded": "460a38c9b756dddb0fd0f28e7d8958589f0688b7b29baa1e5fafd6d9c1a63981",
+      "now": "460a38c9b756dddb0fd0f28e7d8958589f0688b7b29baa1e5fafd6d9c1a63981",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/c95b0fd0bc4ecc4f6239a79b9f3244032a77a8d2ddfc2257f4832fd88c5bc868",
+      "recorded": "700a71c8bc4e0c5d6a04a54522bc55a4237c8a44377d65fe28d89cb531210094",
+      "now": "700a71c8bc4e0c5d6a04a54522bc55a4237c8a44377d65fe28d89cb531210094",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/c95b0fd0bc4ecc4f6239a79b9f3244032a77a8d2ddfc2257f4832fd88c5bc868",
+      "recorded": "700a71c8bc4e0c5d6a04a54522bc55a4237c8a44377d65fe28d89cb531210094",
+      "now": "700a71c8bc4e0c5d6a04a54522bc55a4237c8a44377d65fe28d89cb531210094",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/cd13371c1a54ce010ff08422d6e53dde34cbd328b4fd393d7eb9624dbe461fc7",
+      "recorded": "1f2aac227c0ce3f285f246285a3c80193339a265b0c07dee296940827bddb503",
+      "now": "1f2aac227c0ce3f285f246285a3c80193339a265b0c07dee296940827bddb503",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/cd13371c1a54ce010ff08422d6e53dde34cbd328b4fd393d7eb9624dbe461fc7",
+      "recorded": "1f2aac227c0ce3f285f246285a3c80193339a265b0c07dee296940827bddb503",
+      "now": "1f2aac227c0ce3f285f246285a3c80193339a265b0c07dee296940827bddb503",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/d03dc32168aced8d67e46c0f3f1ffbb7ee22d0edf9850aa1daa4c183aaaaeb01",
+      "recorded": "89bd8c4c60f43bd11adb6e19308980c938559054cc1d57eed1cabec161d36e75",
+      "now": "89bd8c4c60f43bd11adb6e19308980c938559054cc1d57eed1cabec161d36e75",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/d03dc32168aced8d67e46c0f3f1ffbb7ee22d0edf9850aa1daa4c183aaaaeb01",
+      "recorded": "89bd8c4c60f43bd11adb6e19308980c938559054cc1d57eed1cabec161d36e75",
+      "now": "89bd8c4c60f43bd11adb6e19308980c938559054cc1d57eed1cabec161d36e75",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/d42d0fc9648805336ff1bc03e701d91fe53819e139c7f74dc51e9021ddb542b8",
+      "recorded": "51c8513e37ab4b607c42bdd3c10c4db392156ddc6cadfa47a1cc543ba40652ff",
+      "now": "51c8513e37ab4b607c42bdd3c10c4db392156ddc6cadfa47a1cc543ba40652ff",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/d42d0fc9648805336ff1bc03e701d91fe53819e139c7f74dc51e9021ddb542b8",
+      "recorded": "51c8513e37ab4b607c42bdd3c10c4db392156ddc6cadfa47a1cc543ba40652ff",
+      "now": "51c8513e37ab4b607c42bdd3c10c4db392156ddc6cadfa47a1cc543ba40652ff",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/daeda472e5ac748e5422a708c3ea226b72c5a398608532cc052593fa8acb6063",
+      "recorded": "af8276c8a75336e37d1e1d1783c1dfbf5404bab146c5e28e0e76ae7aff482c0f",
+      "now": "af8276c8a75336e37d1e1d1783c1dfbf5404bab146c5e28e0e76ae7aff482c0f",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/daeda472e5ac748e5422a708c3ea226b72c5a398608532cc052593fa8acb6063",
+      "recorded": "af8276c8a75336e37d1e1d1783c1dfbf5404bab146c5e28e0e76ae7aff482c0f",
+      "now": "af8276c8a75336e37d1e1d1783c1dfbf5404bab146c5e28e0e76ae7aff482c0f",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/dd3a939cd81d5307bbb9bd374b2bdc38267462a3eab6c6c14076f816c95caf83",
+      "recorded": "79fd366f414820bf2311a16864ab38cd16f179835c4b75092805f7d48f773b98",
+      "now": "79fd366f414820bf2311a16864ab38cd16f179835c4b75092805f7d48f773b98",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/dd3a939cd81d5307bbb9bd374b2bdc38267462a3eab6c6c14076f816c95caf83",
+      "recorded": "79fd366f414820bf2311a16864ab38cd16f179835c4b75092805f7d48f773b98",
+      "now": "79fd366f414820bf2311a16864ab38cd16f179835c4b75092805f7d48f773b98",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/e01c9b05c079fd971f6ec795e9e51bf1aac3b42bc639de9bc5eaa7839420542e",
+      "recorded": "b329c3834aa8dbbc39501d19e2ed9fcc7e3680baf1af778981b7ebb45ba30174",
+      "now": "b329c3834aa8dbbc39501d19e2ed9fcc7e3680baf1af778981b7ebb45ba30174",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/e01c9b05c079fd971f6ec795e9e51bf1aac3b42bc639de9bc5eaa7839420542e",
+      "recorded": "b329c3834aa8dbbc39501d19e2ed9fcc7e3680baf1af778981b7ebb45ba30174",
+      "now": "b329c3834aa8dbbc39501d19e2ed9fcc7e3680baf1af778981b7ebb45ba30174",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/e4460797ad35fa79ec725e2d10ef3bdcdac5758e274cefc7dffe0b0729e78a6a",
+      "recorded": "9f80b64e0908d013ea0eff3e29014d14a65003c4af2ec48842be58751daea475",
+      "now": "9f80b64e0908d013ea0eff3e29014d14a65003c4af2ec48842be58751daea475",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/e4460797ad35fa79ec725e2d10ef3bdcdac5758e274cefc7dffe0b0729e78a6a",
+      "recorded": "9f80b64e0908d013ea0eff3e29014d14a65003c4af2ec48842be58751daea475",
+      "now": "9f80b64e0908d013ea0eff3e29014d14a65003c4af2ec48842be58751daea475",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/e6162d853957e1a4fb4f61e577b104babc2fb6b5df8835f06fd0ca05d681fe72",
+      "recorded": "4b5a17cc96c1a84777e7e9e4036b8d134141a6e4ebee3843c3c7091ffe560ef4",
+      "now": "4b5a17cc96c1a84777e7e9e4036b8d134141a6e4ebee3843c3c7091ffe560ef4",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/e6162d853957e1a4fb4f61e577b104babc2fb6b5df8835f06fd0ca05d681fe72",
+      "recorded": "4b5a17cc96c1a84777e7e9e4036b8d134141a6e4ebee3843c3c7091ffe560ef4",
+      "now": "4b5a17cc96c1a84777e7e9e4036b8d134141a6e4ebee3843c3c7091ffe560ef4",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/e735df5faba07541da1a8ca4522479220207662bf70a16f921888ac6bbaf2e0b",
+      "recorded": "f505cab2d10d99ba6a195a10e99333bed40d4ba0f1d55e8e272f38372119e018",
+      "now": "f505cab2d10d99ba6a195a10e99333bed40d4ba0f1d55e8e272f38372119e018",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/e735df5faba07541da1a8ca4522479220207662bf70a16f921888ac6bbaf2e0b",
+      "recorded": "f505cab2d10d99ba6a195a10e99333bed40d4ba0f1d55e8e272f38372119e018",
+      "now": "f505cab2d10d99ba6a195a10e99333bed40d4ba0f1d55e8e272f38372119e018",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/e9308aaa051d4ed760ef817d8f7d766cd308d69a29731a124b63e1866948aa94",
+      "recorded": "9bb5f771c2211a7be65b1dfac43f9bb0cd20d604d2b608f361244e3c9b6c3a5f",
+      "now": "9bb5f771c2211a7be65b1dfac43f9bb0cd20d604d2b608f361244e3c9b6c3a5f",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/e9308aaa051d4ed760ef817d8f7d766cd308d69a29731a124b63e1866948aa94",
+      "recorded": "9bb5f771c2211a7be65b1dfac43f9bb0cd20d604d2b608f361244e3c9b6c3a5f",
+      "now": "9bb5f771c2211a7be65b1dfac43f9bb0cd20d604d2b608f361244e3c9b6c3a5f",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/eb469aa35433bc117b6a9762ed6c39b2905ef1c9ba5e06a5abd99bfe086ce5fe",
+      "recorded": "208f7eb2c35149b5ebb71cb5dfc9b251744f7fc6d6ffee088c0a1de5ee9764e8",
+      "now": "208f7eb2c35149b5ebb71cb5dfc9b251744f7fc6d6ffee088c0a1de5ee9764e8",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/eb469aa35433bc117b6a9762ed6c39b2905ef1c9ba5e06a5abd99bfe086ce5fe",
+      "recorded": "208f7eb2c35149b5ebb71cb5dfc9b251744f7fc6d6ffee088c0a1de5ee9764e8",
+      "now": "208f7eb2c35149b5ebb71cb5dfc9b251744f7fc6d6ffee088c0a1de5ee9764e8",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/f7292137a46d00eb4b4bda2247f28dc7594dcd52b2661ff560b560c736c7a283",
+      "recorded": "aa3717966445bce0d245ce1b46ca8ca55262722de995fe2e0fa79547770838ce",
+      "now": "aa3717966445bce0d245ce1b46ca8ca55262722de995fe2e0fa79547770838ce",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/f7292137a46d00eb4b4bda2247f28dc7594dcd52b2661ff560b560c736c7a283",
+      "recorded": "aa3717966445bce0d245ce1b46ca8ca55262722de995fe2e0fa79547770838ce",
+      "now": "aa3717966445bce0d245ce1b46ca8ca55262722de995fe2e0fa79547770838ce",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: clean/fb5f73bcfdd3aae405a2f7093ccd79bc643c6a28c73ae5716b88519c0e493f12",
+      "recorded": "f6cd9edfc5181df8923585c910875f039776e6321cb3e42ee37c54de15696e36",
+      "now": "f6cd9edfc5181df8923585c910875f039776e6321cb3e42ee37c54de15696e36",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: clean/fb5f73bcfdd3aae405a2f7093ccd79bc643c6a28c73ae5716b88519c0e493f12",
+      "recorded": "f6cd9edfc5181df8923585c910875f039776e6321cb3e42ee37c54de15696e36",
+      "now": "f6cd9edfc5181df8923585c910875f039776e6321cb3e42ee37c54de15696e36",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/0179f80e9bc8a37c984e133122c74e85531e67c121403b36ed72bc4b0af3cfc8",
+      "recorded": "94ad9d052779e387ef7a8fab6d48aeb8b7fc050b2f6b0c444744d82d2c481c8e",
+      "now": "94ad9d052779e387ef7a8fab6d48aeb8b7fc050b2f6b0c444744d82d2c481c8e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/0179f80e9bc8a37c984e133122c74e85531e67c121403b36ed72bc4b0af3cfc8",
+      "recorded": "94ad9d052779e387ef7a8fab6d48aeb8b7fc050b2f6b0c444744d82d2c481c8e",
+      "now": "94ad9d052779e387ef7a8fab6d48aeb8b7fc050b2f6b0c444744d82d2c481c8e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/08620203b35060b15f79a739b2a418d33a7077f9a98b63dca8f72c8249416b07",
+      "recorded": "91d6dd915540c0dbb6fca5845539d7af47d67920d54d2a5c32aae5d27766bc98",
+      "now": "91d6dd915540c0dbb6fca5845539d7af47d67920d54d2a5c32aae5d27766bc98",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/08620203b35060b15f79a739b2a418d33a7077f9a98b63dca8f72c8249416b07",
+      "recorded": "91d6dd915540c0dbb6fca5845539d7af47d67920d54d2a5c32aae5d27766bc98",
+      "now": "91d6dd915540c0dbb6fca5845539d7af47d67920d54d2a5c32aae5d27766bc98",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/0a544f4dca580a3d9100ce5d93283397534ab679a222dd1d50ca5bdb7b1bfc53",
+      "recorded": "e3c5a5deda72c512685f7deb05517ca777379eb39eef55382a0f8b4f502f8f06",
+      "now": "e3c5a5deda72c512685f7deb05517ca777379eb39eef55382a0f8b4f502f8f06",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/0a544f4dca580a3d9100ce5d93283397534ab679a222dd1d50ca5bdb7b1bfc53",
+      "recorded": "e3c5a5deda72c512685f7deb05517ca777379eb39eef55382a0f8b4f502f8f06",
+      "now": "e3c5a5deda72c512685f7deb05517ca777379eb39eef55382a0f8b4f502f8f06",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/0a94153de055fab85117b78ab3dd57d7cc2bd9c4830287ca1c1ebaf4045b9e9c",
+      "recorded": "db013e822615ab65ede22a3f473f6dcf981465e5e901f69bc18e3ae122b42de4",
+      "now": "db013e822615ab65ede22a3f473f6dcf981465e5e901f69bc18e3ae122b42de4",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/0a94153de055fab85117b78ab3dd57d7cc2bd9c4830287ca1c1ebaf4045b9e9c",
+      "recorded": "db013e822615ab65ede22a3f473f6dcf981465e5e901f69bc18e3ae122b42de4",
+      "now": "db013e822615ab65ede22a3f473f6dcf981465e5e901f69bc18e3ae122b42de4",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/1ce768e96b8fbd756456883f2ae62688e765fae3b1c574dddf191af4f41a9e3e",
+      "recorded": "fbec6891264ac3fc5f3c15cb53d67528663c52c83a1025c6bebf442aa99c5ea0",
+      "now": "fbec6891264ac3fc5f3c15cb53d67528663c52c83a1025c6bebf442aa99c5ea0",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/1ce768e96b8fbd756456883f2ae62688e765fae3b1c574dddf191af4f41a9e3e",
+      "recorded": "fbec6891264ac3fc5f3c15cb53d67528663c52c83a1025c6bebf442aa99c5ea0",
+      "now": "fbec6891264ac3fc5f3c15cb53d67528663c52c83a1025c6bebf442aa99c5ea0",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+      "recorded": "a25525e57c66d363d6ef8e480e5d566473ebc4359bed7b4c3c13365f6572fe57",
+      "now": "a25525e57c66d363d6ef8e480e5d566473ebc4359bed7b4c3c13365f6572fe57",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/248fc03974e5c4ebcb3f322ccf9c66dca06580c55ed67454bc46b5eced680a53",
+      "recorded": "a25525e57c66d363d6ef8e480e5d566473ebc4359bed7b4c3c13365f6572fe57",
+      "now": "a25525e57c66d363d6ef8e480e5d566473ebc4359bed7b4c3c13365f6572fe57",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/2e7ccddadf5b3c151e06fb11ac13d96eef0105cb8c866d0cf6694df535afc852",
+      "recorded": "63d0436f72d812279d07349db927e487e34c43d16ac9159bf9761df3db1e1dca",
+      "now": "63d0436f72d812279d07349db927e487e34c43d16ac9159bf9761df3db1e1dca",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/2e7ccddadf5b3c151e06fb11ac13d96eef0105cb8c866d0cf6694df535afc852",
+      "recorded": "63d0436f72d812279d07349db927e487e34c43d16ac9159bf9761df3db1e1dca",
+      "now": "63d0436f72d812279d07349db927e487e34c43d16ac9159bf9761df3db1e1dca",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/3093521ba87c31897e8f3a9904c07e40bce70b12372b58a47a0e1e91e7e56128",
+      "recorded": "48e02bcc84c715836aad032d5313c133cb77815c02a8f00d616b749194188a8a",
+      "now": "48e02bcc84c715836aad032d5313c133cb77815c02a8f00d616b749194188a8a",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/3093521ba87c31897e8f3a9904c07e40bce70b12372b58a47a0e1e91e7e56128",
+      "recorded": "48e02bcc84c715836aad032d5313c133cb77815c02a8f00d616b749194188a8a",
+      "now": "48e02bcc84c715836aad032d5313c133cb77815c02a8f00d616b749194188a8a",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/381456177bc1750709c8fb296edda16c809b437113a914a6c0effcfc4263a6dc",
+      "recorded": "7e78b29b59fc471f2a16fd95b4066c654a22f6a1f837c954abe57fc8f1e938b1",
+      "now": "7e78b29b59fc471f2a16fd95b4066c654a22f6a1f837c954abe57fc8f1e938b1",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/381456177bc1750709c8fb296edda16c809b437113a914a6c0effcfc4263a6dc",
+      "recorded": "7e78b29b59fc471f2a16fd95b4066c654a22f6a1f837c954abe57fc8f1e938b1",
+      "now": "7e78b29b59fc471f2a16fd95b4066c654a22f6a1f837c954abe57fc8f1e938b1",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/3c628b2560ace4e990e9947f97efb77b1aee38e881354d6bb92af71ec42af9a3",
+      "recorded": "5a8f6f0fd0ed36f0175b7f5e223520fbe7dab345920a257fb7bb3d63f6baf2c4",
+      "now": "5a8f6f0fd0ed36f0175b7f5e223520fbe7dab345920a257fb7bb3d63f6baf2c4",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/3c628b2560ace4e990e9947f97efb77b1aee38e881354d6bb92af71ec42af9a3",
+      "recorded": "5a8f6f0fd0ed36f0175b7f5e223520fbe7dab345920a257fb7bb3d63f6baf2c4",
+      "now": "5a8f6f0fd0ed36f0175b7f5e223520fbe7dab345920a257fb7bb3d63f6baf2c4",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/4c31f934caa05fc6dc828a53fa664f7ebe656bbf979e029c109b68e31ae7b340",
+      "recorded": "d1cdda161d3538371b501d50c315b4ebe184d8c5163582d54b791714281a0797",
+      "now": "d1cdda161d3538371b501d50c315b4ebe184d8c5163582d54b791714281a0797",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/4c31f934caa05fc6dc828a53fa664f7ebe656bbf979e029c109b68e31ae7b340",
+      "recorded": "d1cdda161d3538371b501d50c315b4ebe184d8c5163582d54b791714281a0797",
+      "now": "d1cdda161d3538371b501d50c315b4ebe184d8c5163582d54b791714281a0797",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "recorded": "e1bbc561d111ee26eec982ddf0c5f53c4cb8d9afd0fa4a11d11922cf064b956e",
+      "now": "e1bbc561d111ee26eec982ddf0c5f53c4cb8d9afd0fa4a11d11922cf064b956e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "recorded": "e1bbc561d111ee26eec982ddf0c5f53c4cb8d9afd0fa4a11d11922cf064b956e",
+      "now": "e1bbc561d111ee26eec982ddf0c5f53c4cb8d9afd0fa4a11d11922cf064b956e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/506aacb7855491c32cda90aa3ebc4fb3eef6037b9d945a33afd6beca50074fb6",
+      "recorded": "5688f3899ce501cc9915e71264ba168214680082726e64401f496de60fc45f2a",
+      "now": "5688f3899ce501cc9915e71264ba168214680082726e64401f496de60fc45f2a",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/506aacb7855491c32cda90aa3ebc4fb3eef6037b9d945a33afd6beca50074fb6",
+      "recorded": "5688f3899ce501cc9915e71264ba168214680082726e64401f496de60fc45f2a",
+      "now": "5688f3899ce501cc9915e71264ba168214680082726e64401f496de60fc45f2a",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/576d8101d1e2a7ad27ca8698b1e14b5ba7c5d55008074e371a5cd3acbfe3db6a",
+      "recorded": "e32535fe5a8fa8d15410659f560c0100451b298f080eec0ee156fe5abc12b259",
+      "now": "e32535fe5a8fa8d15410659f560c0100451b298f080eec0ee156fe5abc12b259",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/576d8101d1e2a7ad27ca8698b1e14b5ba7c5d55008074e371a5cd3acbfe3db6a",
+      "recorded": "e32535fe5a8fa8d15410659f560c0100451b298f080eec0ee156fe5abc12b259",
+      "now": "e32535fe5a8fa8d15410659f560c0100451b298f080eec0ee156fe5abc12b259",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/5f86a68ee3ac9ec0c73e5872361bb1948f678cc995816a07cf87a9090c3c6971",
+      "recorded": "ad3513107892e554e120d0d66ca1c2acf5d1c819a7aa6026010d06a4ebbff540",
+      "now": "ad3513107892e554e120d0d66ca1c2acf5d1c819a7aa6026010d06a4ebbff540",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/5f86a68ee3ac9ec0c73e5872361bb1948f678cc995816a07cf87a9090c3c6971",
+      "recorded": "ad3513107892e554e120d0d66ca1c2acf5d1c819a7aa6026010d06a4ebbff540",
+      "now": "ad3513107892e554e120d0d66ca1c2acf5d1c819a7aa6026010d06a4ebbff540",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/619919a449a98aa93749d1c49a19d81c513835e53931c2bdf45927a7592ba06c",
+      "recorded": "177564f418945e525d2825a17e89e3a958a73e3c1ce438276721bfaafb8c6f6c",
+      "now": "177564f418945e525d2825a17e89e3a958a73e3c1ce438276721bfaafb8c6f6c",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/619919a449a98aa93749d1c49a19d81c513835e53931c2bdf45927a7592ba06c",
+      "recorded": "177564f418945e525d2825a17e89e3a958a73e3c1ce438276721bfaafb8c6f6c",
+      "now": "177564f418945e525d2825a17e89e3a958a73e3c1ce438276721bfaafb8c6f6c",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/778c804fef2290efaeade5b7344b6ea4061332da03f689eeac2275c123f07a39",
+      "recorded": "297e54fae91f853bb444a74323cd48f04f28951db1c53f3fddb28250f9c03997",
+      "now": "297e54fae91f853bb444a74323cd48f04f28951db1c53f3fddb28250f9c03997",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/778c804fef2290efaeade5b7344b6ea4061332da03f689eeac2275c123f07a39",
+      "recorded": "297e54fae91f853bb444a74323cd48f04f28951db1c53f3fddb28250f9c03997",
+      "now": "297e54fae91f853bb444a74323cd48f04f28951db1c53f3fddb28250f9c03997",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/96e583253b5f6d401d03dd69a22b811b512216163222903034e70c0b4f6c597b",
+      "recorded": "1dbccf8f2b81a487058eb44a96a2c460d0807bff4b898d99e2d885370c9aa2f5",
+      "now": "1dbccf8f2b81a487058eb44a96a2c460d0807bff4b898d99e2d885370c9aa2f5",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/96e583253b5f6d401d03dd69a22b811b512216163222903034e70c0b4f6c597b",
+      "recorded": "1dbccf8f2b81a487058eb44a96a2c460d0807bff4b898d99e2d885370c9aa2f5",
+      "now": "1dbccf8f2b81a487058eb44a96a2c460d0807bff4b898d99e2d885370c9aa2f5",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/9ef3a66d246d22cad5357a69f28eda98ed382716e0a0893f528970c2b1bb7202",
+      "recorded": "0e79ce22cd5336f662a0cd86de70d962ce272e052069bc87f67be16d64f67c1a",
+      "now": "0e79ce22cd5336f662a0cd86de70d962ce272e052069bc87f67be16d64f67c1a",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/9ef3a66d246d22cad5357a69f28eda98ed382716e0a0893f528970c2b1bb7202",
+      "recorded": "0e79ce22cd5336f662a0cd86de70d962ce272e052069bc87f67be16d64f67c1a",
+      "now": "0e79ce22cd5336f662a0cd86de70d962ce272e052069bc87f67be16d64f67c1a",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/b25ef154bfbd37f05515fe37944d876231c3a8db07f10e082556699c05d3a911",
+      "recorded": "f81a6ce99e4e121f097e9786933d580308f530bc705ebbabff49c90aad0a0c5e",
+      "now": "f81a6ce99e4e121f097e9786933d580308f530bc705ebbabff49c90aad0a0c5e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/b25ef154bfbd37f05515fe37944d876231c3a8db07f10e082556699c05d3a911",
+      "recorded": "f81a6ce99e4e121f097e9786933d580308f530bc705ebbabff49c90aad0a0c5e",
+      "now": "f81a6ce99e4e121f097e9786933d580308f530bc705ebbabff49c90aad0a0c5e",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/b42804c4f6dbd3fe3416af0a7278b34761344cc1ad3e2d7b57c3de78fb7c71b1",
+      "recorded": "74b2e4543bb5210e39d0eb5bf881e82356e58cac0192ceb59a8a0a2104f7a8c9",
+      "now": "74b2e4543bb5210e39d0eb5bf881e82356e58cac0192ceb59a8a0a2104f7a8c9",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/b42804c4f6dbd3fe3416af0a7278b34761344cc1ad3e2d7b57c3de78fb7c71b1",
+      "recorded": "74b2e4543bb5210e39d0eb5bf881e82356e58cac0192ceb59a8a0a2104f7a8c9",
+      "now": "74b2e4543bb5210e39d0eb5bf881e82356e58cac0192ceb59a8a0a2104f7a8c9",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/bf9023a6132210109f14a541d18fbfcbefb7d6625bbd252b339cd265b8b2d387",
+      "recorded": "90500db0ebb60c31ced4664bbe586f17612b8c07218801685d7ead6899ca1320",
+      "now": "90500db0ebb60c31ced4664bbe586f17612b8c07218801685d7ead6899ca1320",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/bf9023a6132210109f14a541d18fbfcbefb7d6625bbd252b339cd265b8b2d387",
+      "recorded": "90500db0ebb60c31ced4664bbe586f17612b8c07218801685d7ead6899ca1320",
+      "now": "90500db0ebb60c31ced4664bbe586f17612b8c07218801685d7ead6899ca1320",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/c9e6850332f7cca788593f324dce459db1266acff4273b113cd25db2746ab1d8",
+      "recorded": "0362b02e52aa518f2627998d55a93092561bafd457294d1330704eeb00c00e70",
+      "now": "0362b02e52aa518f2627998d55a93092561bafd457294d1330704eeb00c00e70",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/c9e6850332f7cca788593f324dce459db1266acff4273b113cd25db2746ab1d8",
+      "recorded": "0362b02e52aa518f2627998d55a93092561bafd457294d1330704eeb00c00e70",
+      "now": "0362b02e52aa518f2627998d55a93092561bafd457294d1330704eeb00c00e70",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/e52b7396637ffd317610776d8da53332e7bfeeca20a0499753e5bea1d901a1db",
+      "recorded": "d5b24299126b0c78948d8d6a7147370a861e5c88b603e2e53ec339b247ab96c7",
+      "now": "d5b24299126b0c78948d8d6a7147370a861e5c88b603e2e53ec339b247ab96c7",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/e52b7396637ffd317610776d8da53332e7bfeeca20a0499753e5bea1d901a1db",
+      "recorded": "d5b24299126b0c78948d8d6a7147370a861e5c88b603e2e53ec339b247ab96c7",
+      "now": "d5b24299126b0c78948d8d6a7147370a861e5c88b603e2e53ec339b247ab96c7",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/f73c5b43b6ab620aad00200e04d27a3fe3c330edb257360e3d16489fd65ca646",
+      "recorded": "a2a4856ca5627ac275826446130689ce179d6899cdc8871066ec771843ff6bd7",
+      "now": "a2a4856ca5627ac275826446130689ce179d6899cdc8871066ec771843ff6bd7",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/f73c5b43b6ab620aad00200e04d27a3fe3c330edb257360e3d16489fd65ca646",
+      "recorded": "a2a4856ca5627ac275826446130689ce179d6899cdc8871066ec771843ff6bd7",
+      "now": "a2a4856ca5627ac275826446130689ce179d6899cdc8871066ec771843ff6bd7",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config intended: guess/fe3fa58474984285b15f85ff3cfdc38977f076315087a59e7a9457cc2e2ae914",
+      "recorded": "406dbc2cbdffe97793334429ae41946ea010eeb7d131531e4a7d1ead09212493",
+      "now": "406dbc2cbdffe97793334429ae41946ea010eeb7d131531e4a7d1ead09212493",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    },
+    {
+      "name": "config applied: guess/fe3fa58474984285b15f85ff3cfdc38977f076315087a59e7a9457cc2e2ae914",
+      "recorded": "406dbc2cbdffe97793334429ae41946ea010eeb7d131531e4a7d1ead09212493",
+      "now": "406dbc2cbdffe97793334429ae41946ea010eeb7d131531e4a7d1ead09212493",
+      "match": true,
+      "method": "config_hash(apply_patch(faulted_config, saved patch)); canonical JSON"
+    }
+  ],
+  "config_run_records": 17952,
+  "distinct_configs": 109,
+  "prompt_provenance_checks": 114,
+  "missing_patch_hashes": []
+}

@@ -1,0 +1,78 @@
+# Isolated Phase 5 stack; use with docker-compose.yml from this worktree.
+x-worker: &worker
+  environment: &runtime-env
+    POSTGRES_HOST: postgres
+    POSTGRES_PORT: "5432"
+    KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    REDIS_HOST: redis
+    REDIS_PORT: "6379"
+    MLFLOW_TRACKING_URI: http://mlflow:5000
+    SLACK_WEBHOOK_URL: ""
+  volumes:
+    - ./infra/phase5_health.py:/app/infra/phase5_health.py:ro
+
+services:
+  postgres:
+    # The existing nexus stack owns 55432; do not disturb it or its volume.
+    ports: !override ["55433:5432"]
+    healthcheck:
+      start_period: 180s
+      retries: 60
+  mlflow:
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 120s
+  nexus-collector:
+    environment: *runtime-env
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+  nexus-assembler:
+    <<: *worker
+    healthcheck:
+      test: ["CMD", "python", "/app/infra/phase5_health.py", "assembler"]
+      interval: 10s
+      timeout: 8s
+      retries: 15
+  nexus-classifier:
+    <<: *worker
+    healthcheck:
+      test: ["CMD", "python", "/app/infra/phase5_health.py", "classifier"]
+      interval: 10s
+      timeout: 8s
+      retries: 15
+      start_period: 60s
+  nexus-critic:
+    <<: *worker
+    healthcheck:
+      test: ["CMD", "python", "/app/infra/phase5_health.py", "critic"]
+      interval: 10s
+      timeout: 8s
+      retries: 15
+      start_period: 30s
+  nexus-healer:
+    <<: *worker
+    healthcheck:
+      test: ["CMD", "python", "/app/infra/phase5_health.py", "healer"]
+      interval: 10s
+      timeout: 8s
+      retries: 15
+      start_period: 30s
+  nexus-api:
+    environment: *runtime-env
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/healthz', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+  nexus-dashboard:
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 15

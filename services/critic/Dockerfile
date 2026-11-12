@@ -11,6 +11,7 @@ RUN pip install --no-cache-dir -e /app/sdk \
 COPY services/__init__.py /app/services/__init__.py
 COPY services/common /app/services/common
 COPY services/critic /app/services/critic
+COPY infra/entrypoints/critic.py /app/infra/entrypoints/critic.py
 
 ENV PYTHONUNBUFFERED=1
-CMD ["python", "-m", "services.critic.main"]
+CMD ["python", "/app/infra/entrypoints/critic.py"]

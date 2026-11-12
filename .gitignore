@@ -41,3 +41,11 @@ Thumbs.db
 # only tracked output (DECISIONS D48). data/nexusbench/ is benchmark data, tracked.
 data/phase2/
 data/phase4/
+
+# Phase 5 local state and private exports (never commit).
+runs/
+logs/
+*.jsonl
+*.patch
+frozen_patches_export.tgz
+data/phase5/runs/
