@@ -1,0 +1,234 @@
+{
+  "deepseek_attempt_audit": {
+    "attempts": 7093,
+    "errors": {
+      "RemoteProtocolError": 1
+    },
+    "http_status_counts": {
+      "200": 7092,
+      "None": 1
+    },
+    "known_provider_usd": 0.4334295690000016,
+    "note": "Every attempt retained; unknown usage retains its full preflight reservation. Frozen actor transport policy retries eligible errors, up to five attempts.",
+    "statuses": {
+      "settled": 7092,
+      "unknown": 1
+    },
+    "unknown_provider_reserved_usd": 0.0019515
+  },
+  "levels": [
+    {
+      "all_completed_time_s": {
+        "n": 10,
+        "p50": 440.58227890000126,
+        "p90": 503.9143214400057
+      },
+      "api_errors": 0,
+      "completed_heals_per_hour": 7.976130506002122,
+      "completed_n": 10,
+      "concurrency": 1,
+      "critic_call_count": 20,
+      "critic_call_latency_ms": {
+        "n": 20,
+        "p50": 3782.1459999999997,
+        "p90": 4413.5171
+      },
+      "critic_cost_per_completed_heal_usd": 0.0017163039,
+      "critic_cost_total_usd": 0.017163039,
+      "critic_http_status_counts": {
+        "200": 20
+      },
+      "critic_model_versions": [
+        "deepseek-flash"
+      ],
+      "decisions_descriptive_only": {
+        "promoted": 6,
+        "rejected": 4
+      },
+      "deepseek_budget": {
+        "ledger_accounted_usd": 0.8288601000000024,
+        "ledger_cap_usd": 100.0,
+        "provider_accounted_usd": 0.2168895389999997,
+        "provider_actual_usd": 0.21688953900000044,
+        "provider_cap_usd": 1.5,
+        "stop_reason": null,
+        "stopped": 0
+      },
+      "elapsed_s": 4513.466771,
+      "ended_at": "2026-11-12T18:16:37.262865+00:00",
+      "full_gate_n": 10,
+      "full_gate_time_s": {
+        "n": 10,
+        "p50": 440.58227890000126,
+        "p90": 503.9143214400057
+      },
+      "gate_execution_s": {
+        "n": 10,
+        "p50": 416.87349795000773,
+        "p90": 496.47204778000594
+      },
+      "not_started_ids": [],
+      "per_stage_s": {
+        "classify": {
+          "n": 10,
+          "p50": 0.0004305500042391941,
+          "p90": 0.001354299997910857
+        },
+        "critic_call": {
+          "n": 10,
+          "p50": 7.4710088500069105,
+          "p90": 8.393841619990416
+        },
+        "detect": {
+          "n": 10,
+          "p50": 3.2515575500001432,
+          "p90": 14.705241029994777
+        },
+        "gate_heldout": {
+          "n": 10,
+          "p50": 71.68803105000552,
+          "p90": 94.97482741999993
+        },
+        "gate_regression": {
+          "n": 10,
+          "p50": 335.00087680000433,
+          "p90": 392.52897031000174
+        },
+        "gate_repair": {
+          "n": 10,
+          "p50": 14.405235049998737,
+          "p90": 20.723688430005858
+        }
+      },
+      "planned_n": 10,
+      "started_at": "2026-11-12T17:01:23.796094+00:00",
+      "statuses": {
+        "ok": 10
+      },
+      "terminal_heals_per_hour": 7.976130506002122,
+      "terminal_n": 10,
+      "timeouts": 0
+    },
+    {
+      "all_completed_time_s": {
+        "n": 10,
+        "p50": 418.72587650000787,
+        "p90": 447.0449822099981
+      },
+      "api_errors": 1,
+      "completed_heals_per_hour": 28.633338006850856,
+      "completed_n": 10,
+      "concurrency": 4,
+      "critic_call_count": 22,
+      "critic_call_latency_ms": {
+        "n": 22,
+        "p50": 3239.118,
+        "p90": 4360.4466
+      },
+      "critic_cost_per_completed_heal_usd": 0.0019771953,
+      "critic_cost_total_usd": 0.019771953,
+      "critic_http_status_counts": {
+        "200": 22
+      },
+      "critic_model_versions": [
+        "deepseek-flash"
+      ],
+      "decisions_descriptive_only": {
+        "promoted": 7,
+        "rejected": 3
+      },
+      "deepseek_budget": {
+        "ledger_accounted_usd": 1.662455700000004,
+        "ledger_cap_usd": 100.0,
+        "provider_accounted_usd": 0.43538106899999685,
+        "provider_actual_usd": 0.4334295690000016,
+        "provider_cap_usd": 1.5,
+        "stop_reason": null,
+        "stopped": 0
+      },
+      "elapsed_s": 1257.275697,
+      "ended_at": "2026-11-12T18:37:34.662528+00:00",
+      "full_gate_n": 10,
+      "full_gate_time_s": {
+        "n": 10,
+        "p50": 418.72587650000787,
+        "p90": 447.0449822099981
+      },
+      "gate_execution_s": {
+        "n": 10,
+        "p50": 408.50044884999807,
+        "p90": 438.759618960011
+      },
+      "not_started_ids": [],
+      "per_stage_s": {
+        "classify": {
+          "n": 10,
+          "p50": 0.0004090999937034212,
+          "p90": 0.0011119899965706282
+        },
+        "critic_call": {
+          "n": 10,
+          "p50": 7.155761850008275,
+          "p90": 9.215100960004198
+        },
+        "detect": {
+          "n": 10,
+          "p50": 3.1071631500017247,
+          "p90": 7.288212300000305
+        },
+        "gate_heldout": {
+          "n": 10,
+          "p50": 73.65307875000144,
+          "p90": 91.42885435000062
+        },
+        "gate_regression": {
+          "n": 10,
+          "p50": 319.16543884999555,
+          "p90": 341.3893336399968
+        },
+        "gate_repair": {
+          "n": 10,
+          "p50": 11.995593800005736,
+          "p90": 19.19669646000839
+        }
+      },
+      "planned_n": 10,
+      "started_at": "2026-11-12T18:16:37.386831+00:00",
+      "statuses": {
+        "ok": 10
+      },
+      "terminal_heals_per_hour": 28.633338006850856,
+      "terminal_n": 10,
+      "timeouts": 0
+    }
+  ],
+  "protocol": "reports/phase5/amendment_2.md",
+  "provenance": {
+    "dev_only": true,
+    "execution_commits": [
+      "bb0dd8d52328c82eda0acf92b16e0e22357b6226"
+    ],
+    "frozen_reference": "phase4-test-scored",
+    "record_count": 20,
+    "source_note": "Final source hashes; per-heal execution commit set retained; no frozen code change",
+    "source_sha256": {
+      "scripts/phase5/followup.py": "f3a650df261c8f30ebb689b626afc78b4091e96b75a9756ef7db3b065a8b9549",
+      "scripts/phase5/gemini_critic.py": "3eabf5693a8cc39fcaa49bf34ba387b9d9a2817e00017dcf4825e999e2013b98",
+      "scripts/phase5/measurement.py": "5994a60c11f42a88d793b9bd36927cc0abe906b84102c43567872cb786dcb4f0",
+      "scripts/phase5/pipeline.py": "bb4d8a76f29e652e438ad027b24c61f51fd4800a7e5ebd646954a07c978e84c9"
+    }
+  },
+  "seed": 2026111203,
+  "selected_ids": [
+    "heal-039",
+    "heal-046",
+    "heal-041",
+    "heal-044",
+    "heal-042",
+    "heal-003",
+    "heal-088",
+    "heal-075",
+    "heal-006",
+    "heal-012"
+  ]
+}

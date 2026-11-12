@@ -1,0 +1,767 @@
+{
+  "L1": {
+    "all_heals": {
+      "aggregate_total_s": 36208.714391999994,
+      "stages": {
+        "classify": {
+          "aggregate_share_of_total": 1.8517586468638064e-06,
+          "bootstrap_seed": 17742928560549441981,
+          "ci95_p50": [
+            0.00029019876219535943,
+            0.00034204999974463135
+          ],
+          "ci95_p90": [
+            0.001140040009340737,
+            0.0013116000045556575
+          ],
+          "n": 100,
+          "p50": 0.00030205000075511634,
+          "p90": 0.0011720900060026907,
+          "state_counts": {
+            "complete": 100
+          },
+          "sum_s": 0.06704979996720795
+        },
+        "critic_call": {
+          "aggregate_share_of_total": 0.02335370878803775,
+          "bootstrap_seed": 1194032691553652028,
+          "ci95_p50": [
+            7.92242129999795,
+            8.25906624124491
+          ],
+          "ci95_p90": [
+            9.15038694000541,
+            14.890511600009631
+          ],
+          "n": 100,
+          "p50": 8.154852250001568,
+          "p90": 13.79849195000279,
+          "state_counts": {
+            "complete": 100
+          },
+          "sum_s": 845.6077714999992
+        },
+        "detect": {
+          "aggregate_share_of_total": 0.009202753251399808,
+          "bootstrap_seed": 5241754317106156635,
+          "ci95_p50": [
+            0.0006748000014340505,
+            0.000992883750404871
+          ],
+          "ci95_p90": [
+            7.4669800299889175,
+            7.876171500000055
+          ],
+          "n": 100,
+          "p50": 0.0008629000003566034,
+          "p90": 7.542404280006304,
+          "state_counts": {
+            "complete": 100
+          },
+          "sum_s": 333.219864099985
+        },
+        "gate_heldout": {
+          "aggregate_share_of_total": 0.16362671117671557,
+          "bootstrap_seed": 9331245071250769139,
+          "ci95_p50": [
+            63.617725399992196,
+            79.48482230000081
+          ],
+          "ci95_p90": [
+            88.70462003000867,
+            99.04004480000003
+          ],
+          "n": 82,
+          "p50": 74.27493574999971,
+          "p90": 91.53101475999138,
+          "state_counts": {
+            "complete": 82,
+            "skipped": 18
+          },
+          "sum_s": 5924.712851899967
+        },
+        "gate_regression": {
+          "aggregate_share_of_total": 0.7688861415762136,
+          "bootstrap_seed": 8270986197184621587,
+          "ci95_p50": [
+            332.13742650000495,
+            346.5890674000111
+          ],
+          "ci95_p90": [
+            358.093590199991,
+            372.84263849999115
+          ],
+          "n": 82,
+          "p50": 337.71369249999407,
+          "p90": 366.28901952999297,
+          "state_counts": {
+            "complete": 82,
+            "skipped": 18
+          },
+          "sum_s": 27840.37870029999
+        },
+        "gate_repair": {
+          "aggregate_share_of_total": 0.034233882782479956,
+          "bootstrap_seed": 11724487928365090946,
+          "ci95_p50": [
+            13.47447480000119,
+            16.632745150003757
+          ],
+          "ci95_p90": [
+            19.452695500003756,
+            21.249387100004242
+          ],
+          "n": 82,
+          "p50": 15.296107300004223,
+          "p90": 20.439566199998083,
+          "state_counts": {
+            "complete": 82,
+            "skipped": 18
+          },
+          "sum_s": 1239.5648842000228
+        }
+      },
+      "status_counts": {
+        "ok": 100
+      },
+      "total_s": {
+        "bootstrap_seed": 2329275011894415744,
+        "ci95_p50": [
+          411.7321445999987,
+          447.713730449992
+        ],
+        "ci95_p90": [
+          474.1854467899975,
+          489.0920308999921
+        ],
+        "n": 100,
+        "p50": 421.6411511999977,
+        "p90": 480.41865597999276
+      },
+      "unattributed_overhead_s": 25.16327020006429,
+      "unattributed_share": 0.0006949506665065108
+    },
+    "fast_exit": {
+      "aggregate_total_s": 128.8113828000205,
+      "stages": {
+        "classify": {
+          "aggregate_share_of_total": 3.3202034450750824e-05,
+          "bootstrap_seed": 3754532080589145304,
+          "ci95_p50": [
+            0.00021879999985685572,
+            0.0002610500014270656
+          ],
+          "ci95_p90": [
+            0.00025850000383798033,
+            0.0002868999872589484
+          ],
+          "n": 18,
+          "p50": 0.00024839999969117343,
+          "p90": 0.00027555000560823827,
+          "state_counts": {
+            "complete": 18
+          },
+          "sum_s": 0.0042767999693751335
+        },
+        "critic_call": {
+          "aggregate_share_of_total": 0.9936512660430515,
+          "bootstrap_seed": 14440839362494651710,
+          "ci95_p50": [
+            6.404734349998762,
+            8.43498759999784
+          ],
+          "ci95_p90": [
+            8.276287999999477,
+            15.896285599999828
+          ],
+          "n": 18,
+          "p50": 7.575979250003002,
+          "p90": 13.894384780002293,
+          "state_counts": {
+            "complete": 18
+          },
+          "sum_s": 127.99359359999653
+        },
+        "detect": {
+          "aggregate_share_of_total": 8.426041037729276e-05,
+          "bootstrap_seed": 491454317479830281,
+          "ci95_p50": [
+            0.0005943499927525409,
+            0.0006296837496847724
+          ],
+          "ci95_p90": [
+            0.0006265900025027804,
+            0.0006624999950872734
+          ],
+          "n": 18,
+          "p50": 0.0006131499976618215,
+          "p90": 0.0006437599993660114,
+          "state_counts": {
+            "complete": 18
+          },
+          "sum_s": 0.010853699975996278
+        },
+        "gate_heldout": {
+          "aggregate_share_of_total": 0.0,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "state_counts": {
+            "skipped": 18
+          },
+          "sum_s": 0
+        },
+        "gate_regression": {
+          "aggregate_share_of_total": 0.0,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "state_counts": {
+            "skipped": 18
+          },
+          "sum_s": 0
+        },
+        "gate_repair": {
+          "aggregate_share_of_total": 0.0,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "state_counts": {
+            "skipped": 18
+          },
+          "sum_s": 0
+        }
+      },
+      "status_counts": {
+        "ok": 18
+      },
+      "total_s": {
+        "bootstrap_seed": 10207809941474723353,
+        "ci95_p50": [
+          6.521906800000579,
+          8.475475550003466
+        ],
+        "ci95_p90": [
+          8.150949000002583,
+          15.945399199990788
+        ],
+        "n": 18,
+        "p50": 7.618968850008969,
+        "p90": 13.939946299997974
+      },
+      "unattributed_overhead_s": 0.8026587000786094,
+      "unattributed_share": 0.006231271512120446
+    },
+    "full_gate": {
+      "aggregate_total_s": 36079.903009199974,
+      "stages": {
+        "classify": {
+          "aggregate_share_of_total": 1.7398328366300317e-06,
+          "bootstrap_seed": 3227221250886782352,
+          "ci95_p50": [
+            0.00030450000485870987,
+            0.000497499990160577
+          ],
+          "ci95_p90": [
+            0.001161630003480241,
+            0.001312699998379685
+          ],
+          "n": 82,
+          "p50": 0.00033689999690977857,
+          "p90": 0.0011992699903203175,
+          "state_counts": {
+            "complete": 82
+          },
+          "sum_s": 0.06277299999783281
+        },
+        "critic_call": {
+          "aggregate_share_of_total": 0.019889581679779434,
+          "bootstrap_seed": 9675342115831060892,
+          "ci95_p50": [
+            7.956529100003536,
+            8.307335849996889
+          ],
+          "ci95_p90": [
+            9.117184710006406,
+            14.890511600009631
+          ],
+          "n": 82,
+          "p50": 8.204646450001746,
+          "p90": 11.396278389994412,
+          "state_counts": {
+            "complete": 82
+          },
+          "sum_s": 717.6141779000027
+        },
+        "detect": {
+          "aggregate_share_of_total": 0.009235307819842099,
+          "bootstrap_seed": 4300102415332354167,
+          "ci95_p50": [
+            0.0008629000003566034,
+            7.109550150002178
+          ],
+          "ci95_p90": [
+            7.484157069999492,
+            7.955492699999013
+          ],
+          "n": 82,
+          "p50": 0.0009886499974527396,
+          "p90": 7.698305249999977,
+          "state_counts": {
+            "complete": 82
+          },
+          "sum_s": 333.209010400009
+        },
+        "gate_heldout": {
+          "aggregate_share_of_total": 0.16421088633162986,
+          "bootstrap_seed": 2657892066232078441,
+          "ci95_p50": [
+            63.617725399992196,
+            79.46893449999334
+          ],
+          "ci95_p90": [
+            88.66853272925917,
+            99.04004480000003
+          ],
+          "n": 82,
+          "p50": 74.27493574999971,
+          "p90": 91.53101475999138,
+          "state_counts": {
+            "complete": 82
+          },
+          "sum_s": 5924.712851899967
+        },
+        "gate_regression": {
+          "aggregate_share_of_total": 0.7716311957158256,
+          "bootstrap_seed": 13097196827191703293,
+          "ci95_p50": [
+            332.13742650000495,
+            346.5890674000111
+          ],
+          "ci95_p90": [
+            358.093590199991,
+            372.84263849999115
+          ],
+          "n": 82,
+          "p50": 337.71369249999407,
+          "p90": 366.28901952999297,
+          "state_counts": {
+            "complete": 82
+          },
+          "sum_s": 27840.37870029999
+        },
+        "gate_repair": {
+          "aggregate_share_of_total": 0.03435610355947873,
+          "bootstrap_seed": 5741910498998134173,
+          "ci95_p50": [
+            13.455260849994374,
+            16.632745150003757
+          ],
+          "ci95_p90": [
+            19.452695500003756,
+            21.249387100004242
+          ],
+          "n": 82,
+          "p50": 15.296107300004223,
+          "p90": 20.439566199998083,
+          "state_counts": {
+            "complete": 82
+          },
+          "sum_s": 1239.5648842000228
+        }
+      },
+      "status_counts": {
+        "ok": 82
+      },
+      "total_s": {
+        "bootstrap_seed": 1286208270145451428,
+        "ci95_p50": [
+          422.4222677999933,
+          454.5235496500027
+        ],
+        "ci95_p90": [
+          477.5420269400056,
+          489.79767050000373
+        ],
+        "n": 82,
+        "p50": 446.17845609999495,
+        "p90": 483.2337731800013
+      },
+      "unattributed_overhead_s": 24.36061149998568,
+      "unattributed_share": 0.0006751850606076738
+    },
+    "partial_or_interrupted": {
+      "aggregate_total_s": 0,
+      "stages": {
+        "classify": {
+          "aggregate_share_of_total": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "state_counts": {},
+          "sum_s": 0
+        },
+        "critic_call": {
+          "aggregate_share_of_total": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "state_counts": {},
+          "sum_s": 0
+        },
+        "detect": {
+          "aggregate_share_of_total": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "state_counts": {},
+          "sum_s": 0
+        },
+        "gate_heldout": {
+          "aggregate_share_of_total": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "state_counts": {},
+          "sum_s": 0
+        },
+        "gate_regression": {
+          "aggregate_share_of_total": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "state_counts": {},
+          "sum_s": 0
+        },
+        "gate_repair": {
+          "aggregate_share_of_total": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "state_counts": {},
+          "sum_s": 0
+        }
+      },
+      "status_counts": {},
+      "total_s": {
+        "ci95_p50": null,
+        "ci95_p90": null,
+        "n": 0,
+        "p50": null,
+        "p90": null
+      },
+      "unattributed_overhead_s": 0.0,
+      "unattributed_share": null
+    }
+  },
+  "L2": {
+    "cache_hit_input_tokens": {
+      "mean": 114103.16,
+      "median": 133348.5,
+      "missing": 0,
+      "n": 100,
+      "total": 11410316.0
+    },
+    "cache_hit_rate_token_weighted": 0.6085698881025109,
+    "cache_miss_input_tokens": {
+      "mean": 73390.77,
+      "median": 84306.5,
+      "missing": 0,
+      "n": 100,
+      "total": 7339077.0
+    },
+    "input_tokens": {
+      "mean": 187493.93,
+      "median": 214206.0,
+      "missing": 0,
+      "n": 100,
+      "total": 18749393.0
+    },
+    "ledger_usd": {
+      "mean": 0.07085755499999999,
+      "median": 0.08101334999999998,
+      "missing": 0,
+      "n": 100,
+      "total": 7.085755499999998
+    },
+    "output_tokens": {
+      "mean": 12174.48,
+      "median": 13299.5,
+      "missing": 0,
+      "n": 100,
+      "total": 1217448.0
+    },
+    "per_heal_provider_to_ledger_ratio": {
+      "mean": 0.4465428053911526,
+      "median": 0.5021097266141499,
+      "missing": 4,
+      "n": 96
+    },
+    "provider_to_ledger_ratio_of_totals": 0.43410418310369314,
+    "provider_usd": {
+      "mean": 0.030759561029999997,
+      "median": 0.037744349999999996,
+      "missing": 0,
+      "n": 100,
+      "total": 3.0759561029999998
+    }
+  },
+  "L3_heals": [
+    {
+      "all_completed_time_s": {
+        "n": 10,
+        "p50": 440.58227890000126,
+        "p90": 503.9143214400057
+      },
+      "api_errors": 0,
+      "completed_heals_per_hour": 7.976130506002122,
+      "completed_n": 10,
+      "concurrency": 1,
+      "critic_call_count": 20,
+      "critic_call_latency_ms": {
+        "n": 20,
+        "p50": 3782.1459999999997,
+        "p90": 4413.5171
+      },
+      "critic_cost_per_completed_heal_usd": 0.0017163039,
+      "critic_cost_total_usd": 0.017163039,
+      "critic_http_status_counts": {
+        "200": 20
+      },
+      "critic_model_versions": [
+        "deepseek-flash"
+      ],
+      "decisions_descriptive_only": {
+        "promoted": 6,
+        "rejected": 4
+      },
+      "deepseek_budget": {
+        "ledger_accounted_usd": 0.8288601000000024,
+        "ledger_cap_usd": 100.0,
+        "provider_accounted_usd": 0.2168895389999997,
+        "provider_actual_usd": 0.21688953900000044,
+        "provider_cap_usd": 1.5,
+        "stop_reason": null,
+        "stopped": 0
+      },
+      "elapsed_s": 4513.466771,
+      "ended_at": "2026-11-12T18:16:37.262865+00:00",
+      "full_gate_n": 10,
+      "full_gate_time_s": {
+        "n": 10,
+        "p50": 440.58227890000126,
+        "p90": 503.9143214400057
+      },
+      "gate_execution_s": {
+        "n": 10,
+        "p50": 416.87349795000773,
+        "p90": 496.47204778000594
+      },
+      "not_started_ids": [],
+      "per_stage_s": {
+        "classify": {
+          "n": 10,
+          "p50": 0.0004305500042391941,
+          "p90": 0.001354299997910857
+        },
+        "critic_call": {
+          "n": 10,
+          "p50": 7.4710088500069105,
+          "p90": 8.393841619990416
+        },
+        "detect": {
+          "n": 10,
+          "p50": 3.2515575500001432,
+          "p90": 14.705241029994777
+        },
+        "gate_heldout": {
+          "n": 10,
+          "p50": 71.68803105000552,
+          "p90": 94.97482741999993
+        },
+        "gate_regression": {
+          "n": 10,
+          "p50": 335.00087680000433,
+          "p90": 392.52897031000174
+        },
+        "gate_repair": {
+          "n": 10,
+          "p50": 14.405235049998737,
+          "p90": 20.723688430005858
+        }
+      },
+      "planned_n": 10,
+      "started_at": "2026-11-12T17:01:23.796094+00:00",
+      "statuses": {
+        "ok": 10
+      },
+      "terminal_heals_per_hour": 7.976130506002122,
+      "terminal_n": 10,
+      "timeouts": 0
+    },
+    {
+      "all_completed_time_s": {
+        "n": 10,
+        "p50": 418.72587650000787,
+        "p90": 447.0449822099981
+      },
+      "api_errors": 1,
+      "completed_heals_per_hour": 28.633338006850856,
+      "completed_n": 10,
+      "concurrency": 4,
+      "critic_call_count": 22,
+      "critic_call_latency_ms": {
+        "n": 22,
+        "p50": 3239.118,
+        "p90": 4360.4466
+      },
+      "critic_cost_per_completed_heal_usd": 0.0019771953,
+      "critic_cost_total_usd": 0.019771953,
+      "critic_http_status_counts": {
+        "200": 22
+      },
+      "critic_model_versions": [
+        "deepseek-flash"
+      ],
+      "decisions_descriptive_only": {
+        "promoted": 7,
+        "rejected": 3
+      },
+      "deepseek_budget": {
+        "ledger_accounted_usd": 1.662455700000004,
+        "ledger_cap_usd": 100.0,
+        "provider_accounted_usd": 0.43538106899999685,
+        "provider_actual_usd": 0.4334295690000016,
+        "provider_cap_usd": 1.5,
+        "stop_reason": null,
+        "stopped": 0
+      },
+      "elapsed_s": 1257.275697,
+      "ended_at": "2026-11-12T18:37:34.662528+00:00",
+      "full_gate_n": 10,
+      "full_gate_time_s": {
+        "n": 10,
+        "p50": 418.72587650000787,
+        "p90": 447.0449822099981
+      },
+      "gate_execution_s": {
+        "n": 10,
+        "p50": 408.50044884999807,
+        "p90": 438.759618960011
+      },
+      "not_started_ids": [],
+      "per_stage_s": {
+        "classify": {
+          "n": 10,
+          "p50": 0.0004090999937034212,
+          "p90": 0.0011119899965706282
+        },
+        "critic_call": {
+          "n": 10,
+          "p50": 7.155761850008275,
+          "p90": 9.215100960004198
+        },
+        "detect": {
+          "n": 10,
+          "p50": 3.1071631500017247,
+          "p90": 7.288212300000305
+        },
+        "gate_heldout": {
+          "n": 10,
+          "p50": 73.65307875000144,
+          "p90": 91.42885435000062
+        },
+        "gate_regression": {
+          "n": 10,
+          "p50": 319.16543884999555,
+          "p90": 341.3893336399968
+        },
+        "gate_repair": {
+          "n": 10,
+          "p50": 11.995593800005736,
+          "p90": 19.19669646000839
+        }
+      },
+      "planned_n": 10,
+      "started_at": "2026-11-12T18:16:37.386831+00:00",
+      "statuses": {
+        "ok": 10
+      },
+      "terminal_heals_per_hour": 28.633338006850856,
+      "terminal_n": 10,
+      "timeouts": 0
+    }
+  ],
+  "L3_ingestion_max_events_s": 29.999942216776954,
+  "L3_ingestion_max_stable_lag_events_s": 40.071152990289164,
+  "L4_added_healthy_ms": {
+    "max_ms": 1.1503999999999999,
+    "n": 2034,
+    "p50_ms": 0.033600000000000005,
+    "p99_ms": 0.2127030000000001
+  },
+  "experiment_id": "phase5_headline",
+  "gemini_completed": 20,
+  "spend": {
+    "cost_basis": "Provider-reported token usage priced at verified published rates, not invoice; calendar today includes overnight calls after midnight",
+    "deepseek": {
+      "overnight": {
+        "all_calls": 29785,
+        "all_provider_usd": 3.1588436310000145,
+        "calendar_today_calls": 24881,
+        "calendar_today_provider_usd": 2.799711366,
+        "calendar_today_unknown_provider_reserved_usd": 0,
+        "unknown_calls": 0,
+        "unknown_provider_reserved_usd": 0
+      },
+      "part_c": {
+        "all_calls": 7093,
+        "all_provider_usd": 0.4334295690000016,
+        "calendar_today_calls": 7093,
+        "calendar_today_provider_usd": 0.4334295690000016,
+        "calendar_today_unknown_provider_reserved_usd": 0.0019515,
+        "unknown_calls": 1,
+        "unknown_provider_reserved_usd": 0.0019515
+      },
+      "part_d_deepseek": {
+        "all_calls": 7322,
+        "all_provider_usd": 0.4051104360000028,
+        "calendar_today_calls": 7322,
+        "calendar_today_provider_usd": 0.4051104360000028,
+        "calendar_today_unknown_provider_reserved_usd": 0,
+        "unknown_calls": 0,
+        "unknown_provider_reserved_usd": 0
+      }
+    },
+    "deepseek_calendar_today_provider_usd": 3.6382513710000044,
+    "deepseek_followup_provider_usd": 0.8385400050000045,
+    "deepseek_unknown_provider_reserved_usd": 0.0019515,
+    "gemini_actual_usage_priced_usd": 0.13337009999999996,
+    "gemini_unknown_calls": 0,
+    "local_date": "2026-11-12",
+    "pricing_sources": [
+      "https://api-docs.deepseek.com/quick_start/pricing/",
+      "https://ai.google.dev/gemini-api/docs/pricing#gemini-3.5-flash-lite"
+    ],
+    "pricing_verified": "2026-11-12",
+    "timezone": "America/New_York"
+  }
+}

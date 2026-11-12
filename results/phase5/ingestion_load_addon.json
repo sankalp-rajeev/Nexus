@@ -1,0 +1,563 @@
+{
+  "API_calls": 0,
+  "add_on": true,
+  "classifier_nli": "cross-encoder/nli-MiniLM2-L6-H768; cached model, no fallback",
+  "criteria": "unchanged amendment_2.md thresholds; final-120-second committed lag; >=98% acceptance; complete detection/persistence; no errors",
+  "ended_at": "2026-11-12T20:35:31.053617+00:00",
+  "http_errors": [],
+  "machine": {
+    "docker": {
+      "cpus": 32,
+      "ram_bytes": 10424074240
+    },
+    "host": {
+      "cores": 24,
+      "cpu": "Intel(R) Core(TM) i9-14900HX",
+      "ram_bytes": 33986535424,
+      "threads": 32
+    },
+    "platform": "Windows-10-10.0.26300-SP0",
+    "python": "3.11.14"
+  },
+  "max_sustained_events_s": 29.999942216776954,
+  "measurement_script_sha256": "58c1c23b4eb3992c3f30a3919b5f11587b4fdbca64939344d2301c260929b355",
+  "no_api_spend_verification": {
+    "after": {
+      "gemini": {
+        "accounted": 0.1333701,
+        "calls": 40
+      },
+      "gemini_side": {
+        "budget": [
+          1.3283847000000069,
+          0.4051104360000028,
+          0.4051104359999973
+        ],
+        "calls": 7322
+      },
+      "l3_heals": {
+        "budget": [
+          1.662455700000004,
+          0.4334295690000016,
+          0.43538106899999685
+        ],
+        "calls": 7093
+      },
+      "overnight": {
+        "budget": [
+          7.244432699999988,
+          3.1588436310000145,
+          3.1588436310000394
+        ],
+        "calls": 29785
+      }
+    },
+    "before": {
+      "gemini": {
+        "accounted": 0.1333701,
+        "calls": 40
+      },
+      "gemini_side": {
+        "budget": [
+          1.3283847000000069,
+          0.4051104360000028,
+          0.4051104359999973
+        ],
+        "calls": 7322
+      },
+      "l3_heals": {
+        "budget": [
+          1.662455700000004,
+          0.4334295690000016,
+          0.43538106899999685
+        ],
+        "calls": 7093
+      },
+      "overnight": {
+        "budget": [
+          7.244432699999988,
+          3.1588436310000145,
+          3.1588436310000394
+        ],
+        "calls": 29785
+      }
+    },
+    "unchanged": true
+  },
+  "offered_rates": [
+    30,
+    40,
+    60
+  ],
+  "paid_consumers": "verified stopped before sending",
+  "paid_consumers_final": {
+    "critic": "exited",
+    "healer": "exited"
+  },
+  "path": "collector -> Kafka -> deployed classifier -> Kafka -> measurement Postgres sink; assembler -> Postgres in parallel",
+  "post_run_persistence_checked_at": "2026-11-12T20:37:01.553507+00:00",
+  "prefix": "p5load_41ab47e3",
+  "protocol": "reports/phase5/amendment_2.md",
+  "raw_trace_count": 20,
+  "sink_errors": [],
+  "started_at": "2026-11-12T20:26:02.462020+00:00",
+  "steps": [
+    {
+      "accepted_events": 5400,
+      "accepted_events_s": 29.999942216776954,
+      "assembled_traces_at_detection_drain": 334,
+      "assembled_traces_post_run": 334,
+      "committed_lag": [
+        {
+          "assembler": 0,
+          "classifier": 136,
+          "s": 9.200011845678091e-06
+        },
+        {
+          "assembler": 27,
+          "classifier": 122,
+          "s": 10.004104000006919
+        },
+        {
+          "assembler": 22,
+          "classifier": 106,
+          "s": 20.011685700010275
+        },
+        {
+          "assembler": 14,
+          "classifier": 112,
+          "s": 30.02682120000827
+        },
+        {
+          "assembler": 11,
+          "classifier": 84,
+          "s": 40.03345660000923
+        },
+        {
+          "assembler": 23,
+          "classifier": 114,
+          "s": 50.042458500000066
+        },
+        {
+          "assembler": 11,
+          "classifier": 107,
+          "s": 60.05488700000569
+        },
+        {
+          "assembler": 28,
+          "classifier": 107,
+          "s": 70.06712160000461
+        },
+        {
+          "assembler": 0,
+          "classifier": 120,
+          "s": 80.07525680000253
+        },
+        {
+          "assembler": 14,
+          "classifier": 121,
+          "s": 90.09074390000023
+        },
+        {
+          "assembler": 27,
+          "classifier": 107,
+          "s": 100.10570100000768
+        },
+        {
+          "assembler": 11,
+          "classifier": 121,
+          "s": 110.11236500000814
+        },
+        {
+          "assembler": 27,
+          "classifier": 121,
+          "s": 120.12745460000588
+        },
+        {
+          "assembler": 11,
+          "classifier": 119,
+          "s": 130.13366710000264
+        },
+        {
+          "assembler": 20,
+          "classifier": 142,
+          "s": 140.13655460000155
+        },
+        {
+          "assembler": 0,
+          "classifier": 122,
+          "s": 150.15134820000094
+        },
+        {
+          "assembler": 34,
+          "classifier": 133,
+          "s": 160.1861612000066
+        },
+        {
+          "assembler": 14,
+          "classifier": 98,
+          "s": 170.20987000000605
+        },
+        {
+          "assembler": 11,
+          "classifier": 84,
+          "s": 180.00034670000605
+        }
+      ],
+      "detected_traces": 334,
+      "detection_latency_ms": {
+        "n": 334,
+        "p50": 730.8142499969108,
+        "p99": 1953.1837660024757
+      },
+      "errors": 0,
+      "hold_s": 180.00034670000605,
+      "lag_growth": {
+        "assembler": {
+          "end": 11,
+          "growing": false,
+          "slope_events_s": 0.005572078192700415,
+          "start": 11
+        },
+        "classifier": {
+          "end": 84,
+          "growing": false,
+          "slope_events_s": -0.03266338562200278,
+          "start": 107
+        }
+      },
+      "missing_detections": 0,
+      "offered_events": 5400,
+      "offered_rate_events_s": 30,
+      "offered_traces": 334,
+      "resources": {
+        "nexus-phase5-kafka-1": {
+          "last_memory_usage": "432.9MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 131.93
+        },
+        "nexus-phase5-nexus-assembler-1": {
+          "last_memory_usage": "30.04MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 4.9
+        },
+        "nexus-phase5-nexus-classifier-1": {
+          "last_memory_usage": "554.9MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 824.41
+        },
+        "nexus-phase5-nexus-collector-1": {
+          "last_memory_usage": "45.05MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 4.79
+        },
+        "nexus-phase5-postgres-1": {
+          "last_memory_usage": "144.8MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 2.8
+        }
+      },
+      "sustainable": true
+    },
+    {
+      "accepted_events": 7213,
+      "accepted_events_s": 40.071152990289164,
+      "assembled_traces_at_detection_drain": 445,
+      "assembled_traces_post_run": 446,
+      "committed_lag": [
+        {
+          "assembler": 11,
+          "classifier": 84,
+          "s": 1.5400000847876072e-05
+        },
+        {
+          "assembler": 38,
+          "classifier": 205,
+          "s": 10.008006800009753
+        },
+        {
+          "assembler": 41,
+          "classifier": 203,
+          "s": 20.016325800010236
+        },
+        {
+          "assembler": 34,
+          "classifier": 273,
+          "s": 30.02201130001049
+        },
+        {
+          "assembler": 38,
+          "classifier": 161,
+          "s": 40.025270199999795
+        },
+        {
+          "assembler": 41,
+          "classifier": 205,
+          "s": 50.04200380000111
+        },
+        {
+          "assembler": 41,
+          "classifier": 189,
+          "s": 60.04742120001174
+        },
+        {
+          "assembler": 34,
+          "classifier": 262,
+          "s": 70.05157429999963
+        },
+        {
+          "assembler": 49,
+          "classifier": 229,
+          "s": 80.05802010001207
+        },
+        {
+          "assembler": 52,
+          "classifier": 205,
+          "s": 90.067249300002
+        },
+        {
+          "assembler": 41,
+          "classifier": 239,
+          "s": 100.0731642000028
+        },
+        {
+          "assembler": 59,
+          "classifier": 221,
+          "s": 110.0755468000134
+        },
+        {
+          "assembler": 36,
+          "classifier": 134,
+          "s": 120.07834710000316
+        },
+        {
+          "assembler": 56,
+          "classifier": 178,
+          "s": 130.0920979000075
+        },
+        {
+          "assembler": 41,
+          "classifier": 212,
+          "s": 140.09596850001253
+        },
+        {
+          "assembler": 36,
+          "classifier": 198,
+          "s": 150.1128461000044
+        },
+        {
+          "assembler": 39,
+          "classifier": 191,
+          "s": 160.1166932000051
+        },
+        {
+          "assembler": 91,
+          "classifier": 175,
+          "s": 170.1273829000129
+        },
+        {
+          "assembler": 65,
+          "classifier": 198,
+          "s": 180.00480300000345
+        }
+      ],
+      "detected_traces": 446,
+      "detection_latency_ms": {
+        "n": 446,
+        "p50": 1281.0395000051358,
+        "p99": 3191.7503400043647
+      },
+      "errors": 0,
+      "hold_s": 180.00480300000345,
+      "lag_growth": {
+        "assembler": {
+          "end": 65,
+          "growing": false,
+          "slope_events_s": 0.18563565783869126,
+          "start": 41
+        },
+        "classifier": {
+          "end": 198,
+          "growing": false,
+          "slope_events_s": -0.3576801663124123,
+          "start": 189
+        }
+      },
+      "missing_detections": 0,
+      "offered_events": 7213,
+      "offered_rate_events_s": 40,
+      "offered_traces": 446,
+      "resources": {
+        "nexus-phase5-kafka-1": {
+          "last_memory_usage": "514.5MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 144.61
+        },
+        "nexus-phase5-nexus-assembler-1": {
+          "last_memory_usage": "30.81MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 0.7
+        },
+        "nexus-phase5-nexus-classifier-1": {
+          "last_memory_usage": "555.6MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 1501.63
+        },
+        "nexus-phase5-nexus-collector-1": {
+          "last_memory_usage": "45.12MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 0.16
+        },
+        "nexus-phase5-postgres-1": {
+          "last_memory_usage": "158.8MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 2.65
+        }
+      },
+      "sustainable": false
+    },
+    {
+      "accepted_events": 10807,
+      "accepted_events_s": 60.038665378281365,
+      "assembled_traces_at_detection_drain": 668,
+      "assembled_traces_post_run": 668,
+      "committed_lag": [
+        {
+          "assembler": 65,
+          "classifier": 0,
+          "s": 8.999995770864189e-06
+        },
+        {
+          "assembler": 175,
+          "classifier": 106,
+          "s": 10.006229699996766
+        },
+        {
+          "assembler": 379,
+          "classifier": 204,
+          "s": 20.0168466999894
+        },
+        {
+          "assembler": 118,
+          "classifier": 187,
+          "s": 30.019030799987377
+        },
+        {
+          "assembler": 131,
+          "classifier": 239,
+          "s": 40.037638999987394
+        },
+        {
+          "assembler": 121,
+          "classifier": 243,
+          "s": 50.053104599996004
+        },
+        {
+          "assembler": 146,
+          "classifier": 216,
+          "s": 60.06805679999525
+        },
+        {
+          "assembler": 119,
+          "classifier": 312,
+          "s": 70.07283569998981
+        },
+        {
+          "assembler": 143,
+          "classifier": 309,
+          "s": 80.11604159999115
+        },
+        {
+          "assembler": 125,
+          "classifier": 337,
+          "s": 90.13056279999728
+        },
+        {
+          "assembler": 129,
+          "classifier": 323,
+          "s": 100.14870859999792
+        },
+        {
+          "assembler": 134,
+          "classifier": 309,
+          "s": 110.18225149999489
+        },
+        {
+          "assembler": 121,
+          "classifier": 350,
+          "s": 120.20139370000106
+        },
+        {
+          "assembler": 132,
+          "classifier": 392,
+          "s": 130.21235079999315
+        },
+        {
+          "assembler": 119,
+          "classifier": 381,
+          "s": 140.21837299999606
+        },
+        {
+          "assembler": 147,
+          "classifier": 434,
+          "s": 150.22260829999868
+        },
+        {
+          "assembler": 138,
+          "classifier": 396,
+          "s": 160.26228029999766
+        },
+        {
+          "assembler": 141,
+          "classifier": 464,
+          "s": 170.2725470000005
+        },
+        {
+          "assembler": 120,
+          "classifier": 714,
+          "s": 180.00067009999475
+        }
+      ],
+      "detected_traces": 668,
+      "detection_latency_ms": {
+        "n": 668,
+        "p50": 5212.792450001871,
+        "p99": 7976.709922988523
+      },
+      "errors": 0,
+      "hold_s": 180.00067009999475,
+      "lag_growth": {
+        "assembler": {
+          "end": 120,
+          "growing": false,
+          "slope_events_s": -0.011906450686167086,
+          "start": 146
+        },
+        "classifier": {
+          "end": 714,
+          "growing": true,
+          "slope_events_s": 2.5144645447347593,
+          "start": 216
+        }
+      },
+      "missing_detections": 0,
+      "offered_events": 10807,
+      "offered_rate_events_s": 60,
+      "offered_traces": 668,
+      "resources": {
+        "nexus-phase5-kafka-1": {
+          "last_memory_usage": "677.5MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 279.11
+        },
+        "nexus-phase5-nexus-assembler-1": {
+          "last_memory_usage": "31.26MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 1.46
+        },
+        "nexus-phase5-nexus-classifier-1": {
+          "last_memory_usage": "593.6MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 1613.73
+        },
+        "nexus-phase5-nexus-collector-1": {
+          "last_memory_usage": "45.61MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 0.2
+        },
+        "nexus-phase5-postgres-1": {
+          "last_memory_usage": "174.6MiB / 9.708GiB",
+          "sampled_max_cpu_percent": 8.05
+        }
+      },
+      "sustainable": false
+    }
+  ],
+  "unique_task_count": 18
+}

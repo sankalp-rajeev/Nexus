@@ -1,0 +1,23 @@
+name: Prepare pinned inference models
+description: Cache exact NLI and embedding revisions and stage local model paths
+runs:
+  using: composite
+  steps:
+    - id: pins
+      shell: bash
+      run: python scripts/ci/prepare_models.py --outputs >> "$GITHUB_OUTPUT"
+    - uses: actions/cache@v4
+      with:
+        path: cross-encoder/nli-deberta-v3-base
+        key: ${{ runner.os }}-hf-cross-encoder-nli-deberta-v3-base-${{ steps.pins.outputs.deberta }}
+    - uses: actions/cache@v4
+      with:
+        path: cross-encoder/nli-MiniLM2-L6-H768
+        key: ${{ runner.os }}-hf-cross-encoder-nli-MiniLM2-L6-H768-${{ steps.pins.outputs.classifier_nli }}
+    - uses: actions/cache@v4
+      with:
+        path: sentence-transformers/all-MiniLM-L6-v2
+        key: ${{ runner.os }}-hf-sentence-transformers-all-MiniLM-L6-v2-${{ steps.pins.outputs.embedder }}
+    - name: Download pinned models when absent
+      shell: bash
+      run: python scripts/ci/prepare_models.py

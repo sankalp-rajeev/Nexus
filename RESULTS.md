@@ -38,3 +38,11 @@ of real-model behaviour.
 | A2 selection | selected: v1_structured | deepseek+ollama / deepseek-flash+qwen2.5:7b-instruct | no | 2026-11-11 | `d732929+dirty` | [results/heal_selection_dev.json](results/heal_selection_dev.json) |
 | A3-entity-rule-dev | entity-absence rule alone (dev): P=0.8571 R=1.0 | local NLI + Gemini judge (cached) / cross-encoder/nli-deberta-v3-base; gemini-3.5-flash-lite | no | 2026-11-11 | `284fb25` | [results/phase2_entity_rule_dev.json](results/phase2_entity_rule_dev.json) |
 | A2-independence-dev | judge vs NLI (dev): 96 traces where either ran, 0 disagreements; shared step: retrieved_context | local NLI + Gemini judge (cached) / cross-encoder/nli-deberta-v3-base; gemini-3.5-flash-lite | no | 2026-11-11 | `284fb25` | [results/phase2_independence_audit.json](results/phase2_independence_audit.json) |
+
+## Phase 5: DEV performance and cost
+
+100 overnight DEV heals at concurrency 2: time-to-heal p50 **421.641s**, p90 **480.419s**; mean usage-priced provider cost **$0.030760/heal**. Highest tested ingestion rate without growing lag: **40.071 events/s**; highest passing all original persistence checkpoints: **30.000 events/s**. Recorded-response SDK replay added **0.033600/0.212703 ms p50/p99** per step. Gemini is a separate side row (20/20 completed), never pooled into the headline.
+
+[Headline source](results/phase5/headline.json) · [L1/L2](results/phase5/heal_latency_cost.json) · [L3 ingestion](results/phase5/ingestion_summary.json) · [L3 paired heals](results/phase5/heal_concurrency.json) · [L4](results/phase5/sdk_overhead.json) · [Gemini](results/phase5/gemini_side.json) · [Full report](reports/phase5/results.md).
+
+One machine and one night; group denominators, provider drift, repeated source tasks, cap censoring and SDK replay limitations are explicit in the report. Gate decisions are descriptive only, not a re-estimate of Phase 4 rates.
