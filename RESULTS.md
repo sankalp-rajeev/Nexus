@@ -41,8 +41,8 @@ of real-model behaviour.
 
 ## Phase 5: DEV performance and cost
 
-100 overnight DEV heals at concurrency 2: time-to-heal p50 **421.641s**, p90 **480.419s**; mean usage-priced provider cost **$0.030760/heal**. Highest sustainable tested ingestion rate: **20.122 events/s**. Recorded-response SDK replay added **0.033600/0.212703 ms p50/p99** per step. Gemini is a separate side row (20/20 completed), never pooled into the headline.
+100 overnight DEV heals at concurrency 2: time-to-heal p50 **421.641s**, p90 **480.419s**; mean usage-priced provider cost **$0.030760/heal**. Highest tested ingestion rate without growing lag: **40.071 events/s**; highest passing all original persistence checkpoints: **30.000 events/s**. Recorded-response SDK replay added **0.033600/0.212703 ms p50/p99** per step. Gemini is a separate side row (20/20 completed), never pooled into the headline.
 
-[Headline source](results/phase5/headline.json) · [L1/L2](results/phase5/heal_latency_cost.json) · [L3 ingestion](results/phase5/ingestion_load.json) · [L3 paired heals](results/phase5/heal_concurrency.json) · [L4](results/phase5/sdk_overhead.json) · [Gemini](results/phase5/gemini_side.json) · [Full report](reports/phase5/results.md).
+[Headline source](results/phase5/headline.json) · [L1/L2](results/phase5/heal_latency_cost.json) · [L3 ingestion](results/phase5/ingestion_summary.json) · [L3 paired heals](results/phase5/heal_concurrency.json) · [L4](results/phase5/sdk_overhead.json) · [Gemini](results/phase5/gemini_side.json) · [Full report](reports/phase5/results.md).
 
 One machine and one night; group denominators, provider drift, repeated source tasks, cap censoring and SDK replay limitations are explicit in the report. Gate decisions are descriptive only, not a re-estimate of Phase 4 rates.

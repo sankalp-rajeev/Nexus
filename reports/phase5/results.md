@@ -2,11 +2,11 @@
 
 The overnight DEV run completed all 100 heals; median time was 421.641 seconds and p90 was 480.419 seconds.<br>
 Mean provider usage-priced cost was $0.030760 per heal, 43.41% of the ledger estimate; input cache hits were 60.86%.<br>
-The highest sustained tested ingestion rate was 20.122 events/s; the paired heal concurrency results below keep every selected slot.<br>
+Ingestion sustained 40.071 events/s without growing lag; 30.000 events/s passed every strict checkpoint.<br>
 Recorded-response SDK replay added 0.033600 ms median and 0.212703 ms p99 per step with the collector up; failed HTTP batches are lost.<br>
 The separate Gemini side row completed 20/20 heals; its results and spend are reported apart from the headline.
 
-Headline sources: [L1/L2 JSON](../../results/phase5/heal_latency_cost.json), [L3 ingestion](../../results/phase5/ingestion_load.json), [L3 heals](../../results/phase5/heal_concurrency.json), [L4 JSON](../../results/phase5/sdk_overhead.json), [Gemini JSON](../../results/phase5/gemini_side.json).
+Headline sources: [L1/L2 JSON](../../results/phase5/heal_latency_cost.json), [L3 ingestion](../../results/phase5/ingestion_summary.json), [L3 heals](../../results/phase5/heal_concurrency.json), [L4 JSON](../../results/phase5/sdk_overhead.json), [Gemini JSON](../../results/phase5/gemini_side.json).
 
 ## Part A: L1 latency and L2 cost
 
@@ -118,16 +118,27 @@ Machine: Intel(R) Core(TM) i9-14900HX, 24 physical cores / 32 logical processors
 
 Recorded first-20 DEV spans receive fresh synthetic IDs. Warm-up is one 20-trace pass; each measured offered-rate step lasts at least 180 seconds. All spans, accepted/rejected counts, late detections and missing detections are retained. Latency runs from a trace's first HTTP submission until its classification is committed to Postgres, not per-span HTTP response latency. Trace batching creates within-trace bursts, particularly at low rates.
 
-| Offered events/s | Hold s | Accepted events/s | Traces detected/offered | Detection p50/p99 ms | Assembler / classifier lag slope events/s | Sustainable |
-|---:|---:|---:|---:|---:|---:|---|
-| 1 | 180.0 | 1.039 | 11/11 | 100.002/959.934 | -0.097 / -0.097 | True |
-| 5 | 180.0 | 5.033 | 56/56 | 173.417/1458.607 | -0.057 / 0.088 | True |
-| 20 | 180.0 | 20.122 | 224/224 | 772.287/2886.734 | -0.113 / 0.193 | True |
-| 80 | 180.0 | 80.038 | 892/892 | 41133.417/82215.305 | -1.687 / 24.216 | False |
+The initial 1/5/20/80 events/s run and later 30/40/60 add-on are separate measurement windows. The add-on keeps the same warm-up, >=180-second holds, final-120-second lag-growth thresholds, acceptance/error checks and complete persistence requirements. All three requested add-on steps run, even if an earlier one saturates. Source JSON preserves both runs independently.
 
-Highest sustainable tested rate: **20.122 accepted events/s**. The bottleneck was the **classifier**, based on growing committed consumer lag while assembler lag remained stable, supported by service CPU samples. Sustainability requires no growing final-120-second committed consumer lag, >=98% accepted target rate, no HTTP/sink error, complete detections and assembled traces. The exact lag thresholds, samples, persistence counts and sampled resource maxima are in the JSON; this is a stepped bound, not an interpolated maximum.
+| Run | Offered events/s | Hold s | Accepted events/s | Detected/offered traces | Assembled at detection-drain | Detection p50/p99 ms | Assembler / classifier lag slope events/s | Strict pass |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| initial | 1 | 180.0 | 1.039 | 11/11 | 11/11 | 100.002/959.934 | -0.097 / -0.097 | True |
+| initial | 5 | 180.0 | 5.033 | 56/56 | 56/56 | 173.417/1458.607 | -0.057 / 0.088 | True |
+| initial | 20 | 180.0 | 20.122 | 224/224 | 224/224 | 772.287/2886.734 | -0.113 / 0.193 | True |
+| add-on | 30 | 180.0 | 30.000 | 334/334 | 334/334 | 730.814/1953.184 | 0.006 / -0.033 | True |
+| add-on | 40 | 180.0 | 40.071 | 446/446 | 445/446 | 1281.040/3191.750 | 0.186 / -0.358 | False |
+| add-on | 60 | 180.0 | 60.039 | 668/668 | 668/668 | 5212.792/7976.710 | -0.012 / 2.514 | False |
+| initial | 80 | 180.0 | 80.038 | 892/892 | 892/892 | 41133.417/82215.305 | -1.687 / 24.216 | False |
+
+Highest rate passing all unchanged checks: **30.000 accepted events/s**. The bottleneck was the **classifier**, based on growing committed consumer lag while assembler lag remained stable, supported by service CPU samples. Sustainability requires no growing final-120-second committed consumer lag, >=98% accepted target rate, no HTTP/sink error, complete detections and assembled traces at the original detection-drain checkpoint. The exact lag thresholds, samples, persistence counts and sampled resource maxima are in the JSON; this is a stepped bound, not an interpolated maximum.
+
+The highest step with no growing consumer lag was **40.071 accepted events/s**. The table retains the original stricter checkpoint verdict as well. If assembly lags the independent classification drain by a final write, that checkpoint can conservatively fail even though all traces persist later; this is not proof of event loss or a lower service-capacity ceiling. Subsequent counts and original flags are both retained in ingestion_summary.json.
+
+At 40 offered events/s, assembly was 445/446 at the detection-drain checkpoint and 446/446 in the subsequent read-only check. The original strict flag remains unchanged.
 
 The unmodified deployed classifier uses its rule detectors, PatchCore/SVM, MiniLM embeddings and configured NLI model. This is distinct from the frozen Phase 4 offline detector used by heals. The classifier publishes classifications to Kafka; a measurement-only sink persists them to a separate Postgres table. Assembler persistence runs in parallel. The original image lacked its NLI cache and silently used its existing zero-score fallback; that pilot was stopped, retained under ignored run state and excluded. A read-only mount of the already-cached exact NLI model restored full configured inference offline. No detector code or thresholds changed.
+
+**Phase 4 detection used offline detector code, not the classifier container.** For DEV evidence, [phase4_handoff.py](../../services/critic/phase4_handoff.py#L177) reads saved predictions produced by [audit_dev.py](../../scripts/phase2_followup/audit_dev.py#L47) using the frozen services.detectors.pipeline. The scored Phase 4 path's [build_evidence()](../../bench/heal/test_phase.py#L79) directly calls detector_view, pipeline.compute_scores and pipeline.label in-process. Neither path depends on the deployed classifier container or its NLI cache. Its missing cache therefore did not affect Phase 4 detection. This confirmation inspected source only; sealed TEST data was neither loaded nor rerun.
 
 Paid critic/healer consumers were stopped during synthetic ingestion; no repairs/notifications were initiated. They remain stopped to keep all paid calls inside the capped controllers. Automatic approval review rejected advancing Kafka offsets because a future consumer could skip alerts; no offsets were changed. The synthetic backlog remains in Kafka, so starting a paid consumer needs separate attention. This safe alternative does not affect the measurements.
 

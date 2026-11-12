@@ -1,14 +1,16 @@
 {
-  "collected": 459,
-  "command": ".venv/Scripts/python.exe -m scripts.phase5.pytest_dev_only -p no:deepeval -q -ra --basetemp=data/phase5/runs/pytest-full-final --junitxml=data/phase5/runs/full_suite.xml",
-  "elapsed_s": 37.82,
+  "add_on": "30/40/60 ingestion; zero provider attempts/spend; frozen check PASS",
+  "collected": 460,
+  "command": ".venv/Scripts/python.exe -m scripts.phase5.pytest_dev_only -p no:deepeval -q -ra --basetemp=data/phase5/runs/pytest-l3-addon-full --junitxml=data/phase5/runs/l3_addon_full_suite.xml",
+  "elapsed_s": 25.2,
   "errors": 0,
   "failed": 0,
   "frozen_checks": "before and after every part PASS",
   "full_suite_collected": true,
   "lint": "ruff check . passed",
   "network_policy": "Python external test socket connections blocked; no paid API tests",
-  "passed": 450,
+  "passed": 451,
+  "prior_full_suite_commit": "c656d22",
   "skipped": [
     {
       "reason": "Phase 5: TEST sealed; this test opens TEST artifacts",
@@ -50,7 +52,7 @@
   "suite_groups": {
     "e2e": 7,
     "integration": 12,
-    "unit": 440
+    "unit": 441
   },
   "warnings": [
     "anyio already imported before pytest assertion rewrite",

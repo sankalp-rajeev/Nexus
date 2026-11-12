@@ -96,3 +96,33 @@ could skip alerts for a future consumer. No offset mutation was performed.
 The paid critic/healer consumers remain stopped so the synthetic alert backlog
 cannot initiate uncapped work. No ntfy, other external notification, tag move,
 force-push or merge is authorized/performed. The PR target is phase-5-perf -> main.
+
+## L3 ingestion add-on
+
+The requested 30, 40 and 60 events/s steps each held for at least 180 seconds,
+with the same warm-up, lag thresholds and original persistence checkpoint.
+At 30 the strict check passed. At 40 both consumer lags were stable and all 446
+detections persisted, but assembly was 445/446 at the independent detection-drain
+checkpoint; a subsequent read-only query confirmed 446/446. The original strict
+failure flag is retained. At 60 classifier lag grew (2.514 events/s OLS slope).
+All 334/446/668 traces respectively were assembled by the post-run check.
+Thus 40.071 accepted events/s is the highest tested no-growing-lag rate, while
+30.000 passes every original strict checkpoint. This distinction is reported
+without rewriting the 40-step verdict or claiming 30 is a capacity ceiling.
+
+The initial run remains byte-for-byte unchanged. Independent add-on JSON and a
+combined ingestion_summary.json retain both windows, criteria and checkpoint
+exceptions. Before/after fingerprints of all three DeepSeek ledgers and the
+Gemini ledger match exactly: no additional provider attempts or spend. Paid
+critic/healer containers remained stopped; no Kafka offsets were changed.
+Frozen checks before/after the add-on passed. Phase 4's offline detector path
+was confirmed from source only, with code links in results.md; no sealed data
+was loaded or rerun.
+
+The entire guarded suite was rerun after the add-on/report changes:
+**460 collected, 451 passed, 9 skipped, 0 failures/errors**, in 25.20 seconds.
+All 12 integration and 7 e2e tests passed. The new summary test verifies separate
+run preservation, highest-rate selection and the persistence-checkpoint caveat.
+The same eight sealed-TEST skips and one auxiliary skip remain; validation.json
+records the latest command and points to the prior c656d22 checkpoint. Lint and
+staged secret scan pass; raw add-on logs/vectors remain outside Git.

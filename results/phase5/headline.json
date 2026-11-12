@@ -710,7 +710,8 @@
       "timeouts": 0
     }
   ],
-  "L3_ingestion_max_events_s": 20.12155830022784,
+  "L3_ingestion_max_events_s": 29.999942216776954,
+  "L3_ingestion_max_stable_lag_events_s": 40.071152990289164,
   "L4_added_healthy_ms": {
     "max_ms": 1.1503999999999999,
     "n": 2034,

@@ -67,3 +67,16 @@ sealed-TEST guards apply; report any TEST-dependent skips transparently rather
 than reading sealed artifacts. No directory/test subset selection is allowed.
 Write aggregate results, regenerate RESULTS.md, secret-scan explicit staging,
 push normally and open (do not merge) a phase-5-perf -> main PR.
+
+## User-requested L3 add-on (no API spend)
+
+Run all offered-rate steps 30, 40 and 60 events/s, in that order, for at least
+180 seconds each. Keep the original warm-up, final-120-second consumer-lag
+thresholds, acceptance/error and complete-persistence criteria unchanged.
+Drain between steps; continue through all three even if one saturates. Keep
+paid critic/healer consumers stopped, with no Kafka offset changes. Retain the
+initial and add-on experiments as separate JSON sources; their combined summary
+reports the highest passing measured rate without interpolation. Check frozen
+logic before/after and compare durable API-ledger fingerprints to verify zero
+new provider attempts/spend. Inspect only source code to confirm Phase 4 used
+the offline detectors; never reload sealed data for this confirmation.

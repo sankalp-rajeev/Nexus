@@ -25,19 +25,43 @@ def number(value, digits=3):
 
 
 def finish_ingestion():
-    data = read("ingestion_load")
-    for step in data["steps"]:
-        path = ROOT / f"data/phase5/runs/l3_ingestion/resources_{step['offered_rate_events_s']}.json"
-        rows = [json.loads(line) for chunk in json.loads(path.read_text(encoding="utf-8")) for line in chunk.splitlines() if line.strip()]
-        names = {r["Name"] for r in rows}
-        step["resources"] = {name:dict(sampled_max_cpu_percent=max(float(r["CPUPerc"].strip("%")) for r in rows if r["Name"]==name),
-                                      last_memory_usage=[r["MemUsage"] for r in rows if r["Name"]==name][-1]) for name in sorted(names)}
-    failed = next((s for s in data["steps"] if not s["sustainable"]),None)
+    runs = [("initial", "ingestion_load", "l3_ingestion")]
+    if (RESULTS/"ingestion_load_addon.json").exists():
+        runs.append(("add-on", "ingestion_load_addon", "l3_ingestion/addon_30_40_60"))
+    documents, steps = [], []
+    for label, filename, folder in runs:
+        data = read(filename)
+        changed = False
+        for step in data["steps"]:
+            if "resources" not in step:
+                path = ROOT / f"data/phase5/runs/{folder}/resources_{step['offered_rate_events_s']}.json"
+                rows = [json.loads(line) for chunk in json.loads(path.read_text(encoding="utf-8")) for line in chunk.splitlines() if line.strip()]
+                names = {r["Name"] for r in rows}
+                step["resources"] = {name:dict(sampled_max_cpu_percent=max(float(r["CPUPerc"].strip("%")) for r in rows if r["Name"]==name),
+                                              last_memory_usage=[r["MemUsage"] for r in rows if r["Name"]==name][-1]) for name in sorted(names)}
+                changed = True
+            steps.append(dict(step,run=label,source=f"results/phase5/{filename}.json"))
+        if changed:
+            atomic_json(RESULTS/(filename+".json"),data)
+        documents.append(data)
+    data = dict(steps=sorted(steps,key=lambda s:s["offered_rate_events_s"]), machine=documents[-1]["machine"],
+                sources=[f"results/phase5/{r[1]}.json" for r in runs], API_calls=0,
+                run_windows=[dict(run=r[0],started_at=d["started_at"],ended_at=d.get("ended_at"),machine=d["machine"]) for r,d in zip(runs,documents)],
+                max_sustained_events_s=max((s["accepted_events_s"] for s in steps if s["sustainable"]),default=None),
+                max_stable_lag_events_s=max((s["accepted_events_s"] for s in steps if not any(v["growing"] for v in s["lag_growth"].values())),default=None),
+                criteria="unchanged reports/phase5/amendment_2.md; distinct run windows, no interpolation")
+    failed = next((s for s in data["steps"] if any(v["growing"] for v in s["lag_growth"].values())),None)
     if failed:
         rising = [n for n,v in failed["lag_growth"].items() if v["growing"]]
         data["bottleneck"] = dict(service=" and ".join(rising) if rising else "generator/collector or incomplete persistence",
                                   evidence="consumer committed-lag growth and per-service CPU samples; not a causal isolated-service benchmark")
-    atomic_json(RESULTS/"ingestion_load.json",data)
+    data["persistence_checkpoint_exceptions"] = [dict(run=s["run"],offered_rate_events_s=s["offered_rate_events_s"],
+        assembled_at_detection_drain=s["assembled_traces_at_detection_drain"],offered_traces=s["offered_traces"],
+        assembled_post_run=s.get("assembled_traces_post_run"),
+        note="Original strict sustainability verdict retained; detection and assembly have independent drains")
+        for s in steps if not s["sustainable"] and not any(v["growing"] for v in s["lag_growth"].values())
+        and s.get("assembled_traces_at_detection_drain") != s.get("offered_traces")]
+    atomic_json(RESULTS/"ingestion_summary.json",data)
     return data
 
 
@@ -102,23 +126,30 @@ def main():
     total = a["L1"]["all_heals"]["total_s"]
     l2 = a["L2"]
     overhead = sdk["collector_healthy"]["paired_added_per_step"]
+    checkpoint_notes = " ".join(
+        f"At {s['offered_rate_events_s']} offered events/s, assembly was {s['assembled_at_detection_drain']}/{s['offered_traces']} at the detection-drain checkpoint and {s['assembled_post_run']}/{s['offered_traces']} in the subsequent read-only check. The original strict flag remains unchanged."
+        for s in ingestion["persistence_checkpoint_exceptions"])
     lines = ["# Phase 5 results", "",
              f"The overnight DEV run completed all {total['n']} heals; median time was {total['p50']:.3f} seconds and p90 was {total['p90']:.3f} seconds.<br>",
              f"Mean provider usage-priced cost was ${l2['provider_usd']['mean']:.6f} per heal, {l2['provider_to_ledger_ratio_of_totals']:.2%} of the ledger estimate; input cache hits were {l2['cache_hit_rate_token_weighted']:.2%}.<br>",
-             f"The highest sustained tested ingestion rate was {number(ingestion['max_sustained_events_s'])} events/s; the paired heal concurrency results below keep every selected slot.<br>",
+             f"Ingestion sustained {number(ingestion['max_stable_lag_events_s'])} events/s without growing lag; {number(ingestion['max_sustained_events_s'])} events/s passed every strict checkpoint.<br>",
              f"Recorded-response SDK replay added {overhead['p50_ms']:.6f} ms median and {overhead['p99_ms']:.6f} ms p99 per step with the collector up; failed HTTP batches are lost.<br>",
              f"The separate Gemini side row completed {current['completed_n']}/{current['planned_n']} heals; its results and spend are reported apart from the headline.", "",
-             "Headline sources: [L1/L2 JSON](../../results/phase5/heal_latency_cost.json), [L3 ingestion](../../results/phase5/ingestion_load.json), [L3 heals](../../results/phase5/heal_concurrency.json), [L4 JSON](../../results/phase5/sdk_overhead.json), [Gemini JSON](../../results/phase5/gemini_side.json).", "",
+             "Headline sources: [L1/L2 JSON](../../results/phase5/heal_latency_cost.json), [L3 ingestion](../../results/phase5/ingestion_summary.json), [L3 heals](../../results/phase5/heal_concurrency.json), [L4 JSON](../../results/phase5/sdk_overhead.json), [Gemini JSON](../../results/phase5/gemini_side.json).", "",
              "## Part A:"+part_a.rstrip(), "", "## Part C: L3 load and heal concurrency", "",
              "### Ingestion, no provider calls", "",
              f"Machine: {ingestion['machine']['host']['cpu']}, {ingestion['machine']['host']['cores']} physical cores / {ingestion['machine']['host']['threads']} logical processors, {ingestion['machine']['host']['ram_bytes']/2**30:.2f} GiB host RAM; {ingestion['machine']['platform']}. Docker has {ingestion['machine']['docker']['cpus']} CPUs and {ingestion['machine']['docker']['ram_bytes']/2**30:.2f} GiB RAM.", "",
              "Recorded first-20 DEV spans receive fresh synthetic IDs. Warm-up is one 20-trace pass; each measured offered-rate step lasts at least 180 seconds. All spans, accepted/rejected counts, late detections and missing detections are retained. Latency runs from a trace's first HTTP submission until its classification is committed to Postgres, not per-span HTTP response latency. Trace batching creates within-trace bursts, particularly at low rates.", "",
-             "| Offered events/s | Hold s | Accepted events/s | Traces detected/offered | Detection p50/p99 ms | Assembler / classifier lag slope events/s | Sustainable |",
-             "|---:|---:|---:|---:|---:|---:|---|" ]
+             "The initial 1/5/20/80 events/s run and later 30/40/60 add-on are separate measurement windows. The add-on keeps the same warm-up, >=180-second holds, final-120-second lag-growth thresholds, acceptance/error checks and complete persistence requirements. All three requested add-on steps run, even if an earlier one saturates. Source JSON preserves both runs independently.", "",
+             "| Run | Offered events/s | Hold s | Accepted events/s | Detected/offered traces | Assembled at detection-drain | Detection p50/p99 ms | Assembler / classifier lag slope events/s | Strict pass |",
+             "|---|---:|---:|---:|---:|---:|---:|---:|---|" ]
     for s in ingestion["steps"]:
-        lines.append(f"| {s['offered_rate_events_s']} | {s['hold_s']:.1f} | {s['accepted_events_s']:.3f} | {s['detected_traces']}/{s['offered_traces']} | {number(s['detection_latency_ms']['p50'])}/{number(s['detection_latency_ms']['p99'])} | {s['lag_growth']['assembler']['slope_events_s']:.3f} / {s['lag_growth']['classifier']['slope_events_s']:.3f} | {s['sustainable']} |")
-    lines += ["", f"Highest sustainable tested rate: **{number(ingestion['max_sustained_events_s'])} accepted events/s**. The bottleneck was the **{ingestion['bottleneck']['service']}**, based on growing committed consumer lag while assembler lag remained stable, supported by service CPU samples. Sustainability requires no growing final-120-second committed consumer lag, >=98% accepted target rate, no HTTP/sink error, complete detections and assembled traces. The exact lag thresholds, samples, persistence counts and sampled resource maxima are in the JSON; this is a stepped bound, not an interpolated maximum.", "",
+        lines.append(f"| {s['run']} | {s['offered_rate_events_s']} | {s['hold_s']:.1f} | {s['accepted_events_s']:.3f} | {s['detected_traces']}/{s['offered_traces']} | {s['assembled_traces_at_detection_drain']}/{s['offered_traces']} | {number(s['detection_latency_ms']['p50'])}/{number(s['detection_latency_ms']['p99'])} | {s['lag_growth']['assembler']['slope_events_s']:.3f} / {s['lag_growth']['classifier']['slope_events_s']:.3f} | {s['sustainable']} |")
+    lines += ["", f"Highest rate passing all unchanged checks: **{number(ingestion['max_sustained_events_s'])} accepted events/s**. The bottleneck was the **{ingestion['bottleneck']['service']}**, based on growing committed consumer lag while assembler lag remained stable, supported by service CPU samples. Sustainability requires no growing final-120-second committed consumer lag, >=98% accepted target rate, no HTTP/sink error, complete detections and assembled traces at the original detection-drain checkpoint. The exact lag thresholds, samples, persistence counts and sampled resource maxima are in the JSON; this is a stepped bound, not an interpolated maximum.", "",
+              f"The highest step with no growing consumer lag was **{number(ingestion['max_stable_lag_events_s'])} accepted events/s**. The table retains the original stricter checkpoint verdict as well. If assembly lags the independent classification drain by a final write, that checkpoint can conservatively fail even though all traces persist later; this is not proof of event loss or a lower service-capacity ceiling. Subsequent counts and original flags are both retained in ingestion_summary.json.", "",
+              checkpoint_notes, "",
               "The unmodified deployed classifier uses its rule detectors, PatchCore/SVM, MiniLM embeddings and configured NLI model. This is distinct from the frozen Phase 4 offline detector used by heals. The classifier publishes classifications to Kafka; a measurement-only sink persists them to a separate Postgres table. Assembler persistence runs in parallel. The original image lacked its NLI cache and silently used its existing zero-score fallback; that pilot was stopped, retained under ignored run state and excluded. A read-only mount of the already-cached exact NLI model restored full configured inference offline. No detector code or thresholds changed.", "",
+              "**Phase 4 detection used offline detector code, not the classifier container.** For DEV evidence, [phase4_handoff.py](../../services/critic/phase4_handoff.py#L177) reads saved predictions produced by [audit_dev.py](../../scripts/phase2_followup/audit_dev.py#L47) using the frozen services.detectors.pipeline. The scored Phase 4 path's [build_evidence()](../../bench/heal/test_phase.py#L79) directly calls detector_view, pipeline.compute_scores and pipeline.label in-process. Neither path depends on the deployed classifier container or its NLI cache. Its missing cache therefore did not affect Phase 4 detection. This confirmation inspected source only; sealed TEST data was neither loaded nor rerun.", "",
               "Paid critic/healer consumers were stopped during synthetic ingestion; no repairs/notifications were initiated. They remain stopped to keep all paid calls inside the capped controllers. Automatic approval review rejected advancing Kafka offsets because a future consumer could skip alerts; no offsets were changed. The synthetic backlog remains in Kafka, so starting a paid consumer needs separate attention. This safe alternative does not affect the measurements.", "",
               "### Paired heal concurrency, DeepSeek", "",
               f"Fixed seed {c['seed']}; 10 manifest occurrences drawn without replacement, exact IDs in followup_manifest.json and the result JSON. Concurrency 1 runs before 4. Fresh local response caches per heal; frozen seeds, prompts, gate and baseline reuse stay identical. No paid warm-up. Shared provider cap $1.50, including in-flight/unknown reservations.", "",
@@ -146,6 +177,7 @@ def main():
     p.write_text("\n".join(lines),encoding="utf-8")
     headline = dict(experiment_id="phase5_headline", L1=a["L1"], L2=a["L2"],
                     L3_ingestion_max_events_s=ingestion["max_sustained_events_s"], L3_heals=levels,
+                    L3_ingestion_max_stable_lag_events_s=ingestion["max_stable_lag_events_s"],
                     L4_added_healthy_ms=sdk["collector_healthy"]["paired_added_per_step"],
                     gemini_completed=current["completed_n"], spend=spend)
     atomic_json(RESULTS/"headline.json",headline)
