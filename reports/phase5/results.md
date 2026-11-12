@@ -160,3 +160,35 @@ Failed HTTP batches are dropped without retry/persistence; events still queued w
 The queue-full drop counter alone excludes failed HTTP batches; the observer explicitly counted those losses. Fresh recovery events and retained pending events are distinguished from previously failed batches. The collector fixture was closed in cleanup; the user's Nexus stack and SDK source were not changed.
 
 Limits: local Windows host, recorded SDK-visible payloads, asynchronous default SDK settings and loopback collector. This is not provider latency, real tool execution or production backend throughput. Only aggregate results are committed; raw vectors/event identifiers stay ignored under `data/phase5/runs/l4/`.
+
+
+### Export-loss counter and buffer bounds (code/data follow-up)
+
+Source: [`sdk_buffer_audit.json`](../../results/phase5/sdk_buffer_audit.json).
+`NexusClient._run_export_loop()` drains spans, `_export_batch()` calls
+`HttpExporter.export()`, and a false return (non-2xx or transport exception)
+discards the drained batch. The HTTP exporter makes one attempt, with no retry,
+requeue or persistence. That is why the recovery probe's 17 failed-export events
+were permanently lost; restarting the collector cannot recover them.
+
+The existing public `client.stats["dropped"]` counted queue-full losses only.
+The SDK now additionally exposes `export_failed` (failed-export spans, including
+unexpected exporter exceptions) and `dropped_total` (queue-full plus failed
+exports). Counters are thread-safe process-lifetime counts, not durable metrics;
+the existing `dropped` meaning is preserved. A test verifies a failed 17-span
+batch is counted once and never retried, plus exception and newest-drop cases.
+This SDK-only observability fix came after L4; its timings were not re-measured.
+
+The default queue is bounded at **10,000 spans**, with **50 spans** per export
+batch normally held outside it. A full queue drops the **newest incoming** span,
+not the oldest. Configuration can opt out of a count bound: nonpositive
+`max_queue_size` uses Python Queue's unbounded mode. There is **no finite
+worst-case total memory bound**, even at defaults: metadata/identifiers and
+caller-supplied Span fields are unrestricted, explicit pending spans are
+unbounded, and serialization creates temporary copies. The default build_span
+input/output/error text caps total 4,500 characters/span: 10,000 such spans alone
+can hold up to 180,000,000 bytes (171.66 MiB) of Unicode character storage, before
+all those other allocations. That is a partial text-storage estimate, not a RAM
+limit. The **28.58 MiB added sampled peak RSS** was measured with the collector
+**up**, on the registered replay workload; no outage/worst-case memory claim is
+supported by that number.

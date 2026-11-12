@@ -68,6 +68,8 @@ class NexusClient:
         self._queue: queue.Queue[Span] = queue.Queue(maxsize=config.max_queue_size)
         self._stop = threading.Event()
         self._dropped = 0  # spans dropped due to a full queue
+        self._export_failed = 0  # spans lost after an unsuccessful export
+        self._stats_lock = threading.Lock()
         self._exported = 0
         self._pending: dict[str, dict[str, Any]] = {}  # explicit start/end spans
         self._pending_lock = threading.Lock()
@@ -135,7 +137,8 @@ class NexusClient:
             else:
                 self._export_batch([span])
         except queue.Full:
-            self._dropped += 1
+            with self._stats_lock:
+                self._dropped += 1
             logger.warning("nexus: span queue full; dropped span %s", span.span_id)
         except Exception as exc:  # noqa: BLE001 — fail-silent
             logger.warning("nexus: failed to record span (%s)", exc.__class__.__name__)
@@ -224,8 +227,14 @@ class NexusClient:
         try:
             ok = self._exporter.export(SpanBatch(spans=spans))
             if ok:
-                self._exported += len(spans)
+                with self._stats_lock:
+                    self._exported += len(spans)
+            else:
+                with self._stats_lock:
+                    self._export_failed += len(spans)
         except Exception as exc:  # noqa: BLE001 — exporters are fail-silent, belt-and-suspenders
+            with self._stats_lock:
+                self._export_failed += len(spans)
             logger.warning("nexus: export raised unexpectedly (%s)", exc.__class__.__name__)
 
     # ── Flush / shutdown ────────────────────────────────────────────
@@ -253,9 +262,13 @@ class NexusClient:
     # ── Introspection (for tests / health) ──────────────────────────
     @property
     def stats(self) -> dict[str, int]:
+        with self._stats_lock:
+            exported, dropped, failed = self._exported, self._dropped, self._export_failed
         return {
             "queued": self._queue.qsize(),
-            "exported": self._exported,
-            "dropped": self._dropped,
+            "exported": exported,
+            "dropped": dropped,  # compatibility: queue-full losses only
+            "export_failed": failed,
+            "dropped_total": dropped + failed,
             "pending": len(self._pending),
         }
