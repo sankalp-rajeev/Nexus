@@ -698,3 +698,41 @@ was the test evidence, the set of arms, or the cap. A3
   `results/critic_dev/proposals.jsonl` whenever Postgres was up. An autouse fixture now
   sends that output to a temp path, and the stray file, which was untracked mock
   output, was removed.
+
+**D76. Phase 4 test scoring under A3: scored once (2026-11-11).**
+Frozen code at `phase4-dev-frozen` (`f2a4939`). Runs: seeds 0–2, 6,231 runs; fresh-seed
+confirmations for every gate-promoted patch, seeds 3–5, 2,754 runs; 0 run errors.
+`--score` ran once and did not crash. An earlier scoring launch was stopped by the user
+before it wrote any file, and the same command was then run unchanged. Before Docker
+was needed again, the `nexus-*` containers were stopped (`docker compose stop`); the
+harness used none of them. Report: `reports/phase4/test_scoring.md`.
+- **Coverage.** 50 of the 60 failures got a usable `v1_structured` patch. Of the other
+  10, 9 failed the Phase 3 dry run (7 CONTEXT_BLEED, 2 TOOL_MISFIRE) and 1 had a NORMAL
+  detector prediction, so no proposal was made. 48 patches are scored on the 51
+  eligible failures.
+- **Headline, `other_fix`, net of no patch.**
+  - H1: 21/36 repaired, against 4/36 with no patch, for a net of +17.
+  - H2: 22/36.
+  - H3: 12/36 patches break at least one regression task.
+  - Gate: 14/36 promoted, against 17/32 on dev.
+  - Per class:
+    | Class | H1 repaired | Gate promoted |
+    |---|---|---|
+    | TOOL_MISFIRE | 9/10 | 6/10 |
+    | LOOP_DETECTED | 10/12 | 8/12 |
+    | PLAN_DRIFT | 1/12 | 0/12 |
+    | CONTEXT_BLEED (n = 3 scored; counts only) | 1/2 | 0/2 |
+- **`reverts_injection`, reported apart.** HALLUCINATION: 11/12 promoted.
+- **H4.**
+  | Arm | Old rule promoted | Old-rule false promotions | Gate promoted | Gate false promotions on s3–5 |
+  |---|---|---|---|---|
+  | `v1_structured` | 32 | 6 | 25 | 0 |
+  | generic | 12 | 0 | 12 | 0 |
+  | no patch | 3 | 3 | 0 | 0 |
+- **Against generic, per eligible failure.** The gate promoted 25/51 for `v1_structured`
+  and 12/51 for generic. Generic's 12 are all HALLUCINATION. The critic beats generic on
+  TOOL_MISFIRE (6/12 vs 0, generic inapplicable) and LOOP_DETECTED (8/12 vs 0/12). Both
+  get 0/12 on PLAN_DRIFT.
+- **Dev vs test.** H3 is higher on test: 12/48 against 3/44 on dev. Gate promotions are
+  lower: 25/48 against 29/44.
+- **Spend.** $4.56 of the $5.50 cap: $0.377 on the critic and $4.185 on runs.
