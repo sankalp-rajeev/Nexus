@@ -79,6 +79,8 @@ class GeminiBudget:
                        model_version=version, cost_usd=actual,
                        status="settled" if actual is not None else "unknown")
             c.execute("UPDATE calls SET record=?,accounted=? WHERE id=?", (json.dumps(row), actual if actual is not None else row["reserved_usd"], cid))
+            if status in {401, 403, 429}:
+                c.execute("UPDATE state SET stopped=1 WHERE id=1")
         return row
 
     def rows(self):

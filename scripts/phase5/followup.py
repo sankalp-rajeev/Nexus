@@ -97,6 +97,8 @@ def cohort(rows):
                 critic_call_latency_ms=stats(latencies), critic_cost_total_usd=cost,
                 critic_cost_per_completed_heal_usd=cost/len(completed) if completed else None,
                 critic_call_count=len(critic_calls),
+                critic_http_status_counts=dict(Counter(str(c.get("http_status")) for c in critic_calls)),
+                critic_model_versions=sorted({c.get("model_version") or c.get("provider_model") or "not_reported" for c in critic_calls}),
                 api_errors=sum(bool(c.get("error")) for r in rows for c in [*r.get("calls",[]),*r.get("gemini_calls",[])]),
                 timeouts=sum(c.get("error", "") in {"ReadTimeout","ConnectTimeout","WriteTimeout","PoolTimeout"} for r in rows for c in [*r.get("calls",[]),*r.get("gemini_calls",[])]),
                 per_stage_s={s:stats([r["stages_s"][s] for r in completed if r.get("stage_status",{}).get(s)=="complete"]) for s in ("detect","classify","critic_call","gate_repair","gate_heldout","gate_regression")})
@@ -185,6 +187,7 @@ def main(args):
             current, rows = run_level(items[:20],root,2,True)
             baseline = [json.loads((BASE/"records"/f"{i['item_id']}.json").read_text(encoding="utf-8")) for i in items[:20]]
             result = dict(model=MODEL, available_model_metadata=selected, current=current, baseline=cohort(baseline),
+                baseline_for_completed_ids=cohort([b for b in baseline if b["item_id"] in {r["item_id"] for r in rows if r["status"]=="ok"}]),
                 occurrence_ids=[i["item_id"] for i in items[:20]], baseline_source="100-heal concurrency-2 DEV run",
                 side_row_only=True, prompt_temperature=.2, max_output_tokens=800,
                 wire_adaptation="unchanged prompt/system/schema; forced strict tool -> application/json responseJsonSchema; minimal thinking; same frozen validation",
