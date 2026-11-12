@@ -98,6 +98,7 @@ def analyse():
     l2["cache_hit_rate_token_weighted"] = l2["cache_hit_input_tokens"]["total"] / l2["input_tokens"]["total"]
     l2["per_heal_provider_to_ledger_ratio"] = mean_median([
         r["provider"]["cost_usd"] / r["ledger"]["cost_usd"] if r["provider"]["cost_usd"] is not None and r["ledger"]["cost_usd"] else None for r in records])
+    l2["per_heal_provider_to_ledger_ratio"].pop("total")  # summing ratios is not an overall cost ratio
     calls = [c for r in records for c in r["calls"]]
     if len({c["call_id"] for c in calls}) != len(calls):
         raise ValueError("Repeated API call IDs across occurrence records")
@@ -266,7 +267,10 @@ def write_report(result):
         f"Caps: ${s['ledger_cap_usd']:.2f}/${s['provider_cap_usd']:.2f}; cap hit: {s['cap_hit']}.", "",
         "Source: registered DEV occurrence JSON plus the read-only SQLite API ledger and local actor/critic retry ledgers. "
         "Only aggregate results are committed; raw records remain ignored under `data/phase5/runs/`.", ""]
-    (ROOT / "reports/phase5/results.md").write_text("\n".join(lines), encoding="utf-8")
+    report_path = ROOT / "reports/phase5/results.md"
+    previous = report_path.read_text(encoding="utf-8") if report_path.exists() else ""
+    part_b = "\n## Part B:" + previous.split("\n## Part B:", 1)[1] if "\n## Part B:" in previous else ""
+    report_path.write_text("\n".join(lines) + part_b, encoding="utf-8")
 
 
 def plot_hourly(result):

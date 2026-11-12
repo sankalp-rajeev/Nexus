@@ -101,3 +101,62 @@ Transport retries count failed API attempts; critic validation retries are separ
 Main 100: ledger $7.08575550, provider $3.075956103. Smoke: ledger $0.15867720, provider $0.082887528. Shared totals: ledger **$7.24443270**, provider **$3.158843631**. Caps: $9.00/$4.00; cap hit: False.
 
 Source: registered DEV occurrence JSON plus the read-only SQLite API ledger and local actor/critic retry ledgers. Only aggregate results are committed; raw records remain ignored under `data/phase5/runs/`.
+
+## Part B: L4 SDK overhead with recorded DEV response replay
+
+Amendment 1 was committed before execution, including the user's 20-task recorded-response clarification. The exact first 20 manifest occurrences (20 DEV traces, 18 unique task IDs) are retained. Recorded LLM responses, tool/memory outputs and expected errors are replayed on identical scripted paths; this does not re-run agent/gate decisions. There are no live provider calls or API spend.
+
+Two complete warm-up passes (226 steps/arm) are discarded. Eighteen measured full-task passes give 2,034 steps/arm and 360 task pairs in each collector condition. SDK-off/on task order is balanced AB/BA with seed 202611117. SDK off has no active client/exporter; SDK on uses the unchanged SDK and actual recorded span density. A separate loopback-only collector fixture excludes Kafka/backend work.
+
+### Per-step latency (milliseconds)
+
+| Collector | SDK off p50 / p99 | SDK on p50 / p99 | Paired added p50 / p99 | Paired added maximum |
+|---|---:|---:|---:|---:|
+| healthy | 0.003300 / 0.031434 | 0.037800 / 0.227169 | 0.033600 / 0.212703 | 1.150400 |
+| stopped | 0.007000 / 0.046267 | 0.042600 / 0.250704 | 0.034050 / 0.232200 | 0.605600 |
+
+Paired additions are on-minus-off for the same recorded step; negative scheduling differences are retained. Client setup, flush and shutdown are outside the per-step timer; task-root capture is included in separately reported paired task duration in the JSON. Memory tracing is run separately from these latency measurements.
+
+Across all 400 SDK-on task lifecycles per condition (including warm-ups), flush/shutdown took 5.222s healthy versus 83.468s stopped. Those waits are outside per-step timing: the fail-open bound concerns foreground capture/replay, not zero-cost client shutdown or draining. Failed HTTP batches in the timed outage phase were dropped; the event-level recovery counts below come from a separate observed probe.
+
+### Added memory
+
+Three fresh-process trials per arm replay the same 20 tasks, with two warm-up passes and 2,034 measured steps/trial. RSS is agent-process-only, sampled at a requested 1 ms interval; Python heap uses tracemalloc. The collector runs in a separate process and its memory is excluded.
+
+| Metric | SDK off median MiB | SDK on median MiB | Added median MiB |
+|---|---:|---:|---:|
+| sampled peak RSS | 52.398 | 80.977 | 28.578 |
+| Python traced-heap peak | 0.024 | 9.256 | 9.232 |
+
+The JSON also reports baseline/post-cleanup RSS, incremental peak RSS, realized sampler intervals and trial min/max. Although 1 ms was requested, realized mean RSS sample intervals had medians 22.78 ms off and 17.55 ms on under Windows scheduling/GIL contention. Sampled RSS peaks can miss short spikes; Python traced-heap peaks are separately tracked. These are workload-specific process/heap measurements, not a long-run leak bound.
+
+### Fail-open and recovery
+
+Collector listener closed: 2034/2034 SDK-on steps finished with 0 exceptions and 0 replay mismatches. The predeclared paired-added latency bound (p99 <=5 ms, max <=100 ms) **passed**.
+
+- `outage_steps`: 2034
+- `generated_outage_events`: 5814
+- `queued_events_at_restart`: 5747
+- `held_unattempted_batch_events`: 50
+- `recovery_only_scheduling_barrier`: True
+- `queue_full_drops_at_restart`: 0
+- `failed_events_before_restart`: 17
+- `failed_export_batches`: 1
+- `failed_export_events`: 17
+- `old_events_received_after_restart`: 5797
+- `old_events_received_final`: 5797
+- `failed_event_ids_seen_after_restart`: 0
+- `lost_outage_events`: 17
+- `fresh_recovery_steps`: 113
+- `expected_fresh_events`: 323
+- `fresh_recovery_events_received`: 323
+- `final_queue_size`: 0
+- `final_queue_full_dropped`: 0
+- `accounted_loss_matches`: True
+
+The recovery-only scheduling barrier held one unattempted batch after a real failed export; the listener then restarted and the held/queued events were released. This was outside latency and memory measurements; the retained queue depth is controlled test setup, not a natural-outage backlog estimate.
+
+Failed HTTP batches are dropped without retry/persistence; events still queued when service returns can export, but previously failed batches are not replayed.
+The queue-full drop counter alone excludes failed HTTP batches; the observer explicitly counted those losses. Fresh recovery events and retained pending events are distinguished from previously failed batches. The collector fixture was closed in cleanup; the user's Nexus stack and SDK source were not changed.
+
+Limits: local Windows host, recorded SDK-visible payloads, asynchronous default SDK settings and loopback collector. This is not provider latency, real tool execution or production backend throughput. Only aggregate results are committed; raw vectors/event identifiers stay ignored under `data/phase5/runs/l4/`.

@@ -1,6 +1,6 @@
 {
   "experiment_id": "phase5-L1-L2-dev",
-  "generated_at": "2026-11-12T14:04:26.652332+00:00",
+  "generated_at": "2026-11-12T14:31:11.717585+00:00",
   "methodology": {
     "split": "DEV only",
     "n": 100,
@@ -544,8 +544,7 @@
       "n": 96,
       "missing": 4,
       "mean": 0.4465428053911526,
-      "median": 0.5021097266141499,
-      "total": 42.868109317550655
+      "median": 0.5021097266141499
     }
   },
   "hourly": [
@@ -807,6 +806,6 @@
     "provider_cap_usd": 4.0,
     "cap_hit": false
   },
-  "analysis_base_commit": "1df62b32c88f1e656a97365e1f6479d970f536f7",
-  "analysis_script_sha256": "a8f1aaee4e80f7189f0ca512fc057bd89e039ae1fcd5035517129b0c679d54fb"
+  "analysis_base_commit": "bf3866541b5446a42245f17bdc7ff1c9d9ced37a",
+  "analysis_script_sha256": "ede3a371b4fa5979f91b561dd5e91cf8bf1d4413a681da9f62471b4148f7f180"
 }
