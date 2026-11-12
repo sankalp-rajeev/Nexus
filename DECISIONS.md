@@ -768,3 +768,27 @@ collector's synthetic alerts remain in Kafka with offsets unchanged: automatic
 approval review rejected offset advancement as a future-alert skip risk, so
 paid consumers remain stopped. Full results and limitations are in
 `reports/phase5/results.md`, backed by `results/phase5/*.json`.
+
+**D78. Use the DEV-only test runner for every CI invocation (2026-11-12).**
+Main-push CI ran TEST-reading hygiene checks from the Phase 4 merge until
+this change. The Actions history contains two such runs:
+[43143079344](https://github.com/sankalp-rajeev/Nexus/actions/runs/43143079344)
+at `81289ed` and
+[43309560963](https://github.com/sankalp-rajeev/Nexus/actions/runs/43309560963)
+at `75771ab`.
+Both used plain pytest; their test-job logs show the eight checks that the
+DEV-only runner skips passing: five result-provenance checks and three fixed
+TEST-set consistency checks. The integration jobs also used plain pytest,
+but their integration-only selection did not include those eight tests.
+
+These were pass/fail format and consistency checks on already-scored,
+committed TEST results and their fixed split manifest. No re-scoring, new
+sample, or experiment, model-selection or gate decision resulted. This audit
+used workflow history and Actions command/test-status lines, without opening
+TEST artifact contents.
+
+From this commit, both CI jobs always invoke
+`python scripts/phase5/pytest_dev_only.py -p no:deepeval` with their existing
+guarded-run arguments. This applies to every configured PR and push event,
+including main pushes, without a branch-name exception. `scripts/phase5/`
+and the frozen benchmark logic remain unchanged.
