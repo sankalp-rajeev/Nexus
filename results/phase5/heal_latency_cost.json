@@ -1,0 +1,812 @@
+{
+  "experiment_id": "phase5-L1-L2-dev",
+  "generated_at": "2026-11-12T14:04:26.652332+00:00",
+  "methodology": {
+    "split": "DEV only",
+    "n": 100,
+    "concurrency": 2,
+    "source_registration": "phase5-prereg",
+    "sample_sha256": "7e5a41b5f59fa0ef50fe327c64c0a4ffeb6e8342356a4465349f363a16657916",
+    "source_records_sha256": "84c648b7eec754df0734444b3c077149fa26895b83a14c865bb155e0a7896788",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 2026111201,
+    "bootstrap_method": "occurrence-level nonparametric percentile CI; key-derived SHA256 RNG seeds; linear quantiles",
+    "bootstrap_limit": "conditional on this run/sample; time correlation and repeated source tasks are not removed",
+    "grouping": "full_gate: all three gate stages complete; fast_exit: rejected and all gate stages skipped; other cases retained as partial/interrupted",
+    "stage_share": "sum of recorded stage seconds / sum of total seconds in the same group",
+    "costs": "main 100 only; smoke reconciled separately; provider dollars use API usage and registered rates, not invoice",
+    "hourly": "elapsed-hour bins anchored at first heal start; heals by start, API attempts independently by request start; partial hours retained",
+    "hourly_caution": "task mix, cache state, concurrency and retries confound provider-load attribution"
+  },
+  "run_window": {
+    "started_at": "2026-11-11T23:17:29.900941-05:00",
+    "ended_at": "2026-11-12T04:22:27.349839-05:00"
+  },
+  "L1": {
+    "all_heals": {
+      "total_s": {
+        "n": 100,
+        "p50": 421.6411511999977,
+        "p90": 480.41865597999276,
+        "ci95_p50": [
+          411.7321445999987,
+          447.713730449992
+        ],
+        "ci95_p90": [
+          474.1854467899975,
+          489.0920308999921
+        ],
+        "bootstrap_seed": 2329275011894415744
+      },
+      "status_counts": {
+        "ok": 100
+      },
+      "stages": {
+        "detect": {
+          "n": 100,
+          "p50": 0.0008629000003566034,
+          "p90": 7.542404280006304,
+          "ci95_p50": [
+            0.0006748000014340505,
+            0.000992883750404871
+          ],
+          "ci95_p90": [
+            7.4669800299889175,
+            7.876171500000055
+          ],
+          "bootstrap_seed": 5241754317106156635,
+          "state_counts": {
+            "complete": 100
+          },
+          "sum_s": 333.219864099985,
+          "aggregate_share_of_total": 0.009202753251399808
+        },
+        "classify": {
+          "n": 100,
+          "p50": 0.00030205000075511634,
+          "p90": 0.0011720900060026907,
+          "ci95_p50": [
+            0.00029019876219535943,
+            0.00034204999974463135
+          ],
+          "ci95_p90": [
+            0.001140040009340737,
+            0.0013116000045556575
+          ],
+          "bootstrap_seed": 17742928560549441981,
+          "state_counts": {
+            "complete": 100
+          },
+          "sum_s": 0.06704979996720795,
+          "aggregate_share_of_total": 1.8517586468638064e-06
+        },
+        "critic_call": {
+          "n": 100,
+          "p50": 8.154852250001568,
+          "p90": 13.79849195000279,
+          "ci95_p50": [
+            7.92242129999795,
+            8.25906624124491
+          ],
+          "ci95_p90": [
+            9.15038694000541,
+            14.890511600009631
+          ],
+          "bootstrap_seed": 1194032691553652028,
+          "state_counts": {
+            "complete": 100
+          },
+          "sum_s": 845.6077714999992,
+          "aggregate_share_of_total": 0.02335370878803775
+        },
+        "gate_repair": {
+          "n": 82,
+          "p50": 15.296107300004223,
+          "p90": 20.439566199998083,
+          "ci95_p50": [
+            13.47447480000119,
+            16.632745150003757
+          ],
+          "ci95_p90": [
+            19.452695500003756,
+            21.249387100004242
+          ],
+          "bootstrap_seed": 11724487928365090946,
+          "state_counts": {
+            "complete": 82,
+            "skipped": 18
+          },
+          "sum_s": 1239.5648842000228,
+          "aggregate_share_of_total": 0.034233882782479956
+        },
+        "gate_heldout": {
+          "n": 82,
+          "p50": 74.27493574999971,
+          "p90": 91.53101475999138,
+          "ci95_p50": [
+            63.617725399992196,
+            79.48482230000081
+          ],
+          "ci95_p90": [
+            88.70462003000867,
+            99.04004480000003
+          ],
+          "bootstrap_seed": 9331245071250769139,
+          "state_counts": {
+            "complete": 82,
+            "skipped": 18
+          },
+          "sum_s": 5924.712851899967,
+          "aggregate_share_of_total": 0.16362671117671557
+        },
+        "gate_regression": {
+          "n": 82,
+          "p50": 337.71369249999407,
+          "p90": 366.28901952999297,
+          "ci95_p50": [
+            332.13742650000495,
+            346.5890674000111
+          ],
+          "ci95_p90": [
+            358.093590199991,
+            372.84263849999115
+          ],
+          "bootstrap_seed": 8270986197184621587,
+          "state_counts": {
+            "complete": 82,
+            "skipped": 18
+          },
+          "sum_s": 27840.37870029999,
+          "aggregate_share_of_total": 0.7688861415762136
+        }
+      },
+      "aggregate_total_s": 36208.714391999994,
+      "unattributed_overhead_s": 25.16327020006429,
+      "unattributed_share": 0.0006949506665065108
+    },
+    "fast_exit": {
+      "total_s": {
+        "n": 18,
+        "p50": 7.618968850008969,
+        "p90": 13.939946299997974,
+        "ci95_p50": [
+          6.521906800000579,
+          8.475475550003466
+        ],
+        "ci95_p90": [
+          8.150949000002583,
+          15.945399199990788
+        ],
+        "bootstrap_seed": 10207809941474723353
+      },
+      "status_counts": {
+        "ok": 18
+      },
+      "stages": {
+        "detect": {
+          "n": 18,
+          "p50": 0.0006131499976618215,
+          "p90": 0.0006437599993660114,
+          "ci95_p50": [
+            0.0005943499927525409,
+            0.0006296837496847724
+          ],
+          "ci95_p90": [
+            0.0006265900025027804,
+            0.0006624999950872734
+          ],
+          "bootstrap_seed": 491454317479830281,
+          "state_counts": {
+            "complete": 18
+          },
+          "sum_s": 0.010853699975996278,
+          "aggregate_share_of_total": 8.426041037729276e-05
+        },
+        "classify": {
+          "n": 18,
+          "p50": 0.00024839999969117343,
+          "p90": 0.00027555000560823827,
+          "ci95_p50": [
+            0.00021879999985685572,
+            0.0002610500014270656
+          ],
+          "ci95_p90": [
+            0.00025850000383798033,
+            0.0002868999872589484
+          ],
+          "bootstrap_seed": 3754532080589145304,
+          "state_counts": {
+            "complete": 18
+          },
+          "sum_s": 0.0042767999693751335,
+          "aggregate_share_of_total": 3.3202034450750824e-05
+        },
+        "critic_call": {
+          "n": 18,
+          "p50": 7.575979250003002,
+          "p90": 13.894384780002293,
+          "ci95_p50": [
+            6.404734349998762,
+            8.43498759999784
+          ],
+          "ci95_p90": [
+            8.276287999999477,
+            15.896285599999828
+          ],
+          "bootstrap_seed": 14440839362494651710,
+          "state_counts": {
+            "complete": 18
+          },
+          "sum_s": 127.99359359999653,
+          "aggregate_share_of_total": 0.9936512660430515
+        },
+        "gate_repair": {
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "state_counts": {
+            "skipped": 18
+          },
+          "sum_s": 0,
+          "aggregate_share_of_total": 0.0
+        },
+        "gate_heldout": {
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "state_counts": {
+            "skipped": 18
+          },
+          "sum_s": 0,
+          "aggregate_share_of_total": 0.0
+        },
+        "gate_regression": {
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "state_counts": {
+            "skipped": 18
+          },
+          "sum_s": 0,
+          "aggregate_share_of_total": 0.0
+        }
+      },
+      "aggregate_total_s": 128.8113828000205,
+      "unattributed_overhead_s": 0.8026587000786094,
+      "unattributed_share": 0.006231271512120446
+    },
+    "full_gate": {
+      "total_s": {
+        "n": 82,
+        "p50": 446.17845609999495,
+        "p90": 483.2337731800013,
+        "ci95_p50": [
+          422.4222677999933,
+          454.5235496500027
+        ],
+        "ci95_p90": [
+          477.5420269400056,
+          489.79767050000373
+        ],
+        "bootstrap_seed": 1286208270145451428
+      },
+      "status_counts": {
+        "ok": 82
+      },
+      "stages": {
+        "detect": {
+          "n": 82,
+          "p50": 0.0009886499974527396,
+          "p90": 7.698305249999977,
+          "ci95_p50": [
+            0.0008629000003566034,
+            7.109550150002178
+          ],
+          "ci95_p90": [
+            7.484157069999492,
+            7.955492699999013
+          ],
+          "bootstrap_seed": 4300102415332354167,
+          "state_counts": {
+            "complete": 82
+          },
+          "sum_s": 333.209010400009,
+          "aggregate_share_of_total": 0.009235307819842099
+        },
+        "classify": {
+          "n": 82,
+          "p50": 0.00033689999690977857,
+          "p90": 0.0011992699903203175,
+          "ci95_p50": [
+            0.00030450000485870987,
+            0.000497499990160577
+          ],
+          "ci95_p90": [
+            0.001161630003480241,
+            0.001312699998379685
+          ],
+          "bootstrap_seed": 3227221250886782352,
+          "state_counts": {
+            "complete": 82
+          },
+          "sum_s": 0.06277299999783281,
+          "aggregate_share_of_total": 1.7398328366300317e-06
+        },
+        "critic_call": {
+          "n": 82,
+          "p50": 8.204646450001746,
+          "p90": 11.396278389994412,
+          "ci95_p50": [
+            7.956529100003536,
+            8.307335849996889
+          ],
+          "ci95_p90": [
+            9.117184710006406,
+            14.890511600009631
+          ],
+          "bootstrap_seed": 9675342115831060892,
+          "state_counts": {
+            "complete": 82
+          },
+          "sum_s": 717.6141779000027,
+          "aggregate_share_of_total": 0.019889581679779434
+        },
+        "gate_repair": {
+          "n": 82,
+          "p50": 15.296107300004223,
+          "p90": 20.439566199998083,
+          "ci95_p50": [
+            13.455260849994374,
+            16.632745150003757
+          ],
+          "ci95_p90": [
+            19.452695500003756,
+            21.249387100004242
+          ],
+          "bootstrap_seed": 5741910498998134173,
+          "state_counts": {
+            "complete": 82
+          },
+          "sum_s": 1239.5648842000228,
+          "aggregate_share_of_total": 0.03435610355947873
+        },
+        "gate_heldout": {
+          "n": 82,
+          "p50": 74.27493574999971,
+          "p90": 91.53101475999138,
+          "ci95_p50": [
+            63.617725399992196,
+            79.46893449999334
+          ],
+          "ci95_p90": [
+            88.66853272925917,
+            99.04004480000003
+          ],
+          "bootstrap_seed": 2657892066232078441,
+          "state_counts": {
+            "complete": 82
+          },
+          "sum_s": 5924.712851899967,
+          "aggregate_share_of_total": 0.16421088633162986
+        },
+        "gate_regression": {
+          "n": 82,
+          "p50": 337.71369249999407,
+          "p90": 366.28901952999297,
+          "ci95_p50": [
+            332.13742650000495,
+            346.5890674000111
+          ],
+          "ci95_p90": [
+            358.093590199991,
+            372.84263849999115
+          ],
+          "bootstrap_seed": 13097196827191703293,
+          "state_counts": {
+            "complete": 82
+          },
+          "sum_s": 27840.37870029999,
+          "aggregate_share_of_total": 0.7716311957158256
+        }
+      },
+      "aggregate_total_s": 36079.903009199974,
+      "unattributed_overhead_s": 24.36061149998568,
+      "unattributed_share": 0.0006751850606076738
+    },
+    "partial_or_interrupted": {
+      "total_s": {
+        "n": 0,
+        "p50": null,
+        "p90": null,
+        "ci95_p50": null,
+        "ci95_p90": null
+      },
+      "status_counts": {},
+      "stages": {
+        "detect": {
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "state_counts": {},
+          "sum_s": 0,
+          "aggregate_share_of_total": null
+        },
+        "classify": {
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "state_counts": {},
+          "sum_s": 0,
+          "aggregate_share_of_total": null
+        },
+        "critic_call": {
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "state_counts": {},
+          "sum_s": 0,
+          "aggregate_share_of_total": null
+        },
+        "gate_repair": {
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "state_counts": {},
+          "sum_s": 0,
+          "aggregate_share_of_total": null
+        },
+        "gate_heldout": {
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "state_counts": {},
+          "sum_s": 0,
+          "aggregate_share_of_total": null
+        },
+        "gate_regression": {
+          "n": 0,
+          "p50": null,
+          "p90": null,
+          "ci95_p50": null,
+          "ci95_p90": null,
+          "state_counts": {},
+          "sum_s": 0,
+          "aggregate_share_of_total": null
+        }
+      },
+      "aggregate_total_s": 0,
+      "unattributed_overhead_s": 0.0,
+      "unattributed_share": null
+    }
+  },
+  "L2": {
+    "ledger_usd": {
+      "n": 100,
+      "missing": 0,
+      "mean": 0.07085755499999999,
+      "median": 0.08101334999999998,
+      "total": 7.085755499999998
+    },
+    "provider_usd": {
+      "n": 100,
+      "missing": 0,
+      "mean": 0.030759561029999997,
+      "median": 0.037744349999999996,
+      "total": 3.0759561029999998
+    },
+    "input_tokens": {
+      "n": 100,
+      "missing": 0,
+      "mean": 187493.93,
+      "median": 214206.0,
+      "total": 18749393.0
+    },
+    "cache_hit_input_tokens": {
+      "n": 100,
+      "missing": 0,
+      "mean": 114103.16,
+      "median": 133348.5,
+      "total": 11410316.0
+    },
+    "cache_miss_input_tokens": {
+      "n": 100,
+      "missing": 0,
+      "mean": 73390.77,
+      "median": 84306.5,
+      "total": 7339077.0
+    },
+    "output_tokens": {
+      "n": 100,
+      "missing": 0,
+      "mean": 12174.48,
+      "median": 13299.5,
+      "total": 1217448.0
+    },
+    "provider_to_ledger_ratio_of_totals": 0.43410418310369314,
+    "cache_hit_rate_token_weighted": 0.6085698881025109,
+    "per_heal_provider_to_ledger_ratio": {
+      "n": 96,
+      "missing": 4,
+      "mean": 0.4465428053911526,
+      "median": 0.5021097266141499,
+      "total": 42.868109317550655
+    }
+  },
+  "hourly": [
+    {
+      "run_hour": 1,
+      "from_local": "2026-11-11T23:17:29.900941-05:00",
+      "to_local": "2026-11-12T00:17:29.900941-05:00",
+      "n": 26,
+      "group_counts": {
+        "full_gate": 18,
+        "fast_exit": 8
+      },
+      "all_total_s": {
+        "n": 26,
+        "p50": 389.0890453999964,
+        "p90": 470.14856605000386
+      },
+      "full_gate_total_s": {
+        "n": 18,
+        "p50": 447.73067789999914,
+        "p90": 481.40928312000034
+      },
+      "critic_call_s": {
+        "n": 26,
+        "p50": 7.591123400001379,
+        "p90": 14.34414165000635
+      },
+      "api_attempts_in_hour": 5899,
+      "api_attempt_elapsed_s": {
+        "n": 5899,
+        "p50": 1.088861,
+        "p90": 1.4015682
+      },
+      "cache_hit_rate_token_weighted": 0.5905448662283901
+    },
+    {
+      "run_hour": 2,
+      "from_local": "2026-11-12T00:17:29.900941-05:00",
+      "to_local": "2026-11-12T01:17:29.900941-05:00",
+      "n": 17,
+      "group_counts": {
+        "full_gate": 16,
+        "fast_exit": 1
+      },
+      "all_total_s": {
+        "n": 17,
+        "p50": 456.6246877999947,
+        "p90": 480.7698371200007
+      },
+      "full_gate_total_s": {
+        "n": 16,
+        "p50": 459.39351239999814,
+        "p90": 481.22642500000075
+      },
+      "critic_call_s": {
+        "n": 17,
+        "p50": 8.293959299990092,
+        "p90": 11.407486620001148
+      },
+      "api_attempts_in_hour": 5701,
+      "api_attempt_elapsed_s": {
+        "n": 5701,
+        "p50": 1.146528,
+        "p90": 1.444807
+      },
+      "cache_hit_rate_token_weighted": 0.6099194375402894
+    },
+    {
+      "run_hour": 3,
+      "from_local": "2026-11-12T01:17:29.900941-05:00",
+      "to_local": "2026-11-12T02:17:29.900941-05:00",
+      "n": 19,
+      "group_counts": {
+        "full_gate": 16,
+        "fast_exit": 3
+      },
+      "all_total_s": {
+        "n": 19,
+        "p50": 411.7321445999987,
+        "p90": 478.30901664000413
+      },
+      "full_gate_total_s": {
+        "n": 16,
+        "p50": 419.4369397999981,
+        "p90": 479.03403660000185
+      },
+      "critic_call_s": {
+        "n": 19,
+        "p50": 8.219989799996256,
+        "p90": 14.165743199994903
+      },
+      "api_attempts_in_hour": 5675,
+      "api_attempt_elapsed_s": {
+        "n": 5675,
+        "p50": 1.158293,
+        "p90": 1.4535242
+      },
+      "cache_hit_rate_token_weighted": 0.5998873754734905
+    },
+    {
+      "run_hour": 4,
+      "from_local": "2026-11-12T02:17:29.900941-05:00",
+      "to_local": "2026-11-12T03:17:29.900941-05:00",
+      "n": 18,
+      "group_counts": {
+        "fast_exit": 2,
+        "full_gate": 16
+      },
+      "all_total_s": {
+        "n": 18,
+        "p50": 446.4673017000023,
+        "p90": 490.20923540000365
+      },
+      "full_gate_total_s": {
+        "n": 16,
+        "p50": 462.0251468999995,
+        "p90": 490.48361200000363
+      },
+      "critic_call_s": {
+        "n": 18,
+        "p50": 8.31175980000262,
+        "p90": 12.211504559995957
+      },
+      "api_attempts_in_hour": 5651,
+      "api_attempt_elapsed_s": {
+        "n": 5651,
+        "p50": 1.169319,
+        "p90": 1.469967
+      },
+      "cache_hit_rate_token_weighted": 0.6229249042137208
+    },
+    {
+      "run_hour": 5,
+      "from_local": "2026-11-12T03:17:29.900941-05:00",
+      "to_local": "2026-11-12T04:17:29.900941-05:00",
+      "n": 20,
+      "group_counts": {
+        "full_gate": 16,
+        "fast_exit": 4
+      },
+      "all_total_s": {
+        "n": 20,
+        "p50": 420.7294705999957,
+        "p90": 474.16760025999685
+      },
+      "full_gate_total_s": {
+        "n": 16,
+        "p50": 432.4159989000036,
+        "p90": 476.9293140999944
+      },
+      "critic_call_s": {
+        "n": 20,
+        "p50": 7.906854850007221,
+        "p90": 8.480283900003997
+      },
+      "api_attempts_in_hour": 5774,
+      "api_attempt_elapsed_s": {
+        "n": 5774,
+        "p50": 1.12074,
+        "p90": 1.4655721
+      },
+      "cache_hit_rate_token_weighted": 0.6172614797013017
+    },
+    {
+      "run_hour": 6,
+      "from_local": "2026-11-12T04:17:29.900941-05:00",
+      "to_local": "2026-11-12T05:17:29.900941-05:00",
+      "n": 0,
+      "group_counts": {},
+      "all_total_s": {
+        "n": 0,
+        "p50": null,
+        "p90": null,
+        "ci95_p50": null,
+        "ci95_p90": null
+      },
+      "full_gate_total_s": {
+        "n": 0,
+        "p50": null,
+        "p90": null,
+        "ci95_p50": null,
+        "ci95_p90": null
+      },
+      "critic_call_s": {
+        "n": 0,
+        "p50": null,
+        "p90": null,
+        "ci95_p50": null,
+        "ci95_p90": null
+      },
+      "api_attempts_in_hour": 392,
+      "api_attempt_elapsed_s": {
+        "n": 392,
+        "p50": 1.1519080000000002,
+        "p90": 1.4519757000000002
+      },
+      "cache_hit_rate_token_weighted": 0.6551630627511025
+    }
+  ],
+  "errors_and_retries": {
+    "terminal_heal_status": {
+      "ok": 100
+    },
+    "api_attempts": 29092,
+    "api_error_total": 0,
+    "api_error_counts": {},
+    "http_status_counts": {
+      "200": 29092
+    },
+    "unknown_or_unsettled_api_attempts": 0,
+    "missing_provider_usage": 0,
+    "heal_timeout_count": 0,
+    "recorded_api_timeout_count": 0,
+    "api_transport_retries_after_failed_request": 0,
+    "critic_validation_retry_rounds": 10,
+    "heals_without_critic_api_calls": 4,
+    "critic_heals_by_retry_round_count": {
+      "0": 86,
+      "1": 10
+    },
+    "critic_paid_requests_on_retry_rounds": 20,
+    "agent_run_records": 8610,
+    "agent_run_error_count": 0,
+    "agent_run_retry_attempts": 0,
+    "actor_invalid_json_responses": 0,
+    "orphan_attempt_directories": 0
+  },
+  "gate_decisions": {
+    "label": "Descriptive only; not a re-estimate of Phase 4 rates",
+    "by_detector_failure_class": {
+      "CONTEXT_BLEED": {
+        "rejected": 11
+      },
+      "HALLUCINATION": {
+        "promoted": 38
+      },
+      "LOOP_DETECTED": {
+        "promoted": 23
+      },
+      "NORMAL": {
+        "rejected": 4
+      },
+      "TOOL_MISFIRE": {
+        "promoted": 11,
+        "rejected": 13
+      }
+    }
+  },
+  "spend_reconciliation": {
+    "main_api_attempts": 29092,
+    "smoke_api_attempts": 693,
+    "main_ledger_usd": 7.085755500000044,
+    "smoke_ledger_usd": 0.1586771999999999,
+    "main_provider_usd": 3.0759561030000007,
+    "smoke_provider_usd": 0.08288752799999996,
+    "budget_ledger_usd": 7.244432699999988,
+    "budget_provider_usd": 3.1588436310000145,
+    "ledger_cap_usd": 9.0,
+    "provider_cap_usd": 4.0,
+    "cap_hit": false
+  },
+  "analysis_base_commit": "1df62b32c88f1e656a97365e1f6479d970f536f7",
+  "analysis_script_sha256": "a8f1aaee4e80f7189f0ca512fc057bd89e039ae1fcd5035517129b0c679d54fb"
+}
