@@ -163,7 +163,7 @@ def run_level(items, root, concurrency, gemini):
 
 
 def main(args):
-    os.environ.update(HF_HUB_DISABLE_TELEMETRY="1",
+    os.environ.update(HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1", HF_HUB_DISABLE_TELEMETRY="1",
                       LANGSMITH_TRACING="false", LANGCHAIN_TRACING_V2="false", LANGCHAIN_TRACING="false")
     if args.worker:
         if not args.root.resolve().is_relative_to(BASE):

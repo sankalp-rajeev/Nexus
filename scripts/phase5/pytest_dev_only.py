@@ -44,7 +44,7 @@ class DevOnly:
 
 def main():
     os.environ["NEXUS_PHASE5_DEV_ONLY"] = "1"
-    os.environ.update(HF_HUB_DISABLE_TELEMETRY="1",
+    os.environ.update(HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1", HF_HUB_DISABLE_TELEMETRY="1",
                       LANGSMITH_TRACING="false", LANGCHAIN_TRACING_V2="false", SLACK_WEBHOOK_URL="")
     # Target this worktree's isolated stack, including real DB/Kafka integration
     # tests. Read only DB credential fields; provider keys are not needed by tests.
