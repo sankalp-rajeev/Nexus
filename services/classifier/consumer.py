@@ -1,7 +1,7 @@
 """Kafka consumer: nexus.spans.raw -> assemble -> classify -> publish.
 
-Publishes every classification to nexus.spans.classified and a non-NORMAL
-Alert to nexus.alerts (keyed by agent_name).
+Publishes every classification to nexus.spans.classified. Only non-synthetic,
+non-NORMAL traces publish an Alert to nexus.alerts (keyed by agent_name).
 """
 
 from __future__ import annotations
@@ -10,9 +10,10 @@ import json
 import logging
 import os
 
-from nexus_agent.models import Alert, Span
+from nexus_agent.models import Alert, CompleteTrace, Span
 
 from services.classifier.classifier import FailureClassifier
+from services.classifier.embedder import NLIModelUnavailable, NLIScorer
 from services.common.trace_buffer import TraceBuffer
 
 logger = logging.getLogger("nexus.classifier.consumer")
@@ -20,6 +21,16 @@ logger = logging.getLogger("nexus.classifier.consumer")
 TOPIC_RAW = os.getenv("COLLECTOR_KAFKA_TOPIC", "nexus.spans.raw")
 TOPIC_CLASSIFIED = "nexus.spans.classified"
 TOPIC_ALERTS = "nexus.alerts"
+
+
+def is_synthetic(trace: CompleteTrace) -> bool:
+    """Every future load tool must set boolean metadata['nexus.synthetic']."""
+    legacy = "phase5-load-dev"
+    return (trace.agent_name == legacy or trace.environment == legacy or any(
+        span.metadata.get("nexus.synthetic") is True
+        or span.agent_name == legacy or span.environment == legacy
+        for span in trace.spans
+    ))
 
 
 def build_consumer():
@@ -47,6 +58,29 @@ class ClassifierService:
         self.buffer = buffer or TraceBuffer()
         self._producer = None
         self._running = False
+        self._nli_ready = False
+        self._error = "Required NLI model has not initialized"
+        self.synthetic_suppressed = 0
+
+    def require_nli(self) -> None:
+        try:
+            NLIScorer.get()
+        except NLIModelUnavailable as exc:
+            self._nli_ready = False
+            self.mark_unhealthy(str(exc))
+            raise
+        self._nli_ready = True
+        self._error = None
+
+    def mark_unhealthy(self, error: str) -> None:
+        self._running = False
+        self._error = error
+
+    def health(self) -> dict:
+        healthy = self._nli_ready and self._running
+        return {"status": "ok" if healthy else "unhealthy", "nli_ready": self._nli_ready,
+                "consumer_running": self._running, "error": self._error,
+                "synthetic_suppressed": self.synthetic_suppressed}
 
     def _emit(self, topic: str, key: str, value: dict) -> None:
         self._producer.produce(topic, key=key.encode(), value=json.dumps(value).encode())
@@ -54,10 +88,16 @@ class ClassifierService:
 
     def process_trace(self, trace) -> Alert | None:
         """Classify one assembled trace; publish results. Returns the Alert if any."""
+        self.require_nli()
         classification = self.classifier.classify(trace)
         self._emit(
             TOPIC_CLASSIFIED, trace.trace_id, classification.model_dump(mode="json")
         )
+        if is_synthetic(trace):
+            self.synthetic_suppressed += 1
+            logger.info("nexus-classifier: synthetic_suppressed=%d trace_id=%s failure_type=%s",
+                        self.synthetic_suppressed, trace.trace_id, classification.failure_type.value)
+            return None
         if classification.failure_type.value == "NORMAL":
             return None
         alert = Alert(
@@ -77,6 +117,8 @@ class ClassifierService:
             self.process_trace(completed)
 
     def run(self) -> None:
+        # Validate before creating a consumer, subscribing or committing offsets.
+        self.require_nli()
         consumer = build_consumer()
         consumer.subscribe([TOPIC_RAW])
         self._producer = build_producer()
@@ -95,9 +137,12 @@ class ClassifierService:
                     continue
                 try:
                     self._handle(msg.value())
+                except NLIModelUnavailable:
+                    raise
                 except Exception as exc:  # noqa: BLE001
                     logger.exception("nexus-classifier: failed to handle span (%s)", exc)
         finally:
+            self._running = False
             consumer.close()
             if self._producer is not None:
                 self._producer.flush(5)

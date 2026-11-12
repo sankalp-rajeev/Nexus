@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import logging
 import os
+import threading
 
 from services.classifier.classifier import FailureClassifier
 from services.classifier.consumer import ClassifierService
+from services.classifier.health import make_health_server
 
 logging.basicConfig(level=logging.INFO)
 
@@ -27,7 +29,27 @@ def load_classifier() -> FailureClassifier:
 
 
 def main() -> None:
-    ClassifierService(load_classifier()).run()
+    service = ClassifierService(FailureClassifier())
+    server = make_health_server(service, port=int(os.getenv("CLASSIFIER_HEALTH_PORT", "8002")))
+
+    def consume():
+        try:
+            service.require_nli()
+            service.classifier = load_classifier()
+            service.run()
+        except Exception as exc:  # noqa: BLE001
+            service.mark_unhealthy(str(exc))
+            logging.exception("nexus-classifier: startup/consumer refused; /health is unhealthy")
+
+    worker = threading.Thread(target=consume, name="classifier-consumer", daemon=True)
+    worker.start()
+    try:
+        # Remain observable with HTTP 503 if initialization fails; never consume.
+        server.serve_forever()
+    finally:
+        service.stop()
+        server.server_close()
+        worker.join(timeout=10)
 
 
 if __name__ == "__main__":

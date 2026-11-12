@@ -50,7 +50,7 @@ jobs:
           TOKENIZERS_PARALLELISM: "false"
           HF_HUB_DISABLE_SYMLINKS_WARNING: "1"
         run: |
-          python scripts/phase5/pytest_dev_only.py -p no:deepeval -v \
+          python scripts/phase5/pytest_dev_only.py -p no:deepeval tests/unit tests/e2e -v \
             --cov --cov-config=.coveragerc \
             --cov-report=xml --cov-report=term-missing
 
@@ -112,7 +112,7 @@ jobs:
           REDIS_HOST: localhost
           REDIS_PORT: "6379"
         run: |
-          python scripts/phase5/pytest_dev_only.py -p no:deepeval -v --timeout=90
+          python scripts/phase5/pytest_dev_only.py -p no:deepeval tests/integration -v --timeout=90
 
       - name: Tear down infra
         if: always()

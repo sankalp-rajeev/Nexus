@@ -3,6 +3,8 @@
 .git
 .venv
 venv
+**/.venv
+**/venv
 **/__pycache__
 **/*.pyc
 **/node_modules
@@ -14,7 +16,17 @@ htmlcov
 .pytest_cache
 .ruff_cache
 .mypy_cache
+**/.pytest_cache
+**/.ruff_cache
+**/.mypy_cache
+**/.test-tmp*
 mlruns
 data/*.npy
 data/nexusbench
 results
+**/runs
+**/logs
+**/*.jsonl
+**/*.patch
+cross-encoder
+sentence-transformers

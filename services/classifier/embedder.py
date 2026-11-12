@@ -32,50 +32,47 @@ def _load_model(model_name: str):
     from sentence_transformers import SentenceTransformer
 
     logger.info("nexus-classifier: loading embedding model %s", model_name)
-    return SentenceTransformer(model_name, device="cpu")
+    return SentenceTransformer(model_name, device="cpu", local_files_only=True)
 
 
 # ── NLI scorer ────────────────────────────────────────────────────────────────
 
-class _NullNLIScorer:
-    """Fallback scorer that always returns 0.0 when NLI model unavailable."""
-
-    def contradiction_score(self, premise: str, hypothesis: str) -> float:  # noqa: ARG002
-        return 0.0
+class NLIModelUnavailable(RuntimeError):
+    """Required classifier inference artifacts could not be loaded offline."""
 
 
 class NLIScorer:
     """Cross-encoder NLI scorer: returns the CONTRADICTION probability.
 
-    Lazy singleton — the model is downloaded only on the first call to
-    NLIScorer.get(). Keeps import-time and test startup fast.
-
-    If the model fails to load (no internet, disk error, etc.) the instance
-    is replaced with a NullNLIScorer so inference never crashes.
+    Lazy singleton loaded only from local artifacts. Missing or broken models
+    raise NLIModelUnavailable; no zero-score substitute is permitted.
     """
 
     MODEL_NAME = NLI_MODEL
-    _instance: "NLIScorer | _NullNLIScorer | None" = None
+    _instance: "NLIScorer | None" = None
 
     @classmethod
-    def get(cls) -> "NLIScorer | _NullNLIScorer":
+    def get(cls) -> "NLIScorer":
         if cls._instance is None:
             try:
                 cls._instance = cls()
             except Exception as exc:
-                logger.warning(
-                    "nexus-classifier: NLI model failed to load (%s); "
-                    "contradiction_score will be 0.0 for all traces",
-                    exc,
+                message = (
+                    f"Required NLI model {cls.MODEL_NAME} could not load offline; "
+                    "classifier startup and consumption refused. Rebuild the image "
+                    "with its pinned models or run scripts/ci/prepare_models.py locally."
                 )
-                cls._instance = _NullNLIScorer()
+                logger.error("%s (%s)", message, exc)
+                raise NLIModelUnavailable(message) from exc
+        if not isinstance(cls._instance, cls) or getattr(cls._instance, "model", None) is None:
+            raise NLIModelUnavailable(f"Required NLI model {cls.MODEL_NAME} is not initialized")
         return cls._instance
 
     def __init__(self) -> None:
         from sentence_transformers import CrossEncoder
 
         logger.info("nexus-classifier: loading NLI model %s", self.MODEL_NAME)
-        self.model = CrossEncoder(self.MODEL_NAME)
+        self.model = CrossEncoder(self.MODEL_NAME, local_files_only=True)
 
     def contradiction_score(self, premise: str, hypothesis: str) -> float:
         """Probability that *hypothesis* is CONTRADICTED by *premise*.
