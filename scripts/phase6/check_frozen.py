@@ -9,10 +9,10 @@ from scripts.phase5.check_frozen import PATHS, TAG, git  # noqa: E402
 
 
 def main():
-    # Phase 6 branches: the demo branch, and the post-release polish PR built on it.
+    # Phase 6 branches: the demo branch and the follow-up PR branches built on it.
     branch = git("branch", "--show-current").decode().strip()
-    if branch not in ("phase-6-demo", "post-release-polish"):
-        raise RuntimeError(f"Phase 6 must run on phase-6-demo or post-release-polish, not {branch!r}")
+    if branch not in ("phase-6-demo", "post-release-polish", "diagram-redo"):
+        raise RuntimeError(f"Phase 6 must run on a Phase 6 branch, not {branch!r}")
     git("merge-base", "--is-ancestor", TAG, "HEAD")
     print(f"Frozen reference: {TAG}")
     tree = git("ls-tree", "-r", "--name-only", TAG, "--",

@@ -87,14 +87,12 @@ A number measured where you tuned flatters you.
 ## How it works
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/nexus-architecture-dark.png">
-  <img src="docs/assets/nexus-architecture-light.png" alt="Nexus architecture. Your agent sends spans with the nexus-llmops SDK or OpenTelemetry to the collector, which publishes them to Kafka. The assembler builds traces and stores them in Postgres; the classifier runs the frozen detectors, drops synthetic traffic, and raises alerts. The LLM critic, with a config registry and a dry-run validator, writes patches to Postgres, where the healer evaluates them, logs eval runs to MLflow and, by default, applies nothing; the API and dashboard read Postgres. Separately, the promotion gate runs as an offline verification job: it reruns the agent and promotes a patch only if it passes the fix, held-out and regression checks. Lite mode is a single collector with SQLite and the rule detectors.">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/nexus-story-dark.png">
+  <img src="docs/assets/nexus-story-light.png" alt="How Nexus decides whether a fix ships. Your agent, instrumented with the SDK or OpenTelemetry, sends traces to the Nexus live service, which detects failing runs and has an LLM critic write a proposed fix. The proposal goes to a separate verification job that runs against your agent's task suite: a fix check (the failing task now passes), a held-out check (similar unseen tasks improve) and a regression check (no passing task starts failing). If all three pass the fix is promoted; if one fails it is rejected.">
 </picture>
 
-The live stack runs the detectors and the critic as services and ends at a proposal. The three-check
-promotion gate runs as a separate verification job: the evaluation harness that produced the results above
-(`bench/heal/`, `services/healer/gate.py`). The live healer evaluates and logs proposals; it applies them only
-with `NEXUS_HEALER_AUTO_APPLY=true`, a legacy path that does not run the gate (off by default).
+The live service ends at a proposal; the verification job decides. The engineers' view, with every service,
+is under [Architecture (for engineers)](#architecture-for-engineers).
 
 Speed and cost, measured on one laptop with the full stack running (development data):
 
@@ -182,6 +180,18 @@ docker compose up --build
 ```
 
 The SDK's own README is [sdk/README.md](sdk/README.md); changes are in [CHANGELOG.md](CHANGELOG.md).
+
+## Architecture (for engineers)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/nexus-architecture-dark.png">
+  <img src="docs/assets/nexus-architecture-light.png" alt="Nexus architecture. Your agent sends spans with the nexus-llmops SDK or OpenTelemetry to the collector, which publishes them to Kafka. The assembler builds traces and stores them in Postgres; the classifier runs the frozen detectors, drops synthetic traffic, and raises alerts. The LLM critic, with a config registry and a dry-run validator, writes patches to Postgres, where the healer evaluates them, logs eval runs to MLflow and, by default, applies nothing; the API and dashboard read Postgres. Separately, the promotion gate runs as an offline verification job: it reruns the agent and promotes a patch only if it passes the fix, held-out and regression checks. Lite mode is a single collector with SQLite and the rule detectors.">
+</picture>
+
+The live stack runs the detectors and the critic as services and ends at a proposal. The three-check
+promotion gate runs as a separate verification job: the evaluation harness that produced the results above
+(`bench/heal/`, `services/healer/gate.py`). The live healer evaluates and logs proposals; it applies them only
+with `NEXUS_HEALER_AUTO_APPLY=true`, a legacy path that does not run the gate (off by default).
 
 ## Evidence
 
