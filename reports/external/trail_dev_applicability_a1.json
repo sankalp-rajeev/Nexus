@@ -1,0 +1,29 @@
+{
+  "abstention_or_ineligibility_reasons": {
+    "no_successful_retrieval_text": 8
+  },
+  "aggregate": {
+    "abstained": 8,
+    "nli_path_reached": 7,
+    "readable_nli_path_eligible": 7,
+    "traces": 15
+  },
+  "amendment": "A1",
+  "by_split": {
+    "gaia": {
+      "abstained": 5,
+      "nli_path_reached": 7,
+      "readable_nli_path_eligible": 7,
+      "traces": 12
+    },
+    "swe_bench": {
+      "abstained": 3,
+      "nli_path_reached": 0,
+      "readable_nli_path_eligible": 0,
+      "traces": 3
+    }
+  },
+  "dataset_revision": "b424ce63d5973d5dcd7169b1bc3c07ccdee276d1",
+  "nli_revision": "6c749ce3425cd33b46d187e45b92bbf96ee12ec7",
+  "scope": "dev-only; no labels, detector values, or predictions exported"
+}

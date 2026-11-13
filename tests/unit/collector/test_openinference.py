@@ -5,8 +5,8 @@ import json
 import pytest
 
 from nexus_agent.models import SpanType
-from services.collector.openinference import complete_trace, to_otlp
-from services.detectors import pipeline
+from services.collector.openinference import RETRIEVAL_TOOL_NAMES, complete_trace, to_otlp
+from services.detectors import hallucination, pipeline
 from services.detectors.common import planned_tools, tool_calls
 
 TRACE_ID = "ab" * 16
@@ -113,8 +113,9 @@ def test_explicit_plan_only_and_no_tool_name_inference():
     assert planned_tools(convert(source)) is None
     source["span_attributes"].update({"nexus.agent.role": "planner", "nexus.agent.plan_steps": '["lookup"]'})
     assert planned_tools(convert(source)) == ["lookup"]
-    call = tool_calls(convert(span(kind="TOOL", attrs={"tool.name": "web_search", "output.value": "synthetic evidence text"})))[0]
-    assert call.tool == "web_search"
+    retrieved = convert(span(kind="TOOL", attrs={"tool.name": "web_search", "output.value": "synthetic evidence text"})).spans[0]
+    assert retrieved.span_type == SpanType.RETRIEVAL
+    assert retrieved.metadata["tool_name"] == "web_search"
 
 
 def test_exact_nanoseconds_and_iso_duration():
@@ -164,3 +165,54 @@ def test_frozen_pipeline_synthetic_loop_and_misfire_without_nli(monkeypatch):
     assert result.loop is True and result.halluc is None
     calls[0]["status_code"] = "Error"
     assert pipeline.compute_scores(convert(*calls)).misfire is True
+
+
+@pytest.mark.parametrize("name", sorted(RETRIEVAL_TOOL_NAMES))
+def test_a1_retrieval_tools_preserve_arguments_output_and_identity(name):
+    source = span(kind="TOOL", attrs={"tool.name": name, "input.value": '{"query":"synthetic"}',
+        "tool.parameters": {"query": {"type": "string"}}, "output.value": "Synthetic external source text for grounding.",
+        "gen_ai.operation.name": "execute_tool"})
+    trace = convert(source)
+    s = trace.spans[0]
+    assert trace.span_count == 1 and s.span_id == source["span_id"]
+    assert s.span_type == SpanType.RETRIEVAL
+    assert s.input == '{"query":"synthetic"}'
+    assert s.output == "Synthetic external source text for grounding."
+    assert s.metadata["tool_name"] == name
+    assert s.metadata["otel.attributes"]["openinference.span.kind"] == "TOOL"
+    assert s.metadata["otel.attributes"]["tool.parameters"] == {"query": {"type": "string"}}
+    assert hallucination.retrieved_context(trace) == [s.output]
+
+
+@pytest.mark.parametrize("name", ["final_answer", "find_archived_url", "visualizer", "synthetic_unknown", "WEB_SEARCH", "web_search_extra"])
+def test_a1_nonmatching_tools_keep_original_type(name):
+    assert convert(span(kind="TOOL", attrs={"tool.name": name})).spans[0].span_type == SpanType.TOOL_CALL
+
+
+def test_a1_tool_name_does_not_retag_llm_and_retriever_kind_needs_no_name():
+    assert convert(span(kind="LLM", attrs={"tool.name": "web_search"})).spans[0].span_type == SpanType.LLM_CALL
+    trace = convert(span(kind="RETRIEVER", attrs={"output.value": "Synthetic retrieved document text."}))
+    assert trace.spans[0].span_type == SpanType.RETRIEVAL
+    assert hallucination.retrieved_context(trace) == ["Synthetic retrieved document text."]
+
+
+@pytest.mark.parametrize("missing_output", [False, True])
+def test_a1_missing_or_failed_retrieval_does_not_become_source(missing_output):
+    source = span(kind="TOOL", attrs={"tool.name": "visit_page"})
+    if not missing_output:
+        source["span_attributes"]["output.value"] = "Synthetic error text must not become evidence."
+        source["status_code"] = "Error"
+    trace = convert(source)
+    assert trace.spans[0].span_type == SpanType.RETRIEVAL
+    assert hallucination.retrieved_context(trace) == []
+
+
+def test_a1_retrieval_output_reaches_frozen_nli_branch_with_synthetic_model(monkeypatch):
+    class SyntheticNLI:
+        def predict(self, pairs, *, apply_softmax, batch_size):
+            assert pairs and apply_softmax is True and batch_size == 16
+            return [[0.0, 1.0, 0.0] for _ in pairs]
+    monkeypatch.setattr(hallucination, "_nli", lambda: SyntheticNLI())
+    source = span(attrs={"input.value": "What is the synthetic measurement?", "output.value": "The synthetic measurement is forty units."},
+                  children=[span(2, kind="TOOL", attrs={"tool.name": "inspect_file_as_text", "output.value": "The synthetic measurement is forty units."})])
+    assert pipeline.compute_scores(convert(source)).halluc is not None

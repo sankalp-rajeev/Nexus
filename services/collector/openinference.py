@@ -18,6 +18,12 @@ KIND_OPERATIONS = {
     "LLM": "chat", "TOOL": "execute_tool", "AGENT": "invoke_agent",
     "CHAIN": "invoke_workflow", "RETRIEVER": "retrieval", "EMBEDDING": "embeddings",
 }
+# Amendment A1: fixed from dev tool-name/span-kind schema, without labels or
+# output inspection. Do not extend this list after external test inspection.
+RETRIEVAL_TOOL_NAMES = frozenset({
+    "web_search", "visit_page", "page_down", "page_up",
+    "find_on_page_ctrl_f", "inspect_file_as_text",
+})
 ALIASES = {
     "llm.model_name": "gen_ai.request.model",
     "llm.token_count.prompt": "gen_ai.usage.input_tokens",
@@ -77,6 +83,10 @@ def canonical_attributes(raw: dict) -> dict:
     operation = KIND_OPERATIONS.get(kind)
     if operation:
         attrs.setdefault("gen_ai.operation.name", operation)
+    if kind == "RETRIEVER" or (kind == "TOOL" and raw.get("tool.name") in RETRIEVAL_TOOL_NAMES):
+        # Retag the existing span, without renaming tools or duplicating spans.
+        # TOOL content aliases below still preserve actual arguments/results.
+        attrs["gen_ai.operation.name"] = "retrieval"
     for old, new in ALIASES.items():
         if old in raw:
             value = raw[old]
