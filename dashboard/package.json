@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "export:replay": "python scripts/export_replay.py",
-    "build:replay": "npm run export:replay && tsc && vite build --mode replay --base ./",
+    "build:replay": "tsc && vite build --mode replay --base ./",
     "test:replay": "node --test tests/replay.test.mjs",
     "preview": "vite preview"
   },

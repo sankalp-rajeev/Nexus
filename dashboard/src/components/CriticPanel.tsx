@@ -134,7 +134,7 @@ export default function CriticPanel({ proposals, readOnly = false }: { proposals
       <header className="mb-3">
         <h2 className="text-sm font-semibold text-stone-800 tracking-tight">Critic Panel</h2>
         <p className="text-xs text-stone-400 font-mono mt-0.5">
-          {readOnly ? 'Illustrative mock template excerpts · read-only' : `${items.filter(p => p.status === 'PENDING_REVIEW').length} pending review`}
+          {readOnly ? 'Recorded proposals · read-only' : `${items.filter(p => p.status === 'PENDING_REVIEW').length} pending review`}
         </p>
       </header>
 

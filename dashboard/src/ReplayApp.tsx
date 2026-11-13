@@ -1,61 +1,77 @@
 import { useEffect, useState } from 'react'
-import CriticPanel from './components/CriticPanel'
-import TraceStream from './components/TraceStream'
 import { loadReplay, type ReplayData } from './replay'
+import HeadlinePanel from './replay/HeadlinePanel'
+import HealView, { HealPicker } from './replay/HealView'
+import ProvenancePanel from './replay/ProvenancePanel'
+import TraceView from './replay/TraceView'
+
+const TABS = [
+  { id: 'heals', label: 'Heals' },
+  { id: 'traces', label: 'Traces' },
+  { id: 'numbers', label: 'Headline numbers' },
+  { id: 'provenance', label: 'Provenance' },
+] as const
+type TabId = (typeof TABS)[number]['id']
+
+function tabFromHash(): TabId {
+  const wanted = window.location.hash.replace('#', '')
+  return TABS.find(tab => tab.id === wanted)?.id ?? 'heals'
+}
 
 export default function ReplayApp() {
   const [data, setData] = useState<ReplayData | null>(null)
-  const [selected, setSelected] = useState('')
   const [error, setError] = useState('')
+  const [tab, setTab] = useState<TabId>(tabFromHash)
+  const [selectedHeal, setSelectedHeal] = useState('')
+
   useEffect(() => {
     let active = true
     loadReplay().then(value => {
-      if (active) { setData(value); setSelected(value.traces[0]?.trace_id ?? '') }
+      if (!active) return
+      setData(value)
+      const first = value.heals[0]
+      if (first) setSelectedHeal(`${first.run}-${first.heal_id}`)
     }).catch(reason => { if (active) setError(String(reason)) })
-    return () => { active = false }
+    const onHash = () => setTab(tabFromHash())
+    window.addEventListener('hashchange', onHash)
+    return () => { active = false; window.removeEventListener('hashchange', onHash) }
   }, [])
+
   if (error) return <main className="p-8" role="alert">{error}. Rebuild with npm run build:replay.</main>
-  if (!data) return <main className="p-8" role="status">Loading committed DEV replay…</main>
-  const trace = data.traces.find(item => item.trace_id === selected)
-  const alerts = data.alerts.filter(item => item.trace_id === selected)
-  const gates = data.gate_decisions.filter(item => item.trace_id === selected)
+  if (!data) return <main className="p-8" role="status">Loading the recorded DEV replay…</main>
+
+  const heal = data.heals.find(item => `${item.run}-${item.heal_id}` === selectedHeal) ?? data.heals[0]
+  const choose = (id: TabId) => { window.location.hash = id; setTab(id) }
+
   return (
-    <main className="min-h-screen bg-stone-50 text-stone-800 p-6 space-y-6">
+    <main className="min-h-screen bg-stone-50 text-stone-800 px-4 sm:px-6 py-5 space-y-5 max-w-7xl mx-auto">
       <header>
         <h1 className="text-xl font-semibold">Nexus · DEV replay</h1>
-        <p className="text-sm mt-1">Read-only · static JSON · no backend or keys</p>
+        <p className="text-sm mt-1 text-stone-600">
+          Detect, propose, check, decide: {data.heals.length} recorded heals and {data.traces.length} DEV traces.
+          Read-only, static JSON, no backend or keys.
+        </p>
       </header>
-      <aside className="border border-amber-300 bg-amber-50 p-4 text-sm space-y-1" aria-label="Replay limitations">
+      <aside className="border border-amber-300 bg-amber-50 rounded-lg p-3 text-xs space-y-1" aria-label="Replay limitations">
         {data.notices.map(notice => <p key={notice}>{notice}</p>)}
       </aside>
-      <label className="block text-sm">
-        Trace ({data.traces.length} committed DEV runs)
-        <select value={selected} onChange={event => setSelected(event.target.value)} className="block mt-2 border border-stone-300 bg-white p-2 max-w-full">
-          {data.traces.map(item => <option key={item.trace_id} value={item.trace_id}>{item.trace_id} · {item.agent_name}</option>)}
-        </select>
-      </label>
-      {trace && <>
-        <section className="grid lg:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <h2 className="font-semibold">Recorded run</h2>
-            <p className="text-sm whitespace-pre-wrap">{trace.root_input}</p>
-            <details className="text-sm"><summary className="cursor-pointer">Recorded final output</summary><p className="mt-2 whitespace-pre-wrap">{trace.final_output ?? 'No final output recorded.'}</p></details>
-            <h2 className="font-semibold">Alerts</h2>
-            {alerts.length ? alerts.map(alert => <p key={alert.alert_id} className="text-sm">{alert.failure_type} · {alert.status} · committed detector prediction</p>) : <p className="text-sm">No alert: committed detector prediction is NORMAL.</p>}
-            <h2 className="font-semibold">Gate decisions · placeholder</h2>
-            {gates.length ? gates.map((gate, i) => <p key={i} className="text-sm">{gate.reason}</p>) : <p className="text-sm">No proposal gate for this trace. Phase 4 results remain pending.</p>}
-            <p className="text-sm text-stone-500">Evaluation scores and health gains are unavailable until Phase 4 is final.</p>
-          </div>
-          <div className="bg-white border border-stone-200 p-4">
-            <CriticPanel proposals={data.proposals.filter(item => item.trace_id === selected)} readOnly />
-          </div>
-        </section>
-        <div className="bg-white border border-stone-200 p-4">
-          <TraceStream spans={trace.spans.map(span => ({ ...span, server_timestamp: span.server_timestamp || span.client_timestamp || '' }))} replay />
+      <nav role="tablist" aria-label="Replay views" className="flex flex-wrap gap-1 border-b border-stone-200">
+        {TABS.map(item => (
+          <button key={item.id} role="tab" aria-selected={tab === item.id} onClick={() => choose(item.id)}
+                  className={`px-3 py-2 text-sm -mb-px border-b-2 ${tab === item.id ? 'border-stone-800 font-semibold' : 'border-transparent text-stone-500 hover:text-stone-800'}`}>
+            {item.label}
+          </button>
+        ))}
+      </nav>
+      {tab === 'heals' && heal && (
+        <div className="space-y-5">
+          <HealPicker heals={data.heals} selected={`${heal.run}-${heal.heal_id}`} onSelect={setSelectedHeal} />
+          <HealView data={data} heal={heal} />
         </div>
-        <details className="text-sm"><summary className="cursor-pointer">Span inputs, outputs and attributes</summary><pre className="mt-2 p-3 bg-stone-100 overflow-auto max-h-96 whitespace-pre-wrap">{JSON.stringify(trace.spans, null, 2)}</pre></details>
-      </>}
-      <details className="text-sm"><summary className="cursor-pointer">Committed source provenance</summary><pre className="mt-2 overflow-auto">{JSON.stringify(data.provenance, null, 2)}</pre></details>
+      )}
+      {tab === 'traces' && <TraceView data={data} />}
+      {tab === 'numbers' && <HeadlinePanel data={data} />}
+      {tab === 'provenance' && <ProvenancePanel data={data} />}
     </main>
   )
 }
