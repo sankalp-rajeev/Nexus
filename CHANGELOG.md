@@ -2,7 +2,7 @@
 
 The Python SDK is `nexus-llmops` (import `nexus_llmops`); the service is the rest of this repository.
 
-## 0.1.0 (not yet published)
+## 0.1.0 (2026-11-13)
 
 First stable release of the SDK. Same code as 0.1.0rc1 apart from the version number; the entries
 below describe what 0.1.0 contains.

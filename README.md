@@ -8,7 +8,7 @@ written for, and breaks nothing that already worked.
 - **SDK:** [`nexus-llmops` on PyPI](https://pypi.org/project/nexus-llmops/): `pip install nexus-llmops`
 - **Every number below** links to the committed file and line it comes from. [RESULTS.md](RESULTS.md) has all of them.
 
-![The demo page's first screen: the finding and the four proof numbers](docs/assets/nexus-hero.png)
+![A one-minute scroll through the demo page: the finding, a recorded heal step by step, and how to use it](docs/assets/nexus-demo.gif)
 
 ## The problem
 
@@ -40,6 +40,8 @@ flowchart LR
    pass rate must be strictly higher than without it.
 5. **Regression check.** Regression tasks are ones that already passed. None of them may fail with the patch.
 6. **Promote or reject.** A patch that passes all three checks is promoted. Anything else is rejected.
+
+![The demo page's first screen: the finding and the four proof numbers](docs/assets/nexus-hero.png)
 
 <!-- readme-numbers:start -->
 
