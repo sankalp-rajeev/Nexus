@@ -119,8 +119,14 @@ def test_check_dist_rejects_extra_dependencies(tmp_path):
     assert any("dependencies" in p for p in check_dist.check(dist, pyproject, None))
 
 
-def test_the_repo_pyproject_is_the_release_candidate():
-    assert check_dist.project_version(ROOT / "sdk" / "pyproject.toml") == Version("0.1.0rc1")
+def test_the_repo_pyproject_is_the_0_1_0_release():
+    assert check_dist.project_version(ROOT / "sdk" / "pyproject.toml") == Version("0.1.0")
+
+
+def test_check_dist_accepts_the_final_release_tag(tmp_path):
+    dist, pyproject = _dist(tmp_path, version="0.1.0")
+    assert check_dist.check(dist, pyproject, "v0.1.0") == []
+    assert check_dist.check(dist, pyproject, "v0.1.0rc1")
 
 def test_check_dist_rejects_a_package_version_that_differs_from_pyproject(tmp_path):
     dist, pyproject = _dist(tmp_path)

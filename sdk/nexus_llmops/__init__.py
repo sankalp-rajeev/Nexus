@@ -25,7 +25,7 @@ from nexus_llmops import models  # noqa: F401
 from nexus_llmops.config import NexusConfig
 from nexus_llmops.client import NexusClient
 
-__version__ = "0.1.0rc1"
+__version__ = "0.1.0"
 
 logger = logging.getLogger("nexus_llmops")
 
