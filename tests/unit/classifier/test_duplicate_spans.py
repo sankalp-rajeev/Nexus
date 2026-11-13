@@ -2,7 +2,6 @@
 import json
 from unittest.mock import MagicMock
 
-from nexus_agent.models import Span
 from services.classifier.main import load_classifier
 from services.classifier.consumer import ClassifierService, TOPIC_ALERTS, TOPIC_CLASSIFIED
 from services.common.trace_buffer import TraceBuffer
