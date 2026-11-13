@@ -47,6 +47,9 @@ def parquet_files() -> dict[str, Path]:
         matches = list((PRIVATE / "snapshot/data").glob(f"{name}-*.parquet"))
         if len(matches) != 1:
             raise RuntimeError("Expected exactly one parquet file per split")
+        marker = PRIVATE / "snapshot/.cache/huggingface/download/data" / (matches[0].name + ".metadata")
+        if not marker.is_file() or marker.read_text().splitlines()[0] != REVISION:
+            raise RuntimeError("Local Hub download revision does not match the pinned revision")
         files[name] = matches[0]
     return files
 
