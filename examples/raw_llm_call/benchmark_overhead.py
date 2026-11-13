@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import timeit
 
-import nexus_agent as nexus
+import nexus_llmops as nexus
 
 N = 10_000
 

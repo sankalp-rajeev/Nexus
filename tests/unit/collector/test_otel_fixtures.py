@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 from opentelemetry.proto.collector.trace.v1.trace_service_pb2 import ExportTraceServiceRequest
 
-from nexus_agent.integrations.otel import span_batches
+from services.collector.otel import span_batches
 from nexus_agent.models import CompleteTrace, Span, SpanType
 from scripts.phase6 import otel_fixtures as fx
 

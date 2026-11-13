@@ -14,21 +14,21 @@ import time
 from contextlib import contextmanager
 from typing import Any, Callable, Iterator
 
-from nexus_agent import client as _client_mod
-from nexus_agent.client import (
+from nexus_llmops import client as _client_mod
+from nexus_llmops.client import (
     NexusClient,
     _current_span_id,
     _current_trace_id,
     new_span_id,
     new_trace_id,
 )
-from nexus_agent.models import SpanType
+from nexus_llmops.models import SpanType
 
 
 def _get_client() -> NexusClient | None:
-    import nexus_agent
+    import nexus_llmops
 
-    return nexus_agent.get_client()
+    return nexus_llmops.get_client()
 
 
 def _capture_input(args: tuple, kwargs: dict, limit: int) -> str:

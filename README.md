@@ -92,7 +92,7 @@ python examples/crewai_agent/run_demo.py
 
 ## How It Works
 
-**Collector** — Zero-config HTTP ingestion endpoint. Receives `SpanBatch` payloads from the `nexus_agent` SDK, validates them with Pydantic, and publishes to the `nexus.spans.raw` Kafka topic. Fail-silent: a downed collector never crashes your agent.
+**Collector** — Zero-config HTTP ingestion endpoint. Receives `SpanBatch` payloads from the `nexus_llmops` SDK, validates them with Pydantic, and publishes to the `nexus.spans.raw` Kafka topic. Fail-silent: a downed collector never crashes your agent.
 
 **Classifier** — Two-stage failure detection. Stage 1: rule-based detection of LOOP_DETECTED (identical consecutive steps) and TOOL_MISFIRE (error + identical retry). Stage 2: SVM trained on MiniLM embeddings (384-dim) + PatchCore anomaly score + io_divergence + NLI contradiction score (387 total features) to classify HALLUCINATION, CONTEXT_BLEED, and PLAN_DRIFT. Trained on 212 synthetic traces and evaluated on 220 real HaluEval/ToolBench traces: binary precision 1.000 at recall 0.473; hallucination recall 0.033 (2/60); CONTEXT_BLEED and PLAN_DRIFT have not yet been evaluated on real traces. See [docs/classifier_report.md](docs/classifier_report.md).
 
@@ -106,14 +106,14 @@ python examples/crewai_agent/run_demo.py
 
 ## SDK Usage
 
-Install from the repo (not yet published to PyPI; the distribution name will be `nexus-selfheal`, import name `nexus_agent`):
+Install from the repo (not yet published to PyPI; the distribution is `nexus-llmops`, import name `nexus_llmops`; the old import name `nexus_agent` still works as an alias):
 
 ```bash
 pip install -e sdk/
 ```
 
 ```python
-import nexus_agent as nexus
+import nexus_llmops as nexus
 
 nexus.init(agent_name="my_agent", collector_url="http://localhost:8000")
 ```

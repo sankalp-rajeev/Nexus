@@ -16,7 +16,7 @@ import os
 import random
 import time
 
-import nexus_agent as nexus
+import nexus_llmops as nexus
 
 COLLECTOR_URL = os.getenv("NEXUS_COLLECTOR_URL", "http://localhost:8000")
 

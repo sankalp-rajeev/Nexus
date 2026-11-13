@@ -14,10 +14,10 @@ from pathlib import Path
 
 import pytest
 
-import nexus_agent as nexus
-from nexus_agent.client import SPAN_OVERHEAD_BYTES, NexusClient, estimate_span_bytes
-from nexus_agent.config import NexusConfig
-from nexus_agent.models import SpanType
+import nexus_llmops as nexus
+from nexus_llmops.client import SPAN_OVERHEAD_BYTES, NexusClient, estimate_span_bytes
+from nexus_llmops.config import NexusConfig
+from nexus_llmops.models import SpanType
 
 MIB = 1024 * 1024
 

@@ -803,3 +803,28 @@ converted or run. No result, threshold, model choice or gate decision depends
 on the exposure. From now on the raw NexusBench files (`labels.csv`,
 `traces.jsonl`, `splits.json`) are off-limits for any direct read, even for
 column names; they are reached only through `services/critic/dev_adapter.py`.
+
+**D80. SDK distribution `nexus-llmops`; import `nexus_llmops`; `nexus_agent` stays as an alias (2026-11-12).**
+Supersedes D9 (`nexus-selfheal`). *Why:* the product is an LLMOps tool, "selfheal"
+over-promised what the SDK does (it traces; healing is a separate service), and `nexus-llmops`
+is free on PyPI and TestPyPI (checked 2026-11-12). The package itself is renamed
+`sdk/nexus_llmops/` (git mv, history kept). The frozen research code (28 files under the frozen
+paths, tag `phase4-test-scored`) imports `nexus_agent`, and frozen files must stay byte-identical,
+so `sdk/nexus_agent/` remains as an alias-only package: importing it registers the real
+`nexus_llmops` module and every submodule under the `nexus_agent.*` names in `sys.modules`
+(enumerated by walking the package, not hard-coded), so both names are the identical module
+objects. No copies, no `import *`, and no DeprecationWarning in 0.1.x. Internal services keep
+their `nexus_agent` imports; the public surface (SDK README, examples, docs, the SDK's own tests,
+the smoke script) uses `nexus_llmops`. The server-side OTLP mapping moved out of the SDK to
+`services/collector/otel.py`, so the wheel is client code only. Version `0.1.0rc1`.
+
+**D81. Trace completion signal: the root span carries `metadata.final = True` (2026-11-12).**
+*Why:* nothing ever set `final`, so every trace waited the 30 s assembly idle timeout before
+classification (measured 30.6 s p50 end to end). The SDK now sets it on the span with no parent;
+the OTLP mapping does the same for a span with no `parent_span_id` and publishes the root last
+within an export request. Cost, accepted and documented: a child that arrives after its root is
+dropped by the late-duplicate memory and counted. Detector verdicts are unchanged (DEV
+equivalence 359/359); the median final-span-to-classification time fell from about 31 s to
+under 0.1 s. L4 was not re-run: the change is one metadata key on the root span; no detector
+reads it, the critic's trace view is a metadata whitelist (VISIBLE_METADATA) that excludes it, and
+the healer does not read span metadata.

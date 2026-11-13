@@ -6,9 +6,9 @@ import json
 import logging
 import sys
 
-from nexus_agent.models import SpanBatch
+from nexus_llmops.models import SpanBatch
 
-logger = logging.getLogger("nexus_agent.exporters.stdout")
+logger = logging.getLogger("nexus_llmops.exporters.stdout")
 
 
 class StdoutExporter:

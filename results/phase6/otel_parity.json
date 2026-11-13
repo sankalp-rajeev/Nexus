@@ -2431,5 +2431,446 @@
       }
     ],
     "mismatches": []
+  },
+  "detectors_with_root_final_2026-11-12_step_6.4a": {
+    "note": "Native traces are delivered as SDK 0.1.0rc1 does (root last, metadata.final=True on it); OTLP roots get final from the mapping. Latency here is from the final span, not after the 30 s idle timeout.",
+    "native_final_on_root": true,
+    "classifier": "detectors",
+    "plan_attributes": true,
+    "a_inprocess": {
+      "scope": "all DEV traces",
+      "classifier": "detectors",
+      "classify_ms_both_paths": {
+        "n": 718,
+        "p50": 1.4,
+        "p95": 609.7,
+        "min": 0.2,
+        "max": 748.1
+      },
+      "traces": 359,
+      "spans": 4692,
+      "failure_type_match": 359,
+      "failure_type_match_rate": 1.0,
+      "mismatch_count": 0,
+      "confusion_native_to_otlp": {},
+      "triggered_rule_match": 359,
+      "failure_span_index_match": 359,
+      "span_order_preserved": 359,
+      "anomaly_score_abs_diff": {
+        "max": null,
+        "median": null,
+        "compared": 0
+      },
+      "by_dev_label": {
+        "CONTEXT_BLEED": {
+          "traces": 30,
+          "match": 30
+        },
+        "HALLUCINATION": {
+          "traces": 34,
+          "match": 34
+        },
+        "LOOP_DETECTED": {
+          "traces": 34,
+          "match": 34
+        },
+        "NORMAL": {
+          "traces": 118,
+          "match": 118
+        },
+        "OTHER_FAILURE": {
+          "traces": 85,
+          "match": 85
+        },
+        "PLAN_DRIFT": {
+          "traces": 24,
+          "match": 24
+        },
+        "TOOL_MISFIRE": {
+          "traces": 34,
+          "match": 34
+        }
+      },
+      "field_differences_over_all_spans": {
+        "duration_ms": 4692,
+        "sdk_version": 4692,
+        "metadata.tool_name": 130
+      },
+      "mismatches": [],
+      "failure_span_differences": [],
+      "seconds": 69.0
+    },
+    "b_end_to_end": {
+      "classifier_observed": "detectors",
+      "matches_phase2_dev_prediction": {
+        "native": 20,
+        "otlp": 20
+      },
+      "latency_final_span_to_classification_s": {
+        "native": {
+          "n": 20,
+          "p50": 0.01,
+          "p95": 0.81,
+          "min": 0.01,
+          "max": 0.84
+        },
+        "otlp": {
+          "n": 20,
+          "p50": 0.01,
+          "p95": 0.81,
+          "min": 0.01,
+          "max": 0.81
+        }
+      },
+      "latency_from_final_post_start_to_classification_s": {
+        "native": {
+          "n": 20,
+          "p50": 0.06,
+          "p95": 0.85,
+          "min": 0.04,
+          "max": 0.88
+        },
+        "otlp": {
+          "n": 20,
+          "p50": 0.03,
+          "p95": 0.81,
+          "min": 0.02,
+          "max": 0.82
+        }
+      },
+      "latency_pacing": "native one at a time; OTLP every 6 s; latency_final_span_to_classification_s is measured from the final span's POST returning; latency_from_final_post_start_to_classification_s from just before that POST started (an upper bound: it includes the POST itself)",
+      "scope": "20-trace DEV subset, label-stratified, sha256-ordered",
+      "nonce": "8970d32b",
+      "traces": 20,
+      "classified_both_paths": 20,
+      "failure_type_match": 20,
+      "failure_type_match_rate": 1.0,
+      "all_assembled_with_full_span_count": true,
+      "alerts_published_for_synthetic_traces": 0,
+      "classifications_published": 40,
+      "pairs": [
+        {
+          "dev_trace_id": "nb-e8c06c96e7319cb3",
+          "dev_label": "CONTEXT_BLEED",
+          "span_count": 14,
+          "native": "CONTEXT_BLEED",
+          "otlp": "CONTEXT_BLEED",
+          "native_rule": "detectors:bleed",
+          "otlp_rule": "detectors:bleed",
+          "native_assembled_spans": 14,
+          "otlp_assembled_spans": 14,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.04,
+          "otlp_seen_after_post_start_s": 0.06,
+          "phase2_pred": "CONTEXT_BLEED"
+        },
+        {
+          "dev_trace_id": "nb-696bd867b25b38b9",
+          "dev_label": "HALLUCINATION",
+          "span_count": 11,
+          "native": "HALLUCINATION",
+          "otlp": "HALLUCINATION",
+          "native_rule": "detectors:hallucination_nli",
+          "otlp_rule": "detectors:hallucination_nli",
+          "native_assembled_spans": 11,
+          "otlp_assembled_spans": 11,
+          "native_seen_after_s": 0.81,
+          "otlp_seen_after_s": 0.75,
+          "native_seen_after_post_start_s": 0.85,
+          "otlp_seen_after_post_start_s": 0.75,
+          "phase2_pred": "HALLUCINATION"
+        },
+        {
+          "dev_trace_id": "nb-7a504c0751a63e6a",
+          "dev_label": "LOOP_DETECTED",
+          "span_count": 26,
+          "native": "LOOP_DETECTED",
+          "otlp": "LOOP_DETECTED",
+          "native_rule": "detectors:loop",
+          "otlp_rule": "detectors:loop",
+          "native_assembled_spans": 26,
+          "otlp_assembled_spans": 26,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.02,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.03,
+          "phase2_pred": "LOOP_DETECTED"
+        },
+        {
+          "dev_trace_id": "nb-635d94a987c801ed",
+          "dev_label": "NORMAL",
+          "span_count": 14,
+          "native": "NORMAL",
+          "otlp": "NORMAL",
+          "native_rule": "detectors:none",
+          "otlp_rule": "detectors:none",
+          "native_assembled_spans": 14,
+          "otlp_assembled_spans": 14,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.03,
+          "phase2_pred": "NORMAL"
+        },
+        {
+          "dev_trace_id": "nb-aa44cd11cf51e9c9",
+          "dev_label": "OTHER_FAILURE",
+          "span_count": 8,
+          "native": "NORMAL",
+          "otlp": "NORMAL",
+          "native_rule": "detectors:none",
+          "otlp_rule": "detectors:none",
+          "native_assembled_spans": 8,
+          "otlp_assembled_spans": 8,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.02,
+          "phase2_pred": "NORMAL"
+        },
+        {
+          "dev_trace_id": "nb-0faa2cfca0d13235",
+          "dev_label": "PLAN_DRIFT",
+          "span_count": 17,
+          "native": "PLAN_DRIFT",
+          "otlp": "PLAN_DRIFT",
+          "native_rule": "detectors:plan_drift",
+          "otlp_rule": "detectors:plan_drift",
+          "native_assembled_spans": 17,
+          "otlp_assembled_spans": 17,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.02,
+          "phase2_pred": "PLAN_DRIFT"
+        },
+        {
+          "dev_trace_id": "nb-02d9c47d716be568",
+          "dev_label": "TOOL_MISFIRE",
+          "span_count": 14,
+          "native": "TOOL_MISFIRE",
+          "otlp": "TOOL_MISFIRE",
+          "native_rule": "detectors:misfire",
+          "otlp_rule": "detectors:misfire",
+          "native_assembled_spans": 14,
+          "otlp_assembled_spans": 14,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.03,
+          "phase2_pred": "TOOL_MISFIRE"
+        },
+        {
+          "dev_trace_id": "nb-1906cb9e17860106",
+          "dev_label": "CONTEXT_BLEED",
+          "span_count": 14,
+          "native": "CONTEXT_BLEED",
+          "otlp": "CONTEXT_BLEED",
+          "native_rule": "detectors:bleed",
+          "otlp_rule": "detectors:bleed",
+          "native_assembled_spans": 14,
+          "otlp_assembled_spans": 14,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.03,
+          "phase2_pred": "CONTEXT_BLEED"
+        },
+        {
+          "dev_trace_id": "nb-7aefb4e62a75e56c",
+          "dev_label": "HALLUCINATION",
+          "span_count": 14,
+          "native": "HALLUCINATION",
+          "otlp": "HALLUCINATION",
+          "native_rule": "detectors:hallucination_nli",
+          "otlp_rule": "detectors:hallucination_nli",
+          "native_assembled_spans": 14,
+          "otlp_assembled_spans": 14,
+          "native_seen_after_s": 0.84,
+          "otlp_seen_after_s": 0.81,
+          "native_seen_after_post_start_s": 0.88,
+          "otlp_seen_after_post_start_s": 0.82,
+          "phase2_pred": "HALLUCINATION"
+        },
+        {
+          "dev_trace_id": "nb-647c5abb43e92735",
+          "dev_label": "LOOP_DETECTED",
+          "span_count": 14,
+          "native": "LOOP_DETECTED",
+          "otlp": "LOOP_DETECTED",
+          "native_rule": "detectors:loop",
+          "otlp_rule": "detectors:loop",
+          "native_assembled_spans": 14,
+          "otlp_assembled_spans": 14,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.03,
+          "phase2_pred": "LOOP_DETECTED"
+        },
+        {
+          "dev_trace_id": "nb-9f5080d441d1a1eb",
+          "dev_label": "NORMAL",
+          "span_count": 11,
+          "native": "NORMAL",
+          "otlp": "NORMAL",
+          "native_rule": "detectors:none",
+          "otlp_rule": "detectors:none",
+          "native_assembled_spans": 11,
+          "otlp_assembled_spans": 11,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.03,
+          "phase2_pred": "NORMAL"
+        },
+        {
+          "dev_trace_id": "nb-ce7dbaf926b752fc",
+          "dev_label": "OTHER_FAILURE",
+          "span_count": 8,
+          "native": "NORMAL",
+          "otlp": "NORMAL",
+          "native_rule": "detectors:none",
+          "otlp_rule": "detectors:none",
+          "native_assembled_spans": 8,
+          "otlp_assembled_spans": 8,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.03,
+          "phase2_pred": "NORMAL"
+        },
+        {
+          "dev_trace_id": "nb-701491694a4a4dad",
+          "dev_label": "PLAN_DRIFT",
+          "span_count": 14,
+          "native": "PLAN_DRIFT",
+          "otlp": "PLAN_DRIFT",
+          "native_rule": "detectors:plan_drift",
+          "otlp_rule": "detectors:plan_drift",
+          "native_assembled_spans": 14,
+          "otlp_assembled_spans": 14,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.02,
+          "phase2_pred": "PLAN_DRIFT"
+        },
+        {
+          "dev_trace_id": "nb-b85550b15a6e946f",
+          "dev_label": "TOOL_MISFIRE",
+          "span_count": 17,
+          "native": "TOOL_MISFIRE",
+          "otlp": "TOOL_MISFIRE",
+          "native_rule": "detectors:misfire",
+          "otlp_rule": "detectors:misfire",
+          "native_assembled_spans": 17,
+          "otlp_assembled_spans": 17,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.02,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.02,
+          "phase2_pred": "TOOL_MISFIRE"
+        },
+        {
+          "dev_trace_id": "nb-f7b5cab4a0888fd6",
+          "dev_label": "CONTEXT_BLEED",
+          "span_count": 14,
+          "native": "CONTEXT_BLEED",
+          "otlp": "CONTEXT_BLEED",
+          "native_rule": "detectors:bleed",
+          "otlp_rule": "detectors:bleed",
+          "native_assembled_spans": 14,
+          "otlp_assembled_spans": 14,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.03,
+          "phase2_pred": "CONTEXT_BLEED"
+        },
+        {
+          "dev_trace_id": "nb-a00364af41bc3a6c",
+          "dev_label": "HALLUCINATION",
+          "span_count": 11,
+          "native": "HALLUCINATION",
+          "otlp": "HALLUCINATION",
+          "native_rule": "detectors:hallucination_nli",
+          "otlp_rule": "detectors:hallucination_nli",
+          "native_assembled_spans": 11,
+          "otlp_assembled_spans": 11,
+          "native_seen_after_s": 0.78,
+          "otlp_seen_after_s": 0.81,
+          "native_seen_after_post_start_s": 0.82,
+          "otlp_seen_after_post_start_s": 0.81,
+          "phase2_pred": "HALLUCINATION"
+        },
+        {
+          "dev_trace_id": "nb-e23b5527665ae3b1",
+          "dev_label": "LOOP_DETECTED",
+          "span_count": 17,
+          "native": "LOOP_DETECTED",
+          "otlp": "LOOP_DETECTED",
+          "native_rule": "detectors:loop",
+          "otlp_rule": "detectors:loop",
+          "native_assembled_spans": 17,
+          "otlp_assembled_spans": 17,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.02,
+          "phase2_pred": "LOOP_DETECTED"
+        },
+        {
+          "dev_trace_id": "nb-8bfa84cb6344e1ff",
+          "dev_label": "NORMAL",
+          "span_count": 14,
+          "native": "NORMAL",
+          "otlp": "NORMAL",
+          "native_rule": "detectors:none",
+          "otlp_rule": "detectors:none",
+          "native_assembled_spans": 14,
+          "otlp_assembled_spans": 14,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.03,
+          "phase2_pred": "NORMAL"
+        },
+        {
+          "dev_trace_id": "nb-e9935a8341b3fe1e",
+          "dev_label": "OTHER_FAILURE",
+          "span_count": 8,
+          "native": "NORMAL",
+          "otlp": "NORMAL",
+          "native_rule": "detectors:none",
+          "otlp_rule": "detectors:none",
+          "native_assembled_spans": 8,
+          "otlp_assembled_spans": 8,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.03,
+          "phase2_pred": "NORMAL"
+        },
+        {
+          "dev_trace_id": "nb-7b9c5d5b226ad7de",
+          "dev_label": "PLAN_DRIFT",
+          "span_count": 17,
+          "native": "PLAN_DRIFT",
+          "otlp": "PLAN_DRIFT",
+          "native_rule": "detectors:plan_drift",
+          "otlp_rule": "detectors:plan_drift",
+          "native_assembled_spans": 17,
+          "otlp_assembled_spans": 17,
+          "native_seen_after_s": 0.01,
+          "otlp_seen_after_s": 0.01,
+          "native_seen_after_post_start_s": 0.06,
+          "otlp_seen_after_post_start_s": 0.03,
+          "phase2_pred": "PLAN_DRIFT"
+        }
+      ],
+      "mismatches": []
+    }
   }
 }

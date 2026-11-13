@@ -6,9 +6,9 @@ import queue
 
 import pytest
 
-from nexus_agent.client import NexusClient
-from nexus_agent.config import NexusConfig
-from nexus_agent.models import SpanType
+from nexus_llmops.client import NexusClient
+from nexus_llmops.config import NexusConfig
+from nexus_llmops.models import SpanType
 
 
 def test_config_requires_agent_name():

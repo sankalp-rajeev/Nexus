@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-import nexus_agent as nexus
-from nexus_agent.models import SpanType
+import nexus_llmops as nexus
+from nexus_llmops.models import SpanType
 
 
 def test_trace_returns_result(nexus_client):

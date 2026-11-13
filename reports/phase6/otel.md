@@ -1,4 +1,4 @@
-﻿# Phase 6 step 6.3: OpenTelemetry GenAI ingestion
+# Phase 6 step 6.3: OpenTelemetry GenAI ingestion
 
 Field-by-field contract: [`docs/otel_mapping.md`](../../docs/otel_mapping.md).
 Raw parity result: `results/phase6/otel_parity.json`. No LLM or provider call was made
@@ -13,7 +13,7 @@ anywhere in this step; every model in the tests and the example is a fake functi
 | `opentelemetry-proto` (collector, server side) | `1.42.1` |
 | `opentelemetry-sdk`, `opentelemetry-exporter-otlp-proto-http` (tests, example) | `1.42.1` |
 
-The commits are constants in `sdk/nexus_agent/integrations/otel.py` and a unit test asserts
+The commits are constants in `services/collector/otel.py` (moved there from `sdk/nexus_agent/integrations/otel.py` in 6.4a) and a unit test asserts
 they appear in the mapping doc.
 
 ## Accepted names (current names win)
@@ -178,7 +178,7 @@ reports Kafka, Postgres is reachable and the classifier and assembler groups hav
 A real auto-instrumentation env-var snippet is in the README, documentation only; it was not
 run because it would call a model provider.
 
-## `sdk/nexus_agent/integrations/otel.py`
+## `services/collector/otel.py` (moved there from `sdk/nexus_agent/integrations/otel.py` in 6.4a)
 
 What it does: it is the OTLP to Nexus projection. It takes `ResourceSpans` from the
 collector's decoded request and yields `SpanBatch`es (the same `Span` model the SDK emits)
@@ -193,7 +193,8 @@ OpenTelemetry dependency and nothing on the client side consumes the module. The
 question is placement: it is a server-side converter, so either move it into
 `services/collector/` (cleanest) or exclude it from the published SDK wheel. An `[otel]`
 extra would only make sense if Nexus later ships a client-side `SpanProcessor` that depends on
-`opentelemetry-sdk`. I changed nothing about packaging.
+`opentelemetry-sdk`. (6.3: I changed nothing about packaging. **6.4a: done, it was moved into
+`services/collector/`, so the SDK wheel is client code only; see `reports/phase6/packaging.md`.**)
 
 ## Known limits (documented, not fixed)
 
@@ -201,7 +202,7 @@ extra would only make sense if Nexus later ships a client-side `SpanProcessor` t
 - The PLAN_DRIFT detector needs the planner's plan (`nexus.agent.role` / `nexus.agent.plan_steps` span attributes). Without them OTLP traces get no PLAN_DRIFT detection (24/24 DEV PLAN_DRIFT traces lost in the parity run above).
 - `EVENT_ONLY` capture sends log records; Nexus has no OTLP logs endpoint, so that content is
   never seen.
-- A trace is complete 30 s after its last span, not on a final flag.
+- A trace completes when its root span (no `parent_span_id`) arrives (`metadata.final`, set by the mapping since 6.4a, as the SDK does); a trace whose root never arrives, or whose spans have a remote parent, still completes 30 s after its last span. A child that reaches the collector after its root is dropped and counted (`late_spans_after_completion`).
 - Arbitrary custom attributes are kept in `otel.attributes`, not as first-class metadata.
 
 ## Process disclosure

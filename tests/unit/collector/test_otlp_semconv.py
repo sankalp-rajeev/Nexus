@@ -14,8 +14,8 @@ import pytest
 from fastapi.testclient import TestClient
 from opentelemetry.proto.collector.trace.v1.trace_service_pb2 import ExportTraceServiceRequest
 
-from nexus_agent.integrations import otel
-from nexus_agent.integrations.otel import span_batches
+from services.collector import otel
+from services.collector.otel import span_batches
 from services.collector.main import app
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -317,7 +317,7 @@ def test_timestamp_uses_exact_integer_arithmetic():
 
 def test_base_sdk_import_pulls_in_no_otel_or_protobuf():
     code = (
-        "import sys; import nexus_agent, nexus_agent.integrations.otel as o;"
+        "import sys; import nexus_llmops, services.collector.otel as o;"
         "bad = sorted(m for m in sys.modules if m.split('.')[0] == 'opentelemetry' or m.startswith('google.protobuf'));"
         "print(bad); assert not bad"
     )
@@ -344,3 +344,57 @@ def test_a_plan_in_app_attributes_is_not_guessed_into_detector_metadata():
     span = spans_for({"app.role": "planner", "app.plan_steps": ["a"]}, operation="invoke_agent")
     assert "role" not in span.metadata and "plan_steps" not in span.metadata
     assert span.metadata["otel.attributes"]["app.role"] == "planner"  # still preserved raw
+
+# -- trace completion signal (6.4a) ---------------------------------------------------------
+
+def _trace(*spans, trace_id=b"\x0a" * 16):
+    """spans: (span_id byte, parent byte or None) in the order the exporter wrote them."""
+    request = ExportTraceServiceRequest()
+    scope = request.resource_spans.add().scope_spans.add()
+    for n, (span_id, parent) in enumerate(spans):
+        wire = scope.spans.add(trace_id=trace_id, span_id=bytes([span_id]) * 8, name=f"s{n}",
+                               start_time_unix_nano=1_000 + n, end_time_unix_nano=2_000 + n)
+        if parent is not None:
+            wire.parent_span_id = bytes([parent]) * 8
+        put(wire.attributes, {"gen_ai.operation.name": "execute_tool"})
+    return [s for b in span_batches(request) for s in b.spans]
+
+
+def test_a_span_without_a_parent_is_final_and_children_are_not():
+    spans = _trace((1, None), (2, 1), (3, 1))
+    by_id = {s.span_id: s for s in spans}
+    assert by_id["01" * 8].metadata["final"] is True
+    assert "final" not in by_id["02" * 8].metadata and "final" not in by_id["03" * 8].metadata
+
+
+def test_a_span_with_a_remote_parent_is_not_final():
+    spans = _trace((5, 9))  # parent 0x09 is not in this export: a distributed trace
+    assert "final" not in spans[0].metadata
+
+
+def test_the_root_is_published_after_its_children_whatever_the_export_order():
+    for order in ((1, 2, 3), (3, 2, 1), (2, 1, 3)):
+        wire = {1: (1, None), 2: (2, 1), 3: (3, 1)}
+        spans = _trace(*[wire[i] for i in order])
+        assert [s.span_id for s in spans][-1] == "01" * 8, order
+        assert sorted(s.span_id for s in spans[:-1]) == ["02" * 8, "03" * 8]
+
+
+def test_otlp_trace_completes_in_the_buffer_when_the_root_arrives():
+    from services.common.trace_buffer import TraceBuffer
+
+    buf = TraceBuffer(timeout_seconds=30, clock=lambda: 0.0)
+    done = [t for s in _trace((1, None), (2, 1), (3, 1)) if (t := buf.add(s)) is not None]
+    assert len(done) == 1 and done[0].span_count == 3 and buf.pending_traces == 0
+
+
+def test_a_child_in_a_later_export_than_its_root_is_dropped_and_counted():
+    from services.common.trace_buffer import TraceBuffer
+
+    buf = TraceBuffer(timeout_seconds=30, clock=lambda: 0.0)
+    first = _trace((1, None), (2, 1))
+    late = _trace((3, 1))  # the exporter sent this child in a later request
+    done = [t for s in first if (t := buf.add(s)) is not None]
+    assert len(done) == 1 and done[0].span_count == 2
+    assert buf.add(late[0]) is None
+    assert buf.late_spans_after_completion == 1

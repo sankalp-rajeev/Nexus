@@ -29,6 +29,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT), str(ROOT / "sdk")]
 
 from scripts.phase6 import otel_fixtures as fx  # noqa: E402
+from scripts.phase6 import otel_parity  # noqa: E402
 from scripts.phase6.otel_parity import native_path  # noqa: E402
 from services.classifier.live_detectors import DetectorClassifier, detector_config  # noqa: E402
 
@@ -40,7 +41,7 @@ def percentile(values: list[float], q: float) -> float:
     return ordered[min(len(ordered) - 1, round(q * (len(ordered) - 1)))]
 
 
-def run(limit: int | None = None) -> dict:
+def run(limit: int | None = None, final_on_root: bool = True) -> dict:
     stored = json.loads(PREDICTIONS.read_text(encoding="utf-8"))["predictions"]
     ids = fx.dev_trace_ids()
     if set(stored) != set(ids):
@@ -57,7 +58,7 @@ def run(limit: int | None = None) -> dict:
         trace = traces[tid]
         expected = stored[tid]["pred"]
         t0 = time.perf_counter()
-        direct = classifier.classify(trace)
+        direct = classifier.classify(fx.with_root_final(trace) if final_on_root else trace)
         adapter_ms.append((time.perf_counter() - t0) * 1000)
         halluc = classifier.last_scores.halluc
         original = classifier.classify
@@ -99,6 +100,7 @@ def run(limit: int | None = None) -> dict:
                            "adapter_match": sum(r["adapter"] == r["phase2_pred"] for r in part),
                            "service_match": sum(r["service"] == r["phase2_pred"] for r in part)}
     return {
+        "final_on_root_spans": final_on_root,
         "scope": "all DEV traces" if not limit else f"first {limit} DEV traces (smoke)",
         "compared_with": "results/phase2_dev_predictions.json (pred)",
         "detector_config": detector_config(),
@@ -125,9 +127,11 @@ def run(limit: int | None = None) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--no-final", action="store_true", help="leave metadata.final off the root spans")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
-    result = {"generated_at": datetime.now(timezone.utc).isoformat(), "equivalence": run(args.limit)}
+    otel_parity.FINAL_ON_ROOT = not args.no_final
+    result = {"generated_at": datetime.now(timezone.utc).isoformat(), "equivalence": run(args.limit, not args.no_final)}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(result, indent=2, default=str), encoding="utf-8")
     r = result["equivalence"]

@@ -1,7 +1,8 @@
 """Lossless OTLP-to-Nexus projection; the field-by-field contract is docs/otel_mapping.md.
 
-Nothing here imports OpenTelemetry, and the one protobuf helper is imported lazily: the base
-SDK (``import nexus_agent``) has no OTel or protobuf dependency. ``span_batches`` takes an
+This is server-side code: it lives in the collector, not in the ``nexus-llmops`` SDK wheel.
+Nothing here imports OpenTelemetry, and the one protobuf helper is imported lazily, so importing
+this module pulls in no OTel or protobuf package. ``span_batches`` takes an
 ``ExportTraceServiceRequest`` that the caller (the collector) has already parsed.
 """
 
@@ -339,6 +340,9 @@ def span_batches(request) -> list[SpanBatch]:
                         error_message = error_message or exception.get("exception.message")
                 if source.status.code == 2:
                     error_type = error_type or "OTelError"
+                if not any(source.parent_span_id):
+                    # Trace completion signal, as the Nexus SDK sets it: the root ends last.
+                    metadata.setdefault("final", True)
                 spans.append(Span(
                     trace_id=source.trace_id.hex(), span_id=source.span_id.hex(),
                     parent_span_id=source.parent_span_id.hex() if any(source.parent_span_id) else None,
@@ -351,4 +355,8 @@ def span_batches(request) -> list[SpanBatch]:
                     environment=str(resource.get("deployment.environment.name") or resource.get("deployment.environment") or "development"),
                     sdk_version=str(resource.get("telemetry.sdk.version") or "otel"),
                 ))
+    # A root span (``final``) completes its trace in the assembler, so within one export it must
+    # be published after the other spans, whatever order the exporter wrote them in (some write
+    # them in start order, root first). The sort is stable: everything else keeps its order.
+    spans.sort(key=lambda s: bool(s.metadata.get("final")))
     return [SpanBatch(spans=spans[i:i + 100]) for i in range(0, len(spans), 100)]

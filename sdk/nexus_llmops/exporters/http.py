@@ -10,9 +10,9 @@ import logging
 
 import httpx
 
-from nexus_agent.models import SpanBatch
+from nexus_llmops.models import SpanBatch
 
-logger = logging.getLogger("nexus_agent.exporters.http")
+logger = logging.getLogger("nexus_llmops.exporters.http")
 
 
 class HttpExporter:

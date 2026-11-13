@@ -1,6 +1,7 @@
 # OpenTelemetry GenAI to Nexus mapping
 
-Implemented in `sdk/nexus_agent/integrations/otel.py` (the projection) and
+Implemented in `services/collector/otel.py` (the projection; server-side, so it is not part
+of the `nexus-llmops` SDK wheel) and
 `services/collector/routes/otlp.py` (the `/v1/traces` receiver). Measured parity
 with the native SDK path is in [`reports/phase6/otel.md`](../reports/phase6/otel.md).
 
@@ -260,11 +261,21 @@ Arbitrary application attributes are not aliased into detector-specific metadata
 
 These are properties of OTLP, measured in [`reports/phase6/otel.md`](../reports/phase6/otel.md):
 
-- **Trace completion has no explicit signal.** Native spans do not carry
-  `metadata.final` either, so both paths complete a trace after 30 seconds without
-  a new span (`TraceBuffer` timeout). An OTLP trace therefore reaches the
-  classifier about 30 seconds after its last span. Spans arriving after that are
-  dropped as late spans.
+- **Trace completion signal (since 6.4a).** The mapping sets `metadata.final = True` on
+  a span with no `parent_span_id`, exactly as the Nexus SDK does for its root span, so
+  the trace completes when its root arrives instead of after the 30 s idle timeout.
+  Within one export request the root is published after the other spans, whatever order
+  the exporter wrote them in. A span whose parent is a *remote* span (distributed
+  tracing, the parent lives in another process) is not a root here and gets no `final`;
+  such a trace still completes by the 30 s timeout.
+- **Edge case: a child that arrives after its root.** The root completes the trace, and
+  the trace is then remembered as completed for 300 s. A child span arriving later (a
+  separate export request delivered after the root's, a retried batch, a process that
+  exports its children late) is dropped, and counted in
+  `late_spans_after_completion` / `duplicate_spans_dropped` (the late-duplicate memory
+  in `TraceBuffer`). It is not appended to the classified trace. Exporters batch in end
+  order and the root ends last, so this is rare in practice, but it is a real loss mode
+  that the idle timeout did not have.
 - **Order.** `TraceBuffer` orders by start time (`client_timestamp`) and keeps
   arrival order for equal start times. Spans exported in end order (children
   first) are therefore re-ordered by start; spans with identical start times are

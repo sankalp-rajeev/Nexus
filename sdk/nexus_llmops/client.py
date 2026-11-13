@@ -38,12 +38,12 @@ from datetime import datetime, timezone
 from typing import Any
 from uuid import uuid4
 
-from nexus_agent.config import NexusConfig
-from nexus_agent.exporters.http import HttpExporter
-from nexus_agent.exporters.stdout import StdoutExporter
-from nexus_agent.models import Span, SpanBatch, SpanType
+from nexus_llmops.config import NexusConfig
+from nexus_llmops.exporters.http import HttpExporter
+from nexus_llmops.exporters.stdout import StdoutExporter
+from nexus_llmops.models import Span, SpanBatch, SpanType
 
-logger = logging.getLogger("nexus_agent.client")
+logger = logging.getLogger("nexus_llmops.client")
 
 # Trace context propagated across (possibly nested / async) calls.
 _current_trace_id: contextvars.ContextVar[str | None] = contextvars.ContextVar(
@@ -134,7 +134,7 @@ class _Inflight:
 
 class NexusClient:
     def __init__(self, config: NexusConfig) -> None:
-        from nexus_agent import __version__
+        from nexus_llmops import __version__
 
         self.config = config
         self.sdk_version = __version__
@@ -197,6 +197,12 @@ class NexusClient:
         metadata: dict[str, Any] | None = None,
         client_timestamp: datetime | None = None,
     ) -> Span:
+        metadata = dict(metadata) if metadata else {}
+        if parent_span_id is None:
+            # Trace completion signal: the outermost span of a trace ends last, so its arrival
+            # lets the assembler finish the trace now instead of after the 30 s idle timeout.
+            # An explicit ``final`` set by the caller is respected. Child spans are unchanged.
+            metadata.setdefault("final", True)
         return Span(
             span_id=span_id,
             trace_id=trace_id,
@@ -208,7 +214,7 @@ class NexusClient:
             duration_ms=duration_ms,
             error_type=error_type,
             error_message=(to_text(error_message, self.config.max_error_chars) if error_message else None),
-            metadata=metadata or {},
+            metadata=metadata,
             client_timestamp=client_timestamp or _utcnow(),
             environment=self.config.environment,
             sdk_version=self.sdk_version,

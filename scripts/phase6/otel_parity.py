@@ -31,7 +31,7 @@ sys.path[:0] = [str(ROOT), str(ROOT / "sdk")]
 
 from opentelemetry.proto.collector.trace.v1.trace_service_pb2 import ExportTraceServiceRequest  # noqa: E402
 
-from nexus_agent.integrations.otel import span_batches  # noqa: E402
+from services.collector.otel import span_batches  # noqa: E402
 from nexus_agent.models import CompleteTrace, Span, SpanBatch  # noqa: E402
 from scripts.phase6 import otel_fixtures as fx  # noqa: E402
 from services.classifier.consumer import TOPIC_ALERTS, TOPIC_CLASSIFIED, ClassifierService  # noqa: E402
@@ -39,6 +39,8 @@ from services.classifier.main import classifier_mode, load_classifier  # noqa: E
 from services.common.trace_buffer import TIMEOUT_SECONDS, TraceBuffer  # noqa: E402
 
 
+# Whether native traces are delivered the way SDK 0.1.0rc1+ does (root last, metadata.final on it).
+FINAL_ON_ROOT = True
 # Whether the fixture writes an agent span's plan as the documented nexus.agent.* attributes.
 PLAN_ATTRIBUTES = True
 
@@ -75,8 +77,8 @@ def spread(values: list[float]) -> dict:
         return {"n": 0}
     ordered = sorted(values)
     pick = lambda q: ordered[min(len(ordered) - 1, round(q * (len(ordered) - 1)))]  # noqa: E731
-    return {"n": len(ordered), "p50": round(pick(.5), 1), "p95": round(pick(.95), 1),
-            "min": round(ordered[0], 1), "max": round(ordered[-1], 1)}
+    return {"n": len(ordered), "p50": round(pick(.5), 2), "p95": round(pick(.95), 2),
+            "min": round(ordered[0], 2), "max": round(ordered[-1], 2)}
 
 COMPARED_FIELDS = ("span_type", "input", "output", "duration_ms", "error_type", "error_message",
                    "agent_name", "environment", "sdk_version", "client_timestamp")
@@ -120,27 +122,43 @@ def _classification(service) -> dict:
 
 
 def run_spans(classifier, spans: list[Span]):
-    """Feed spans one by one as the Kafka consumer does, complete by inactivity, classify."""
+    """Feed spans one by one as the Kafka consumer does, then classify.
+
+    A trace with a ``final`` root completes on that span; otherwise it completes by inactivity.
+    A span that arrives after its root completed the trace would be dropped by the buffer; that is
+    an error here, because both delivery orders in this script put the root last.
+    """
     service, clock = _service(classifier)
+    seen: list[CompleteTrace] = []
+    process = service.process_trace
+
+    def recording(trace):
+        seen.append(trace)
+        return process(trace)
+
+    service.process_trace = recording
     for span in spans:
         service._handle(span.model_dump_json().encode())
-    clock.now += TIMEOUT_SECONDS + 1
-    traces = service.buffer.sweep()
-    if len(traces) != 1:
-        raise RuntimeError(f"expected one assembled trace, saw {len(traces)}")
-    for trace in traces:
-        service.process_trace(trace)
-    return traces[0], _classification(service)
+    if not seen:
+        clock.now += TIMEOUT_SECONDS + 1
+        for trace in service.buffer.sweep():
+            service.process_trace(trace)
+    if len(seen) != 1:
+        raise RuntimeError(f"expected one assembled trace, saw {len(seen)}")
+    if service.buffer.late_spans_after_completion:
+        raise RuntimeError("a span arrived after its root completed the trace and was dropped")
+    return seen[0], _classification(service)
 
 
 def native_path(classifier, trace):
     """Spans exactly as the SDK exporter would deliver them (SpanBatch JSON, <=100 per batch)."""
+    if FINAL_ON_ROOT:
+        trace = fx.sdk_delivery(trace)
     spans = []
     for i in range(0, len(trace.spans), 100):
         batch = SpanBatch(spans=trace.spans[i:i + 100])
         spans += SpanBatch.model_validate_json(batch.model_dump_json()).spans
     return run_spans(classifier, spans)
-
 
 def otlp_path(classifier, trace):
     wire = fx.trace_to_otlp(trace, plan_attributes=PLAN_ATTRIBUTES).SerializeToString()
@@ -340,7 +358,7 @@ def run_e2e(collector="http://127.0.0.1:8000", kafka="localhost:29092", wait_sec
     sink.poll(2.0)  # join the group before producing
     client = httpx.Client(timeout=30, trust_env=False)
     expected = {}  # trace id -> (path, index, original id)
-    sent_at = {}
+    sent_at, started_at = {}, {}  # POST returned / POST about to start, per trace id
     classified, alerts = {}, []
 
     def poll(seconds: float) -> None:
@@ -355,7 +373,8 @@ def run_e2e(collector="http://127.0.0.1:8000", kafka="localhost:29092", wait_sec
             if msg.topic() == TOPIC_CLASSIFIED and value["trace_id"] in expected:
                 if value["trace_id"] not in classified:
                     classified[value["trace_id"]] = {
-                        **value, "seen_after_s": round(seen - sent_at[value["trace_id"]], 2)}
+                        **value, "seen_after_s": round(seen - sent_at[value["trace_id"]], 2),
+                        "seen_after_post_start_s": round(seen - started_at[value["trace_id"]], 2)}
             elif msg.topic() == TOPIC_ALERTS and value.get("trace_id") in expected:
                 alerts.append(value)
 
@@ -365,8 +384,10 @@ def run_e2e(collector="http://127.0.0.1:8000", kafka="localhost:29092", wait_sec
     # (it completes after the 30 s inactivity timeout, so waiting per trace would only idle).
     for i, tid in enumerate(ids):
         native_id = f"p6otel-{nonce}-n{i:02d}"
-        spans = fx.native_spans(traces[tid], trace_id=native_id, id_salt=nonce, synthetic=True)
+        spans = fx.native_spans(fx.sdk_delivery(traces[tid]) if FINAL_ON_ROOT else traces[tid],
+                                trace_id=native_id, id_salt=nonce, synthetic=True)
         expected[native_id] = ("native", i, tid)
+        started_at[native_id] = time.time()
         response = client.post(f"{collector}/v1/spans", json=SpanBatch(spans=spans).model_dump(mode="json"))
         response.raise_for_status()
         assert response.json()["accepted"] == len(spans), response.text
@@ -378,6 +399,7 @@ def run_e2e(collector="http://127.0.0.1:8000", kafka="localhost:29092", wait_sec
         request = fx.trace_to_otlp(traces[tid], trace_salt=nonce, synthetic=True, plan_attributes=PLAN_ATTRIBUTES)
         otlp_id = request.resource_spans[0].scope_spans[0].spans[0].trace_id.hex()
         expected[otlp_id] = ("otlp", i, tid)
+        started_at[otlp_id] = time.time()
         response = client.post(f"{collector}/v1/traces", content=gzip.compress(request.SerializeToString()),
                                headers={"Content-Type": "application/x-protobuf", "Content-Encoding": "gzip"})
         response.raise_for_status()
@@ -412,6 +434,8 @@ def run_e2e(collector="http://127.0.0.1:8000", kafka="localhost:29092", wait_sec
             "native_rule": n and n["triggered_rule"], "otlp_rule": o and o["triggered_rule"],
             "native_assembled_spans": assembled.get(n_id), "otlp_assembled_spans": assembled.get(o_id),
             "native_seen_after_s": n and n["seen_after_s"], "otlp_seen_after_s": o and o["seen_after_s"],
+            "native_seen_after_post_start_s": n and n["seen_after_post_start_s"],
+            "otlp_seen_after_post_start_s": o and o["seen_after_post_start_s"],
         })
     complete = [p for p in pairs if p["native"] and p["otlp"]]
     match = sum(p["native"] == p["otlp"] for p in complete)
@@ -429,12 +453,19 @@ def run_e2e(collector="http://127.0.0.1:8000", kafka="localhost:29092", wait_sec
         raise RuntimeError(f"expected the {expect} classifier in the stack, saw rules {sorted(rules_seen)}")
     latency = {path: spread([p[f"{path}_seen_after_s"] for p in pairs if p[f"{path}_seen_after_s"] is not None])
                for path in ("native", "otlp")}
+    latency_from_post_start = {
+        path: spread([p[f"{path}_seen_after_post_start_s"] for p in pairs
+                      if p[f"{path}_seen_after_post_start_s"] is not None])
+        for path in ("native", "otlp")}
     return {
         "classifier_observed": observed,
         "matches_phase2_dev_prediction": vs_phase2,
         "latency_final_span_to_classification_s": latency,
+        "latency_from_final_post_start_to_classification_s": latency_from_post_start,
         "latency_pacing": f"native one at a time; OTLP every {OTLP_GAP_SECONDS:g} s; "
-                          "time from the final span's POST returning to the classification read from Kafka",
+                          "latency_final_span_to_classification_s is measured from the final span's POST returning; "
+                          "latency_from_final_post_start_to_classification_s from just before that POST started "
+                          "(an upper bound: it includes the POST itself)",
         "scope": "20-trace DEV subset, label-stratified, sha256-ordered", "nonce": nonce,
         "traces": len(pairs), "classified_both_paths": len(complete),
         "failure_type_match": match, "failure_type_match_rate": match / len(pairs),
@@ -456,12 +487,15 @@ def main() -> None:
                         help="in-process: which classifier; end to end: which one the stack must be running")
     parser.add_argument("--no-plan-attributes", action="store_true",
                         help="emit role/plan_steps as app.* attributes, as an application unaware of Nexus would")
+    parser.add_argument("--no-final", action="store_true",
+                        help="deliver native traces without the SDK root-final signal (pre-6.4a behaviour)")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
-    global PLAN_ATTRIBUTES
+    global PLAN_ATTRIBUTES, FINAL_ON_ROOT
     PLAN_ATTRIBUTES = not args.no_plan_attributes
+    FINAL_ON_ROOT = not args.no_final
     result = {"generated_at": datetime.now(timezone.utc).isoformat(), "classifier": args.classifier,
-              "plan_attributes": PLAN_ATTRIBUTES}
+              "plan_attributes": PLAN_ATTRIBUTES, "native_final_on_root": FINAL_ON_ROOT}
     if args.inprocess:
         result["inprocess"] = run_inprocess(args.limit, mode=args.classifier)
     if args.e2e:

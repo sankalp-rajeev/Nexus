@@ -39,7 +39,7 @@ jobs:
         run: ruff check .
 
       - name: Type-check (mypy, non-blocking)
-        run: mypy sdk/nexus_agent/ --ignore-missing-imports
+        run: mypy sdk/nexus_llmops/ --ignore-missing-imports
         continue-on-error: true
 
       - name: Unit + e2e tests with coverage

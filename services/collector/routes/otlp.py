@@ -15,7 +15,7 @@ from opentelemetry.proto.collector.trace.v1.trace_service_pb2 import (
     ExportTraceServiceResponse,
 )
 
-from nexus_agent.integrations.otel import span_batches
+from services.collector.otel import span_batches
 from services.collector.routes.spans import _publish
 
 router = APIRouter()

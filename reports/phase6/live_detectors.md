@@ -153,7 +153,7 @@ Kafka. Native traces sent one at a time, OTLP traces every 6 s. One run per cell
 | OTLP | **detectors** | 31.2 | 31.9 | 31.2 | 32.1 |
 | OTLP | legacy | 31.8 | 32.2 | 30.9 | 32.6 |
 
-Where the time goes:
+Where the time went (before 6.4a; see the next section for the fix):
 
 - **About 30 s is the assembly idle timeout.** DEV spans carry no `metadata.final`, so the
   assembler completes a trace only after 30 s without a new span (`TraceBuffer`). That is the
@@ -169,6 +169,61 @@ Where the time goes:
   identical on both paths, so this is in the transport/assembly side (the OTLP trace is converted
   and published by the collector before assembly). I did not isolate it further; with 20 samples
   and 1 s sweep granularity, differences under about a second should not be over-read.
+
+## Step 6.4a: the trace completion signal (root span carries `final`)
+
+Added in 6.4a, after everything above was measured, so the tables above are the *before*. The SDK
+(`nexus-llmops` 0.1.0rc1) now sets `metadata.final = True` on a trace's root span (the span with no
+parent; child spans unchanged), and the OTLP mapping does the same for a span with no
+`parent_span_id`. The assembler/classifier `TraceBuffer` already completed a trace on
+`metadata.final`; it was just never set. Within one OTLP export request the mapping publishes the
+root after the other spans, so an exporter that writes spans in start order (root first) does not
+complete the trace early.
+
+**Detectors unaffected (DEV equivalence, `results/phase6/live_detectors_equivalence_with_final.json`).**
+Every DEV trace has exactly one parentless span. `metadata.final = True` was set on it, and the
+service path delivered the trace the way the new SDK does (children first, root last, so the trace
+completes on the root instead of by timeout). Compared with `results/phase2_dev_predictions.json`:
+
+| | Match |
+|---|---|
+| Adapter, direct, `final` on the root | **359/359** |
+| Service path, `final` on the root, completes on the root | **359/359** |
+| Spans dropped as late during the runs | 0 (the script raises if one is) |
+
+OTel parity with the signal on (`results/phase6/otel_parity.json`, section
+`detectors_with_root_final_2026-11-12_step_6.4a`): in-process 359/359 (failure type, rule, blamed
+span all 359/359); end to end 20/20, and both paths equal the Phase 2 DEV prediction 20/20; 0
+alerts; every trace assembled with its full span count.
+
+**Latency, final span to classification** (same 20-trace subset, detectors classifier, native one
+at a time, OTLP every 6 s, one run):
+
+| Path | From | p50 (s) | p95 (s) | min | max |
+|---|---|---|---|---|---|
+| Native | final POST returned | 0.01 | 0.81 | 0.01 | 0.84 |
+| Native | final POST started (upper bound) | 0.06 | 0.85 | 0.04 | 0.88 |
+| OTLP | final POST returned | 0.01 | 0.81 | 0.01 | 0.81 |
+| OTLP | final POST started (upper bound) | 0.03 | 0.81 | 0.02 | 0.82 |
+| Before 6.4a, native / OTLP | final POST returned | 30.6 / 31.2 | 31.2 / 31.9 | | |
+
+This is faster than the roughly 1 s I expected. At the median the classification is already on
+Kafka when the final POST returns (the detector compute for most traces is about 1 ms); the p95
+of about 0.8 s is the traces with retrieved context, where the DeBERTa NLI model runs (about
+0.6 s in the in-process timing). The 30 s idle timeout and the up-to-1 s sweep wait are gone for
+every trace that has a root span. Measured on a local Docker stack; it is not a network figure.
+
+**Edge case, documented in `docs/otel_mapping.md`:** a child span that arrives after its root
+has completed the trace is dropped and counted by the late-duplicate memory
+(`late_spans_after_completion`). The SDK ends the root last, so this needs out-of-order
+delivery (for example a retried batch overtaking, or a separate OTLP export request that reaches
+the collector after the root's). A trace whose root never arrives, or whose root has a remote
+parent, still completes after 30 s.
+
+**L4 was not re-run.** The change is one metadata key (`final`) on the root span only, set on
+the live path; the critic's trace view is a metadata whitelist (`VISIBLE_METADATA` in `detector_adapter.py`) that excludes it, and the healer does not read span metadata. No frozen detector reads a `final`
+key (checked with a search of `services/detectors/`), and the equivalence above shows the verdicts
+unchanged, so there is nothing for an L4 re-run to measure.
 
 ## Step 7: lite
 

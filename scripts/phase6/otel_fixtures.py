@@ -199,3 +199,22 @@ def native_spans(trace, *, trace_id: str | None = None, id_salt: str = "", synth
             update["metadata"] = {**span.metadata, "nexus.synthetic": True}
         out.append(span.model_copy(update=update))
     return out
+
+def with_root_final(trace):
+    """Same trace, same span order; the parentless span carries ``metadata.final = True``."""
+    spans = [s.model_copy(update={"metadata": {**s.metadata, "final": True}}) if s.parent_span_id is None else s
+             for s in trace.spans]
+    return trace.model_copy(update={"spans": spans})
+
+
+def sdk_delivery(trace):
+    """The trace as the Nexus SDK (0.1.0rc1+) delivers it: the root span (no parent) carries
+    ``metadata.final = True`` and arrives last, because a root ends after its children.
+
+    DEV traces come with one parentless span each and no ``final`` key. Everything else about
+    the spans is unchanged; only the order of arrival and that one metadata key differ.
+    """
+    marked = with_root_final(trace)
+    ordered = [s for s in marked.spans if s.parent_span_id is not None] + \
+              [s for s in marked.spans if s.parent_span_id is None]
+    return marked.model_copy(update={"spans": ordered})

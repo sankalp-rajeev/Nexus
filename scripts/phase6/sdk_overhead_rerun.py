@@ -138,7 +138,7 @@ def finish() -> dict:
     result["phase6_rerun"] = dict(
         preregistration=dict(file="reports/phase6/l4_rerun_prereg.md", commit=PREREG_COMMIT),
         completed_at=datetime.now(timezone.utc).isoformat(),
-        only_change="hardened SDK (sdk/nexus_agent); harness imported unmodified",
+        only_change="hardened SDK (sdk/nexus_llmops, formerly sdk/nexus_agent); harness imported unmodified",
         harness=dict(path=HARNESS, sha256=hashlib.sha256(harness_bytes).hexdigest(),
                      git_blob=git("hash-object", HARNESS),
                      git_blob_at_prereg_commit=git("rev-parse", f"{PREREG_COMMIT}:{HARNESS}"),
@@ -204,7 +204,7 @@ def outage_only() -> None:
         shutdown_timeout_ms_default=NexusConfig(agent_name="x").shutdown_timeout_ms,
         harness_blob_identical_to_prereg_commit=git("hash-object", HARNESS) == git("rev-parse", f"{PREREG_COMMIT}:{HARNESS}"),
         raw=str(RAW_DIR_6_2B.relative_to(ROOT)),
-        sdk_source_sha256={name: hashlib.sha256((ROOT / "sdk/nexus_agent" / name).read_bytes()).hexdigest()
+        sdk_source_sha256={name: hashlib.sha256((ROOT / "sdk/nexus_llmops" / name).read_bytes()).hexdigest()
                            for name in ("client.py", "config.py", "decorators.py", "models.py",
                                         "exporters/http.py", "__init__.py")},
         collector_stopped=outage, recovery=recovery, sdk_counters=COUNTERS,
