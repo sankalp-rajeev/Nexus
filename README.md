@@ -124,18 +124,26 @@ rates, not an invoice.
 
 ![One recorded heal, step by step, from the demo page](docs/assets/nexus-walkthrough.png)
 
+Quickstart with lite mode (Docker; one container, no API keys, deterministic detectors only):
+
+```bash
+git clone https://github.com/sankalp-rajeev/Nexus.git
+cd Nexus
+docker compose -f docker-compose.lite.yml up -d --build   # collector on http://127.0.0.1:18000
+```
+
 Install the SDK:
 
 ```bash
 pip install nexus-llmops
 ```
 
-Trace an agent:
+Trace an agent (save as `example.py`, run `python example.py`):
 
 ```python
 import nexus_llmops as nexus
 
-nexus.init(agent_name="my-pipeline", collector_url="http://localhost:8000")
+nexus.init(agent_name="my-pipeline", collector_url="http://127.0.0.1:18000")
 
 @nexus.trace(span_type="tool_call")
 def search(query: str) -> str:
@@ -149,31 +157,29 @@ run("find the order")
 nexus.flush()
 ```
 
+See the trace and its classification:
+
+```bash
+curl http://127.0.0.1:18000/v1/lite/snapshot
+```
+
 Already on OpenTelemetry? Point your OTLP exporter at the collector's `/v1/traces`
 ([how spans map](docs/otel_mapping.md)):
 
 ```bash
-export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://localhost:8000/v1/traces
+export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://127.0.0.1:18000/v1/traces
 export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 ```
 
-Run the service:
+Full stack (Kafka, Postgres, the LLM critic and the gate; collector on `http://localhost:8000`, API on 8001,
+dashboard on 3000). Use `collector_url="http://localhost:8000"` and port 8000 in the OTLP endpoint:
 
 ```bash
-git clone https://github.com/sankalp-rajeev/Nexus.git
-cd Nexus
-
-# Lite mode: one container, collector on http://127.0.0.1:18000, deterministic detectors only
-docker compose -f docker-compose.lite.yml up -d --build
-
-# Full stack: collector on http://localhost:8000, API on 8001, dashboard on 3000
 cp .env.example .env    # add GEMINI_API_KEY, or set NEXUS_LLM=mock
 docker compose up --build
 ```
 
-With lite mode, use `collector_url="http://127.0.0.1:18000"` and
-`OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://127.0.0.1:18000/v1/traces`. The SDK's own README is
-[sdk/README.md](sdk/README.md); changes are in [CHANGELOG.md](CHANGELOG.md).
+The SDK's own README is [sdk/README.md](sdk/README.md); changes are in [CHANGELOG.md](CHANGELOG.md).
 
 ## Evidence
 
