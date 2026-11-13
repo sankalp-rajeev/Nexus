@@ -38,3 +38,7 @@ Before execution, verify the original and A2 committed manifests, the original s
 Results stay on `external-validation`. No raw gated content, prompts, outputs, annotation descriptions, or demo changes are published. Only code, protocols, aggregate numbers, and authorized trace IDs/manifests are committed. No provider calls, container commands, subsystem commands, model downloads, frozen-file changes, or NexusBench TEST access are used.
 
 **frozen detectors, thresholds unchanged, scored once, reported as is**
+
+## Disclosure
+
+Before A2 was written, the pre-flight's join check loaded and JSON-decoded the trace and label columns for all 148 rows to confirm the 6 pre-registered exclusions by trace ID. No label categories, evidence or descriptions were inspected, no detector was run, and no metric was computed on any trace. The A2 split was made by seed, stratified only by gaia/swe_bench. TRAIL-B therefore remains unseen for detector development and evaluation.
