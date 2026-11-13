@@ -130,12 +130,19 @@ directories are excluded from Docker contexts rather than deleted.
 image-size displays, not incremental disk-use measurements.
 
 
-## Step 6.1c stack validation — failed/incomplete
+## Attempt 1: failed — 2026-11-12 (step 6.1c)
 
 Measured on 2026-11-12 (America/New_York), checkout
-`a18b0b8cf8755b74a21d4d785a9cb26f6e7f0686`. Machine-readable results are in
-`results/phase6/stack_validation.json`. Overall validation **did not pass**.
+`a18b0b8cf8755b74a21d4d785a9cb26f6e7f0686`. The original machine-readable
+results are preserved in commit `5779aac054164f247145af1ccb2b3737144688e4`
+at `results/phase6/stack_validation.json`. Overall validation **did not pass**.
 No application, frozen code, existing fixture, CI workflow or test runner changed.
+
+This dated section preserves attempt 1. Its two setup mistakes were a stale
+collector image and an overly strict network rule. Step 6.1d explicitly permits
+image/package/model downloads and GitHub operations; its policy supersedes the
+old registry-lookup prohibition discussed below. The current JSON is reserved
+for the passing attempt 2 rather than the failed historical measurements.
 
 The read-only startup audit passed before Docker work. Critic connects to
 Postgres/Kafka and polls; its provider factory is reached only when processing
@@ -249,3 +256,173 @@ boundary, five-minute idle, and complete RAM measurements. CI checks for the
 result commit are linked from
 [draft PR 5](https://github.com/sankalp-rajeev/Nexus/pull/5/checks); the handoff
 records the actual run URL after the single push.
+
+
+## Attempt 2: passed — 2026-11-12 (step 6.1d)
+
+The clarified policy allows Docker/package/Hugging Face downloads and GitHub
+operations. It prohibits sending project data, traces or provider keys to a
+third party. Application startup/idle paths were re-read before work and their
+hashes match the prior audit. Critic/healer make no provider call at startup
+or while idle. TEST remained sealed; no ntfy notification was sent.
+
+### Lite ingress root cause, fix and regression
+
+The failed override used an **internal-only Docker bridge**. The old container
+already had Uvicorn bound to `0.0.0.0:8000` and configured host mapping
+`127.0.0.1:18000 -> 8000`. With only the internal network, container-loopback
+health returned 200 while host HTTP was refused. Attaching an ordinary bridge
+live still did not establish host-port forwarding. A cold start with that
+bridge already attached returned host HTTP 200 with the same image, application
+and port configuration. Stop/start in attempt 1 had retained the internal-only
+network, so it had never fixed host ingress; the request was merely moved to
+loopback. The cause was the validation network, not Uvicorn binding or readiness.
+
+`docker-compose.lite.yml` now explicitly selects an ordinary bridge with
+`internal: false`. The full validation override also uses a normal bridge.
+Runtime validation clears provider keys/webhooks, disables telemetry and keeps
+models offline. The new standalone regression script
+`scripts/phase6/check_lite_host_ingress.py` cold-starts a unique service and
+fresh volume, asserts host GET/POST success on documented port **18000**, checks
+the deterministic result, and requires unchanged `StartedAt` and restart count
+zero through the POST. Its initial control passed in
+**13.797 s**, using the existing lite image, without
+a restart. It then ran again with the rebuilt image and the full hold below.
+Every created container and volume is retained; the script only calls `stop`.
+
+### Rebuilt images and provenance
+
+`docker compose build` rebuilt all seven full application images and the lite
+image from clean application source at
+`5779aac054164f247145af1ccb2b3737144688e4`. Each image carries that exact
+`org.opencontainers.image.revision` label. Normal build-cache reuse was allowed;
+no stale application image or source bind mount was used in the measured run.
+The network declaration and new validation script are working-tree changes
+outside application image COPY inputs. The collector import probe passed with
+`google.protobuf 6.33.6` and the
+collector application import, on network `none`, exit code 0.
+
+- `nexus-api`: `sha256:bb248fa210b89e716f65cbbdcc0f86e336232f0001f59b43e2fce1d6ef83f9ab`, commit `5779aac054164f247145af1ccb2b3737144688e4`.
+- `nexus-assembler`: `sha256:2e9fec7302dd3185a4182acedd354deb130135a22871b55f9197fcf3192a8be7`, commit `5779aac054164f247145af1ccb2b3737144688e4`.
+- `nexus-classifier`: `sha256:4da7336c4b60378aaeea47d9d0239b70ca10a4669aec22b188776b8c78e19226`, commit `5779aac054164f247145af1ccb2b3737144688e4`.
+- `nexus-collector`: `sha256:4584c4b5fa5bfcf6763ea0f75817ddb047786164b4d9a22ebacbe42846a7b431`, commit `5779aac054164f247145af1ccb2b3737144688e4`.
+- `nexus-critic`: `sha256:a573da7623a082344638116dbd7774437924f124d551548a69e02913764e893a`, commit `5779aac054164f247145af1ccb2b3737144688e4`.
+- `nexus-dashboard`: `sha256:c447aa73f56b70b2ef096cb0a9a9af6343feec5fc19f31d2658851e4d6e3f3f4`, commit `5779aac054164f247145af1ccb2b3737144688e4`.
+- `nexus-healer`: `sha256:c9abb701216a7efebbbf7076755346b68fcbb366c279bd4fd214f31a3a574bdb`, commit `5779aac054164f247145af1ccb2b3737144688e4`.
+- `nexus-lite`: `sha256:34d4b4bbfe17d119c450a790a403adf38bb3219b38e4c3901b7797894090fb15`, commit `5779aac054164f247145af1ccb2b3737144688e4`.
+
+Kafka, PostgreSQL, Redis and MLflow are upstream image services without local
+build definitions. Their exact local IDs and registry digests are recorded in
+the JSON; they are not represented as built from a Nexus commit.
+
+### Measured checks in order
+
+1. **PASS — full startup:** project `nexus-phase6`, new service identities and
+   fresh PostgreSQL/MLflow/Kafka state; Phase 5 remained stopped. From `up -d`
+   invocation until all nine services except critic/healer were healthy:
+   **75.531 s**. Critic/healer were absent during this stage.
+2. **PASS — synthetic boundary:** host HTTP accepted two batches of four
+   hand-written fictional spans. One batch had boolean `nexus.synthetic=true`
+   on every span; the other removed only that marker and used distinct IDs.
+   Kafka console consumers read **2 LOOP_DETECTED classification records**
+   and **exactly 1 alert**, for the unmarked trace. Classifier health reported
+   **synthetic_suppressed=1**. Console-consumer timeout after the expected
+   records is the intentional end-of-observation timeout, not a pipeline error.
+3. **PASS — actual critic boundary:** with critic/healer still absent, reset
+   the actual `nexus-critic` group to current log end, without deleting data.
+   Current offset **1**, log end
+   **1**, lag
+   **0**; healer pending patches **0**.
+4. **PASS — full idle:** only after that boundary, start critic/healer and
+   wait for all eleven health checks. Their observed startup increment was
+   **11.828 s**. Hold with no trace traffic for
+   **300.000 s**. All eleven remained healthy, every
+   restart count stayed **0**, and each `StartedAt` stayed unchanged. Critic
+   health checks retained a Kafka admin client and verified active group
+   membership; other worker checks verified their local dependencies. Docker
+   stats/health sampling ran throughout the hold.
+5. **PASS — provider evidence:** critic/healer logs contain **0 processing,
+   provider-request or error events**. Critic's cost ledger before/after:
+   **exists=False,
+   bytes=0,
+   rows=0**, unchanged. Its hash/existence
+   snapshot and the host cost-ledger snapshot match before/after. After the
+   hold, critic lag was **0** and the patch table still contained **0 rows**.
+   There were **0 observed provider calls**. Startup/idle source auditing
+   confirms the provider paths require work that was absent.
+6. **PASS — stop full:** Compose `stop`, never `down -v`; all containers and
+   volumes retained.
+7. **PASS — lite cold start and host ingress:** project `nexus-lite`, another
+   fresh named volume and unique service, rebuilt lite image. Time to Docker
+   healthy plus host HTTP 200: **13.657 s**. Idle hold:
+   **300.000 s**, healthy throughout with restart count
+   **0**. Then a fictional trace sent **from the host** received HTTP
+   **202**, accepted **4** spans and
+   produced **1** persisted trace, **1 LOOP_DETECTED** alert and
+   **1 generic_fallback_no_llm** proposal. Host health reported four received
+   spans. `StartedAt` stayed unchanged through the POST; no manual or automatic
+   restart/stop-start workaround occurred. Lite was stopped afterward.
+
+The classifier fail-loud result from attempt 1 is carried forward as already
+passed, and **was not repeated**, as requested.
+
+### Sampled peak RAM and restart counts
+
+| Container/service | Image ID (short) | Peak MiB | Restarts |
+| --- | --- | ---: | ---: |
+| Full: kafka | 41c20d65b0a2 | 400.80 | 0 |
+| Full: postgres | 6343bdc87ca1 | 124.50 | 0 |
+| Full: redis | 2e3eb11462c4 | 7.66 | 0 |
+| Full: mlflow | 47c5c26d06a4 | 454.70 | 0 |
+| Full: nexus-collector | 4584c4b5fa5b | 44.31 | 0 |
+| Full: nexus-assembler | 2e9fec7302dd | 36.88 | 0 |
+| Full: nexus-classifier | 4da7336c4b60 | 383.50 | 0 |
+| Full: nexus-critic | a573da7623a0 | 32.31 | 0 |
+| Full: nexus-healer | c9abb701216a | 38.45 | 0 |
+| Full: nexus-api | bb248fa210b8 | 47.04 | 0 |
+| Full: nexus-dashboard | c447aa73f56b | 28.13 | 0 |
+| Lite: nexus-lite | 34d4b4bbfe17 | 48.26 | 0 |
+
+Full sum of individual service peaks: **1598.28 MiB**.
+Full peak concurrent sampled total: **1502.65 MiB**,
+across **75 samples**. Lite peak/total:
+**48.26 MiB**, across
+**65 samples**. These are `docker stats --no-stream`
+observations, not continuous process-RSS maxima. Sampling paused three seconds
+between CLI calls; rounded CLI memory units were converted to bytes in JSON.
+Full peaks include startup and the Kafka console tools used for the synthetic
+check. The JSON also separates idle-only samples: sum of idle service peaks
+**1525.04 MiB**, peak concurrent idle
+total **1494.78 MiB**, across
+**54 samples**.
+
+Host physical RAM: **33986535424 bytes**;
+logical processors: **32**.
+Docker **28.5.1** exposed
+**10424061952 bytes** and **32 CPUs**.
+Re-read WSL settings: `memory=10GB`, `swap=8GB`, `autoMemoryReclaim=gradual`.
+Per-container memory/NanoCPU limits were zero (no individual cap; VM cap applies).
+
+### Evidence and preserved setup runs
+
+Two validation-probe setup runs preceded the passing measurement: one gave the
+classifier a PostgreSQL probe despite its real HTTP readiness being healthy;
+the other discarded a temporary Kafka admin client before its asynchronous
+critic-membership result completed. Those harness probes were corrected and
+verified directly; neither setup idle result is counted as passing. Their
+containers, volumes, traces, logs and partial measurements remain in scratch.
+The second setup's synthetic/offset checks passed, and its actor logs showed
+only idle startup, with no processing/provider activity.
+
+All original container IDs and volume names were verified still present.
+Phase 5, full and lite projects were verified non-running at completion. No
+data was deleted. Raw evidence lives under ignored
+`data/phase6/runs/scratch/stack-61d/`; the committed passing JSON includes
+evidence hashes, full image IDs, source commits, exact Kafka records, before/
+after ledger evidence, RAM aggregates, and final checks. The original attempt
+1 remains above and in commit `5779aac`.
+
+No `.github/`, existing conftest/fixture or DEV-only pytest runner changed.
+The new infrastructure regression is a standalone script; no benchmark split
+or pytest collection was invoked. The handoff includes the commit-specific CI
+run link without waiting for CI.

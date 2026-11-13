@@ -1,6 +1,6 @@
 # Single-process collector + deterministic detectors + generic critic fallback.
 # One store: SQLite on a named volume. No Kafka, Postgres, Redis or MLflow.
-# Docker validation intentionally deferred until Phase 4 experiments finish.
+# Host ingress: http://127.0.0.1:18000 (one Uvicorn worker on port 8000).
 name: nexus-lite
 services:
   nexus-lite:
@@ -22,3 +22,10 @@ services:
       retries: 3
 volumes:
   nexus_lite_data:
+
+networks:
+  default:
+    driver: bridge
+    # Internal-only networking prevented host-port publication on this Docker Desktop host.
+    # Keep this false; disable provider keys/telemetry for local validation.
+    internal: false
