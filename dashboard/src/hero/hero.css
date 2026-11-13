@@ -114,6 +114,10 @@
 .nx-flow__step--check { border-color: var(--color-cool); }
 .nx .nx-flow__name { font-size: var(--text-lg); line-height: 1.2; }
 .nx .nx-flow__line { font-size: var(--text-md); line-height: 1.5; color: var(--color-ink-2); }
+.nx-story { margin: 0 0 var(--space-xl); }
+.nx-story svg { display: block; width: 100%; height: auto; }
+.nx-story__narrow { display: none; max-width: 440px; margin: 0 auto; }
+@media (max-width: 1023px) { .nx-story__wide { display: none; } .nx-story__narrow { display: block; } }
 .nx .nx-flow__more { margin: var(--space-md) 0 0; }
 
 /* 4. the finding as an index: reading, meaning, interval and source */
@@ -174,13 +178,6 @@
 .nx-diff:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 
 /* 6. architecture and figures */
-.nx-arch { display: grid; grid-template-columns: repeat(var(--cols, 6), minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-card); overflow: hidden; gap: var(--rule-hair); background: var(--color-rule); }
-.nx-arch-groups { display: grid; gap: var(--space-xl); margin: 0 0 var(--space-2xl); }
-.nx .nx-arch-group__name { font-size: var(--text-lg); line-height: 1.2; margin: 0; }
-.nx .nx-arch-group__note { font-size: var(--text-sm); color: var(--color-ink-2); margin: var(--space-2xs) 0 var(--space-sm); }
-.nx-arch__part { display: flex; flex-direction: column; gap: var(--space-2xs); padding: var(--space-lg); background: var(--color-paper-2); }
-.nx-arch__name { font-weight: 500; color: var(--color-ink); }
-.nx-arch__line { font-size: var(--text-sm); color: var(--color-ink-2); }
 .nx-figures { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-xl) var(--gap-columns); margin: 0; }
 .nx-figures__item { display: flex; flex-direction: column; gap: var(--space-xs); padding-left: var(--space-lg); border-left: var(--rule-hair) solid var(--color-rule); }
 .nx-figures__item:first-child { padding-left: 0; border-left: 0; }
@@ -226,7 +223,6 @@
 @media (max-width: 75rem) {
   .nx-flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .nx-flow__step:nth-child(3n)::after { display: none; }
-  .nx-arch { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .nx-figures { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .nx-figures__item:nth-child(3n + 1) { padding-left: 0; border-left: 0; }
 }
@@ -249,7 +245,7 @@
   .nx-proof__head { padding-inline: var(--space-lg); }
   .nx-nav__links { gap: var(--space-md); }
   .nx-install__cmd { font-size: var(--text-sm); padding-inline: var(--space-sm); }
-  .nx-flow, .nx-arch { grid-template-columns: minmax(0, 1fr); }
+  .nx-flow { grid-template-columns: minmax(0, 1fr); }
   .nx-flow__step::after { display: none; }
   .nx-figures { grid-template-columns: minmax(0, 1fr); }
   .nx-figures__item { padding-left: 0; border-left: 0; padding-top: var(--space-md); border-top: var(--rule-hair) solid var(--color-rule); }

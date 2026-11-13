@@ -1,0 +1,39 @@
+<svg id="nexus-story-v-site" viewBox="0 0 360 756" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="nexus-story-v-site-title nexus-story-v-site-desc">
+<title id="nexus-story-v-site-title">How Nexus decides whether a fix ships</title>
+<desc id="nexus-story-v-site-desc">Your agent sends traces to the Nexus live service, which detects failing runs and has an LLM critic write a proposed fix. The proposal goes to a separate verification job that runs a fix check, a held-out check and a regression check against the agent's task suite; the fix is promoted only if all three pass, and rejected if any fails.</desc>
+<defs><marker id="nexus-story-v-site-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8 Z" style="fill:var(--color-muted)"/></marker><marker id="nexus-story-v-site-arrow-accent" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8 Z" style="fill:var(--color-accent)"/></marker></defs>
+<rect width="360" height="756" style="fill:var(--color-paper)"/>
+<rect x="16" y="16" width="328" height="72" rx="8" style="fill:none;stroke:var(--color-rule-2)" stroke-width="1"/>
+<text x="36" y="46" font-size="18" font-weight="500" text-anchor="start" style="fill:var(--color-ink);font-family:var(--font-body)" >Your agent</text>
+<text x="36" y="70" font-size="14" font-weight="400" text-anchor="start" style="fill:var(--color-muted);font-family:var(--font-body)" >SDK or OpenTelemetry</text>
+<path d="M 180,88 V 118" fill="none" style="stroke:var(--color-muted)" stroke-width="1.5" marker-end="url(#nexus-story-v-site-arrow)"/>
+<rect x="16" y="120" width="328" height="104" rx="8" style="fill:none;stroke:var(--color-rule-2)" stroke-width="1"/>
+<text x="36" y="152" font-size="18" font-weight="500" text-anchor="start" style="fill:var(--color-ink);font-family:var(--font-body)" >Nexus live service</text>
+<text x="36" y="178" font-size="14" font-weight="400" text-anchor="start" style="fill:var(--color-ink-2);font-family:var(--font-body)" >Detects failing runs</text>
+<text x="36" y="200" font-size="14" font-weight="400" text-anchor="start" style="fill:var(--color-ink-2);font-family:var(--font-body)" >An LLM critic writes a proposed fix</text>
+<path d="M 180,224 V 270" fill="none" style="stroke:var(--color-muted)" stroke-width="1.5" stroke-dasharray="6,5" marker-end="url(#nexus-story-v-site-arrow)"/>
+<text x="192" y="252" font-size="14" font-weight="400" text-anchor="start" style="fill:var(--color-muted);font-family:var(--font-body)" >proposal</text>
+<rect x="16" y="272" width="328" height="356" rx="12" style="fill:var(--color-accent-soft);stroke:var(--color-accent)" stroke-width="2"/>
+<text x="36" y="308" font-size="22" font-weight="500" text-anchor="start" style="fill:var(--color-ink);font-family:var(--font-body)" >Verification job</text>
+<text x="36" y="332" font-size="14" font-weight="400" text-anchor="start" style="fill:var(--color-ink-2);font-family:var(--font-body)" >A separate job, run against</text>
+<text x="36" y="350" font-size="14" font-weight="400" text-anchor="start" style="fill:var(--color-ink-2);font-family:var(--font-body)" >your agent’s task suite</text>
+<rect x="32" y="372" width="296" height="64" rx="8" style="fill:var(--color-paper);stroke:var(--color-rule-2)" stroke-width="1"/>
+<text x="48" y="399" font-size="16" font-weight="500" text-anchor="start" style="fill:var(--color-ink);font-family:var(--font-body)" >Fix check</text>
+<text x="48" y="421" font-size="14" font-weight="400" text-anchor="start" style="fill:var(--color-ink-2);font-family:var(--font-body)" >The failing task now passes</text>
+<path d="M 180,436 V 454" fill="none" style="stroke:var(--color-ink-2)" stroke-width="1.5" marker-end="url(#nexus-story-v-site-arrow)"/>
+<rect x="32" y="456" width="296" height="64" rx="8" style="fill:var(--color-paper);stroke:var(--color-rule-2)" stroke-width="1"/>
+<text x="48" y="483" font-size="16" font-weight="500" text-anchor="start" style="fill:var(--color-ink);font-family:var(--font-body)" >Held-out check</text>
+<text x="48" y="505" font-size="14" font-weight="400" text-anchor="start" style="fill:var(--color-ink-2);font-family:var(--font-body)" >Similar unseen tasks improve</text>
+<path d="M 180,520 V 538" fill="none" style="stroke:var(--color-ink-2)" stroke-width="1.5" marker-end="url(#nexus-story-v-site-arrow)"/>
+<rect x="32" y="540" width="296" height="64" rx="8" style="fill:var(--color-paper);stroke:var(--color-rule-2)" stroke-width="1"/>
+<text x="48" y="567" font-size="16" font-weight="500" text-anchor="start" style="fill:var(--color-ink);font-family:var(--font-body)" >Regression check</text>
+<text x="48" y="589" font-size="14" font-weight="400" text-anchor="start" style="fill:var(--color-ink-2);font-family:var(--font-body)" >No passing task starts failing</text>
+<path d="M 96,628 V 682" fill="none" style="stroke:var(--color-accent)" stroke-width="2" marker-end="url(#nexus-story-v-site-arrow-accent)"/>
+<text x="108" y="660" font-size="14" font-weight="400" text-anchor="start" style="fill:var(--color-ink-2);font-family:var(--font-body)" >all pass</text>
+<path d="M 264,628 V 682" fill="none" style="stroke:var(--color-muted)" stroke-width="1.5" marker-end="url(#nexus-story-v-site-arrow)"/>
+<text x="276" y="660" font-size="14" font-weight="400" text-anchor="start" style="fill:var(--color-muted);font-family:var(--font-body)" >one fails</text>
+<rect x="16" y="684" width="156" height="56" rx="8" style="fill:var(--color-paper);stroke:var(--color-accent)" stroke-width="2"/>
+<text x="94" y="718" font-size="18" font-weight="500" text-anchor="middle" style="fill:var(--color-accent);font-family:var(--font-body)" >Promote</text>
+<rect x="188" y="684" width="156" height="56" rx="8" style="fill:none;stroke:var(--color-rule-2)" stroke-width="1"/>
+<text x="266" y="718" font-size="18" font-weight="500" text-anchor="middle" style="fill:var(--color-ink-2);font-family:var(--font-body)" >Reject</text>
+</svg>

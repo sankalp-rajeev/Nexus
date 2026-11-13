@@ -1,10 +1,13 @@
-import { useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react'
+import { useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import type { Count, GateCheck, ReplayData, ReplayHeal, StoryFigure } from '../replay'
 import {
   arm, decimal, figure, interval, proof, repoFile, secondsText, usd, value, word,
 } from '../hero/numbers'
 import { CopyBlock, Fraction, SourceLink } from '../hero/parts'
 import { INSTALL } from '../hero/Hero'
+// The story diagram, generated as inline SVG coloured by the page tokens (no images, no off-host fonts).
+import storyHorizontal from './diagrams/story-horizontal.svg?raw'
+import storyVertical from './diagrams/story-vertical.svg?raw'
 
 // ── shared pieces ─────────────────────────────────────────────────────────────
 
@@ -73,6 +76,10 @@ export function Mechanism({ data }: { data: ReplayData }) {
   ]
   return (
     <Section id="how" title="Three checks before a fix ships">
+      <figure className="nx-story">
+        <div className="nx-story__wide" dangerouslySetInnerHTML={{ __html: storyHorizontal }} />
+        <div className="nx-story__narrow" dangerouslySetInnerHTML={{ __html: storyVertical }} />
+      </figure>
       <ol className="nx-flow" aria-label="The Nexus pipeline">
         {steps.map(step => (
           <li key={step.name} className={`nx-flow__step${step.check ? ' nx-flow__step--check' : ''}`}>
@@ -84,7 +91,7 @@ export function Mechanism({ data }: { data: ReplayData }) {
       <p className="nx-flow__more">
         <a className="nx-source" href={`${import.meta.env.BASE_URL}nexus-architecture-dark.png`}
            target="_blank" rel="noreferrer"
-           aria-label="View full diagram: the Nexus architecture as an image (opens in a new tab)">
+           aria-label="View full diagram: the Nexus architecture, for engineers, as an image (opens in a new tab)">
           View full diagram
         </a>
       </p>
@@ -330,33 +337,7 @@ export function Walkthrough({ data }: { data: ReplayData }) {
   )
 }
 
-// ── 6. how it works, speed and cost ───────────────────────────────────────────
-
-// Two separate things run: the live service, which ends at a proposal, and the verification job,
-// which decides. The live service does not run the gate.
-const ARCHITECTURE = [
-  {
-    name: 'Live service',
-    note: 'Runs continuously next to your agent and ends at a proposal.',
-    parts: [
-      { name: 'SDK or OpenTelemetry', line: 'Your agent emits spans.' },
-      { name: 'Collector', line: 'Receives and validates them.' },
-      { name: 'Kafka', line: 'Queues them in order.' },
-      { name: 'Detectors', line: 'Classify each finished trace.' },
-      { name: 'Critic', line: 'Writes a proposal.' },
-    ],
-  },
-  {
-    name: 'Verification job',
-    note: 'Runs separately, against your agent’s task suite, and decides.',
-    parts: [
-      { name: 'Repair', line: 'Reruns the failing task with the patch.' },
-      { name: 'Held-out', line: 'Runs similar tasks the patch was not written for.' },
-      { name: 'Regression', line: 'Reruns tasks that already passed.' },
-      { name: 'Promote or reject', line: 'Promoted only if all three checks pass.' },
-    ],
-  },
-]
+// ── 6. speed and cost ─────────────────────────────────────────────────────────
 
 export function Architecture({ data }: { data: ReplayData }) {
   const alert = figure(data, 'time_to_alert')
@@ -365,25 +346,8 @@ export function Architecture({ data }: { data: ReplayData }) {
   const sdk = figure(data, 'sdk_overhead')
   const ingest = figure(data, 'ingestion')
   return (
-    <Section id="architecture" title="What runs, and what it costs" band
+    <Section id="architecture" title="What it costs to run" band
              lead="Measured on one laptop with the full stack running.">
-      <div className="nx-arch-groups">
-        {ARCHITECTURE.map(group => (
-          <div key={group.name} className="nx-arch-group">
-            <h3 className="nx-arch-group__name">{group.name}</h3>
-            <p className="nx-arch-group__note">{group.note}</p>
-            <ol className="nx-arch" style={{ '--cols': group.parts.length } as CSSProperties}
-                aria-label={`${group.name}, in order`}>
-              {group.parts.map(part => (
-                <li key={part.name} className="nx-arch__part">
-                  <span className="nx-arch__name">{part.name}</span>
-                  <span className="nx-arch__line">{part.line}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        ))}
-      </div>
       <dl className="nx-figures">
         <div className="nx-figures__item">
           <dt>Time to alert</dt>
