@@ -9,6 +9,14 @@
        testpypi  safe two-step install, never mixing indexes in one resolve: (1) httpx and pydantic
                  from pypi.org, (2) nexus-llmops==<Version> with --no-deps from test.pypi.org,
                  retried for a few minutes while the TestPyPI index catches up
+       pypi      nexus-llmops==<Version> and its dependencies from real PyPI only (--isolated,
+                 --index-url https://pypi.org/simple/, no extra index), retried while the index catches
+                 up; pip's install report must show the wheel came from files.pythonhosted.org and,
+                 with -ExpectWheelSha256, that its SHA-256 matches the CI build artifact.
+                 The collector is the Docker lite stack (docker-compose.lite.yml, 127.0.0.1:18000):
+                 started with `up -d --build` and stopped with `stop` for the collector-down step.
+                 Its volume is never removed. The README quickstart (example.py, verbatim) also runs
+                 against it, reported as two extra checks.
   2. Checks the install: the package comes from the venv, the alias works, server-side code is absent.
   3. Collector UP: starts the lite collector (in-process queue, SQLite, no Kafka, no LLM) and runs a
      small traced program with the SDK from the venv. Spans must arrive and be classified (a loop).
@@ -22,12 +30,15 @@
 .EXAMPLE
   powershell -File scripts\phase6\smoke_install.ps1 -Source local
   powershell -File scripts\phase6\smoke_install.ps1 -Source testpypi -Version 0.1.0rc1
+  powershell -File scripts\phase6\smoke_install.ps1 -Source pypi -Version 0.1.0 -ExpectWheelSha256 <hex>
 #>
 param(
-    [ValidateSet('local', 'testpypi')][string]$Source = 'local',
+    [ValidateSet('local', 'testpypi', 'pypi')][string]$Source = 'local',
     [string]$Version = '0.1.0rc1',
-    [int]$Port = 8765
+    [int]$Port = 8765,
+    [string]$ExpectWheelSha256 = ''
 )
+if ($Source -eq 'pypi') { $Port = 18000 }   # the Docker lite host ingress
 
 $ErrorActionPreference = 'Stop'
 $Repo = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
@@ -67,7 +78,8 @@ import nexus_agent
 assert nexus_agent is nexus, "alias must be the same module"
 url = sys.argv[1]
 started = time.perf_counter()
-client = nexus.init(agent_name="smoke", collector_url=url, export_timeout_ms=500)
+agent = sys.argv[2] if len(sys.argv) > 2 else "smoke"
+client = nexus.init(agent_name=agent, collector_url=url, export_timeout_ms=500)
 
 @nexus.trace(span_type="tool_call", tool_name="lookup")
 def lookup(order_id):
@@ -105,6 +117,26 @@ if ($Source -eq 'local') {
     $r = Run $VenvPython @('-m', 'pip', 'download', '--quiet', '--dest', $wheelhouse, 'httpx>=0.27', 'pydantic>=2.7')
     Check 'dependency wheelhouse' ($r.Code -eq 0) $r.Out
     $r = Run $VenvPython @('-m', 'pip', 'install', '--quiet', '--no-index', '--find-links', $wheelhouse, '--find-links', (Split-Path $wheel), $wheel)
+} elseif ($Source -eq 'pypi') {
+    # Real PyPI only: --isolated ignores pip config files and PIP_* variables (so no extra index can
+    # sneak in), and the index is named explicitly. Retried while the index catches up.
+    $pipReport = Join-Path $Work 'pip-install-report.json'
+    $attempts = 0; $maxAttempts = 12
+    do {
+        $attempts++
+        $r = Run $VenvPython @('-m', 'pip', '--isolated', 'install', '--quiet', '--index-url', 'https://pypi.org/simple/',
+            '--report', $pipReport, "nexus-llmops==$Version")
+        if ($r.Code -ne 0 -and $attempts -lt $maxAttempts) { Say "  (pypi attempt $attempts failed; waiting 20 s)"; Start-Sleep -Seconds 20 }
+    } while ($r.Code -ne 0 -and $attempts -lt $maxAttempts)
+    $Report['pypi_install_attempts'] = $attempts
+    Check 'pypi.org serves the release' ($r.Code -eq 0) "attempts=$attempts"
+    $item = $null
+    try { $item = (Get-Content $pipReport -Raw | ConvertFrom-Json).install | Where-Object { $_.metadata.name -eq 'nexus-llmops' } } catch { }
+    $wheelUrl = "$($item.download_info.url)"
+    $wheelSha = "$($item.download_info.archive_info.hashes.sha256)"
+    $Report['pypi_wheel'] = [ordered]@{ url = $wheelUrl; sha256 = $wheelSha }
+    $hashOk = (-not $ExpectWheelSha256) -or ($wheelSha -eq $ExpectWheelSha256.ToLower())
+    Check 'wheel came from pypi.org (hash matches CI artifact)' ($wheelUrl -like 'https://files.pythonhosted.org/*' -and $wheelUrl -like "*nexus_llmops-$Version-py3-none-any.whl" -and $hashOk) "$wheelUrl sha256=$wheelSha"
 } else {
     # Safe install: the two indexes are NEVER mixed in one resolve (no --extra-index-url), so a
     # look-alike dependency on TestPyPI can't be picked up. Dependencies come from real PyPI first,
@@ -143,27 +175,64 @@ $unexpected = $Report['installed_packages'] | Where-Object { $_ -match '^(opente
 Check 'no heavy or server dependencies pulled in' (-not $unexpected) ($unexpected -join ', ')
 
 # --- 3. collector UP ----------------------------------------------------------------------------
-$db = Join-Path $Work 'lite.db'
-$collectorEnv = @{ NEXUS_QUEUE = 'inprocess'; NEXUS_SQLITE_PATH = $db; NEXUS_LLM = 'mock'; PYTHONPATH = "$Repo;$Repo\sdk" }
-foreach ($k in $collectorEnv.Keys) { [Environment]::SetEnvironmentVariable($k, $collectorEnv[$k]) }
-$collector = Start-Process -FilePath $RepoPython -WorkingDirectory $Repo -PassThru -WindowStyle Hidden `
-    -ArgumentList @('-m', 'uvicorn', 'services.collector.main:app', '--host', '127.0.0.1', '--port', "$Port", '--workers', '1') `
-    -RedirectStandardOutput (Join-Path $Work 'collector.out.log') -RedirectStandardError (Join-Path $Work 'collector.err.log')
-foreach ($k in $collectorEnv.Keys) { [Environment]::SetEnvironmentVariable($k, $null) }
+$Agent = "smoke-$Source-$Stamp"   # unique per run: the Docker lite volume keeps earlier runs
+$Compose = @('compose', '-f', (Join-Path $Repo 'docker-compose.lite.yml'))
+if ($Source -eq 'pypi') {
+    # Docker lite (the README quickstart's collector). `up` never touches the named volume's data.
+    $r = Run 'docker' ($Compose + @('up', '-d', '--build')) @{} $Repo
+    $Report['docker_up'] = $r.Out
+} else {
+    $db = Join-Path $Work 'lite.db'
+    $collectorEnv = @{ NEXUS_QUEUE = 'inprocess'; NEXUS_SQLITE_PATH = $db; NEXUS_LLM = 'mock'; PYTHONPATH = "$Repo;$Repo\sdk" }
+    foreach ($k in $collectorEnv.Keys) { [Environment]::SetEnvironmentVariable($k, $collectorEnv[$k]) }
+    $collector = Start-Process -FilePath $RepoPython -WorkingDirectory $Repo -PassThru -WindowStyle Hidden `
+        -ArgumentList @('-m', 'uvicorn', 'services.collector.main:app', '--host', '127.0.0.1', '--port', "$Port", '--workers', '1') `
+        -RedirectStandardOutput (Join-Path $Work 'collector.out.log') -RedirectStandardError (Join-Path $Work 'collector.err.log')
+    foreach ($k in $collectorEnv.Keys) { [Environment]::SetEnvironmentVariable($k, $null) }
+}
 $up = $false
-for ($i = 0; $i -lt 60 -and -not $up; $i++) {
+for ($i = 0; $i -lt 120 -and -not $up; $i++) {
     Start-Sleep -Milliseconds 500
-    try { $up = ((Invoke-WebRequest "$Url/" -UseBasicParsing -TimeoutSec 2).StatusCode -eq 200) } catch { }
+    try { $up = ((Invoke-RestMethod "$Url/health" -TimeoutSec 2).status -eq 'ok') } catch { }
 }
-Check 'lite collector started' $up "$Url (pid $($collector.Id))"
+$where = if ($Source -eq 'pypi') { 'docker lite' } else { "pid $($collector.Id)" }
+Check 'lite collector started' $up "$Url ($where)"
 
-function Count-Rows([string]$sql) {
-    $code = "import sqlite3,sys; c=sqlite3.connect(sys.argv[1]); print(c.execute(sys.argv[2]).fetchone()[0])"
-    $o = Run $RepoPython @('-c', $code, $db, $sql)
-    if ($o.Code -ne 0) { return -1 } else { return [int]$o.Out }
+# The lite snapshot (GET /v1/lite/snapshot, as in the README) filtered to one agent name.
+function Get-Snapshot([string]$agentName) {
+    try { $snap = Invoke-RestMethod "$Url/v1/lite/snapshot" -TimeoutSec 5 } catch { return $null }
+    return [pscustomobject]@{
+        Traces = @($snap.traces | Where-Object { $_.agent_name -eq $agentName })
+        Alerts = @($snap.alerts | Where-Object { $_.agent_name -eq $agentName })
+    }
 }
 
-$runUp = Run $VenvPython @($ProgramPath, $Url)
+if ($Source -eq 'pypi') {
+    # README quickstart, verbatim from README.md (only the agent name is made unique per run).
+    $readme = Get-Content (Join-Path $Repo 'README.md') -Raw
+    $m = [regex]::Match($readme, '(?s)Trace an agent.*?```python\r?\n(.*?)```')
+    $example = $m.Groups[1].Value
+    $quickAgent = "$Agent-quickstart"
+    $examplePath = Join-Path $Work 'example.py'
+    Set-Content -Path $examplePath -Value ($example.Replace('agent_name="my-pipeline"', "agent_name=""$quickAgent""")) -Encoding ASCII
+    $runQuick = Run $VenvPython @($examplePath)
+    $quickTraces = @()
+    for ($i = 0; $i -lt 20; $i++) {
+        $q = Get-Snapshot $quickAgent
+        if ($q) { $quickTraces = @($q.Traces | Where-Object { $_.status -eq 'completed' -and $_.span_count -eq 2 }) }
+        if ($quickTraces.Count) { break }
+        Start-Sleep -Milliseconds 500
+    }
+    $Report['readme_quickstart'] = [ordered]@{
+        ran = ($m.Success -and $runQuick.Code -eq 0); output = $runQuick.Out
+        trace_in_snapshot = ($quickTraces.Count -eq 1); alerts = @($q.Alerts | ForEach-Object { $_.failure_type })
+    }
+    Say ("EXTRA {0}  README quickstart: example.py ran  {1}" -f $(if ($Report.readme_quickstart.ran) { 'PASS' } else { 'FAIL' }), $runQuick.Out)
+    Say ("EXTRA {0}  README quickstart: trace completed in /v1/lite/snapshot (2 spans)" -f $(if ($Report.readme_quickstart.trace_in_snapshot) { 'PASS' } else { 'FAIL' }))
+    if (-not ($Report.readme_quickstart.ran -and $Report.readme_quickstart.trace_in_snapshot)) { $Failures.Add('README quickstart') }
+}
+
+$runUp = Run $VenvPython @($ProgramPath, $Url, $Agent)
 $resultUp = $null
 foreach ($line in ($runUp.Out -split "`r?`n")) { if ($line.StartsWith('RESULT ')) { $resultUp = $line.Substring(7) | ConvertFrom-Json } }
 Check 'program finished (collector up)' ($runUp.Code -eq 0 -and $null -ne $resultUp) $runUp.Out
@@ -173,9 +242,12 @@ if ($resultUp) {
 }
 $spans = 0; $alerts = 0; $traces = 0
 for ($i = 0; $i -lt 20; $i++) {
-    $spans = Count-Rows 'SELECT COUNT(*) FROM spans'
-    $alerts = Count-Rows "SELECT COUNT(*) FROM artifacts WHERE kind='alerts' AND body LIKE '%LOOP_DETECTED%'"
-    $traces = Count-Rows "SELECT COUNT(*) FROM artifacts WHERE kind='traces'"
+    $snap = Get-Snapshot $Agent
+    if ($snap) {
+        $traces = $snap.Traces.Count
+        $spans = ($snap.Traces | Measure-Object -Property span_count -Sum).Sum
+        $alerts = @($snap.Alerts | Where-Object { $_.failure_type -eq 'LOOP_DETECTED' }).Count
+    }
     if ($spans -ge 5 -and $alerts -ge 1) { break }
     Start-Sleep -Milliseconds 500
 }
@@ -183,13 +255,18 @@ Check 'spans arrived at the collector' ($spans -eq 5) "spans=$spans traces=$trac
 Check 'trace classified (LOOP_DETECTED alert)' ($alerts -ge 1) "loop alerts=$alerts"
 
 # --- 4. collector DOWN --------------------------------------------------------------------------
-Stop-Process -Id $collector.Id -Force -ErrorAction SilentlyContinue
+if ($Source -eq 'pypi') {
+    $r = Run 'docker' ($Compose + @('stop')) @{} $Repo   # stop only: no `down`, no volume removal
+    $Report['docker_stop'] = $r.Out
+} else {
+    Stop-Process -Id $collector.Id -Force -ErrorAction SilentlyContinue
+}
 Start-Sleep -Seconds 1
 $stillUp = $false
-try { $stillUp = ((Invoke-WebRequest "$Url/" -UseBasicParsing -TimeoutSec 2).StatusCode -eq 200) } catch { }
+try { $stillUp = ((Invoke-WebRequest "$Url/health" -UseBasicParsing -TimeoutSec 2).StatusCode -eq 200) } catch { }
 Check 'collector is down' (-not $stillUp)
 $clock = [Diagnostics.Stopwatch]::StartNew()
-$runDown = Run $VenvPython @($ProgramPath, $Url)
+$runDown = Run $VenvPython @($ProgramPath, $Url, "$Agent-down")
 $clock.Stop()
 $resultDown = $null
 foreach ($line in ($runDown.Out -split "`r?`n")) { if ($line.StartsWith('RESULT ')) { $resultDown = $line.Substring(7) | ConvertFrom-Json } }
