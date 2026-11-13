@@ -1,0 +1,11 @@
+{
+  "name": "detectors-v2",
+  "live_default": false,
+  "c1_error_output": "nonempty JSON error, error/failure status, is_error=true, success=false, or explicit error/exception/traceback prefix",
+  "c2": {"min_calls": 3, "window": 6, "min_token_jaccard": 0.8, "similarity": "all pairs in a same-tool three-call group", "success_required": false},
+  "c4": "global retrieved-text entity presence after casefold, accent/punctuation/whitespace and thousands-number normalization",
+  "c5_scope": "unselected",
+  "thresholds": "unchanged services/detectors/thresholds.json",
+  "nli": "unchanged pinned cross-encoder/nli-deberta-v3-base",
+  "selection": "higher pooled TRAIL-dev+A HALLUCINATION F1, final wins exact ties; no other selection"
+}
