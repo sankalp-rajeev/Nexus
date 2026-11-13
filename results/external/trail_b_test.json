@@ -1,0 +1,1172 @@
+{
+  "cohort_flow": {
+    "TRAIL_B": 63,
+    "by_split": {
+      "gaia": 49,
+      "swe_bench": 14
+    },
+    "prior_join_exclusions_outside_B": 6
+  },
+  "conversion_failure_ids": [],
+  "localization": "Omitted for both versions: no v2 span locator was frozen; optional secondary measure only.",
+  "mappings": {
+    "C3_secondary": {
+      "v1": {
+        "by_split": {
+          "gaia": {
+            "HALLUCINATION": {
+              "abstentions": {
+                "no_successful_retrieval_text": 38
+              },
+              "cohort_denominator": 49,
+              "evaluated": 11,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 10,
+              "gold_positive": 1,
+              "gold_positive_in_cohort_assessable": 22,
+              "precision": {
+                "denominator": 11,
+                "estimate": 0.09090909090909091,
+                "numerator": 1,
+                "wilson95": [
+                  0.016232172885884855,
+                  0.37735843645159567
+                ]
+              },
+              "recall": {
+                "denominator": 1,
+                "estimate": 1.0,
+                "numerator": 1,
+                "wilson95": [
+                  0.20654931437723745,
+                  1.0
+                ]
+              },
+              "tn": 0,
+              "tp": 1
+            },
+            "LOOP_DETECTED": {
+              "abstentions": {},
+              "cohort_denominator": 49,
+              "evaluated": 49,
+              "exclusions": {},
+              "fn": 10,
+              "fp": 0,
+              "gold_positive": 10,
+              "gold_positive_in_cohort_assessable": 10,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 10,
+                "estimate": 0.0,
+                "numerator": 0,
+                "wilson95": [
+                  0.0,
+                  0.2775327998628892
+                ]
+              },
+              "tn": 39,
+              "tp": 0
+            },
+            "TOOL_MISFIRE": {
+              "abstentions": {},
+              "cohort_denominator": 49,
+              "evaluated": 49,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 0,
+              "gold_positive": 0,
+              "gold_positive_in_cohort_assessable": 0,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "tn": 49,
+              "tp": 0
+            }
+          },
+          "swe_bench": {
+            "HALLUCINATION": {
+              "abstentions": {
+                "no_successful_retrieval_text": 14
+              },
+              "cohort_denominator": 14,
+              "evaluated": 0,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 0,
+              "gold_positive": 0,
+              "gold_positive_in_cohort_assessable": 6,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "tn": 0,
+              "tp": 0
+            },
+            "LOOP_DETECTED": {
+              "abstentions": {},
+              "cohort_denominator": 14,
+              "evaluated": 14,
+              "exclusions": {},
+              "fn": 4,
+              "fp": 0,
+              "gold_positive": 4,
+              "gold_positive_in_cohort_assessable": 4,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 4,
+                "estimate": 0.0,
+                "numerator": 0,
+                "wilson95": [
+                  0.0,
+                  0.4898908364545973
+                ]
+              },
+              "tn": 10,
+              "tp": 0
+            },
+            "TOOL_MISFIRE": {
+              "abstentions": {},
+              "cohort_denominator": 14,
+              "evaluated": 14,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 0,
+              "gold_positive": 0,
+              "gold_positive_in_cohort_assessable": 0,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "tn": 14,
+              "tp": 0
+            }
+          }
+        },
+        "classes": {
+          "HALLUCINATION": {
+            "abstentions": {
+              "no_successful_retrieval_text": 52
+            },
+            "cohort_denominator": 63,
+            "evaluated": 11,
+            "exclusions": {},
+            "fn": 0,
+            "fp": 10,
+            "gold_positive": 1,
+            "gold_positive_in_cohort_assessable": 28,
+            "precision": {
+              "denominator": 11,
+              "estimate": 0.09090909090909091,
+              "numerator": 1,
+              "wilson95": [
+                0.016232172885884855,
+                0.37735843645159567
+              ]
+            },
+            "recall": {
+              "denominator": 1,
+              "estimate": 1.0,
+              "numerator": 1,
+              "wilson95": [
+                0.20654931437723745,
+                1.0
+              ]
+            },
+            "tn": 0,
+            "tp": 1
+          },
+          "LOOP_DETECTED": {
+            "abstentions": {},
+            "cohort_denominator": 63,
+            "evaluated": 63,
+            "exclusions": {},
+            "fn": 14,
+            "fp": 0,
+            "gold_positive": 14,
+            "gold_positive_in_cohort_assessable": 14,
+            "precision": {
+              "denominator": 0,
+              "estimate": null,
+              "numerator": 0,
+              "wilson95": null
+            },
+            "recall": {
+              "denominator": 14,
+              "estimate": 0.0,
+              "numerator": 0,
+              "wilson95": [
+                1.3877787807814457e-17,
+                0.2153108027376358
+              ]
+            },
+            "tn": 49,
+            "tp": 0
+          },
+          "TOOL_MISFIRE": {
+            "abstentions": {},
+            "cohort_denominator": 63,
+            "evaluated": 63,
+            "exclusions": {},
+            "fn": 0,
+            "fp": 0,
+            "gold_positive": 0,
+            "gold_positive_in_cohort_assessable": 0,
+            "precision": {
+              "denominator": 0,
+              "estimate": null,
+              "numerator": 0,
+              "wilson95": null
+            },
+            "recall": {
+              "denominator": 0,
+              "estimate": null,
+              "numerator": 0,
+              "wilson95": null
+            },
+            "tn": 63,
+            "tp": 0
+          }
+        }
+      },
+      "v2": {
+        "by_split": {
+          "gaia": {
+            "HALLUCINATION": {
+              "abstentions": {
+                "no_successful_retrieval_text": 38
+              },
+              "cohort_denominator": 49,
+              "evaluated": 11,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 10,
+              "gold_positive": 1,
+              "gold_positive_in_cohort_assessable": 22,
+              "precision": {
+                "denominator": 11,
+                "estimate": 0.09090909090909091,
+                "numerator": 1,
+                "wilson95": [
+                  0.016232172885884855,
+                  0.37735843645159567
+                ]
+              },
+              "recall": {
+                "denominator": 1,
+                "estimate": 1.0,
+                "numerator": 1,
+                "wilson95": [
+                  0.20654931437723745,
+                  1.0
+                ]
+              },
+              "tn": 0,
+              "tp": 1
+            },
+            "LOOP_DETECTED": {
+              "abstentions": {},
+              "cohort_denominator": 49,
+              "evaluated": 49,
+              "exclusions": {},
+              "fn": 4,
+              "fp": 3,
+              "gold_positive": 10,
+              "gold_positive_in_cohort_assessable": 10,
+              "precision": {
+                "denominator": 9,
+                "estimate": 0.6666666666666666,
+                "numerator": 6,
+                "wilson95": [
+                  0.3542021355803963,
+                  0.879416181613089
+                ]
+              },
+              "recall": {
+                "denominator": 10,
+                "estimate": 0.6,
+                "numerator": 6,
+                "wilson95": [
+                  0.31267376973365824,
+                  0.8318196702937638
+                ]
+              },
+              "tn": 36,
+              "tp": 6
+            },
+            "TOOL_MISFIRE": {
+              "abstentions": {},
+              "cohort_denominator": 49,
+              "evaluated": 49,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 9,
+              "gold_positive": 0,
+              "gold_positive_in_cohort_assessable": 0,
+              "precision": {
+                "denominator": 9,
+                "estimate": 0.0,
+                "numerator": 0,
+                "wilson95": [
+                  0.0,
+                  0.2991450484195441
+                ]
+              },
+              "recall": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "tn": 40,
+              "tp": 0
+            }
+          },
+          "swe_bench": {
+            "HALLUCINATION": {
+              "abstentions": {
+                "no_successful_retrieval_text": 14
+              },
+              "cohort_denominator": 14,
+              "evaluated": 0,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 0,
+              "gold_positive": 0,
+              "gold_positive_in_cohort_assessable": 6,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "tn": 0,
+              "tp": 0
+            },
+            "LOOP_DETECTED": {
+              "abstentions": {},
+              "cohort_denominator": 14,
+              "evaluated": 14,
+              "exclusions": {},
+              "fn": 4,
+              "fp": 0,
+              "gold_positive": 4,
+              "gold_positive_in_cohort_assessable": 4,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 4,
+                "estimate": 0.0,
+                "numerator": 0,
+                "wilson95": [
+                  0.0,
+                  0.4898908364545973
+                ]
+              },
+              "tn": 10,
+              "tp": 0
+            },
+            "TOOL_MISFIRE": {
+              "abstentions": {},
+              "cohort_denominator": 14,
+              "evaluated": 14,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 0,
+              "gold_positive": 0,
+              "gold_positive_in_cohort_assessable": 0,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "tn": 14,
+              "tp": 0
+            }
+          }
+        },
+        "classes": {
+          "HALLUCINATION": {
+            "abstentions": {
+              "no_successful_retrieval_text": 52
+            },
+            "cohort_denominator": 63,
+            "evaluated": 11,
+            "exclusions": {},
+            "fn": 0,
+            "fp": 10,
+            "gold_positive": 1,
+            "gold_positive_in_cohort_assessable": 28,
+            "precision": {
+              "denominator": 11,
+              "estimate": 0.09090909090909091,
+              "numerator": 1,
+              "wilson95": [
+                0.016232172885884855,
+                0.37735843645159567
+              ]
+            },
+            "recall": {
+              "denominator": 1,
+              "estimate": 1.0,
+              "numerator": 1,
+              "wilson95": [
+                0.20654931437723745,
+                1.0
+              ]
+            },
+            "tn": 0,
+            "tp": 1
+          },
+          "LOOP_DETECTED": {
+            "abstentions": {},
+            "cohort_denominator": 63,
+            "evaluated": 63,
+            "exclusions": {},
+            "fn": 8,
+            "fp": 3,
+            "gold_positive": 14,
+            "gold_positive_in_cohort_assessable": 14,
+            "precision": {
+              "denominator": 9,
+              "estimate": 0.6666666666666666,
+              "numerator": 6,
+              "wilson95": [
+                0.3542021355803963,
+                0.879416181613089
+              ]
+            },
+            "recall": {
+              "denominator": 14,
+              "estimate": 0.42857142857142855,
+              "numerator": 6,
+              "wilson95": [
+                0.21380798904474121,
+                0.6740935542034926
+              ]
+            },
+            "tn": 46,
+            "tp": 6
+          },
+          "TOOL_MISFIRE": {
+            "abstentions": {},
+            "cohort_denominator": 63,
+            "evaluated": 63,
+            "exclusions": {},
+            "fn": 0,
+            "fp": 9,
+            "gold_positive": 0,
+            "gold_positive_in_cohort_assessable": 0,
+            "precision": {
+              "denominator": 9,
+              "estimate": 0.0,
+              "numerator": 0,
+              "wilson95": [
+                0.0,
+                0.2991450484195441
+              ]
+            },
+            "recall": {
+              "denominator": 0,
+              "estimate": null,
+              "numerator": 0,
+              "wilson95": null
+            },
+            "tn": 54,
+            "tp": 0
+          }
+        }
+      }
+    },
+    "primary": {
+      "v1": {
+        "by_split": {
+          "gaia": {
+            "HALLUCINATION": {
+              "abstentions": {
+                "no_successful_retrieval_text": 38
+              },
+              "cohort_denominator": 49,
+              "evaluated": 11,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 10,
+              "gold_positive": 1,
+              "gold_positive_in_cohort_assessable": 22,
+              "precision": {
+                "denominator": 11,
+                "estimate": 0.09090909090909091,
+                "numerator": 1,
+                "wilson95": [
+                  0.016232172885884855,
+                  0.37735843645159567
+                ]
+              },
+              "recall": {
+                "denominator": 1,
+                "estimate": 1.0,
+                "numerator": 1,
+                "wilson95": [
+                  0.20654931437723745,
+                  1.0
+                ]
+              },
+              "tn": 0,
+              "tp": 1
+            },
+            "LOOP_DETECTED": {
+              "abstentions": {},
+              "cohort_denominator": 49,
+              "evaluated": 49,
+              "exclusions": {},
+              "fn": 10,
+              "fp": 0,
+              "gold_positive": 10,
+              "gold_positive_in_cohort_assessable": 10,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 10,
+                "estimate": 0.0,
+                "numerator": 0,
+                "wilson95": [
+                  0.0,
+                  0.2775327998628892
+                ]
+              },
+              "tn": 39,
+              "tp": 0
+            },
+            "TOOL_MISFIRE": {
+              "abstentions": {},
+              "cohort_denominator": 49,
+              "evaluated": 49,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 0,
+              "gold_positive": 0,
+              "gold_positive_in_cohort_assessable": 0,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "tn": 49,
+              "tp": 0
+            }
+          },
+          "swe_bench": {
+            "HALLUCINATION": {
+              "abstentions": {
+                "no_successful_retrieval_text": 14
+              },
+              "cohort_denominator": 14,
+              "evaluated": 0,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 0,
+              "gold_positive": 0,
+              "gold_positive_in_cohort_assessable": 6,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "tn": 0,
+              "tp": 0
+            },
+            "LOOP_DETECTED": {
+              "abstentions": {},
+              "cohort_denominator": 14,
+              "evaluated": 14,
+              "exclusions": {},
+              "fn": 4,
+              "fp": 0,
+              "gold_positive": 4,
+              "gold_positive_in_cohort_assessable": 4,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 4,
+                "estimate": 0.0,
+                "numerator": 0,
+                "wilson95": [
+                  0.0,
+                  0.4898908364545973
+                ]
+              },
+              "tn": 10,
+              "tp": 0
+            },
+            "TOOL_MISFIRE": {
+              "abstentions": {},
+              "cohort_denominator": 14,
+              "evaluated": 14,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 0,
+              "gold_positive": 0,
+              "gold_positive_in_cohort_assessable": 0,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "tn": 14,
+              "tp": 0
+            }
+          }
+        },
+        "classes": {
+          "HALLUCINATION": {
+            "abstentions": {
+              "no_successful_retrieval_text": 52
+            },
+            "cohort_denominator": 63,
+            "evaluated": 11,
+            "exclusions": {},
+            "fn": 0,
+            "fp": 10,
+            "gold_positive": 1,
+            "gold_positive_in_cohort_assessable": 28,
+            "precision": {
+              "denominator": 11,
+              "estimate": 0.09090909090909091,
+              "numerator": 1,
+              "wilson95": [
+                0.016232172885884855,
+                0.37735843645159567
+              ]
+            },
+            "recall": {
+              "denominator": 1,
+              "estimate": 1.0,
+              "numerator": 1,
+              "wilson95": [
+                0.20654931437723745,
+                1.0
+              ]
+            },
+            "tn": 0,
+            "tp": 1
+          },
+          "LOOP_DETECTED": {
+            "abstentions": {},
+            "cohort_denominator": 63,
+            "evaluated": 63,
+            "exclusions": {},
+            "fn": 14,
+            "fp": 0,
+            "gold_positive": 14,
+            "gold_positive_in_cohort_assessable": 14,
+            "precision": {
+              "denominator": 0,
+              "estimate": null,
+              "numerator": 0,
+              "wilson95": null
+            },
+            "recall": {
+              "denominator": 14,
+              "estimate": 0.0,
+              "numerator": 0,
+              "wilson95": [
+                1.3877787807814457e-17,
+                0.2153108027376358
+              ]
+            },
+            "tn": 49,
+            "tp": 0
+          },
+          "TOOL_MISFIRE": {
+            "abstentions": {},
+            "cohort_denominator": 63,
+            "evaluated": 63,
+            "exclusions": {},
+            "fn": 0,
+            "fp": 0,
+            "gold_positive": 0,
+            "gold_positive_in_cohort_assessable": 0,
+            "precision": {
+              "denominator": 0,
+              "estimate": null,
+              "numerator": 0,
+              "wilson95": null
+            },
+            "recall": {
+              "denominator": 0,
+              "estimate": null,
+              "numerator": 0,
+              "wilson95": null
+            },
+            "tn": 63,
+            "tp": 0
+          }
+        }
+      },
+      "v2": {
+        "by_split": {
+          "gaia": {
+            "HALLUCINATION": {
+              "abstentions": {
+                "no_successful_retrieval_text": 38
+              },
+              "cohort_denominator": 49,
+              "evaluated": 11,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 10,
+              "gold_positive": 1,
+              "gold_positive_in_cohort_assessable": 22,
+              "precision": {
+                "denominator": 11,
+                "estimate": 0.09090909090909091,
+                "numerator": 1,
+                "wilson95": [
+                  0.016232172885884855,
+                  0.37735843645159567
+                ]
+              },
+              "recall": {
+                "denominator": 1,
+                "estimate": 1.0,
+                "numerator": 1,
+                "wilson95": [
+                  0.20654931437723745,
+                  1.0
+                ]
+              },
+              "tn": 0,
+              "tp": 1
+            },
+            "LOOP_DETECTED": {
+              "abstentions": {},
+              "cohort_denominator": 49,
+              "evaluated": 49,
+              "exclusions": {},
+              "fn": 4,
+              "fp": 3,
+              "gold_positive": 10,
+              "gold_positive_in_cohort_assessable": 10,
+              "precision": {
+                "denominator": 9,
+                "estimate": 0.6666666666666666,
+                "numerator": 6,
+                "wilson95": [
+                  0.3542021355803963,
+                  0.879416181613089
+                ]
+              },
+              "recall": {
+                "denominator": 10,
+                "estimate": 0.6,
+                "numerator": 6,
+                "wilson95": [
+                  0.31267376973365824,
+                  0.8318196702937638
+                ]
+              },
+              "tn": 36,
+              "tp": 6
+            },
+            "TOOL_MISFIRE": {
+              "abstentions": {},
+              "cohort_denominator": 49,
+              "evaluated": 49,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 9,
+              "gold_positive": 0,
+              "gold_positive_in_cohort_assessable": 0,
+              "precision": {
+                "denominator": 9,
+                "estimate": 0.0,
+                "numerator": 0,
+                "wilson95": [
+                  0.0,
+                  0.2991450484195441
+                ]
+              },
+              "recall": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "tn": 40,
+              "tp": 0
+            }
+          },
+          "swe_bench": {
+            "HALLUCINATION": {
+              "abstentions": {
+                "no_successful_retrieval_text": 14
+              },
+              "cohort_denominator": 14,
+              "evaluated": 0,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 0,
+              "gold_positive": 0,
+              "gold_positive_in_cohort_assessable": 6,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "tn": 0,
+              "tp": 0
+            },
+            "LOOP_DETECTED": {
+              "abstentions": {},
+              "cohort_denominator": 14,
+              "evaluated": 14,
+              "exclusions": {},
+              "fn": 4,
+              "fp": 0,
+              "gold_positive": 4,
+              "gold_positive_in_cohort_assessable": 4,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 4,
+                "estimate": 0.0,
+                "numerator": 0,
+                "wilson95": [
+                  0.0,
+                  0.4898908364545973
+                ]
+              },
+              "tn": 10,
+              "tp": 0
+            },
+            "TOOL_MISFIRE": {
+              "abstentions": {},
+              "cohort_denominator": 14,
+              "evaluated": 14,
+              "exclusions": {},
+              "fn": 0,
+              "fp": 0,
+              "gold_positive": 0,
+              "gold_positive_in_cohort_assessable": 0,
+              "precision": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "recall": {
+                "denominator": 0,
+                "estimate": null,
+                "numerator": 0,
+                "wilson95": null
+              },
+              "tn": 14,
+              "tp": 0
+            }
+          }
+        },
+        "classes": {
+          "HALLUCINATION": {
+            "abstentions": {
+              "no_successful_retrieval_text": 52
+            },
+            "cohort_denominator": 63,
+            "evaluated": 11,
+            "exclusions": {},
+            "fn": 0,
+            "fp": 10,
+            "gold_positive": 1,
+            "gold_positive_in_cohort_assessable": 28,
+            "precision": {
+              "denominator": 11,
+              "estimate": 0.09090909090909091,
+              "numerator": 1,
+              "wilson95": [
+                0.016232172885884855,
+                0.37735843645159567
+              ]
+            },
+            "recall": {
+              "denominator": 1,
+              "estimate": 1.0,
+              "numerator": 1,
+              "wilson95": [
+                0.20654931437723745,
+                1.0
+              ]
+            },
+            "tn": 0,
+            "tp": 1
+          },
+          "LOOP_DETECTED": {
+            "abstentions": {},
+            "cohort_denominator": 63,
+            "evaluated": 63,
+            "exclusions": {},
+            "fn": 8,
+            "fp": 3,
+            "gold_positive": 14,
+            "gold_positive_in_cohort_assessable": 14,
+            "precision": {
+              "denominator": 9,
+              "estimate": 0.6666666666666666,
+              "numerator": 6,
+              "wilson95": [
+                0.3542021355803963,
+                0.879416181613089
+              ]
+            },
+            "recall": {
+              "denominator": 14,
+              "estimate": 0.42857142857142855,
+              "numerator": 6,
+              "wilson95": [
+                0.21380798904474121,
+                0.6740935542034926
+              ]
+            },
+            "tn": 46,
+            "tp": 6
+          },
+          "TOOL_MISFIRE": {
+            "abstentions": {},
+            "cohort_denominator": 63,
+            "evaluated": 63,
+            "exclusions": {},
+            "fn": 0,
+            "fp": 9,
+            "gold_positive": 0,
+            "gold_positive_in_cohort_assessable": 0,
+            "precision": {
+              "denominator": 9,
+              "estimate": 0.0,
+              "numerator": 0,
+              "wilson95": [
+                0.0,
+                0.2991450484195441
+              ]
+            },
+            "recall": {
+              "denominator": 0,
+              "estimate": null,
+              "numerator": 0,
+              "wilson95": null
+            },
+            "tn": 54,
+            "tp": 0
+          }
+        }
+      }
+    }
+  },
+  "not_scored": [
+    "PLAN_DRIFT",
+    "CONTEXT_BLEED"
+  ],
+  "provenance": {
+    "A3_committed_before_B_scoring": true,
+    "B_files_verified": 126,
+    "B_manifest_sha256": "7c100a724edd4faabf27ce4b5d84b469d72ae474d6645f496c998c806dbfc72f",
+    "HF_HUB_OFFLINE": true,
+    "TRANSFORMERS_OFFLINE": true,
+    "attempts": [
+      {
+        "completed_version_checkpoints_before": 0,
+        "finished_at_utc": "2026-11-13T23:47:35.371424+00:00",
+        "resume_after_crash_fix_and_reason": null,
+        "runtime_seconds": 1869.7031965000024,
+        "scoring_code_commit": "1f6b25e75c52509cb42eea8f8400968d3339c28d",
+        "started_at_utc": "2026-11-13T23:16:25.667453+00:00",
+        "status": "complete"
+      }
+    ],
+    "by_split": {
+      "gaia": 49,
+      "swe_bench": 14
+    },
+    "catalog_sha256": "5dee78edaf70d661ecb4bc89c2f50c6bcf4b822f2117adeac026482675796687",
+    "cohort": 63,
+    "crash_continuation": false,
+    "dataset_revision": "b424ce63d5973d5dcd7169b1bc3c07ccdee276d1",
+    "date": "2026-11-13",
+    "date_timezone": "America/New_York",
+    "detector_configs": {
+      "v1": "phase2-detectors-frozen",
+      "v2": "detectors-v2"
+    },
+    "finished_at_utc": "2026-11-13T23:47:35.374094+00:00",
+    "joinable_B_traces": 63,
+    "label_mapping": "Unchanged score_trail.map_labels; original primary; C3 v2 LOOP OR MISFIRE secondary",
+    "loader": "score_trail.load_requested: ID filter before file opens and JSON decode",
+    "local_model_bytes_match": true,
+    "machine": {
+      "hostname": "Sankalps-Razer",
+      "logical_cpus": 32,
+      "platform": "Windows-10-10.0.26300-SP0",
+      "python": "3.11.14"
+    },
+    "nli_revision": "6c749ce3425cd33b46d187e45b92bbf96ee12ec7",
+    "per_version_runtime_seconds": {
+      "v1": 1856.867053500002,
+      "v2": 0.9367632000030426
+    },
+    "prereg_commits": {
+      "A1": "8222003b6495b0d9476fe045dfddcf3089ac8876",
+      "A2": "999b28af3285d21da0bb9546d807c9eb1277ba3e",
+      "A3": "0f0eda0d3d8c94ce0053cc30eb86489bb1f6875b",
+      "disclosure": "d19cb86bdc2e601aff1282607fb5ae8cc9da4e2b",
+      "original": "8bc721b2d404449f1b2de6b1e8461777852cafaa"
+    },
+    "prior_mechanical_join_check": "Disclosed in d19cb86 and A3; no label categories, evidence or descriptions inspected then",
+    "runtime_seconds": 1869.7031965000024,
+    "scored_once": true,
+    "scoring_code_commit": "1f6b25e75c52509cb42eea8f8400968d3339c28d",
+    "started_at_utc": "2026-11-13T23:16:25.667453+00:00",
+    "statement": "scored once; completed per-version checkpoints never rescored",
+    "status": "PASS",
+    "thresholds": {
+      "CONTEXT_BLEED": {
+        "detector": "profile-consistency conflicts",
+        "threshold": 1.0
+      },
+      "HALLUCINATION": {
+        "detector": "claim-level NLI (cross-encoder/nli-deberta-v3-base)",
+        "threshold": 0.5034
+      },
+      "PLAN_DRIFT": {
+        "detector": "plan alignment + identifier provenance",
+        "variant": "ungrounded_any_source"
+      },
+      "meets_precision_floor": {
+        "CONTEXT_BLEED": true,
+        "HALLUCINATION": false,
+        "PLAN_DRIFT": true
+      },
+      "rule": "max dev recall s.t. dev precision >= 0.90, else max dev precision"
+    },
+    "v1_TRAIL_A_result_sha256": "9f7781b03307a7447397e29a0d9a8979a351a69b3574db944feb55f656df8235",
+    "v1_frozen": {
+      "normalized_file_comparisons": 75,
+      "phase2_detectors_unchanged": true,
+      "phase4_shared_freeze_unchanged": true,
+      "v1_live_default_path_unchanged_from_merge": true
+    },
+    "v2_code_config_identical_to": "5660480673c8a4b3b1f2dbbd0dad6b2438ea3284",
+    "v2_commit": "5660480673c8a4b3b1f2dbbd0dad6b2438ea3284"
+  },
+  "scope": "TRAIL-B held-out once-only v1-vs-v2 comparison",
+  "unmapped_category_fingerprints": {
+    "02dd75d570aa5b4c6a7e573b7e7728bd4261b8650a31d28c3649c04f0c7cca7d": 1,
+    "083e9114e0422680474cd771d24d07e044621e0c8e1145a7f3473218a3bd8c45": 3,
+    "0b3f64faceb9da0a586d8b49a8cde790a0b3644ef9564ea54b5e9c3017a1a174": 2,
+    "433d23afdec7fc04f838ad8c4d8e94073c25b9c824887b51a5cd569e67fc4123": 14,
+    "450b0f293917e93449066d2b65553cb6267a1cf843e1f54568a6237fa3187a21": 2,
+    "46e6e21f689ad03ce4ea147cf4bd333b8e29e2bfa2ae8f4998592abc3292e808": 60,
+    "5155b5f77e77ea398b23570299ac27cfc884a9712d08e8fa69ef1d7bf5513b7e": 18,
+    "568c412ff486d7382bc0727723734d267eacb31926518ebfa5691c76bfad84ae": 1,
+    "7f5d014fc18c4bd3e041a0322f4a3aa557e9f4dfcf86c1cbd7f0ebe371823c19": 1,
+    "82aa902b81374ee3182edfda14f95a7018ed11c244073dd215907dae13b035c0": 1,
+    "837012636f210762953dfbce2c0785f2a1bae9045b55a80ab38dc2508d88c2c0": 1,
+    "8695f2665fd32bfab5e030a0a607015ccd5bf8208f592064b951fb681b71f51c": 4,
+    "887df1d3ac339874af247abf6cf34de2c48915fd96faa01438b757d0adf1b2f2": 13,
+    "9a04b5afe2121e403059ace586049f9543a04638e509fce62c4d5e1a65c1ac10": 2,
+    "bbb749e0d9c8806acf8f1f8480f1979a229def53c71f61d2a6b31abb97bba30f": 1,
+    "dee6aa6a56b3873194195bdcdf65313c29993018f10a9f8b935ebd8deb316fab": 29,
+    "e5997c7fcca915eb84a8438e9883543b9e3b2f544c4e0d6cbbd7456ee636f1ab": 23,
+    "e8a274e21ef301f315db2ede3888a7ef1c50ebf5783baa29a8c2e35f081fa06e": 6,
+    "e8e354c06ef30ec3878e87a67f3b0d999618c46873e99853d46c377cd76a290a": 17,
+    "f195c74405a93dac115729f6ac4ab464ab3b04f5a6095dc323bbc98e915997e0": 31
+  }
+}

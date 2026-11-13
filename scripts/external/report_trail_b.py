@@ -59,16 +59,19 @@ def render(result, a):
             "the observed counts and intervals are reported without a significance or generalization assertion.")
     lines += ["", "**HALLUCINATION is reported without an improvement claim.** Development precision was 24%, recall 100%, "
         "with saturated predictions and performance expected near the eligible-cohort base rate. "
-        "The B report retains all abstentions outside metric denominators and makes no recall claim on abstaining traces."]
+        "The B report retains all abstentions outside metric denominators and makes no recall claim on abstaining traces.", ""]
     for version in ("v1", "v2"):
         h = primary[version]["classes"]["HALLUCINATION"]
         prevalence = f"{100*h['gold_positive']/h['evaluated']:.2f}%" if h["evaluated"] else "undefined"
         lines.append(f"- {version}: {h['evaluated']} eligible traces, {h['tp']+h['fp']} flagged; "
-            f"eligible mapped-positive base rate {prevalence}, precision {metric(h['precision'])}, recall {metric(h['recall'])}.")
+            f"eligible mapped-positive base rate {prevalence}, precision {metric(h['precision'])}, recall {metric(h['recall'])}. "
+            f"Of {h['gold_positive_in_cohort_assessable']} assessable cohort positives, only {h['gold_positive']} are evaluated; "
+            f"{h['gold_positive_in_cohort_assessable']-h['gold_positive']} lie outside that denominator.")
     lines += ["", "## GAIA / SWE Bench breakdown", "",
         "| Mapping | Source | Version | Class | Cohort / evaluated | Gold + cohort / evaluated | TP / FP / FN / TN | Precision [Wilson 95%] | Recall [Wilson 95%] |",
         "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
-    for mapping, versions in result["mappings"].items():
+    for mapping in ("primary", "C3_secondary"):
+        versions = result["mappings"][mapping]
         for version, payload in versions.items():
             for split, classes in payload["by_split"].items():
                 for cls, v in classes.items():
@@ -130,6 +133,8 @@ def render(result, a):
         f"started `{p['started_at_utc']}`, finished `{p['finished_at_utc']}`. "
         f"Per-version detector runtime: v1 {p['per_version_runtime_seconds']['v1']:.2f}s; v2 {p['per_version_runtime_seconds']['v2']:.2f}s. "
         f"Machine `{p['machine']['hostname']}`, {p['machine']['platform']}, Python {p['machine']['python']}, {p['machine']['logical_cpus']} logical CPUs.", ""]
+    lines += ["Shared exact pair memoization and the frozen C4 short-circuit affect per-version timings; "
+        "these timings are not a general speed benchmark.", ""]
     if not p["crash_continuation"]:
         lines.append("**No crash, continuation or rerun.**")
     else:
