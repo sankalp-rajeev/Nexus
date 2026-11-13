@@ -221,3 +221,75 @@ Final release to PyPI, after the Phase 6 PR (#5) merges to `main`:
 
 A tag cannot be re-used: PyPI refuses to upload the same version twice, and tags are never moved or
 deleted here. If an RC is wrong, bump to `0.1.0rc2`.
+
+## 9. Release record: `0.1.0rc1` on TestPyPI (step 6.4b)
+
+| | |
+|---|---|
+| Tag | `v0.1.0rc1`, lightweight, on commit `793cf3ccf2b71d1b2234d542bedb6a3c1e70237c` (`phase-6-demo`); only this tag was pushed |
+| Workflow run | https://github.com/sankalp-rajeev/Nexus/actions/runs/43375663694 (Publish, 2026-11-13) |
+| Jobs | `build` success (28 s), `publish-testpypi` success (21 s), `publish-pypi` skipped (tag contains `rc`) |
+| TestPyPI | https://test.pypi.org/project/nexus-llmops/0.1.0rc1/ |
+| Uploaded | `nexus_llmops-0.1.0rc1-py3-none-any.whl` (21,354 bytes) and `nexus_llmops-0.1.0rc1.tar.gz` (17,599 bytes) |
+
+SHA-256 of the files (TestPyPI JSON API `digests.sha256` equals the CI artifact `dist`, byte for byte):
+
+| File | SHA-256 |
+|---|---|
+| wheel | `b357219790d04aac5550589c5b449eb9e1c99bcd1c03c7e111471695d4a2fece` |
+| sdist | `a03e585690f06a1305b6e60c785c0f9dd6fa01bf468841f8b42f9b4cf1d6c9b0` |
+
+The index metadata: `requires_python >=3.11`, `requires_dist httpx>=0.27, pydantic>=2.7`, the
+description is the Markdown `sdk/README.md` (`text/markdown`, which `twine check --strict` validated).
+The wheel also carries a PyPI attestation (`publish/v1`, subject digest = the wheel hash above);
+its publisher is GitHub, repository `sankalp-rajeev/Nexus`, workflow `publish.yml`, environment
+`testpypi`.
+
+Why the 6.4a local hashes differ from these: the same commit built on Windows has CRLF line endings
+in the working tree (`core.autocrlf=true`), and CI builds from an LF checkout. After normalising CRLF
+to LF every file inside the two wheels is identical (only `RECORD` differs, as it holds the hashes).
+The CI artifact is the release; local builds are for checking only. Nothing was altered to make them
+match.
+
+Caveat on the page check: the HTML pages on test.pypi.org answered with a CAPTCHA ("Client
+Challenge") to curl and to the built-in browser, and the challenge was not solved. The page content
+was verified through the JSON API and the attestation (`/integrity/.../provenance`) instead; the
+rendered README itself was not looked at in a browser.
+
+### Safe install (TestPyPI)
+
+TestPyPI is a separate index with different, unvetted projects, so a resolve that mixes it with PyPI
+(`--extra-index-url`) can pick up a look-alike dependency. Never do that. Install in two steps:
+
+```
+pip install "httpx>=0.27" "pydantic>=2.7"
+pip install --no-deps --index-url https://test.pypi.org/simple/ nexus-llmops==0.1.0rc1
+```
+
+`scripts/phase6/smoke_install.ps1 -Source testpypi` does exactly this, retrying the second step for up
+to 12 x 20 s while the index catches up (it served the release on the first attempt here). The
+run: **SMOKE PASSED, the same 22 checks as the local run** (`data/phase6/runs/scratch/smoke_testpypi.json`,
+ignored by git): install from TestPyPI, version `0.1.0rc1`, both import names identical, no server
+code or heavy dependencies; collector up: `produced 5 / exported 5 / dropped_total 0`, 5 spans in the
+lite DB, `LOOP_DETECTED` alert; collector down: the program finished normally (0.56 s in-process,
+0.9 s wall) with `produced 5 / exported 0 / export_failed 5 / dropped_total 5`; uninstall removes
+both imports.
+
+### Reproducing Phase 5 scripts
+
+Phase 5 scripts reproduce at commit `75771ab` (they reference pre-rename SDK paths such as
+`sdk/nexus_agent/client.py`; the frozen `scripts/phase5/` files cannot be edited, so they are not
+valid on `phase-6-demo` after the rename).
+
+### GitHub environment check (read only, via the API; nothing was changed)
+
+| Environment | Exists | Required reviewers | Deployment rule |
+|---|---|---|---|
+| `testpypi` | yes | none (intended) | none |
+| `pypi` | yes | **none** | custom policy `v*` of type **branch** (not tag); admins can bypass |
+
+Two gaps to fix in Settings, Environments, `pypi` before the `v0.1.0` tag (not done here):
+1. No required reviewer is set, so `publish-pypi` would not wait for a manual approval.
+2. The `v*` rule is a *branch* rule. A tag run is evaluated against tag rules, so as it stands the
+   `v0.1.0` tag would probably be refused by the environment (or, if the policy is later widened,
+   would not be restricted to tags). Replace it with a rule of type **Tag** matching `v*`.

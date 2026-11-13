@@ -6,7 +6,9 @@
   1. Creates a fresh venv and installs nexus-llmops from -Source:
        local     the wheel built in sdk\dist (nexus-llmops itself is NOT fetched from any index;
                  only its two third-party dependencies are downloaded into a wheelhouse first)
-       testpypi  https://test.pypi.org/simple/ (dependencies from pypi.org), pinned to -Version
+       testpypi  safe two-step install, never mixing indexes in one resolve: (1) httpx and pydantic
+                 from pypi.org, (2) nexus-llmops==<Version> with --no-deps from test.pypi.org,
+                 retried for a few minutes while the TestPyPI index catches up
   2. Checks the install: the package comes from the venv, the alias works, server-side code is absent.
   3. Collector UP: starts the lite collector (in-process queue, SQLite, no Kafka, no LLM) and runs a
      small traced program with the SDK from the venv. Spans must arrive and be classified (a loop).
@@ -104,8 +106,21 @@ if ($Source -eq 'local') {
     Check 'dependency wheelhouse' ($r.Code -eq 0) $r.Out
     $r = Run $VenvPython @('-m', 'pip', 'install', '--quiet', '--no-index', '--find-links', $wheelhouse, '--find-links', (Split-Path $wheel), $wheel)
 } else {
-    $r = Run $VenvPython @('-m', 'pip', 'install', '--quiet', '--pre', '--index-url', 'https://test.pypi.org/simple/',
-        '--extra-index-url', 'https://pypi.org/simple/', "nexus-llmops==$Version")
+    # Safe install: the two indexes are NEVER mixed in one resolve (no --extra-index-url), so a
+    # look-alike dependency on TestPyPI can't be picked up. Dependencies come from real PyPI first,
+    # then nexus-llmops alone from TestPyPI with --no-deps.
+    $r = Run $VenvPython @('-m', 'pip', 'install', '--quiet', 'httpx>=0.27', 'pydantic>=2.7')
+    Check 'dependencies from pypi.org' ($r.Code -eq 0) $r.Out
+    # The TestPyPI index can lag a freshly published release: retry for a few minutes.
+    $attempts = 0; $maxAttempts = 12
+    do {
+        $attempts++
+        $r = Run $VenvPython @('-m', 'pip', 'install', '--quiet', '--no-deps', '--index-url', 'https://test.pypi.org/simple/',
+            "nexus-llmops==$Version")
+        if ($r.Code -ne 0 -and $attempts -lt $maxAttempts) { Say "  (testpypi attempt $attempts failed; waiting 20 s)"; Start-Sleep -Seconds 20 }
+    } while ($r.Code -ne 0 -and $attempts -lt $maxAttempts)
+    $Report['testpypi_install_attempts'] = $attempts
+    Check 'testpypi index serves the release' ($r.Code -eq 0) "attempts=$attempts"
 }
 Check 'pip install' ($r.Code -eq 0) $r.Out
 
