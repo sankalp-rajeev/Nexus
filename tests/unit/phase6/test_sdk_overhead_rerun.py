@@ -57,3 +57,4 @@ def test_counter_summary_reports_invariant_violations():
     summary = rerun.summarize_clients([client])
     assert summary["produced"] == summary["exported"] == 1
     assert summary["invariant_violations"] == 0
+    assert summary["dropped_shutdown"] == 0 and summary["dropped_total"] == 0

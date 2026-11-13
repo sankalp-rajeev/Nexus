@@ -15,6 +15,12 @@ its ``main()``. No measurement logic is copied or edited here. This wrapper only
 
 Any attempt by the harness to open a ``results/phase5`` or ``reports/phase5`` path
 other than the read-only workload manifest raises instead of writing.
+
+``--outage-only`` (step 6.2b) re-runs just the harness's collector-stopped timing and
+its outage/recovery probe, in the same order ``main()`` uses, with the same harness
+functions, then APPENDS the outcome under ``step_6_2b_outage_rerun`` in
+``results/phase6/l4_rerun.json``. Every other key in that file is left untouched
+(verified by comparison before writing). Raw vectors go to ``data/phase6/runs/l4_6_2b/``.
 """
 from datetime import datetime, timezone
 import hashlib
@@ -44,6 +50,7 @@ REDIRECTS = {
     "data/phase5/runs/budget.sqlite3": PHASE5_LEDGER,
 }
 RAW_DIR = ROOT / "data/phase6/runs/l4"
+RAW_DIR_6_2B = ROOT / "data/phase6/runs/l4_6_2b"
 
 COUNTERS: dict[str, dict] = {}
 _clients: list = []
@@ -79,7 +86,7 @@ def phase5_tree_clean() -> bool:
 
 def summarize_clients(clients) -> dict:
     keys = ("produced", "exported", "dropped", "dropped_queue_full", "dropped_bytes_cap",
-            "export_retried", "export_failed", "dropped_total", "queued")
+            "export_retried", "export_failed", "dropped_shutdown", "dropped_total", "queued")
     total = {k: 0 for k in keys}
     violations = 0
     for client in clients:
@@ -90,9 +97,9 @@ def summarize_clients(clients) -> dict:
     return dict(clients=len(clients), invariant_violations=violations, **total)
 
 
-def install() -> None:
+def install(raw_dir: Path = RAW_DIR) -> None:
     """Apply the overrides. Everything measured stays the harness's own code."""
-    l4.RAW = RAW_DIR
+    l4.RAW = raw_dir
     l4.ROOT = RedirectRoot(ROOT)
     l4.write_report = lambda result: None  # would rewrite reports/phase5/results.md
 
@@ -154,7 +161,7 @@ def finish() -> dict:
     return result
 
 
-def main() -> None:
+def preflight() -> None:
     if not phase5_tree_clean():
         raise RuntimeError("results/phase5, reports/phase5 or scripts/phase5 already differ from HEAD; stop")
     if git("hash-object", HARNESS) != git("rev-parse", f"{PREREG_COMMIT}:{HARNESS}"):
@@ -162,6 +169,64 @@ def main() -> None:
     sdk_file = Path(sys.modules["nexus_agent"].__file__).resolve()
     if ROOT / "sdk" not in sdk_file.parents:
         raise RuntimeError(f"nexus_agent imported from outside this worktree: {sdk_file}")
+
+
+def outage_only() -> None:
+    """Step 6.2b: the harness's collector-stopped timing + outage/recovery probe only."""
+    preflight()
+    result_path = ROOT / RESULT_REL
+    before = json.loads(result_path.read_text(encoding="utf-8"))
+    install(RAW_DIR_6_2B)
+    l4.local_only()
+    ledger_before = l4.budget_fingerprint()
+    RAW_DIR_6_2B.mkdir(parents=True, exist_ok=True)
+    workload = l4.load_workload()
+    collector = l4.Collector()
+    try:  # same sequence as the harness's main(): stop, timed outage phase, restart, probe
+        collector.command("stop")
+        outage = l4.timing(workload, collector.url, "collector_stopped")
+        collector.command("start")
+        recovery = l4.recovery_probe(workload, collector)
+        sink = collector.command("stats")
+    finally:
+        l4.nexus.shutdown()
+        collector.close()
+    ledger_after = l4.budget_fingerprint()
+    if ledger_before != ledger_after:
+        raise RuntimeError("Provider ledger changed during the outage re-run")
+    from nexus_agent.config import NexusConfig
+    previous = dict(healthy=before["collector_healthy"]["flush_shutdown_total_s"],
+                    stopped=before["collector_stopped"]["flush_shutdown_total_s"])
+    supplement = dict(
+        completed_at=datetime.now(timezone.utc).isoformat(),
+        what="collector-stopped timing (2,034 steps/arm) and outage/recovery probe re-run with "
+             "shutdown(timeout=...) added; healthy-condition and memory trials were not re-run",
+        shutdown_timeout_ms_default=NexusConfig(agent_name="x").shutdown_timeout_ms,
+        harness_blob_identical_to_prereg_commit=git("hash-object", HARNESS) == git("rev-parse", f"{PREREG_COMMIT}:{HARNESS}"),
+        raw=str(RAW_DIR_6_2B.relative_to(ROOT)),
+        sdk_source_sha256={name: hashlib.sha256((ROOT / "sdk/nexus_agent" / name).read_bytes()).hexdigest()
+                           for name in ("client.py", "config.py", "decorators.py", "models.py",
+                                        "exporters/http.py", "__init__.py")},
+        collector_stopped=outage, recovery=recovery, sdk_counters=COUNTERS,
+        duplicate_events_at_collector=sink["duplicates"],
+        fail_open_bound_passed=outage["paired_added_per_step"]["p99_ms"] <= 5 and outage["paired_added_per_step"]["max_ms"] <= 100,
+        provider_ledger_unchanged=ledger_before == ledger_after,
+        flush_shutdown_total_s=dict(
+            step_6_2_run_healthy=previous["healthy"], step_6_2_run_stopped=previous["stopped"],
+            step_6_2b_stopped=outage["flush_shutdown_total_s"], healthy_not_remeasured=True),
+        phase5_tree_clean_after_run=phase5_tree_clean())
+    after = dict(before)
+    after["step_6_2b_outage_rerun"] = supplement
+    if {k: v for k, v in after.items() if k != "step_6_2b_outage_rerun"} != before:
+        raise RuntimeError("Measured L4 keys would change; refusing to write")
+    result_path.write_text(json.dumps(after, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    if not supplement["phase5_tree_clean_after_run"]:
+        raise RuntimeError("Phase 5 files changed during the re-run")
+    print("Outage re-run appended to", RESULT_REL, flush=True)
+
+
+def main() -> None:
+    preflight()
     install()
     l4.main()
     result = finish()
@@ -172,4 +237,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     mp.freeze_support()
-    main()
+    if "--outage-only" in sys.argv:
+        outage_only()
+    else:
+        main()
