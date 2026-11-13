@@ -1,0 +1,21 @@
+# Only what `npm ci && npm run build:replay` needs is uploaded.
+# Secrets and local state
+.env*
+.vercel
+.git
+*.pem
+*.key
+
+# Dependencies and build output (Vercel installs and builds itself)
+node_modules
+dist
+.vite
+__pycache__
+*.pyc
+
+# Not needed by the static replay build
+tests
+scripts
+Dockerfile
+nginx.conf
+.gitkeep
