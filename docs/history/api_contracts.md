@@ -1,6 +1,9 @@
 # Nexus — API Contracts
 
-Source: NEXUS_PRD.md Section 14.
+> Legacy, pre-rework (before Phase 0). Superseded by RESULTS.md; kept for the record.
+> The current routes are in `services/collector/routes/` and `services/api/routes/`; the data models are in [docs/schemas.md](../schemas.md).
+
+Source: the original PRD, Section 14 (removed from the tree after the 0.1.0 release; it is in git history).
 
 ## Collector Service (port 8000)
 

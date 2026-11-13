@@ -86,16 +86,14 @@ A number measured where you tuned flatters you.
 
 ## How it works
 
-```mermaid
-flowchart LR
-    A[Your agent<br/>nexus-llmops SDK<br/>or OpenTelemetry] -->|spans| C[Collector<br/>/v1/spans, /v1/traces]
-    C --> K[(Kafka)]
-    K --> AS[Assembler<br/>builds traces]
-    AS --> DT[Detectors<br/>classify each trace]
-    DT -->|alert| CR[Critic<br/>proposes a patch]
-    CR --> G[Gate<br/>fix, held-out and<br/>regression checks]
-    G --> DB[(Postgres)]
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/nexus-architecture-dark.png">
+  <img src="docs/assets/nexus-architecture-light.png" alt="Nexus architecture. Your agent sends spans with the nexus-llmops SDK or OpenTelemetry to the collector, which publishes them to Kafka. The assembler builds traces and stores them in Postgres; the classifier runs the frozen detectors, drops synthetic traffic, and raises alerts. The LLM critic, with a config registry and a dry-run validator, writes patches to Postgres, where the healer picks them up and logs eval runs to MLflow; the API and dashboard read Postgres. Separately, the promotion gate in the offline evaluation harness reruns the agent and promotes a patch only if it passes the fix, held-out and regression checks. Lite mode is a single collector with SQLite and the rule detectors.">
+</picture>
+
+The live stack runs the detectors and the critic as services. The three-check promotion gate runs in the
+evaluation harness that produced the results above (`bench/heal/`, `services/healer/gate.py`); the live
+healer service still runs the older evaluation loop.
 
 Speed and cost, measured on one laptop with the full stack running (development data):
 

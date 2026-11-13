@@ -1,12 +1,14 @@
 # Nexus Critic - Pipeline Smoke Test (mock LLM)
 
+> Legacy, pre-rework (before Phase 0). Superseded by RESULTS.md; kept for the record.
+
 - **Provider:** mock
 - **Model:** MockProvider
 - **Mock:** yes
 - **Generated:** 2026-11-10 at commit `9ce9535` by `python tests/fixtures/run_critic_eval.py`
-- **Result file:** [`results/critic_smoke_mock.json`](../results/critic_smoke_mock.json)
+- **Result file:** [`results/critic_smoke_mock.json`](../../results/critic_smoke_mock.json)
 
-> **This is not an evaluation of the critic.** It runs the LangGraph pipeline with a deterministic mock LLM to check that every failure type yields a schema-valid `PatchProposal`. It provides no evidence about real diagnosis or patch quality. Real-model experiments (C1-C5) are tracked in [RESULTS.md](../RESULTS.md).
+> **This is not an evaluation of the critic.** It runs the LangGraph pipeline with a deterministic mock LLM to check that every failure type yields a schema-valid `PatchProposal`. It provides no evidence about real diagnosis or patch quality. Real-model experiments (C1-C5) are tracked in [RESULTS.md](../../RESULTS.md).
 
 - Traces: 20 synthetic (4 per failure type)
 - Schema-valid proposal produced: 20/20

@@ -81,6 +81,13 @@ export function Mechanism({ data }: { data: ReplayData }) {
           </li>
         ))}
       </ol>
+      <p className="nx-flow__more">
+        <a className="nx-source" href={`${import.meta.env.BASE_URL}nexus-architecture-dark.png`}
+           target="_blank" rel="noreferrer"
+           aria-label="View full diagram: the Nexus architecture as an image (opens in a new tab)">
+          View full diagram
+        </a>
+      </p>
     </Section>
   )
 }
