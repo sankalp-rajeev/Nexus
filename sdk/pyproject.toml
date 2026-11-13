@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nexus-llmops"
-version = "0.1.0rc1"
+version = "0.1.0"
 description = "Python SDK for Nexus: fail-open agent tracing for the Nexus failure-detection and fix-verification service"
 readme = "README.md"
 license = { text = "MIT" }

@@ -2,26 +2,26 @@ import type { ReactNode } from 'react'
 import type { Outcome } from '../replay'
 
 export const FAILURE_STYLE: Record<string, string> = {
-  HALLUCINATION: 'text-violet-700 bg-violet-50 border-violet-200',
-  TOOL_MISFIRE: 'text-orange-700 bg-orange-50 border-orange-200',
-  LOOP_DETECTED: 'text-red-700 bg-red-50 border-red-200',
-  PLAN_DRIFT: 'text-sky-700 bg-sky-50 border-sky-200',
-  CONTEXT_BLEED: 'text-teal-700 bg-teal-50 border-teal-200',
-  NORMAL: 'text-emerald-700 bg-emerald-50 border-emerald-200',
-  OTHER_FAILURE: 'text-stone-600 bg-stone-100 border-stone-200',
+  HALLUCINATION: 'text-cool bg-coolsoft border-rule',
+  TOOL_MISFIRE: 'text-cool bg-coolsoft border-rule',
+  LOOP_DETECTED: 'text-bad bg-badsoft border-bad',
+  PLAN_DRIFT: 'text-cool bg-coolsoft border-cool',
+  CONTEXT_BLEED: 'text-cool bg-coolsoft border-rule',
+  NORMAL: 'text-ok bg-oksoft border-ok',
+  OTHER_FAILURE: 'text-ink2 bg-paper3 border-rule',
 }
 
 const OUTCOME_STYLE: Record<string, string> = {
-  pass: 'text-emerald-800 bg-emerald-50 border-emerald-300',
-  fail: 'text-rose-800 bg-rose-50 border-rose-300',
-  skipped: 'text-stone-500 bg-stone-100 border-stone-200',
-  promoted: 'text-emerald-800 bg-emerald-50 border-emerald-300',
-  rejected: 'text-rose-800 bg-rose-50 border-rose-300',
+  pass: 'text-ok bg-oksoft border-ok',
+  fail: 'text-bad bg-badsoft border-bad',
+  skipped: 'text-muted bg-paper3 border-rule',
+  promoted: 'text-ok bg-oksoft border-ok',
+  rejected: 'text-bad bg-badsoft border-bad',
 }
 
 export function FailureChip({ name }: { name: string }) {
   return (
-    <span className={`inline-block font-mono text-xs px-2 py-0.5 rounded border ${FAILURE_STYLE[name] ?? 'text-stone-600 bg-stone-100 border-stone-200'}`}>
+    <span className={`inline-block font-mono text-xs px-2 py-0.5 rounded border ${FAILURE_STYLE[name] ?? 'text-ink2 bg-paper3 border-rule'}`}>
       {name}
     </span>
   )
@@ -36,10 +36,10 @@ export function OutcomeBadge({ value }: { value: Outcome | 'promoted' | 'rejecte
 
 export function Section({ title, hint, children }: { title: string; hint?: string; children: ReactNode }) {
   return (
-    <section className="border border-stone-200 bg-white rounded-lg p-4 space-y-3 min-w-0">
+    <section className="border border-rule bg-paper2 rounded-lg p-4 space-y-3 min-w-0">
       <header>
-        <h3 className="text-sm font-semibold text-stone-800">{title}</h3>
-        {hint && <p className="text-xs text-stone-500 mt-0.5">{hint}</p>}
+        <h3 className="text-sm font-semibold text-ink">{title}</h3>
+        {hint && <p className="text-xs text-muted mt-0.5">{hint}</p>}
       </header>
       {children}
     </section>

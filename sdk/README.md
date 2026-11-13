@@ -8,8 +8,7 @@ and writes, agent steps) as spans and sends them to a Nexus collector. It does n
 itself: failure detection (loops, tool misfires, context bleed, plan drift, hallucination) runs
 in the Nexus service, which you run separately. See the main repository for how.
 
-> **Status: alpha, `0.1.0rc1`.** Release candidates are pre-releases, so install with
-> `pip install --pre nexus-llmops`. The API can still change before `0.1.0`.
+> **Status: alpha, `0.1.0`.** The API can still change in later `0.x` releases.
 
 - Distribution: `nexus-llmops`. Import name: `nexus_llmops`.
 - Python 3.11+. Dependencies: `httpx` and `pydantic` only (no OpenTelemetry, no protobuf).
@@ -17,7 +16,7 @@ in the Nexus service, which you run separately. See the main repository for how.
 ## Install
 
 ```bash
-pip install --pre nexus-llmops
+pip install nexus-llmops
 ```
 
 ## Minimal example
@@ -38,6 +37,9 @@ def run(task: str) -> str:
 run("find the order")
 nexus.flush()  # before a short-lived script exits
 ```
+
+`collector_url` is the collector's address: `http://localhost:8000` for the full stack
+(`docker-compose.yml`), `http://127.0.0.1:18000` for lite mode (`docker-compose.lite.yml`).
 
 Spans nest automatically (trace and parent IDs propagate via `contextvars`). Three ways to
 instrument:

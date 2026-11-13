@@ -1,208 +1,213 @@
-# Nexus — AI Agent Monitor & Self-Healing Platform
+# Nexus
 
-End-to-end observability and autonomous self-healing for multi-agent AI pipelines. Nexus detects failures the moment they occur, diagnoses root causes with an LLM critic, and automatically proposes and applies configuration patches.
+**An open-source reliability layer for LLM agents.** Nexus detects when an agent run fails, lets an LLM
+propose a fix, and promotes the fix only if it repairs the failing task, works on similar tasks it was not
+written for, and breaks nothing that already worked.
 
-> **Status:** results are being rebuilt on real runs. Every number Nexus claims lives in [RESULTS.md](RESULTS.md) with a committed result file; anything not listed there is unmeasured. Progress: [status.md](status.md).
+- **Demo:** https://nexus-llmops.vercel.app (a static replay of recorded runs; no backend, no keys)
+- **SDK:** [`nexus-llmops` on PyPI](https://pypi.org/project/nexus-llmops/): `pip install nexus-llmops`
+- **Every number below** links to the committed file and line it comes from. [RESULTS.md](RESULTS.md) has all of them.
 
-## What Nexus Evaluates
+![A one-minute scroll through the demo page: the finding, a recorded heal step by step, and how to use it](docs/assets/nexus-demo.gif)
 
-Nexus targets five agent failure modes:
+## The problem
 
-- Hallucination
-- Context bleed
-- Plan drift
-- Tool misfire
-- Repetitive loops
+Agents fail quietly. A loop, a wrong tool call or an invented fact, and the run still returns an answer.
 
-For each detected failure:
+An LLM can read the failed trace and propose a fix, usually a change to the agent's instructions. The usual
+way to accept that fix is to rerun the failing task and ship the fix if it now passes. That check only looks
+at one task. It never looks at the tasks that already worked.
 
-1. Capture the execution trace
-2. Classify the failure
-3. Diagnose the root cause
-4. Propose a structured configuration patch
-5. Re-run the same task
-6. Compare before/after evaluation metrics
+## What Nexus does
+
+```mermaid
+flowchart LR
+    D[Detect<br/>detectors flag the failure] --> P[Propose<br/>an LLM critic writes a patch]
+    P --> F{Fix check<br/>does the failing task<br/>now pass?}
+    F -- yes --> H{Held-out check<br/>does it help similar tasks<br/>it was not written for?}
+    H -- yes --> R{Regression check<br/>do tasks that already<br/>passed still pass?}
+    R -- yes --> OK[Promote]
+    F -- no --> NO[Reject]
+    H -- no --> NO
+    R -- no --> NO
 ```
-OBSERVE → STREAM → DETECT → DIAGNOSE → PATCH → EVALUATE → OBSERVE
-  SDK       Kafka   Classifier  Critic    Healer   DeepEval    (loop)
+
+1. **Detect.** Detectors read each finished trace and flag the failure: a loop, a tool misfire, leaked
+   context, a drifting plan or an invented fact.
+2. **Propose.** An LLM critic reads the trace and writes a patch to the agent's instructions.
+3. **Fix check.** The failing task is rerun with the patch; it must pass at least 2 of 3 reruns.
+4. **Held-out check.** Held-out tasks are similar tasks the patch was not written for. With the patch, their
+   pass rate must be strictly higher than without it.
+5. **Regression check.** Regression tasks are ones that already passed. None of them may fail with the patch.
+6. **Promote or reject.** A patch that passes all three checks is promoted. Anything else is rejected.
+
+![The demo page's first screen: the finding and the four proof numbers](docs/assets/nexus-hero.png)
+
+<!-- readme-numbers:start -->
+
+## The finding
+
+From the held-out test set: a separate set of tasks, locked away until the method was frozen, then scored
+once. Intervals are 95% Wilson intervals.
+
+| Number | What it means | 95% interval | Source |
+|---|---|---|---|
+| 12/48 | LLM-written patches broke at least one task that was already passing. | 15% to 39% | [test_scoring.md:108](reports/phase4/test_scoring.md?plain=1#L108) |
+| 12/36 | The same 12, counted only over patches that did more than undo the injected fault (excluding simple reverts). | 20% to 50% | [test_scoring.md:27](reports/phase4/test_scoring.md?plain=1#L27) |
+| 21/36 vs 4/36 | Those patches fixed their own task 21 times; rerunning the same failures with no patch fixed 4. | 42% to 73% vs 4% to 25% | [test_scoring.md:27](reports/phase4/test_scoring.md?plain=1#L27) |
+| 6/32 | Of the 32 patches the usual "rerun improved" rule would promote, 6 were false promotions: they improved their own task but failed the held-out or regression check ([definition](reports/phase4/preregistration.md?plain=1#L183)). | 9% to 35% | [test_scoring.md:40](reports/phase4/test_scoring.md?plain=1#L40) |
+| 0/25 | Patches the gate promoted that failed when rerun from scratch with new random seeds. | 0% to 13% | [test_scoring.md:40](reports/phase4/test_scoring.md?plain=1#L40) |
+| 0.956 vs 0.289 | Failure-detection macro recall over five failure classes, against the old classifier. | not reported (sealed file) | [RESULTS.md:40](RESULTS.md?plain=1#L40) |
+
+### Where the critic helps, by kind of failure
+
+Share of test-set failures that ended with a promoted fix. The generic template is the old fallback fix
+for each failure class, mapped to a change by a fixed rule, with no LLM.
+
+| Failure class | LLM critic | Generic template | Source |
+|---|---|---|---|
+| Loops | 8/12 (39% to 86%) | 0/12 (0% to 24%) | [test_scoring.md:69](reports/phase4/test_scoring.md?plain=1#L69) |
+| Tool misfires | 6/12 (25% to 75%) | 0/12 (0% to 24%) | [test_scoring.md:66](reports/phase4/test_scoring.md?plain=1#L66) |
+| Invented facts (hallucination) | 11/12 (65% to 99%) | 12/12 (76% to 100%) | [test_scoring.md:65](reports/phase4/test_scoring.md?plain=1#L65) |
+| Plan drift | 0/12 (0% to 24%) | 0/12 (0% to 24%) | [test_scoring.md:68](reports/phase4/test_scoring.md?plain=1#L68) |
+| Context bleed | 0/3 | 0/3 | [test_scoring.md:67](reports/phase4/test_scoring.md?plain=1#L67) |
+
+- Loops and tool misfires together: 14/24 (39% to 76%) for the critic, 0/24 (0% to 14%) for the template. These two intervals are computed from the summed counts. Sources: [test_scoring.md:69](reports/phase4/test_scoring.md?plain=1#L69), [test_scoring.md:66](reports/phase4/test_scoring.md?plain=1#L66).
+- For invented facts, one plain rule does as well as the critic: undo the injected instruction. Plan drift is unsolved by either. Context bleed has only 3 eligible failures. Sources: [test_scoring.md:65](reports/phase4/test_scoring.md?plain=1#L65), [test_scoring.md:67](reports/phase4/test_scoring.md?plain=1#L67).
+
+### Why the test set is scored once
+
+| Set | Patches that broke a passing task | 95% interval | Source |
+|---|---|---|---|
+| Development set, where the critic was tuned | 3/44 | 2% to 18% | [test_scoring.md:107](reports/phase4/test_scoring.md?plain=1#L107) |
+| Held-out test set | 12/48 | 15% to 39% | [test_scoring.md:108](reports/phase4/test_scoring.md?plain=1#L108) |
+
+A number measured where you tuned flatters you.
+
+## How it works
+
+```mermaid
+flowchart LR
+    A[Your agent<br/>nexus-llmops SDK<br/>or OpenTelemetry] -->|spans| C[Collector<br/>/v1/spans, /v1/traces]
+    C --> K[(Kafka)]
+    K --> AS[Assembler<br/>builds traces]
+    AS --> DT[Detectors<br/>classify each trace]
+    DT -->|alert| CR[Critic<br/>proposes a patch]
+    CR --> G[Gate<br/>fix, held-out and<br/>regression checks]
+    G --> DB[(Postgres)]
 ```
 
----
+Speed and cost, measured on one laptop with the full stack running (development data):
 
-## Quickstart
+| Measure | Value | Source |
+|---|---|---|
+| Time to alert, from an agent's last span to a failure alert | 0.01 s median, 0.81 s at p95 | [RESULTS.md:111](RESULTS.md?plain=1#L111) |
+| Time to a checked decision, for a heal that ran all three checks | 446 s median (about 7.4 minutes) | [heal_latency_cost.json:284](results/phase5/heal_latency_cost.json#L284) |
+| Model cost per heal (every heal, promoted or not) | about $0.031 mean | [heal_latency_cost.json:506](results/phase5/heal_latency_cost.json#L506) |
+| Model cost per promoted fix | about $0.043: $3.08 for all 100 heals, divided by the 72 that were promoted | [heal_latency_cost.json:506](results/phase5/heal_latency_cost.json#L506) |
+| SDK overhead added to each agent step | 0.042 ms median, 0.141 ms at p99 | [RESULTS.md:106](RESULTS.md?plain=1#L106) |
+| Ingestion, sustained with every latency checkpoint met | 30 events/s | [headline.json:713](results/phase5/headline.json#L713) |
+
+The regression rerun takes most of the time to a decision. Costs are provider-reported usage at published
+rates, not an invoice.
+
+## Honest limits
+
+- **Plan drift is unsolved.** The critic promoted 0/12 plan-drift fixes. Source: [test_scoring.md:68](reports/phase4/test_scoring.md?plain=1#L68).
+- **Two detection targets were missed.** Of the traces flagged as invented facts, 0.81 were right, against a 0.90 target ([RESULTS.md:37](RESULTS.md?plain=1#L37)). Normal traces drew 56.0 false alerts per 1,000, against a target of 10 ([RESULTS.md:38](RESULTS.md?plain=1#L38)). These are the primary results.
+- **The label correction came after scoring.** A relabelling criterion, registered before the one-time test scoring and applied afterwards to stored predictions, gives precision 0.973 and 8.5 false alerts per 1,000. Source: [RESULTS.md:39](RESULTS.md?plain=1#L39).
+- **The benchmark world is invented.** All results come from real agent runs in an invented task world with injected faults ([DATASHEET.md:17](bench/DATASHEET.md?plain=1#L17)). Detection was also checked on HaluEval and ToolBench ([RESULTS.md:41](RESULTS.md?plain=1#L41)). Healing hasn't been tested on real production failures.
+- **One laptop, one critic draw.** Speed is from one machine. The critic runs at temperature 0.2, so a rerun can write a different patch. Source: [c1.json:7](results/critic_dev/c1.json#L7).
+- **Lite mode is partial.** It has no hallucination detector and no LLM critic, and uses SQLite instead of Kafka. Source: [RESULTS.md:112](RESULTS.md?plain=1#L112).
+
+<!-- readme-numbers:end -->
+
+## Use it
+
+![One recorded heal, step by step, from the demo page](docs/assets/nexus-walkthrough.png)
+
+Quickstart with lite mode (Docker; one container, no API keys, deterministic detectors only):
 
 ```bash
-git clone https://github.com/sankalp-rajeev/Nexus
+git clone https://github.com/sankalp-rajeev/Nexus.git
 cd Nexus
-cp .env.example .env        # add your GEMINI_API_KEY (or set NEXUS_LLM=mock)
-docker compose up --build   # starts all 11 services
-
-# In a new terminal (SDK is not on PyPI yet):
-pip install -e sdk/
-python examples/crewai_agent/run_demo.py
-
-# Open http://localhost:3000
+docker compose -f docker-compose.lite.yml up -d --build   # collector on http://127.0.0.1:18000
 ```
 
----
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         NEXUS PLATFORM                               │
-│                                                                       │
-│  Your Agent                                                           │
-│  ┌──────────┐    ┌───────────────┐    ┌─────────────────────────┐   │
-│  │ nexus    │───▶│  Collector    │───▶│  Kafka                  │   │
-│  │ .trace() │    │  (FastAPI)    │    │  nexus.spans.raw        │   │
-│  └──────────┘    └───────────────┘    └──────────┬──────────────┘   │
-│                                                   │                   │
-│                  ┌───────────────┐    ┌───────────▼──────────────┐   │
-│                  │  Assembler    │◀───│  nexus.spans.assembled   │   │
-│                  │  (TraceBuffer)│    └──────────────────────────┘   │
-│                  └──────┬────────┘                                   │
-│                         │ CompleteTrace                               │
-│                  ┌──────▼────────┐                                   │
-│                  │  Classifier   │  Stage 1: rule-based (LOOP,TOOL)  │
-│                  │  SVM + NLI    │  Stage 2: ML (HALLUCINATION, etc) │
-│                  └──────┬────────┘                                   │
-│                         │ Alert → nexus.alerts                        │
-│                  ┌──────▼────────┐                                   │
-│                  │  LLM Critic   │  LangGraph + Gemini (pinned)      │
-│                  │  (LangGraph)  │  root_cause → patch_proposer      │
-│                  └──────┬────────┘                                   │
-│                         │ PatchProposal → Postgres patches           │
-│                  ┌──────▼────────┐                                   │
-│                  │  Healer       │  5-step workflow:                  │
-│                  │               │  Notify → Apply → Eval → MLflow   │
-│                  └──────┬────────┘       → HealthDiff (Redis)        │
-│                         │                                             │
-│                  ┌──────▼────────┐                                   │
-│                  │  Dashboard    │  React 18 + WebSocket              │
-│                  │  (localhost:  │  TraceStream | Timeline | Critic   │
-│                  │   3000)       │  PatchHistory | HealthScore        │
-│                  └───────────────┘                                   │
-│                                                                       │
-│  Storage: TimescaleDB (spans) · Redis (pub/sub) · MLflow (metrics)   │
-└─────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## How It Works
-
-**Collector** — Zero-config HTTP ingestion endpoint. Receives `SpanBatch` payloads from the `nexus_llmops` SDK, validates them with Pydantic, and publishes to the `nexus.spans.raw` Kafka topic. Fail-silent: a downed collector never crashes your agent.
-
-**Classifier** — Two-stage failure detection. Stage 1: rule-based detection of LOOP_DETECTED (identical consecutive steps) and TOOL_MISFIRE (error + identical retry). Stage 2: SVM trained on MiniLM embeddings (384-dim) + PatchCore anomaly score + io_divergence + NLI contradiction score (387 total features) to classify HALLUCINATION, CONTEXT_BLEED, and PLAN_DRIFT. Trained on 212 synthetic traces and evaluated on 220 real HaluEval/ToolBench traces: binary precision 1.000 at recall 0.473; hallucination recall 0.033 (2/60); CONTEXT_BLEED and PLAN_DRIFT have not yet been evaluated on real traces. See [docs/classifier_report.md](docs/classifier_report.md).
-
-**LLM Critic** — LangGraph state machine using a pinned Gemini model (`CRITIC_MODEL`; the deterministic mock is used only with `NEXUS_LLM=mock`). Two nodes: `root_cause` (diagnoses the failure) and `patch_proposer` (writes a structured patch). Output is validated against a strict schema; retries up to 2 times on malformed output. Produces `PatchProposal` records written to Postgres.
-
-**Healer** — Polls Postgres for `PENDING_REVIEW` patches and executes the 5-step workflow: (1) Slack notification or autonomous auto-approve, (2) write patch to `agent_configs` + Redis pub/sub notify, (3) re-run agent with same input and evaluate with DeepEval + Gemini, (4) log before/after/delta metrics to MLflow, (5) emit `HealthDiff` to Redis for real-time dashboard updates. *Known limitations:* it re-runs only the same input and grades with the same model family that wrote the patch, so a "before/after" improvement is not yet evidence that a fix generalizes; the dashboard's approve/reject is not yet enforced by the healer. A held-out promotion gate is planned (see the improvement plan).
-
-**Dashboard** — React 18 single-page app with WebSocket connection to the API. Five panels: TraceStream (live span feed), FailureTimeline (24h failure chart), CriticPanel (patch proposals with approve/reject), PatchHistory (before/after score table), HealthScore (per-agent rolling health ring).
-
----
-
-## SDK Usage
-
-Install from the repo (not yet published to PyPI; the distribution is `nexus-llmops`, import name `nexus_llmops`; the old import name `nexus_agent` still works as an alias):
+Install the SDK:
 
 ```bash
-pip install -e sdk/
+pip install nexus-llmops
 ```
+
+Trace an agent (save as `example.py`, run `python example.py`):
 
 ```python
 import nexus_llmops as nexus
 
-nexus.init(agent_name="my_agent", collector_url="http://localhost:8000")
+nexus.init(agent_name="my-pipeline", collector_url="http://127.0.0.1:18000")
+
+@nexus.trace(span_type="tool_call")
+def search(query: str) -> str:
+    return "results for " + query
+
+@nexus.trace(span_type="agent_step")
+def run(task: str) -> str:
+    return search(task)
+
+run("find the order")
+nexus.flush()
 ```
 
-### Pattern 1 — decorator
-
-```python
-@nexus.trace                      # bare: span_type="custom"
-def plan(task: str) -> list[str]: ...
-
-@nexus.trace(span_type="llm_call", model="gemini-3.5-flash-lite")
-def call_llm(prompt: str) -> str:
-    return llm.generate(prompt)
-```
-
-Works on sync and async functions. Arguments are captured as the span input and the return value as its output; exceptions are recorded and re-raised.
-
-### Pattern 2 — context manager
-
-```python
-with nexus.span("tool_call", input=query, tool="search") as s:
-    result = search_tool.run(query)
-    s.set_output(result)          # or: s.output = result
-```
-
-### Pattern 3 — explicit start/end
-
-```python
-span_id = nexus.start_span("agent_step", step="retrieve")
-result = do_work()
-nexus.end_span(span_id, output=result)
-```
-
-Spans nest automatically (parent/trace IDs propagate through `contextvars`). Call `nexus.flush()` before a short-lived script exits.
-
-> A LangChain callback integration is planned but not implemented yet.
-
----
-
-## Configuration Reference
-
-| Variable | Default | Description |
-|---|---|---|
-| `GEMINI_API_KEY` | — | Gemini API key (required for Critic + Eval) |
-| `NEXUS_LLM` | `gemini` | `gemini` or `mock`. The mock is only used when set explicitly; a missing key is an error |
-| `DEEPSEEK_API_KEY` | — | Optional; independent model family for judging/benchmarks |
-| `KAFKA_BOOTSTRAP_SERVERS` | `kafka:9092` | Kafka broker address |
-| `POSTGRES_HOST` | `postgres` | TimescaleDB host |
-| `POSTGRES_PORT` | `5432` | TimescaleDB port (host-side: `55432`) |
-| `POSTGRES_USER` | `nexus` | DB user |
-| `POSTGRES_PASSWORD` | `nexus_dev_password` | DB password |
-| `POSTGRES_DB` | `nexus` | DB name |
-| `REDIS_HOST` | `redis` | Redis host |
-| `REDIS_PORT` | `6379` | Redis port |
-| `MLFLOW_TRACKING_URI` | `http://mlflow:5000` | MLflow server |
-| `CRITIC_MODEL` | `gemini-3.5-flash-lite` | Pinned Gemini model for critic + eval |
-| `CRITIC_MAX_RETRIES` | `2` | Critic retry limit |
-| `AUTONOMOUS_MODE` | `false` | Skip human approval |
-| `AUTO_APPROVE_DELAY_SECONDS` | `0` | Delay before auto-apply |
-| `SLACK_WEBHOOK_URL` | — | Slack notifications |
-| `PATCHCORE_THRESHOLD` | `0.45` | Anomaly detection threshold |
-| `CALIBRATION_TRACES` | `50` | Normal traces for warm-up |
-| `COLLECTOR_PORT` | `8000` | Collector HTTP port |
-| `API_PORT` | `8001` | Dashboard API port |
-| `DASHBOARD_PORT` | `3000` | Dashboard port |
-
----
-
-## Contributing
+See the trace and its classification:
 
 ```bash
-# Set up dev environment
-python -m venv .venv
-.venv/Scripts/activate  # Windows
-pip install -e sdk/
-pip install -r requirements-dev.txt
-
-# Run all tests (tests select the mock LLM explicitly via NEXUS_LLM=mock)
-pytest tests/unit/ tests/e2e/ -v
-
-# Run the demo
-docker compose up --build
-python examples/crewai_agent/run_demo.py
+curl http://127.0.0.1:18000/v1/lite/snapshot
 ```
 
-PRs welcome. Please add tests for new functionality and run the full suite before opening a PR.
+Already on OpenTelemetry? Point your OTLP exporter at the collector's `/v1/traces`
+([how spans map](docs/otel_mapping.md)):
 
----
+```bash
+export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://127.0.0.1:18000/v1/traces
+export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+```
+
+Full stack (Kafka, Postgres, the LLM critic and the gate; collector on `http://localhost:8000`, API on 8001,
+dashboard on 3000). Use `collector_url="http://localhost:8000"` and port 8000 in the OTLP endpoint:
+
+```bash
+cp .env.example .env    # add GEMINI_API_KEY, or set NEXUS_LLM=mock
+docker compose up --build
+```
+
+The SDK's own README is [sdk/README.md](sdk/README.md); changes are in [CHANGELOG.md](CHANGELOG.md).
+
+## Evidence
+
+- [RESULTS.md](RESULTS.md): every result row with its provider, model, commit, file and 95% interval. It is
+  generated by `scripts/build_results_md.py`; never edit it by hand. `python scripts/build_results_md.py --check`
+  verifies it.
+- [reports/](reports/): one report per phase and step, including the preregistrations and the one-time
+  test scoring.
+- [DECISIONS.md](DECISIONS.md): every decision that changed a plan, with its reason.
+- The demo page's data, `dashboard/public/replay.json`, is exported from committed results by
+  `dashboard/scripts/export_replay.py` and checked in CI.
+
+To reproduce:
+
+```bash
+python -m venv .venv
+.venv/Scripts/activate            # Windows; source .venv/bin/activate elsewhere
+pip install -e sdk/ -r requirements-dev.txt
+python scripts/phase5/pytest_dev_only.py -p no:deepeval tests/unit tests/e2e
+python scripts/build_results_md.py --check
+python dashboard/scripts/export_replay.py --verify
+```
+
+The test split is sealed: its numbers appear only as already reported, and the scripts never reopen it.
+Phase 5 (the overnight heal runs behind the speed and cost numbers) reproduces at commit `75771ab`.
 
 ## License
 
-MIT © Sankalp Rajeev
+[MIT](LICENSE)

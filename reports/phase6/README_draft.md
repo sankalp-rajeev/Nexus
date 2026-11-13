@@ -1,3 +1,5 @@
+> **Superseded (2026-11-13):** replaced by the repository's [README.md](../../README.md). Kept for the record; do not update.
+
 # Nexus
 
 ## Problem

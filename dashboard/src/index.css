@@ -1,27 +1,38 @@
+/* Hallmark · entry stylesheet: Tailwind and the live dashboard's tokens; the replay page's stamp, theme and rules are in src/hero/hero.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Tokens for the live dashboard (App.tsx). The replay page overrides them in src/hero/tokens.css. */
+:root {
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
+  --font-outlier: 'DM Mono', ui-monospace, monospace;
+  --color-legacy-paper: #fafaf9;
+  --color-legacy-ink: #1c1917;
+  --color-legacy-thumb: #d6d3d1;
+  --color-legacy-thumb-hover: #a8a29e;
+  --color-legacy-rule: #e7e5e4;
+}
 
 @layer base {
   * { box-sizing: border-box; }
 
   html {
-    background-color: #fafaf9;
-    color: #1c1917;
+    background-color: var(--color-legacy-paper);
+    color: var(--color-legacy-ink);
   }
 
   body {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
   }
 
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+  ::-webkit-scrollbar-thumb { background: var(--color-legacy-thumb); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-legacy-thumb-hover); }
 }
 
 @layer utilities {
-  .font-mono { font-family: 'DM Mono', ui-monospace, monospace; }
   .tabular-nums { font-variant-numeric: tabular-nums; }
 }

@@ -12,7 +12,7 @@ function HealthRing({ score }: { score: number }) {
   if (score < 0.6) color = '#dc2626'
 
   return (
-    <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
+    <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }} aria-hidden="true">
       <circle
         cx={size / 2} cy={size / 2} r={r}
         fill="none" stroke="#e7e5e4" strokeWidth={stroke}

@@ -110,6 +110,52 @@ export interface HeadlineItem {
   source: { path: string; locator: string }
 }
 
+interface HeroProofBase {
+  id: string
+  split: 'test' | 'dev'
+  scope: string
+  source: { path: string; locator: string }
+  /** The committed report row a reader should land on. */
+  cite: { path: string; line: number }
+}
+
+/** A count k out of n, e.g. the 12 of 36 genuine patches that broke a passing task. */
+export interface HeroFraction extends HeroProofBase {
+  kind: 'fraction'
+  k: number
+  n: number
+  wilson95: [number, number] | null
+  /** Where the term is defined (the preregistration), when the label uses a defined term. */
+  definition?: { path: string; line: number }
+}
+
+/** A measured value beside the baseline it replaced, e.g. macro recall vs the old classifier. */
+export interface HeroComparison extends HeroProofBase {
+  kind: 'comparison'
+  value: number
+  baseline: number
+  /** How many failure classes the macro average runs over. */
+  classes: number
+}
+
+export interface Count { k: number; n: number; wilson95: [number, number] | null }
+
+/** A figure printed by the story sections; arms are named per figure (critic/generic, dev/test, ...). */
+export interface StoryFigure extends HeroProofBase {
+  kind: 'versus' | 'values'
+  unit?: string
+  values?: Record<string, number>
+  interval_note?: string | null
+  classes?: string[]
+  critic?: Count
+  generic?: Count
+  no_patch?: Count
+  dev?: Count
+  test?: Count
+}
+
+export type HeroProof = HeroFraction | HeroComparison
+
 export interface ReplayData {
   schema_version: 2
   mode: 'replay'
@@ -128,7 +174,7 @@ export interface ReplayData {
     phase5_runs_location: string
     llm_calls: number
   }
-  headline: { groups: { title: string; items: HeadlineItem[] }[] }
+  headline: { groups: { title: string; items: HeadlineItem[] }[]; hero: { proof: HeroProof[] }; story: { figures: StoryFigure[] } }
   traces: ReplayTrace[]
   heals: ReplayHeal[]
 }

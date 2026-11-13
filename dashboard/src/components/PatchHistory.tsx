@@ -23,7 +23,7 @@ function Delta({ value }: { value: number }) {
 }
 
 function Score({ value }: { value: number | null | undefined }) {
-  if (value == null) return <span className="text-stone-300 font-mono text-xs">—</span>
+  if (value == null) return <span className="text-stone-300 font-mono text-xs">n/a</span>
   return <span className="font-mono text-xs text-stone-700 tabular-nums">{value.toFixed(3)}</span>
 }
 

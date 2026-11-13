@@ -1,7 +1,15 @@
 """Regenerate RESULTS.md. Never hand-edit RESULTS.md.
 
-    python scripts/build_results_md.py          # write
-    python scripts/build_results_md.py --check  # exit 1 if RESULTS.md is stale
+    python scripts/build_results_md.py                 # write
+    python scripts/build_results_md.py --check         # exit 1 if RESULTS.md is stale
+    python scripts/build_results_md.py --refresh-pins  # re-pin git facts (needs full history and tags)
+
+The output is byte-identical on Windows and Linux, in any time zone, with or without git history or
+tags: the builder reads no git state. The two git facts it needs are pinned in committed files that
+`--refresh-pins` regenerates (and tests compare with git whenever history is available):
+  * results/phase4/sealed_rows_from_tag.json: the published table rows at tag `phase4-test-scored`;
+  * results/reporting/results_md_file_commits.json: each source file's last commit and that commit's date in
+    its own recorded time zone (not the machine's, which made CI in UTC disagree with a local build).
 
 Sealed-TEST handling (same in every mode, CI and local): this script never
 opens a TEST result file. The rows that were produced by the one-time TEST runs
@@ -24,6 +32,9 @@ import sys
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(REPO, "RESULTS.md")
 TAG = "phase4-test-scored"
+TAG_COMMIT = "d45d2bf6fa01a4c61824cb3983fa8dd2146d2b0e"
+SEALED_ROWS = os.path.join(REPO, "results", "phase4", "sealed_rows_from_tag.json")
+FILE_COMMITS = os.path.join(REPO, "results", "reporting", "results_md_file_commits.json")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from transcribe_phase4_headline import wilson  # noqa: E402
 
@@ -79,12 +90,37 @@ def read_text(rel: str) -> list[str]:
         return fh.read().splitlines()
 
 
+def _file_commits() -> dict[str, dict[str, str]]:
+    with open(FILE_COMMITS, encoding="utf-8") as fh:
+        return json.load(fh)["files"]
+
+
+_RECORDING: dict[str, dict[str, str]] | None = None
+
+
+def _pinned(rel: str) -> dict[str, str]:
+    if _RECORDING is not None:  # --refresh-pins: read git and remember what the render asked for
+        return _RECORDING.setdefault(rel, git_last_commit(rel))
+    files = _file_commits()
+    if rel not in files:
+        raise RuntimeError(f"{rel} is not pinned in {os.path.relpath(FILE_COMMITS, REPO)}; "
+                           "run: python scripts/build_results_md.py --refresh-pins")
+    return files[rel]
+
+
 def last_commit(rel: str) -> str:
-    return _git("log", "-1", "--format=%h", "--", rel).strip()
+    return _pinned(rel)["commit"]
 
 
 def last_date(rel: str) -> str:
-    return _git("log", "-1", "--format=%cd", "--date=format-local:%Y-%m-%d", "--", rel).strip()
+    return _pinned(rel)["date"]
+
+
+def git_last_commit(rel: str) -> dict[str, str]:
+    """Last commit touching ``rel`` and its date in the commit's own time zone (machine-independent)."""
+    out = _git("log", "-1", "--format=%h %cd", "--date=format:%Y-%m-%d", "--", rel).strip()
+    commit, date = out.split(" ")
+    return {"commit": commit, "date": date}
 
 
 def dig(doc: dict, path: str):
@@ -209,15 +245,24 @@ def phase2_test_ci() -> dict[str, tuple[list[str], str]]:
 
 
 # ------------------------------------------------------------- published rows
-def published_rows() -> list[list[str]]:
-    base = _git("show", f"{TAG}:RESULTS.md")
+def rows_from_published_table(text: str) -> list[list[str]]:
     rows = []
-    for ln in base.splitlines():
+    for ln in text.splitlines():
         if ln.startswith("| ") and not ln.startswith("| ID "):
             cells = [c.strip() for c in ln.strip().strip("|").split(" | ")]
             if len(cells) == 7:
                 rows.append(cells)
     return rows
+
+
+def git_published_rows() -> list[list[str]]:
+    """The published rows read from the tag itself (only for --refresh-pins and the pin test)."""
+    return rows_from_published_table(_git("show", f"{TAG}:RESULTS.md"))
+
+
+def published_rows() -> list[list[str]]:
+    with open(SEALED_ROWS, encoding="utf-8") as fh:
+        return json.load(fh)["rows"]
 
 
 NOTES: dict[str, str] = {
@@ -686,11 +731,57 @@ def render() -> str:
     return "".join(out)
 
 
+def _write_json(path: str, doc: dict) -> None:
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
+
+
+def refresh_pins() -> None:
+    global _RECORDING
+    if _git("rev-parse", "--is-shallow-repository").strip() == "true":
+        raise SystemExit("--refresh-pins needs full history: git fetch --unshallow --tags")
+    if _git("rev-parse", f"{TAG}^{{commit}}").strip() != TAG_COMMIT:
+        raise SystemExit(f"tag {TAG} does not point at {TAG_COMMIT}")
+    sealed = {
+        "provenance": {
+            "tag": TAG, "tag_commit": TAG_COMMIT, "source_file": "RESULTS.md",
+            "statement": "text only, TEST data not opened: the published table rows of RESULTS.md at "
+                         f"tag {TAG}, copied by scripts/build_results_md.py --refresh-pins",
+        },
+        "rows": git_published_rows(),
+    }
+    _write_json(SEALED_ROWS, sealed)
+    # Render once while reading git, recording exactly the files whose commit the table prints.
+    _RECORDING = {}
+    try:
+        render()
+        recorded = dict(sorted(_RECORDING.items()))
+    finally:
+        _RECORDING = None
+    _write_json(FILE_COMMITS, {
+        "provenance": {
+            "statement": "last commit touching each file (git log -1) and that commit's date in its own "
+                         "recorded time zone; written by scripts/build_results_md.py --refresh-pins",
+        },
+        "files": recorded,
+    })
+    print(f"wrote {SEALED_ROWS} and {FILE_COMMITS}")
+
+
+def normalise(text: str) -> str:
+    return text.replace("\r\n", "\n").replace("\r", "\n")
+
+
 def main() -> int:
+    if "--refresh-pins" in sys.argv:
+        refresh_pins()
     text = render()
     if "--check" in sys.argv:
-        current = open(OUT, encoding="utf-8").read() if os.path.exists(OUT) else ""
-        if current.replace("\r\n", "\n") != text:
+        current = ""
+        if os.path.exists(OUT):
+            with open(OUT, encoding="utf-8", newline="") as fh:
+                current = fh.read()
+        if normalise(current) != normalise(text):
             print("RESULTS.md is stale; run: python scripts/build_results_md.py")
             return 1
         return 0
