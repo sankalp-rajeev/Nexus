@@ -7,6 +7,19 @@ Design (Section 7.1):
   * Fail-silent   — any internal error is caught and logged; never raised into
                     user code. (User-function exceptions still propagate, but
                     are recorded on the span first.)
+
+Hardening (Phase 6):
+  * Bounded memory — the queue is capped by span COUNT (``max_queue_size``) and by
+                    an ESTIMATED byte size (``max_queue_bytes``). Over either
+                    cap the newest span is dropped and counted. The byte size
+                    is an estimate (see ``estimate_span_bytes``), not exact RSS.
+  * One retry     — a failed batch is retried once, on the background thread
+                    only, after a jittered 100-300 ms backoff; then dropped and
+                    counted. No retry once shutdown has begun, none in
+                    ``flush()`` and none in synchronous mode, so the retry adds
+                    no waiting to the caller thread or to flush().
+  * Counters      — invariant at quiescence (after ``shutdown()`` / idle):
+                    ``produced == exported + dropped_total + queued``.
 """
 
 from __future__ import annotations
@@ -14,6 +27,7 @@ from __future__ import annotations
 import contextvars
 import logging
 import queue
+import random
 import threading
 import time
 from datetime import datetime, timezone
@@ -48,6 +62,50 @@ def _utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
 
+# Fixed per-span constant for the byte estimate. A throwaway tracemalloc
+# measurement of a pydantic Span with empty text fields was ~1.6-1.7 KiB (object,
+# __dict__, datetime, ids, queue tuple), so 2 KiB covers the non-text overhead.
+SPAN_OVERHEAD_BYTES = 2048
+_NODE_BUDGET = 256  # max metadata nodes visited per span, so sizing stays O(1)-ish
+_NODE_COST = 16  # flat charge for non-string leaves and for unwalked remainder
+
+
+def estimate_span_bytes(span: Span) -> int:
+    """Cheap ESTIMATE of the memory a queued span holds. Never raises.
+
+    ``SPAN_OVERHEAD_BYTES`` + the lengths (in characters, not encoded bytes) of
+    the span's string fields and of the strings/bytes found in ``metadata``
+    (walked up to ``_NODE_BUDGET`` nodes; other leaves cost ``_NODE_COST``).
+    No JSON serialisation, so it is safe on the caller thread. It under-counts
+    non-ASCII text (up to 4x per character) and the tail of huge metadata.
+    """
+    try:
+        total = SPAN_OVERHEAD_BYTES
+        for text in (span.span_id, span.trace_id, span.parent_span_id, span.agent_name,
+                     span.input, span.output, span.error_type, span.error_message,
+                     span.environment, span.sdk_version):
+            if text:
+                total += len(text)
+        stack: list[Any] = [span.metadata]
+        budget = _NODE_BUDGET
+        while stack and budget > 0:
+            node = stack.pop()
+            budget -= 1
+            if isinstance(node, (str, bytes, bytearray)):
+                total += len(node)
+            elif isinstance(node, dict):
+                stack.extend(node.keys())
+                stack.extend(node.values())
+            elif isinstance(node, (list, tuple, set, frozenset)):
+                stack.extend(node)
+            else:
+                total += _NODE_COST
+        total += _NODE_COST * len(stack)  # nodes not visited once the budget ran out
+        return total
+    except Exception:  # noqa: BLE001 — sizing must never break capture
+        return SPAN_OVERHEAD_BYTES
+
+
 def to_text(value: Any, limit: int) -> str:
     """Best-effort, never-raising serialization to a length-capped string."""
     if value is None:
@@ -65,12 +123,21 @@ class NexusClient:
 
         self.config = config
         self.sdk_version = __version__
-        self._queue: queue.Queue[Span] = queue.Queue(maxsize=config.max_queue_size)
+        # Queue items are (span, estimated_bytes) so the byte cap can be released
+        # exactly, without re-estimating on the worker.
+        self._queue: queue.Queue[tuple[Span, int]] = queue.Queue(maxsize=config.max_queue_size)
         self._stop = threading.Event()
-        self._dropped = 0  # spans dropped due to a full queue
-        self._export_failed = 0  # spans lost after an unsuccessful export
         self._stats_lock = threading.Lock()
+        self._produced = 0  # spans handed to record()
         self._exported = 0
+        self._dropped_queue_full = 0  # refused at enqueue: count cap
+        self._dropped_bytes_cap = 0  # refused at enqueue: byte cap
+        self._export_failed = 0  # spans lost after export (incl. failed retry)
+        self._export_retried = 0  # batch retry attempts made
+        self._held_bytes = 0  # estimated bytes of queued + in-flight spans
+        self._drop_log_count = 0
+        # Private RNG: jitter must not consume the application's global `random` stream.
+        self._rng = random.Random()
         self._pending: dict[str, dict[str, Any]] = {}  # explicit start/end spans
         self._pending_lock = threading.Lock()
 
@@ -131,17 +198,50 @@ class NexusClient:
 
     # ── Recording / enqueue (non-blocking, fail-silent) ─────────────
     def record(self, span: Span) -> None:
+        reserved = 0
         try:
-            if self.config.async_export:
-                self._queue.put_nowait(span)
-            else:
-                self._export_batch([span])
-        except queue.Full:
+            if not self.config.async_export:
+                with self._stats_lock:
+                    self._produced += 1
+                self._export_batch([span])  # synchronous mode: no queue, no retry
+                return
+            size = estimate_span_bytes(span)
+            reason = None
             with self._stats_lock:
-                self._dropped += 1
-            logger.warning("nexus: span queue full; dropped span %s", span.span_id)
+                self._produced += 1
+                if self._held_bytes + size > self.config.max_queue_bytes:
+                    self._dropped_bytes_cap += 1
+                    reason = "byte cap"
+                else:
+                    self._held_bytes += size
+                    reserved = size
+            if reason is None:
+                try:
+                    self._queue.put_nowait((span, size))
+                    reserved = 0  # ownership passed to the queue
+                except queue.Full:
+                    with self._stats_lock:
+                        self._held_bytes -= size
+                        self._dropped_queue_full += 1
+                    reserved = 0
+                    reason = "count cap"
+            if reason is not None:
+                self._log_drop(span.span_id, reason)
         except Exception as exc:  # noqa: BLE001 — fail-silent
+            # Counted (and any byte reservation released) so the invariant still holds.
+            with self._stats_lock:
+                self._export_failed += 1
+                self._held_bytes -= reserved
             logger.warning("nexus: failed to record span (%s)", exc.__class__.__name__)
+
+    def _log_drop(self, span_id: str, reason: str) -> None:
+        # Throttled: an outage can drop thousands of spans; log the 1st, then every 1000th.
+        with self._stats_lock:
+            n = self._drop_log_count
+            self._drop_log_count += 1
+        if n % 1000 == 0:
+            suffix = "" if n == 0 else f" ({n} drops logged so far)"
+            logger.warning("nexus: span queue full (%s); dropped span %s%s", reason, span_id, suffix)
 
     # ── Explicit start_span / end_span ──────────────────────────────
     def start_span(
@@ -199,53 +299,83 @@ class NexusClient:
     def _run_export_loop(self) -> None:
         interval = self.config.flush_interval_ms / 1000.0
         while not self._stop.is_set():
-            batch = self._drain(block=True, timeout=interval)
+            batch, size = self._drain(block=True, timeout=interval)
             if batch:
-                self._export_batch(batch)
-        # Final drain on shutdown.
-        batch = self._drain(block=False)
+                self._export_batch(batch, reserved_bytes=size, allow_retry=True)
+        # Final drain on shutdown (the stop flag is set, so no retries here).
+        batch, size = self._drain(block=False)
         if batch:
-            self._export_batch(batch)
+            self._export_batch(batch, reserved_bytes=size, allow_retry=True)
 
-    def _drain(self, *, block: bool, timeout: float | None = None) -> list[Span]:
+    def _drain(self, *, block: bool, timeout: float | None = None) -> tuple[list[Span], int]:
         spans: list[Span] = []
+        size = 0
         try:
             if block:
-                spans.append(self._queue.get(timeout=timeout))
+                span, nbytes = self._queue.get(timeout=timeout)
+                spans.append(span)
+                size += nbytes
         except queue.Empty:
-            return spans
+            return spans, size
         while len(spans) < self.config.max_batch_size:
             try:
-                spans.append(self._queue.get_nowait())
+                span, nbytes = self._queue.get_nowait()
             except queue.Empty:
                 break
-        return spans
+            spans.append(span)
+            size += nbytes
+        return spans, size
 
-    def _export_batch(self, spans: list[Span]) -> None:
+    def _attempt_export(self, batch: SpanBatch | None, spans: list[Span]) -> tuple[bool, SpanBatch | None]:
+        """One export attempt. Never raises. Returns (ok, batch) so a retry reuses the batch."""
+        try:
+            if batch is None:
+                batch = SpanBatch(spans=spans)
+            return bool(self._exporter.export(batch)), batch
+        except Exception as exc:  # noqa: BLE001 — exporters are fail-silent, belt-and-suspenders
+            logger.warning("nexus: export raised unexpectedly (%s)", exc.__class__.__name__)
+            return False, batch
+
+    def _export_batch(self, spans: list[Span], reserved_bytes: int = 0, allow_retry: bool = False) -> None:
+        """Export a batch; on failure retry once (background thread only), else drop and count.
+
+        ``allow_retry`` is True only from the worker loop. The backoff wait uses
+        the stop event, so ``shutdown()`` interrupts it and the retry is skipped:
+        the retry never delays shutdown by more than one in-flight attempt.
+        """
         if not spans:
             return
         try:
-            ok = self._exporter.export(SpanBatch(spans=spans))
-            if ok:
-                with self._stats_lock:
-                    self._exported += len(spans)
-            else:
-                with self._stats_lock:
-                    self._export_failed += len(spans)
-        except Exception as exc:  # noqa: BLE001 — exporters are fail-silent, belt-and-suspenders
+            ok, batch = self._attempt_export(None, spans)
+            if not ok and allow_retry and not self._stop.is_set():
+                lo = self.config.export_retry_backoff_min_ms / 1000.0
+                hi = self.config.export_retry_backoff_max_ms / 1000.0
+                if not self._stop.wait(self._rng.uniform(lo, hi)):  # True means shutdown began
+                    with self._stats_lock:
+                        self._export_retried += 1
+                    ok, _ = self._attempt_export(batch, spans)
             with self._stats_lock:
-                self._export_failed += len(spans)
-            logger.warning("nexus: export raised unexpectedly (%s)", exc.__class__.__name__)
+                if ok:
+                    self._exported += len(spans)
+                else:
+                    self._export_failed += len(spans)
+        finally:
+            if reserved_bytes:
+                with self._stats_lock:
+                    self._held_bytes -= reserved_bytes
 
     # ── Flush / shutdown ────────────────────────────────────────────
     def flush(self) -> None:
-        """Synchronously export everything currently queued. Fail-silent."""
+        """Synchronously export everything currently queued. Fail-silent.
+
+        Runs on the caller thread and never retries, so retries add no time here.
+        """
         try:
             while True:
-                batch = self._drain(block=False)
+                batch, size = self._drain(block=False)
                 if not batch:
                     break
-                self._export_batch(batch)
+                self._export_batch(batch, reserved_bytes=size)
         except Exception as exc:  # noqa: BLE001
             logger.warning("nexus: flush failed (%s)", exc.__class__.__name__)
 
@@ -262,13 +392,28 @@ class NexusClient:
     # ── Introspection (for tests / health) ──────────────────────────
     @property
     def stats(self) -> dict[str, int]:
+        """Counters. At quiescence ``produced == exported + dropped_total + queued``.
+
+        * ``dropped``: compatibility counter = spans refused at enqueue
+          (``dropped_queue_full + dropped_bytes_cap``).
+        * ``dropped_total``: every span lost (refused at enqueue or failed export).
+        * ``export_retried``: batch retry attempts (not spans).
+        * ``queued_bytes_estimate``: estimated bytes of queued + in-flight spans.
+        """
         with self._stats_lock:
-            exported, dropped, failed = self._exported, self._dropped, self._export_failed
+            produced, exported = self._produced, self._exported
+            full, cap = self._dropped_queue_full, self._dropped_bytes_cap
+            failed, retried, held = self._export_failed, self._export_retried, self._held_bytes
         return {
+            "produced": produced,
             "queued": self._queue.qsize(),
             "exported": exported,
-            "dropped": dropped,  # compatibility: queue-full losses only
+            "dropped": full + cap,
+            "dropped_queue_full": full,
+            "dropped_bytes_cap": cap,
+            "export_retried": retried,
             "export_failed": failed,
-            "dropped_total": dropped + failed,
+            "dropped_total": full + cap + failed,
+            "queued_bytes_estimate": held,
             "pending": len(self._pending),
         }
