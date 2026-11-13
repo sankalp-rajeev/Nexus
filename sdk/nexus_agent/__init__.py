@@ -69,12 +69,15 @@ def is_initialized() -> bool:
     return _client is not None
 
 
-def shutdown() -> None:
-    """Flush and stop the background exporter. Resets global state."""
+def shutdown(timeout: float | None = None) -> None:
+    """Drain (for at most ``timeout`` s; default ``shutdown_timeout_ms``) and stop the exporter.
+
+    Spans still queued at the deadline are counted ``dropped_shutdown``. Resets global state.
+    """
     global _client
     with _lock:
         if _client is not None:
-            _client.shutdown()
+            _client.shutdown(timeout)
             _client = None
 
 

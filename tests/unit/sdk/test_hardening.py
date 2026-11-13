@@ -90,7 +90,7 @@ def wait_for(predicate, timeout=5.0):
 def assert_invariant(stats):
     assert stats["produced"] == stats["exported"] + stats["dropped_total"] + stats["queued"], stats
     assert stats["dropped"] == stats["dropped_queue_full"] + stats["dropped_bytes_cap"]
-    assert stats["dropped_total"] == stats["dropped"] + stats["export_failed"]
+    assert stats["dropped_total"] == stats["dropped"] + stats["export_failed"] + stats["dropped_shutdown"]
 
 
 # ── Config validation ────────────────────────────────────────────────
@@ -122,6 +122,7 @@ def test_bad_backoff_is_rejected(lo, hi):
 
 def test_defaults_match_documented_values():
     cfg = NexusConfig(agent_name="a")
+    assert cfg.shutdown_timeout_ms == 5000
     assert cfg.max_queue_size == 10_000
     assert cfg.max_queue_bytes == 32 * MIB
     assert (cfg.export_retry_backoff_min_ms, cfg.export_retry_backoff_max_ms) == (100, 300)
@@ -411,3 +412,120 @@ def test_long_outage_memory_stays_near_cap_and_counters_balance():
     assert peak_rss - baseline_rss <= cap * 2, (peak_rss - baseline_rss) / MIB
     assert slowest < 0.5, slowest
     assert shutdown_s < 10, shutdown_s
+
+
+# -- Shutdown deadline ------------------------------------------------
+@pytest.mark.parametrize("value", [0, -1, True, 1.5, "5", None])
+def test_bad_shutdown_timeout_is_rejected(value):
+    with pytest.raises(ValueError, match="shutdown_timeout_ms"):
+        NexusConfig(agent_name="a", shutdown_timeout_ms=value)
+
+
+class SlowFailingExporter(FakeExporter):
+    def __init__(self, delay):
+        super().__init__(default=False)
+        self.delay = delay
+
+    def export(self, batch):
+        time.sleep(self.delay)
+        return super().export(batch)
+
+
+def test_shutdown_deadline_bounds_a_long_outage_with_a_full_queue_and_counts_exactly(make_client):
+    """Collector down, queue full: shutdown returns at the deadline; every span is accounted for."""
+    exporter = SlowFailingExporter(delay=0.05)  # each failed attempt takes ~50 ms
+    client = make_client(exporter, max_queue_size=2000, max_batch_size=50, export_timeout_ms=50,
+                         shutdown_timeout_ms=60_000)  # the per-call timeout below must win
+    total = 2000
+    for i in range(total):
+        client.record(make_span(client, i))
+    assert client.stats["produced"] == total and client.stats["dropped_total"] == 0
+    # Draining 40 batches at ~50 ms each (plus the retry) would take 2 s or more.
+    deadline = 0.3
+    started = time.perf_counter()
+    client.shutdown(timeout=deadline)
+    elapsed = time.perf_counter() - started
+    assert deadline <= elapsed <= deadline + 0.5, elapsed  # deadline + one attempt + join grace
+    stats = client.stats
+    attempted = {}
+    for batch in exporter.batches:
+        attempted[batch.batch_id] = len(batch.spans)
+    assert stats["exported"] == 0 and stats["queued"] == 0
+    assert stats["export_failed"] == sum(attempted.values())  # every attempted batch counted once
+    assert stats["dropped_shutdown"] == total - sum(attempted.values()) > 0
+    assert stats["dropped_total"] == stats["export_failed"] + stats["dropped_shutdown"]
+    assert stats["queued_bytes_estimate"] == 0
+    assert_invariant(stats)
+    # Idempotent: a second shutdown (e.g. atexit) changes nothing.
+    client.shutdown(timeout=0.1)
+    assert client.stats == stats
+
+
+def test_shutdown_default_comes_from_config(make_client):
+    exporter = SlowFailingExporter(delay=0.05)
+    client = make_client(exporter, max_queue_size=2000, export_timeout_ms=50, shutdown_timeout_ms=200)
+    for i in range(1500):
+        client.record(make_span(client, i))
+    started = time.perf_counter()
+    client.shutdown()  # no argument: config default (200 ms)
+    assert time.perf_counter() - started <= 0.2 + 0.5
+    assert client.stats["dropped_shutdown"] > 0
+    assert_invariant(client.stats)
+
+
+def test_shutdown_drains_fully_when_healthy_and_drops_nothing(make_client):
+    exporter = FakeExporter(default=True)
+    client = make_client(exporter, max_queue_size=5000)
+    for i in range(3000):
+        client.record(make_span(client, i))
+    client.shutdown()
+    stats = client.stats
+    assert stats["exported"] == 3000 and stats["dropped_shutdown"] == 0 and stats["dropped_total"] == 0
+    assert_invariant(stats)
+
+
+def test_stuck_inflight_export_is_abandoned_at_the_deadline_without_double_counting(make_client):
+    gate = threading.Event()
+    exporter = FakeExporter(default=True, block=gate)  # the worker's export hangs
+    client = make_client(exporter, export_timeout_ms=50)
+    client.record(make_span(client, 0))
+    assert wait_for(lambda: exporter.calls == 1)  # the worker is now stuck in flight
+    for i in range(1, 11):
+        client.record(make_span(client, i))
+    started = time.perf_counter()
+    client.shutdown(timeout=0.2)
+    elapsed = time.perf_counter() - started
+    assert elapsed <= 0.2 + 0.1 + 0.4, elapsed  # deadline + join grace (2 x 50 ms) + margin
+    stats = client.stats
+    assert stats["dropped_shutdown"] == 11 and stats["exported"] == 0 and stats["export_failed"] == 0
+    assert_invariant(stats)
+    gate.set()  # the stuck attempt now finishes; it must not be counted a second time
+    time.sleep(0.3)
+    assert client.stats == stats
+
+
+def test_flush_is_unchanged_and_has_no_deadline(make_client):
+    exporter = SlowFailingExporter(delay=0.02)
+    client = make_client(exporter, max_queue_size=500, shutdown_timeout_ms=1)
+    client._stop.set()
+    client._worker.join(timeout=5)
+    client._stop.clear()
+    for i in range(200):
+        client.record(make_span(client, i))
+    client.flush()  # 4 batches x 20 ms, far beyond the 1 ms shutdown deadline: all attempted
+    stats = client.stats
+    assert stats["export_failed"] == 200 and stats["dropped_shutdown"] == 0
+    assert_invariant(stats)
+
+
+def test_module_level_shutdown_passes_the_timeout_through():
+    client = nexus.init(agent_name="timeout-passthrough", max_queue_size=100)
+    client._exporter.close()
+    client._exporter = SlowFailingExporter(delay=0.05)
+    for i in range(100):
+        client.record(make_span(client, i))
+    started = time.perf_counter()
+    nexus.shutdown(timeout=0.15)
+    assert time.perf_counter() - started <= 0.15 + 0.6
+    assert not nexus.is_initialized()
+    assert_invariant(client.stats)

@@ -120,7 +120,8 @@ def test_stats_keys(nexus_client):
     client, _ = nexus_client
     assert set(client.stats) == {
         "produced", "queued", "exported", "dropped", "dropped_queue_full", "dropped_bytes_cap",
-        "export_retried", "export_failed", "dropped_total", "queued_bytes_estimate", "pending"}
+        "export_retried", "export_failed", "dropped_shutdown", "dropped_total", "queued_bytes_estimate",
+        "pending"}
 
 
 def test_failed_export_counts_whole_batch_without_retry(nexus_client):
@@ -147,4 +148,5 @@ def test_failed_export_counts_whole_batch_without_retry(nexus_client):
     assert exporter.calls == 1
     assert client.stats == dict(produced=17, queued=0, exported=0, dropped=0, dropped_queue_full=0,
                                 dropped_bytes_cap=0, export_retried=0, export_failed=17,
-                                dropped_total=17, queued_bytes_estimate=0, pending=0)
+                                dropped_shutdown=0, dropped_total=17, queued_bytes_estimate=0,
+                                pending=0)

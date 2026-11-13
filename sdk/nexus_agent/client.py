@@ -18,6 +18,10 @@ Hardening (Phase 6):
                     counted. No retry once shutdown has begun, none in
                     ``flush()`` and none in synchronous mode, so the retry adds
                     no waiting to the caller thread or to flush().
+  * Shutdown      — ``shutdown(timeout=...)`` (default ``shutdown_timeout_ms``, 5 s)
+                    stops draining at the deadline; whatever is still queued (or
+                    in a stuck in-flight batch) is counted ``dropped_shutdown``.
+                    ``flush()`` is unchanged and has no deadline.
   * Counters      — invariant at quiescence (after ``shutdown()`` / idle):
                     ``produced == exported + dropped_total + queued``.
 """
@@ -117,6 +121,17 @@ def to_text(value: Any, limit: int) -> str:
     return text[:limit]
 
 
+class _Inflight:
+    """The background worker's current batch, so shutdown can account for it if abandoned."""
+
+    __slots__ = ("spans", "reserved", "abandoned")
+
+    def __init__(self, spans: int, reserved: int) -> None:
+        self.spans = spans
+        self.reserved = reserved
+        self.abandoned = False
+
+
 class NexusClient:
     def __init__(self, config: NexusConfig) -> None:
         from nexus_agent import __version__
@@ -134,6 +149,9 @@ class NexusClient:
         self._dropped_bytes_cap = 0  # refused at enqueue: byte cap
         self._export_failed = 0  # spans lost after export (incl. failed retry)
         self._export_retried = 0  # batch retry attempts made
+        self._dropped_shutdown = 0  # spans discarded unexported when the shutdown deadline passed
+        self._deadline: float | None = None  # monotonic shutdown deadline, set by shutdown()
+        self._worker_inflight: _Inflight | None = None  # the worker's current batch
         self._held_bytes = 0  # estimated bytes of queued + in-flight spans
         self._drop_log_count = 0
         # Private RNG: jitter must not consume the application's global `random` stream.
@@ -296,16 +314,22 @@ class NexusClient:
         self.record(span)
 
     # ── Background export loop ──────────────────────────────────────
+    def _past_deadline(self) -> bool:
+        deadline = self._deadline
+        return deadline is not None and time.monotonic() >= deadline
+
     def _run_export_loop(self) -> None:
         interval = self.config.flush_interval_ms / 1000.0
         while not self._stop.is_set():
             batch, size = self._drain(block=True, timeout=interval)
             if batch:
                 self._export_batch(batch, reserved_bytes=size, allow_retry=True)
-        # Final drain on shutdown (the stop flag is set, so no retries here).
-        batch, size = self._drain(block=False)
-        if batch:
-            self._export_batch(batch, reserved_bytes=size, allow_retry=True)
+        # Final drain on shutdown (the stop flag is set, so no retries here). After the
+        # shutdown deadline the worker stops draining; shutdown() counts the remainder.
+        if not self._past_deadline():
+            batch, size = self._drain(block=False)
+            if batch:
+                self._export_batch(batch, reserved_bytes=size, allow_retry=True)
 
     def _drain(self, *, block: bool, timeout: float | None = None) -> tuple[list[Span], int]:
         spans: list[Span] = []
@@ -345,6 +369,10 @@ class NexusClient:
         """
         if not spans:
             return
+        inflight = _Inflight(len(spans), reserved_bytes) if allow_retry else None
+        if inflight is not None:
+            self._worker_inflight = inflight
+        ok = False  # an unexpected exception below counts the batch as failed, never lost
         try:
             ok, batch = self._attempt_export(None, spans)
             if not ok and allow_retry and not self._stop.is_set():
@@ -354,21 +382,25 @@ class NexusClient:
                     with self._stats_lock:
                         self._export_retried += 1
                     ok, _ = self._attempt_export(batch, spans)
-            with self._stats_lock:
-                if ok:
-                    self._exported += len(spans)
-                else:
-                    self._export_failed += len(spans)
         finally:
-            if reserved_bytes:
-                with self._stats_lock:
+            with self._stats_lock:
+                if inflight is not None and inflight.abandoned:
+                    pass  # shutdown already counted these spans as dropped_shutdown
+                else:
+                    if ok:
+                        self._exported += len(spans)
+                    else:
+                        self._export_failed += len(spans)
                     self._held_bytes -= reserved_bytes
+                if inflight is not None and self._worker_inflight is inflight:
+                    self._worker_inflight = None
 
     # ── Flush / shutdown ────────────────────────────────────────────
     def flush(self) -> None:
         """Synchronously export everything currently queued. Fail-silent.
 
         Runs on the caller thread and never retries, so retries add no time here.
+        Unchanged by the shutdown deadline: flush() has no deadline of its own.
         """
         try:
             while True:
@@ -379,15 +411,63 @@ class NexusClient:
         except Exception as exc:  # noqa: BLE001
             logger.warning("nexus: flush failed (%s)", exc.__class__.__name__)
 
-    def shutdown(self) -> None:
+    def _drop_queued_for_shutdown(self) -> int:
+        """Discard everything still queued, counting it as dropped_shutdown. Thread-safe."""
+        dropped = 0
+        while True:
+            batch, size = self._drain(block=False)
+            if not batch:
+                break
+            dropped += len(batch)
+            with self._stats_lock:
+                self._dropped_shutdown += len(batch)
+                self._held_bytes -= size
+        return dropped
+
+    def shutdown(self, timeout: float | None = None) -> None:
+        """Stop the exporter, draining for at most ``timeout`` seconds.
+
+        ``timeout`` defaults to ``config.shutdown_timeout_ms``. Draining stops at
+        the deadline: spans still queued are counted ``dropped_shutdown`` (part of
+        ``dropped_total``) and discarded. Worst-case duration is the deadline plus
+        one in-flight HTTP attempt (about the export timeout) and, if the worker is
+        stuck in an attempt, a join grace of twice the export timeout. Never raises.
+        """
+        try:
+            seconds = self.config.shutdown_timeout_ms / 1000.0 if timeout is None else max(0.0, float(timeout))
+        except Exception:  # noqa: BLE001 — a bad argument must not break process exit
+            seconds = self.config.shutdown_timeout_ms / 1000.0
+        deadline = time.monotonic() + seconds
+        self._deadline = deadline
         self._stop.set()
-        if self._worker is not None:
-            self._worker.join(timeout=2.0)
-        self.flush()
+        try:
+            if self._worker is not None:
+                grace = 2.0 * self.config.export_timeout_ms / 1000.0
+                self._worker.join(timeout=max(0.0, deadline - time.monotonic()) + grace)
+                if self._worker.is_alive():
+                    self._abandon_worker_batch()
+            while not self._past_deadline():
+                batch, size = self._drain(block=False)
+                if not batch:
+                    break
+                self._export_batch(batch, reserved_bytes=size)
+            self._drop_queued_for_shutdown()
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("nexus: shutdown failed (%s)", exc.__class__.__name__)
         try:
             self._exporter.close()
         except Exception:  # noqa: BLE001
             pass
+
+    def _abandon_worker_batch(self) -> None:
+        """The worker is stuck in an export past the deadline: count its batch as dropped."""
+        with self._stats_lock:
+            inflight = self._worker_inflight
+            if inflight is not None and not inflight.abandoned:
+                inflight.abandoned = True
+                self._dropped_shutdown += inflight.spans
+                self._held_bytes -= inflight.reserved
+        logger.warning("nexus: shutdown deadline passed with an export still in flight")
 
     # ── Introspection (for tests / health) ──────────────────────────
     @property
@@ -396,7 +476,9 @@ class NexusClient:
 
         * ``dropped``: compatibility counter = spans refused at enqueue
           (``dropped_queue_full + dropped_bytes_cap``).
-        * ``dropped_total``: every span lost (refused at enqueue or failed export).
+        * ``dropped_shutdown``: spans discarded unexported at the shutdown deadline.
+        * ``dropped_total``: every span lost (refused at enqueue, failed export, or
+          discarded at the shutdown deadline).
         * ``export_retried``: batch retry attempts (not spans).
         * ``queued_bytes_estimate``: estimated bytes of queued + in-flight spans.
         """
@@ -404,6 +486,7 @@ class NexusClient:
             produced, exported = self._produced, self._exported
             full, cap = self._dropped_queue_full, self._dropped_bytes_cap
             failed, retried, held = self._export_failed, self._export_retried, self._held_bytes
+            shut = self._dropped_shutdown
         return {
             "produced": produced,
             "queued": self._queue.qsize(),
@@ -413,7 +496,8 @@ class NexusClient:
             "dropped_bytes_cap": cap,
             "export_retried": retried,
             "export_failed": failed,
-            "dropped_total": full + cap + failed,
+            "dropped_shutdown": shut,
+            "dropped_total": full + cap + failed + shut,
             "queued_bytes_estimate": held,
             "pending": len(self._pending),
         }

@@ -35,21 +35,33 @@ nexus.flush()  # before a short-lived script exits
 
 Spans nest automatically (trace and parent IDs propagate via `contextvars`).
 With default asynchronous export, foreground capture enqueues spans without
-waiting for HTTP. An unreachable collector causes a throttled warning and drops
-the failed batch; there is no retry, requeue or disk persistence. Synchronous
-export, flush and shutdown can wait for HTTP attempts.
+waiting for HTTP. Each failed export batch is retried **once** on the background
+thread after a jittered 100-300 ms backoff, then dropped and counted. That covers
+brief transient failures only: during a sustained outage batches are dropped (with
+a throttled warning), memory stays capped and the counters are exact. There is no
+requeue or disk persistence, so this is not a zero-loss guarantee. A retried batch
+is delivered at least once, so a collector may see a span twice; span IDs are
+stable. Synchronous export and `flush()` can wait for HTTP attempts and never retry.
 
-The default queue holds 10,000 spans and drops the incoming newest span when
-full. This is a count limit, not a byte/memory limit: metadata is unrestricted,
-and explicit spans awaiting end_span are held separately. A nonpositive
-max_queue_size selects Python Queue's unbounded mode.
+The queue is bounded two ways, both dropping the incoming newest span when
+exceeded: `max_queue_size` (default 10,000 spans) and `max_queue_bytes` (default
+32 MiB). The byte size is an **estimate** (string lengths plus 2 KiB per span), not
+exact process memory. Zero or negative limits raise `ValueError`; unbounded queues
+are not allowed. Explicit spans awaiting `end_span` are held separately.
+
+`nexus.shutdown(timeout=None)` (default `shutdown_timeout_ms`, 5000) drains for at
+most that long. After the deadline it stops, discards what is still queued and
+counts it as `dropped_shutdown`. It returns within the deadline plus about one
+in-flight HTTP attempt. `flush()` has no deadline.
 
 The client returned by `nexus.init(...)` exposes process-lifetime counters in
-`client.stats`: `dropped` is queue-full loss, `export_failed` counts spans lost
-from failed export batches (including unexpected exporter exceptions), and
-`dropped_total` is their sum. `exported`, `queued` and `pending` are also exposed.
-Counters are not durable delivery guarantees; failed events cannot be recovered
-by restarting the collector.
+`client.stats`: `produced`, `exported`, `queued`, `pending`, `export_retried` (retry
+attempts), and the losses `dropped_queue_full`, `dropped_bytes_cap`, `export_failed`
+(spans lost after a failed export and its retry) and `dropped_shutdown`, whose sum is
+`dropped_total`. `dropped` is kept for compatibility and means spans refused at
+enqueue (queue-full plus byte-cap). When idle, `produced == exported + dropped_total
++ queued`. Counters are not durable delivery guarantees; failed events cannot be
+recovered by restarting the collector.
 
 A LangChain callback integration is planned but not implemented yet.
 

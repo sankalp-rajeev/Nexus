@@ -33,6 +33,10 @@ class NexusConfig:
     # backoff drawn uniformly from [min, max] ms. Never in flush() or sync mode.
     export_retry_backoff_min_ms: int = 100
     export_retry_backoff_max_ms: int = 300
+    # shutdown() stops draining after this long; spans still queued are counted
+    # as dropped_shutdown. 5 s: healthy drains take milliseconds, and it sits
+    # inside the 10 s default container stop grace. flush() has no deadline.
+    shutdown_timeout_ms: int = 5000
 
     # Capture limits (Section 13.1)
     max_input_chars: int = 2000
@@ -52,6 +56,9 @@ class NexusConfig:
             if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
                 raise ValueError(f"{name} must be a positive integer (got {value!r}); "
                                  "unbounded queues are not allowed")
+        if (isinstance(self.shutdown_timeout_ms, bool) or not isinstance(self.shutdown_timeout_ms, int)
+                or self.shutdown_timeout_ms <= 0):
+            raise ValueError(f"shutdown_timeout_ms must be a positive integer (got {self.shutdown_timeout_ms!r})")
         lo, hi = self.export_retry_backoff_min_ms, self.export_retry_backoff_max_ms
         if (isinstance(lo, bool) or isinstance(hi, bool) or not isinstance(lo, int)
                 or not isinstance(hi, int) or lo < 0 or hi < lo):
