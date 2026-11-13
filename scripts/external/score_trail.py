@@ -202,6 +202,19 @@ def load_requested(entries: dict, requested: set[str], base: Path, *, decode=jso
         raise RuntimeError("Requested trace absent from A-only catalog")
 
 
+def convert_for_evaluation(source):
+    """Retain the frozen adapter's validation; count its preregistered exclusion.
+
+    No normalization, deduplication, input repair, detector substitute, or
+    model-error suppression. Only adapter validation errors are in this scope.
+    """
+    try:
+        converted = complete_trace(source)
+    except ValueError:
+        return None
+    return detector_view(converted.model_dump(mode="json"))
+
+
 def committed_blob(path: Path, commit: str) -> bytes:
     blob = path.read_bytes()
     if blob.replace(b"\r\n", b"\n") != git("show", f"{commit}:{path.relative_to(ROOT).as_posix()}").replace(b"\r\n", b"\n"):
@@ -322,7 +335,19 @@ def score(resume_reason: str | None):
                 trace_categories = dict(state["unmapped_category_fingerprints"])
                 trace_workload = copy.deepcopy(state["workload"])
                 with redirect_stdout(log), redirect_stderr(log):
-                    view = detector_view(complete_trace(source).model_dump(mode="json"))
+                    view = convert_for_evaluation(source)
+                if view is None:
+                    # This exclusion is declared in the original protocol.
+                    # It is determined before labels/outputs are examined.
+                    for cls in CLASSES:
+                        add_observation(trace_counts[cls], None, None, exclusion="conversion_failure")
+                    state["counts"][split] = trace_counts
+                    state.setdefault("conversion_failure_ids", []).append(tid)
+                    state["completed_ids"].append(tid)
+                    save_state(state)
+                    print(json.dumps({"TRAIL_A_completed": len(state["completed_ids"]), "of": 64}), flush=True)
+                    continue
+                with redirect_stdout(log), redirect_stderr(log):
                     gold, gold_locations, unmapped = map_labels(label, view)
                     reached, reason = applicability(view)
                     premises = hallucination.retrieved_context(view)
@@ -390,6 +415,7 @@ def score(resume_reason: str | None):
             "not_scored": ["PLAN_DRIFT", "CONTEXT_BLEED"],
             "localization_scope": "LOOP/MISFIRE only; conditional on trace TP, unambiguous gold and existing locator; +/-1 completion-order span. HALLUCINATION omitted: no pre-existing unambiguous locator.",
             "unmapped_category_fingerprints": state["unmapped_category_fingerprints"], "workload": state["workload"],
+            "conversion_failure_ids": state.get("conversion_failure_ids", []),
             "provenance": {**pre, "prereg_commits": [git("rev-parse", c).decode().strip() for c in ("8bc721b", "8222003")],
                 "a2_commit": git("rev-parse", "999b28a").decode().strip(), "disclosure_commit": DISCLOSURE,
                 "scoring_code_commit": state["attempts"][0]["scoring_code_commit"], "attempts": state["attempts"],

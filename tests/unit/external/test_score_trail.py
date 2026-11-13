@@ -4,7 +4,7 @@ from types import SimpleNamespace
 import pytest
 
 from scripts.external.score_trail import (CLASSES, add_observation, fresh_counts,
-    load_requested, map_labels, normalize_category, ratio, resolve_location, summarize, wilson)
+    convert_for_evaluation, load_requested, map_labels, normalize_category, ratio, resolve_location, summarize, wilson)
 
 
 def view():
@@ -122,3 +122,20 @@ def test_loader_join_is_by_id_and_missing_request_fails(tmp_path):
     rows={tid:{'split':'gaia','paths':{'trace':'trace','labels':'label'}}}
     with pytest.raises(RuntimeError,match='join mismatch'): list(load_requested(rows,{tid},tmp_path))
     with pytest.raises(RuntimeError,match='absent'): list(load_requested({}, {tid},tmp_path))
+
+
+def test_conversion_validation_is_excluded_without_repair_or_detector_call(monkeypatch):
+    def reject(source):
+        raise ValueError('Duplicate synthetic span ID')
+    def never_view(_):
+        pytest.fail('Rejected input cannot enter detector view')
+    monkeypatch.setattr('scripts.external.score_trail.complete_trace',reject)
+    monkeypatch.setattr('scripts.external.score_trail.detector_view',never_view)
+    assert convert_for_evaluation({'synthetic':True}) is None
+
+
+def test_conversion_handler_does_not_suppress_unexpected_or_model_failures(monkeypatch):
+    def fail(source):
+        raise RuntimeError('Unexpected synthetic failure')
+    monkeypatch.setattr('scripts.external.score_trail.complete_trace',fail)
+    with pytest.raises(RuntimeError): convert_for_evaluation({})
