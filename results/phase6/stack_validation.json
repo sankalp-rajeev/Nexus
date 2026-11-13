@@ -1,0 +1,720 @@
+{
+  "status": "failed_incomplete_validation",
+  "recorded_at_utc": "2026-11-13T00:49:02.077284+00:00",
+  "user_date": "2026-11-12",
+  "timezone": "America/New_York",
+  "commit_hash": "a18b0b8cf8755b74a21d4d785a9cb26f6e7f0686",
+  "commit_hash_meaning": "Checkout HEAD whose application source was validated; the result-containing commit is reported in the final handoff.",
+  "checks": {
+    "startup_idle_source_review": {
+      "status": "pass",
+      "evidence": "Critic provider construction occurs only under run_critic after an alert; healer run_eval and notification occur only while processing a pending patch. Startup/idle paths connect to local infrastructure and poll only."
+    },
+    "phase5_stopped": {
+      "status": "pass"
+    },
+    "full_startup": {
+      "status": "fail",
+      "evidence": "The available Phase 5 collector image lacks google.protobuf required by the current OTLP import. Collector logged ModuleNotFoundError: No module named 'google' and restarted nine times. The attempt was stopped while Postgres was still initializing; it did not reach healthy."
+    },
+    "full_synthetic_http_and_kafka": {
+      "status": "not_run",
+      "reason": "Full startup failed before any trace submission."
+    },
+    "classifier_fail_loud": {
+      "status": "pass",
+      "evidence": "HTTP 503, nli_ready=false, consumer_running=false; one startup/consumer refusal log, zero consuming logs; isolated container removed."
+    },
+    "critic_zero_pending_boundary": {
+      "status": "not_run",
+      "reason": "No full-stack trace sent; critic/healer never started. No offsets were changed and no topic was deleted."
+    },
+    "full_five_minute_idle": {
+      "status": "not_run",
+      "reason": "Full startup failed; critic/healer never started."
+    },
+    "full_ram": {
+      "status": "partial",
+      "reason": "Samples cover five services during failed startup, not a healthy full stack."
+    },
+    "full_stop": {
+      "status": "pass"
+    },
+    "lite_startup": {
+      "status": "pass"
+    },
+    "lite_five_minute_idle": {
+      "status": "pass",
+      "measured_seconds": 300.0,
+      "healthy_observations": 39,
+      "automatic_restarts": 0
+    },
+    "lite_trace": {
+      "status": "pass",
+      "evidence": "Container-loopback HTTP 202 accepted four spans, one persisted trace, one LOOP_DETECTED alert, one generic_fallback_no_llm proposal."
+    },
+    "lite_host_http": {
+      "status": "fail",
+      "reason": "Host port refused the connection on the internal Docker network; endpoint tested via docker exec instead. Cleanup stopped the container after this error; an explicit start/stop was needed for the subsequent trace test."
+    },
+    "lite_stop": {
+      "status": "pass"
+    },
+    "no_original_data_deletion": {
+      "status": "pass",
+      "evidence": "Every container ID and volume name from the initial inventory remains. Failed-attempt volumes and all original volumes retained. Only ephemeral diagnostic containers removed."
+    },
+    "zero_llm_provider_calls": {
+      "status": "pass",
+      "evidence": "Full-stack critic/healer never created or started; lite source uses deterministic detectors and generic fallback; runtime containers used internal or no Docker networking. Fail-loud classifier refused consumption."
+    },
+    "no_external_api_calls": {
+      "status": "fail",
+      "evidence": "The attempted docker build used --network none --pull=false, but BuildKit still resolved Docker Hub metadata and performed a registry auth/token lookup. Package installation was blocked offline. No LLM/provider request occurred. GitHub reporting/push is separately requested by the task."
+    }
+  },
+  "machine": {
+    "docker_cpus": 32,
+    "docker_memory_bytes": 10424061952,
+    "docker_version": "28.5.1",
+    "docker_os": "Docker Desktop (containerized)",
+    "host": {
+      "TotalPhysicalMemory": 33986535424,
+      "NumberOfLogicalProcessors": 32
+    },
+    "wsl_config": {
+      "memory": "10GB",
+      "swap": "8GB",
+      "autoMemoryReclaim": "gradual"
+    }
+  },
+  "configuration": {
+    "service_suffix": "-61c preserves all existing containers",
+    "fresh_volumes": [
+      "nexus-phase6_61c_20261113003653_nexus_mlflow",
+      "nexus-phase6_61c_20261113003653_nexus_pgdata"
+    ],
+    "network": "nexus-phase6_validation_20261113003653",
+    "external_egress": "internal Docker network",
+    "images": {
+      "nexus-api": "nexus-phase5-nexus-api",
+      "nexus-assembler": "nexus-phase5-nexus-assembler",
+      "nexus-classifier": "nexus-phase6-nexus-classifier",
+      "nexus-collector": "nexus-phase5-nexus-collector",
+      "nexus-critic": "nexus-phase5-nexus-critic",
+      "nexus-dashboard": "nexus-phase5-nexus-dashboard",
+      "nexus-healer": "nexus-phase5-nexus-healer"
+    },
+    "source": "read-only services/ and sdk/ from this checkout; critic entrypoint mounted from this checkout",
+    "extra_healthchecks": "HTTP for MLflow/collector/API/dashboard; local infrastructure socket probes for assembler/critic/healer"
+  },
+  "full": {
+    "project": "nexus-phase6",
+    "run_id": "20261113003653",
+    "startup_seconds": null,
+    "startup_status": "failed_before_all_healthy",
+    "five_minute_hold_seconds": null,
+    "restart_counts": {
+      "kafka": 0,
+      "postgres": 0,
+      "redis": 0,
+      "mlflow": 0,
+      "nexus-collector": 9,
+      "nexus-assembler": 0,
+      "nexus-classifier": 0,
+      "nexus-api": 0,
+      "nexus-dashboard": 0,
+      "nexus-critic": null,
+      "nexus-healer": null
+    },
+    "container_states": {
+      "nexus-dashboard": {
+        "container": "nexus-phase6-nexus-dashboard-61c-1",
+        "state": "created",
+        "restart_count": 0,
+        "memory_limit_bytes": 0,
+        "nano_cpus_limit": 0,
+        "started_at": "0001-01-01T00:00:00Z",
+        "finished_at": "0001-01-01T00:00:00Z"
+      },
+      "nexus-classifier": {
+        "container": "nexus-phase6-nexus-classifier-61c-1",
+        "state": "created",
+        "restart_count": 0,
+        "memory_limit_bytes": 0,
+        "nano_cpus_limit": 0,
+        "started_at": "0001-01-01T00:00:00Z",
+        "finished_at": "0001-01-01T00:00:00Z"
+      },
+      "nexus-assembler": {
+        "container": "nexus-phase6-nexus-assembler-61c-1",
+        "state": "created",
+        "restart_count": 0,
+        "memory_limit_bytes": 0,
+        "nano_cpus_limit": 0,
+        "started_at": "0001-01-01T00:00:00Z",
+        "finished_at": "0001-01-01T00:00:00Z"
+      },
+      "nexus-collector": {
+        "container": "nexus-phase6-nexus-collector-61c-1",
+        "state": "exited",
+        "restart_count": 9,
+        "memory_limit_bytes": 0,
+        "nano_cpus_limit": 0,
+        "started_at": "2026-11-13T00:38:13.959327691Z",
+        "finished_at": "2026-11-13T00:38:16.504900525Z"
+      },
+      "nexus-api": {
+        "container": "nexus-phase6-nexus-api-61c-1",
+        "state": "created",
+        "restart_count": 0,
+        "memory_limit_bytes": 0,
+        "nano_cpus_limit": 0,
+        "started_at": "0001-01-01T00:00:00Z",
+        "finished_at": "0001-01-01T00:00:00Z"
+      },
+      "postgres": {
+        "container": "nexus-phase6-postgres-61c-1",
+        "state": "exited",
+        "restart_count": 0,
+        "memory_limit_bytes": 0,
+        "nano_cpus_limit": 0,
+        "started_at": "2026-11-13T00:37:08.214726498Z",
+        "finished_at": "2026-11-13T00:38:21.423520502Z"
+      },
+      "redis": {
+        "container": "nexus-phase6-redis-61c-1",
+        "state": "exited",
+        "restart_count": 0,
+        "memory_limit_bytes": 0,
+        "nano_cpus_limit": 0,
+        "started_at": "2026-11-13T00:37:08.698420513Z",
+        "finished_at": "2026-11-13T00:38:20.267312224Z"
+      },
+      "kafka": {
+        "container": "nexus-phase6-kafka-61c-1",
+        "state": "exited",
+        "restart_count": 0,
+        "memory_limit_bytes": 0,
+        "nano_cpus_limit": 0,
+        "started_at": "2026-11-13T00:37:08.387702089Z",
+        "finished_at": "2026-11-13T00:38:21.905232364Z"
+      },
+      "mlflow": {
+        "container": "nexus-phase6-mlflow-61c-1",
+        "state": "exited",
+        "restart_count": 0,
+        "memory_limit_bytes": 0,
+        "nano_cpus_limit": 0,
+        "started_at": "2026-11-13T00:37:08.141764338Z",
+        "finished_at": "2026-11-13T00:38:21.27522785Z"
+      }
+    },
+    "ram": {
+      "scope": "failed startup only; incomplete stack",
+      "per_service_peak_bytes": {
+        "kafka": 338585190,
+        "postgres": 94350868,
+        "redis": 13736346,
+        "mlflow": 521247130,
+        "nexus-collector": 2412773,
+        "nexus-assembler": null,
+        "nexus-classifier": null,
+        "nexus-api": null,
+        "nexus-dashboard": null,
+        "nexus-critic": null,
+        "nexus-healer": null
+      },
+      "sum_of_observed_service_peaks_bytes": 970332307,
+      "peak_sampled_observed_total_bytes": 965266636,
+      "sample_count": 13,
+      "sampling": "docker stats --no-stream; 3-second pause between samples; Docker CLI-rounded memory values converted to bytes; services not observed are null"
+    },
+    "synthetic_check": {
+      "status": "not_run",
+      "traces_submitted": 0,
+      "classified_records": null,
+      "alert_records": null,
+      "synthetic_suppressed": null
+    },
+    "fail_loud": {
+      "http_status": 503,
+      "body": {
+        "status": "unhealthy",
+        "nli_ready": false,
+        "consumer_running": false,
+        "error": "Required NLI model cross-encoder/nli-MiniLM2-L6-H768 could not load offline; classifier startup and consumption refused. Rebuild the image with its pinned models or run scripts/ci/prepare_models.py locally.",
+        "synthetic_suppressed": 0
+      },
+      "status": "pass",
+      "network": "none",
+      "hidden_directories": [
+        "/root/.cache/huggingface",
+        "/app/cross-encoder",
+        "/app/sentence-transformers"
+      ],
+      "hiding_method": "empty tmpfs; no model deletion",
+      "consumer_start_log_count": 0,
+      "startup_refusal_log_count": 1
+    },
+    "provider_evidence": {
+      "critic_started": false,
+      "healer_started": false,
+      "observed_llm_provider_calls": 0,
+      "cost_ledger_comparison": null,
+      "reason": "Requested five-minute critic/healer ledger/log comparison could not run because startup failed. No critic/healer containers were created for this attempt."
+    },
+    "offline_collector_build": {
+      "status": "failed",
+      "reason": "hatchling build dependency unavailable with build-step networking disabled",
+      "docker_registry_metadata_auth_requests_seen": true
+    },
+    "stopped": true
+  },
+  "lite": {
+    "status": "pass_with_host_ingress_limitation",
+    "run_id": "20261113004030",
+    "fresh_volumes": [
+      "nexus-lite_61c_20261113004030_data"
+    ],
+    "image": "nexus-phase6-nexus-lite:check",
+    "image_id": "sha256:aa1b18b0fbe7e9af18f91de1928994497e8c54579652dfc6c4c6d7ed5d55d4c5",
+    "network_internal": true,
+    "startup_seconds": 20.188000000000102,
+    "idle_hold": {
+      "measured_seconds": 300.0,
+      "observations": [
+        {
+          "utc": "2026-11-13T00:40:53.751226+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:41:01.330301+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:41:08.919043+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:41:16.505962+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:41:24.643646+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:41:32.224002+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:41:39.811612+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:41:47.399703+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:41:55.664839+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:42:03.254357+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:42:10.841125+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:42:18.434464+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:42:26.681198+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:42:34.781132+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:42:42.370025+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:42:49.962997+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:42:57.726071+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:43:05.774493+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:43:13.369763+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:43:20.964300+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:43:28.546566+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:43:36.131843+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:43:43.725841+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:43:51.318734+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:43:58.896006+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:44:06.485497+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:44:14.827093+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:44:22.421011+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:44:30.002362+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:44:37.587705+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:44:45.885225+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:44:53.457728+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:45:01.044777+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:45:08.639459+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:45:16.232646+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:45:23.818233+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:45:31.401473+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:45:38.991685+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T00:45:46.578107+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        }
+      ],
+      "restart_count": 0
+    },
+    "stopped": true,
+    "collector_response": {
+      "status_code": 202,
+      "body": {
+        "accepted": 4,
+        "rejected": 0,
+        "batch_id": "phase6-fictional-loop-fixture",
+        "trace_ids": [
+          "phase6-fictional-synthetic"
+        ]
+      }
+    },
+    "snapshot": {
+      "traces": [
+        {
+          "trace_id": "phase6-fictional-synthetic",
+          "agent_name": "phase6-fictional-agent",
+          "environment": "development",
+          "root_input": "Find the imaginary purple moon once.",
+          "final_output": "Repeated the same fictional lookup three times.",
+          "span_count": 4,
+          "total_duration_ms": 3040.0,
+          "started_at": "2026-11-12T12:00:00Z",
+          "completed_at": "2026-11-12T12:00:03.040000Z",
+          "status": "completed",
+          "spans": [
+            {
+              "span_id": "fictional-tool-1",
+              "trace_id": "phase6-fictional-synthetic",
+              "parent_span_id": "fictional-root",
+              "agent_name": "phase6-fictional-agent",
+              "span_type": "tool_call",
+              "input": "{\"object\":\"imaginary-purple-moon\"}",
+              "output": "fictional object found",
+              "duration_ms": 10.0,
+              "error_type": null,
+              "error_message": null,
+              "metadata": {
+                "tool_name": "fictional_lookup",
+                "nexus.synthetic": true
+              },
+              "client_timestamp": "2026-11-12T12:00:00Z",
+              "server_timestamp": "2026-11-13T00:47:09.903230Z",
+              "environment": "development",
+              "sdk_version": "0.1.0"
+            },
+            {
+              "span_id": "fictional-tool-2",
+              "trace_id": "phase6-fictional-synthetic",
+              "parent_span_id": "fictional-root",
+              "agent_name": "phase6-fictional-agent",
+              "span_type": "tool_call",
+              "input": "{\"object\":\"imaginary-purple-moon\"}",
+              "output": "fictional object found",
+              "duration_ms": 10.0,
+              "error_type": null,
+              "error_message": null,
+              "metadata": {
+                "tool_name": "fictional_lookup",
+                "nexus.synthetic": true
+              },
+              "client_timestamp": "2026-11-12T12:00:01Z",
+              "server_timestamp": "2026-11-13T00:47:09.903331Z",
+              "environment": "development",
+              "sdk_version": "0.1.0"
+            },
+            {
+              "span_id": "fictional-tool-3",
+              "trace_id": "phase6-fictional-synthetic",
+              "parent_span_id": "fictional-root",
+              "agent_name": "phase6-fictional-agent",
+              "span_type": "tool_call",
+              "input": "{\"object\":\"imaginary-purple-moon\"}",
+              "output": "fictional object found",
+              "duration_ms": 10.0,
+              "error_type": null,
+              "error_message": null,
+              "metadata": {
+                "tool_name": "fictional_lookup",
+                "nexus.synthetic": true
+              },
+              "client_timestamp": "2026-11-12T12:00:02Z",
+              "server_timestamp": "2026-11-13T00:47:09.903344Z",
+              "environment": "development",
+              "sdk_version": "0.1.0"
+            },
+            {
+              "span_id": "fictional-root",
+              "trace_id": "phase6-fictional-synthetic",
+              "parent_span_id": null,
+              "agent_name": "phase6-fictional-agent",
+              "span_type": "agent_step",
+              "input": "Find the imaginary purple moon once.",
+              "output": "Repeated the same fictional lookup three times.",
+              "duration_ms": 40.0,
+              "error_type": null,
+              "error_message": null,
+              "metadata": {
+                "final": true,
+                "nexus.synthetic": true
+              },
+              "client_timestamp": "2026-11-12T12:00:03Z",
+              "server_timestamp": "2026-11-13T00:47:09.903351Z",
+              "environment": "development",
+              "sdk_version": "0.1.0"
+            }
+          ]
+        }
+      ],
+      "alerts": [
+        {
+          "alert_id": "lite-phase6-fictional-synthetic-LOOP_DETECTED",
+          "trace_id": "phase6-fictional-synthetic",
+          "classification_id": null,
+          "agent_name": "phase6-fictional-agent",
+          "failure_type": "LOOP_DETECTED",
+          "severity": "HIGH",
+          "status": "OPEN",
+          "created_at": "2026-11-13T00:47:10.075488",
+          "resolved_at": null
+        }
+      ],
+      "proposals": [
+        {
+          "proposal_id": "lite-phase6-fictional-synthetic-LOOP_DETECTED-fallback",
+          "alert_id": "lite-phase6-fictional-synthetic-LOOP_DETECTED",
+          "trace_id": "phase6-fictional-synthetic",
+          "failure_type": "LOOP_DETECTED",
+          "patch_type": "RETRY_POLICY_PATCH",
+          "target_component": "agent_loop_controller",
+          "explanation": "Infinite loop detected: the agent repeated the same operation 3+ times. This generic patch caps total agent steps and enables identical-call deduplication. Targeted fix requires identifying the missing exit condition in the planning logic.",
+          "patch_content": "{\n  \"max_steps\": 15,\n  \"max_identical_calls\": 1,\n  \"dedup_key\": \"tool_name+input_hash\",\n  \"on_loop\": \"raise LoopLimitError\"\n}",
+          "confidence": "LOW",
+          "estimated_impact": "Loop incidents eliminated; agent will fail fast instead of hanging",
+          "root_cause_analysis": "Lite deterministic detector; generic fallback only, no LLM analysis.",
+          "created_at": "2026-11-13T00:47:10.075667",
+          "status": "REJECTED",
+          "critic_arm": "new",
+          "diagnosed_failure_type": null,
+          "cited_span_id": null,
+          "cited_step": null,
+          "provenance": {
+            "source": "fallback",
+            "model": "none",
+            "model_version": "template-v1",
+            "temperature": 0.0,
+            "prompt_version": "critic-round3-v2",
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "cost_usd": 0.0,
+            "latency_ms": 0.0,
+            "mock": false,
+            "prompt_hashes": {}
+          },
+          "valid_without_fallback": false,
+          "dry_run_applied": false,
+          "rejection_reasons": [],
+          "no_op_patch": false,
+          "bad_references": [],
+          "fix_tag": null,
+          "clean_config_diff": [],
+          "source": "generic_fallback_no_llm"
+        }
+      ],
+      "gate_decisions": [
+        {
+          "proposal_id": "lite-phase6-fictional-synthetic-LOOP_DETECTED-fallback",
+          "trace_id": "phase6-fictional-synthetic",
+          "status": "placeholder",
+          "decision": null,
+          "reason": "Phase 4 pending; no evaluation or application in lite mode."
+        }
+      ]
+    },
+    "health_after_trace": {
+      "status": "ok",
+      "kafka_connected": false,
+      "queue_backend": "inprocess",
+      "queue_connected": true,
+      "spans_received_total": 4,
+      "uptime_seconds": 19.83
+    },
+    "ram": {
+      "per_service_bytes": {
+        "nexus-lite": 69363302
+      },
+      "sum_of_service_peaks_bytes": 69363302,
+      "peak_sampled_total_bytes": 69363302,
+      "sample_count": 43,
+      "sampling": "docker stats --no-stream; 3-second pause between samples; CLI-rounded memory converted to bytes"
+    },
+    "restart_counts": {
+      "nexus-lite": 0
+    },
+    "host_ingress_check": {
+      "status": "fail",
+      "reason": "Connection refused from Windows host with internal Docker network; endpoint verified via container loopback instead"
+    },
+    "trace_transport": "HTTP POST /v1/spans at container localhost via docker exec; same fresh volume; no prior accepted traffic",
+    "explicit_stop_start_between_hold_and_trace": true,
+    "initial_error": "URLError(ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None))"
+  },
+  "startup_review_source_sha256": {
+    "infra/entrypoints/critic.py": "a1b42546dc2f47868fb2bd3d2f4c3e840f4ecf95bd95ffaf5db66d496958829f",
+    "services/critic/main.py": "cc38826c1fb679f7f6f4d8405affdf34d82ce930f170830fff9243fdb51a9c24",
+    "services/critic/consumer.py": "66e0ca1a675dcfb6a50007297d4a2cac082dfda791560afdbbe7d6a90691b46e",
+    "services/critic/graph.py": "f9d382b42e11138fd8c93339ab5fbe5a1be9a76081abf690f7d0d61859562321",
+    "services/critic/llm.py": "b354645624b3c25f05659a3b59d3ca717e5a2a2553eea8a094b015b197ff7918",
+    "services/critic/accounting.py": "1cacb613e44540b5c8f4cbd4cb700ddb2be0fbeeff444a58ce33f73db1fd4ce8",
+    "services/healer/main.py": "50f0867ef00b09e3a481804990b269093785da262a1d33a6775f01313e1241b8",
+    "services/healer/consumer.py": "6cf60dc4d4e1aaf10d6a9116ce8694efe19881e839c753cd380aad9f31aa009b",
+    "services/healer/db.py": "5e28142345b85ef15cbe0421b9bc62d7674d76911cf1ea6c1faefdbb082da8f5",
+    "services/healer/eval_runner.py": "a9a7418e587a5240b5ebd6378205428e39793f068a57749a6656da170ca3e0e3",
+    "services/healer/mlflow_logger.py": "2caa28933347805fa2f4d150bc4f85e00dd2f63b82d78e4f36c3503f95d90ae3",
+    "services/healer/slack_notifier.py": "4dcd96af89d115eb139fd098732d33eb088678da488997058b8f69488d7aa187"
+  },
+  "fixture": {
+    "path": "scripts/phase6/fixtures/fictional_loop.json",
+    "sha256": "9899f9fd634c1a3461cf4ee1a9cd070f96b36e959c4cfffcc978de546274a865",
+    "origin": "Hand-written imaginary purple moon trace; no benchmark records read; every fixture span marked nexus.synthetic=true"
+  },
+  "evidence_directory": "data/phase6/runs/scratch/stack-61c",
+  "evidence_sha256": {
+    "collector-startup.log": "6473269345e7a6354b80f63f6dbce13df074f7c9b8f85d278d8b816646177a27",
+    "fail-loud-result.json": "899e69787190712db3533ba256b4fde11c4b44e2f1fd5bd1ae97d9d29a985cd2",
+    "fail-loud.log": "7bab1985583476b15083ffe136066dde1941269fd4892ce537b8c1bbd657acf7",
+    "full-final-state.json": "715e7cbf4be7fffdc333bdccf2fa8270cbf5d79ddf93a78fa31d01f839cc1d2a",
+    "lite-samples.json": "265609643ab33a0fd52221f5750d091b1278ad6f17387f58b131b9a82ffccddd",
+    "lite.log": "232314ef01364fb8862d2da0cb79177af70255468b50c0ec7e303090e046a2e1",
+    "original-inventory.json": "4f67eb9f3326633b70eedd5f7e4d91401dd29a432de80301fed3b9fa234ed45c",
+    "samples.json": "ad76da6f3d4efd456749fb8dde4c6313b1825bacc26c35dd46b582254405aabe"
+  },
+  "ci_checks_url": "https://github.com/sankalp-rajeev/Nexus/pull/5/checks",
+  "ci_status_at_recording": "Not yet pushed; final handoff supplies the resulting CI run link.",
+  "next_required_step": "Supply a current collector image with its declared OTLP/protobuf dependencies already installed, then repeat the full validation using an egress guard that does not perform external registry lookups. Revalidate host ingress separately."
+}

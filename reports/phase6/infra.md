@@ -128,3 +128,124 @@ directories are excluded from Docker contexts rather than deleted.
 (`nexus-phase5-nexus-classifier`, `cd7c75c802fb`) and **2.90 GB after**
 (`nexus-phase6-nexus-classifier`, `69233e13ae8b`). These are the CLI's rounded
 image-size displays, not incremental disk-use measurements.
+
+
+## Step 6.1c stack validation — failed/incomplete
+
+Measured on 2026-11-12 (America/New_York), checkout
+`a18b0b8cf8755b74a21d4d785a9cb26f6e7f0686`. Machine-readable results are in
+`results/phase6/stack_validation.json`. Overall validation **did not pass**.
+No application, frozen code, existing fixture, CI workflow or test runner changed.
+
+The read-only startup audit passed before Docker work. Critic connects to
+Postgres/Kafka and polls; its provider factory is reached only when processing
+an alert. Healer connects to Redis/Postgres and polls pending patches; evaluation
+and notification run only while processing a patch. Neither startup/idle path
+makes an LLM/provider call. The audit covered the entrypoints, consumers,
+critic graph/provider/accounting, and healer evaluation/notification helpers.
+
+Docker Desktop was initially unavailable and was started. Phase 5 was confirmed
+stopped before and after validation. Existing Phase 6 infrastructure containers
+and volumes from 6.1b were preserved: validation used service names ending in
+`-61c` within project `nexus-phase6`, fresh volume names recorded in the JSON,
+and normal service DNS aliases. Internal Docker networks blocked external
+runtime egress; provider keys were cleared. Application services used local
+images with current `services/` and `sdk/` mounted read-only from this folder.
+The critic entrypoint was also mounted from this checkout. The attempted full
+run used the existing Phase 5 application images except for the Phase 6 classifier.
+Extra health checks used HTTP for MLflow/collector/API/dashboard and infrastructure
+socket checks for assembler/critic/healer; these are validation probes, not new
+application health endpoints.
+
+**Full startup failed.** The available collector image lacks `google.protobuf`,
+needed by the current OTLP import, and logged
+`ModuleNotFoundError: No module named 'google'`. It restarted **9** times.
+The attempt was stopped while fresh PostgreSQL was still initializing; no
+healthy-startup time exists. An attempted current collector build with
+`--network none --pull=false` failed because `hatchling` was not available
+offline. BuildKit still performed Docker Hub metadata/auth lookups despite
+that flag, so the strict **no-external-API constraint also failed**. No
+LLM/provider request occurred. No alternative image was counted as a full-stack pass.
+
+The full synthetic HTTP/Kafka count check, actual critic-group zero-lag check,
+and five-minute critic/healer idle hold were **not run**. No traces were sent
+to the full collector; no topics or offsets were changed. Critic/healer were
+never created or started. Their requested runtime log/cost-ledger comparison
+therefore has no result; it must not be described as a passing idle hold.
+
+The independent **classifier fail-loud check passed** using the Phase 6 image.
+Empty tmpfs mounts hid `/app/cross-encoder`, `/app/sentence-transformers` and
+the Hugging Face cache, without deleting models. `/health` returned **503**,
+`nli_ready=false`, `consumer_running=false`, and an explicit required-NLI
+offline-load error. Logs contained one startup/consumer refusal and no consumer
+start. The throwaway container had no network and was stopped/removed.
+Two setup probes preceded this result: the first sampled initial readiness too
+early; the second hid only the HF cache, leaving the locally baked model visible.
+Neither was counted as a fail-loud pass.
+
+**Lite startup/hold/trace checks passed, with a host-ingress limitation.** Project
+`nexus-lite` used image `nexus-phase6-nexus-lite:check` and a fresh named volume.
+Observed time from `up -d` invocation to confirmed healthy was
+**20.188 seconds**. The zero-traffic hold lasted
+**300.000 seconds**, with
+**39 healthy observations** and zero automatic
+restarts. The host port then refused an HTTP connection on the internal network.
+Cleanup stopped the container; it was explicitly started again using the same
+untouched volume to test HTTP via container loopback. That request accepted all
+four fictional spans and produced one persisted trace, one `LOOP_DETECTED`
+alert, and one `generic_fallback_no_llm` proposal. It was stopped again. The
+separate explicit start/stop is recorded; the idle hold itself had no restarts.
+Host ingress has not passed. No LLM/provider code is called by the lite worker.
+
+Peak RAM below comes from `docker stats --no-stream` sampling. CLI-rounded MiB
+values were converted to bytes in the JSON. Full figures cover **only five
+services during failed startup**, not a healthy full stack; missing observations
+are not zero. Sampling paused three seconds between CLI calls.
+
+| Container/service | Observed peak MiB | Docker restart count |
+| --- | ---: | ---: |
+| Full attempt: kafka | 322.90 | 0 |
+| Full attempt: postgres | 89.98 | 0 |
+| Full attempt: redis | 13.10 | 0 |
+| Full attempt: mlflow | 497.10 | 0 |
+| Full attempt: nexus-collector | 2.30 | 9 |
+| Full attempt: nexus-assembler | not measured | 0 |
+| Full attempt: nexus-classifier | not measured | 0 |
+| Full attempt: nexus-api | not measured | 0 |
+| Full attempt: nexus-dashboard | not measured | 0 |
+| Full attempt: nexus-critic | not measured | not started |
+| Full attempt: nexus-healer | not measured | not started |
+| Lite: nexus-lite | 66.15 | 0 |
+
+The sum of the five observed full-service peaks was
+**925.38 MiB**; the largest concurrently sampled total was
+**920.55 MiB** across
+**13 samples**. Neither is a full-stack RAM total. Lite's observed
+peak/total was **66.15 MiB**
+across **43 samples**, including the trace check.
+
+Host RAM was **33986535424 bytes**, with
+**32 logical processors**.
+Docker **28.5.1** exposed
+**10424061952 bytes** and
+**32 CPUs**. The inspected WSL configuration
+specified `memory=10GB`, `swap=8GB`, `autoMemoryReclaim=gradual`.
+Full-attempt containers had Docker memory and NanoCPU limits of zero (no
+individual cap; the Docker VM limit still applies).
+
+All original container IDs and volume names remain present. Failed-attempt
+containers and volumes were retained; no original data was deleted. Final
+inspection found no running Phase 5, Phase 6, or lite containers. Local raw
+evidence and sampling records remain under ignored
+`data/phase6/runs/scratch/stack-61c/`; their hashes are in the committed JSON.
+The new hand-written test fixture is
+`scripts/phase6/fixtures/fictional_loop.json`; it contains no NexusBench data.
+TEST remained sealed and no ntfy notification was sent.
+
+The next full attempt needs a current collector image with its declared OTLP
+dependencies already installed, and an egress guard that also prevents registry
+lookups. Then repeat the full startup, synthetic suppression, critic-offset
+boundary, five-minute idle, and complete RAM measurements. CI checks for the
+result commit are linked from
+[draft PR 5](https://github.com/sankalp-rajeev/Nexus/pull/5/checks); the handoff
+records the actual run URL after the single push.
