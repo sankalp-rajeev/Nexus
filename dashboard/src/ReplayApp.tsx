@@ -4,6 +4,11 @@ import HeadlinePanel from './replay/HeadlinePanel'
 import HealView, { HealPicker } from './replay/HealView'
 import ProvenancePanel from './replay/ProvenancePanel'
 import TraceView from './replay/TraceView'
+import './hero/hero.css'
+import Hero, { Nav, SectionBoundary } from './hero/Hero'
+import {
+  Architecture, EvidenceIntro, Finding, Footer, Limits, Mechanism, PerClass, Problem, UseIt, Walkthrough,
+} from './story/Story'
 
 const TABS = [
   { id: 'heals', label: 'Heals' },
@@ -37,28 +42,44 @@ export default function ReplayApp() {
     return () => { active = false; window.removeEventListener('hashchange', onHash) }
   }, [])
 
-  if (error) return <main className="p-8" role="alert">{error}. Rebuild with npm run build:replay.</main>
-  if (!data) return <main className="p-8" role="status">Loading the recorded DEV replay…</main>
+  if (error) return <main className="nx nx-state" role="alert"><p className="container">{error}. Rebuild with npm run build:replay.</p></main>
+  if (!data) return <main className="nx nx-state" role="status"><p className="container">Loading the recorded DEV replay…</p></main>
 
   const heal = data.heals.find(item => `${item.run}-${item.heal_id}` === selectedHeal) ?? data.heals[0]
   const choose = (id: TabId) => { window.location.hash = id; setTab(id) }
 
   return (
-    <main className="min-h-screen bg-stone-50 text-stone-800 px-4 sm:px-6 py-5 space-y-5 max-w-7xl mx-auto">
+    <div id="top" className="nx">
+      <a className="skip" href="#main">Skip to content</a>
+      <Nav />
+      <main id="main">
+        <SectionBoundary name="headline"><Hero data={data} /></SectionBoundary>
+        <SectionBoundary name="story">
+          <Problem />
+          <Mechanism data={data} />
+          <Finding data={data} />
+          <PerClass data={data} />
+          <Walkthrough data={data} />
+          <Architecture data={data} />
+          <UseIt data={data} />
+          <Limits data={data} />
+        </SectionBoundary>
+        <EvidenceIntro data={data}>
+    <div className="explorer space-y-5">
       <header>
-        <h1 className="text-xl font-semibold">Nexus · DEV replay</h1>
-        <p className="text-sm mt-1 text-stone-600">
+        <h3 className="text-xl font-semibold">Nexus · DEV replay</h3>
+        <p className="text-sm mt-1 text-ink2">
           Detect, propose, check, decide: {data.heals.length} recorded heals and {data.traces.length} DEV traces.
           Read-only, static JSON, no backend or keys.
         </p>
       </header>
-      <aside className="border border-amber-300 bg-amber-50 rounded-lg p-3 text-xs space-y-1" aria-label="Replay limitations">
+      <aside className="border border-rule bg-paper3 rounded-lg p-3 text-sm space-y-1" aria-label="Replay limitations">
         {data.notices.map(notice => <p key={notice}>{notice}</p>)}
       </aside>
-      <nav role="tablist" aria-label="Replay views" className="flex flex-wrap gap-1 border-b border-stone-200">
+      <nav role="tablist" aria-label="Replay views" className="flex flex-wrap gap-1 border-b border-rule">
         {TABS.map(item => (
-          <button key={item.id} role="tab" aria-selected={tab === item.id} onClick={() => choose(item.id)}
-                  className={`px-3 py-2 text-sm -mb-px border-b-2 ${tab === item.id ? 'border-stone-800 font-semibold' : 'border-transparent text-stone-500 hover:text-stone-800'}`}>
+          <button key={item.id} type="button" role="tab" aria-selected={tab === item.id} onClick={() => choose(item.id)}
+                  className={`px-3 py-2 text-sm -mb-px border-b-2 ${tab === item.id ? 'border-accent text-ink font-medium' : 'border-transparent text-muted hover:text-ink'}`}>
             {item.label}
           </button>
         ))}
@@ -72,6 +93,10 @@ export default function ReplayApp() {
       {tab === 'traces' && <TraceView data={data} />}
       {tab === 'numbers' && <HeadlinePanel data={data} />}
       {tab === 'provenance' && <ProvenancePanel data={data} />}
-    </main>
+    </div>
+        </EvidenceIntro>
+      </main>
+      <Footer data={data} />
+    </div>
   )
 }

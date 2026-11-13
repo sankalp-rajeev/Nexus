@@ -31,6 +31,7 @@ import argparse
 import difflib
 import hashlib
 import json
+import math
 import os
 import re
 import subprocess
@@ -57,11 +58,14 @@ EQUIVALENCE = "results/phase6/live_detectors_equivalence_with_final.json"
 BEFORE_AFTER = "results/phase6/live_detectors_before_after.json"
 L4_RERUN = "results/phase6/l4_rerun.json"
 HEADLINE_P4 = "results/phase4/headline_transcribed.json"
+PREREG_P4 = "reports/phase4/preregistration.md"
+CRITIC_C1 = "results/critic_dev/c1.json"
+DATASHEET = "bench/DATASHEET.md"
 # Everything whose content shapes replay.json and lives in this repository. Each is recorded by git
 # blob id (``git hash-object`` of the working file, which is stable across CRLF/LF checkouts).
 SOURCES = (
     RESULTS_MD, PREDICTIONS, HEAL_COST, GEMINI_SIDE, HEADLINE_P5, EQUIVALENCE, BEFORE_AFTER, L4_RERUN,
-    HEADLINE_P4, LABELS, TRACES,
+    HEADLINE_P4, PREREG_P4, CRITIC_C1, DATASHEET, LABELS, TRACES,
     "bench/agent.py", "bench/detector_view.py",
     "services/critic/dev_adapter.py", "services/critic/detector_adapter.py",
     "services/healer/gate.py",
@@ -444,7 +448,196 @@ def build_headline() -> dict:
                  "Reported apart from the headline run."),
         ]},
     ]
-    return {"groups": groups}
+    return {"groups": groups, "hero": build_hero(rows, p4_num, p4_commit, p4_scope), "story": build_story()}
+
+
+def wilson95(k: int, n: int) -> list[float]:
+    """Wilson 95% interval, rounded as in results/phase4/headline_transcribed.json (used only for sums of its cells)."""
+    z = 1.959963984540054
+    p_hat = k / n
+    centre = (p_hat + z * z / (2 * n)) / (1 + z * z / n)
+    half = z * math.sqrt(p_hat * (1 - p_hat) / n + z * z / (4 * n * n)) / (1 + z * z / n)
+    return [round(max(0.0, centre - half), 4), round(min(1.0, centre + half), 4)]
+
+
+def _line_of(path: str, needle: str) -> int:
+    """1-based line of the first line containing ``needle``; the page links there."""
+    for number, line in enumerate((ROOT / path).read_text(encoding="utf-8").splitlines(), 1):
+        if needle in line:
+            return number
+    raise ValueError(f"{path} no longer contains {needle!r}")
+
+
+def _results_row(rows: dict, row_id: str) -> dict:
+    row = rows[row_id]
+    return {"source": {"path": RESULTS_MD, "locator": f"row {row_id} ({row['date']}, commit {row['commit']})"},
+            "cite": {"path": RESULTS_MD, "line": _line_of(RESULTS_MD, f"| {row_id} |")}}
+
+
+def _p4_fraction(p4_num: dict, number_id: str, p4_commit: str) -> dict:
+    number = p4_num[number_id]
+    source = number["source"]
+    return {"k": number["k"], "n": number["n"], "wilson95": number["wilson95"], "split": number["split"],
+            "source": {"path": HEADLINE_P4,
+                       "locator": f"numbers[{number_id}], from {source['path']} line {source['line']} "
+                                  f"(commit {p4_commit})"},
+            # Where a reader lands: the committed report row the number was transcribed from.
+            "cite": {"path": source["path"], "line": source["line"]}}
+
+
+def _kn(fraction: dict) -> dict:
+    return {key: fraction[key] for key in ("k", "n", "wilson95")}
+
+
+def build_hero(rows: dict, p4_num: dict, p4_commit: str, p4_scope: str) -> dict:
+    """The landing hero's proof numbers, as numbers (k, n, value) so the page computes its words from them.
+
+    Same sources as the cards above: the transcribed Phase 4 TEST finding and the RESULTS.md D2 row.
+    """
+    def p4_proof(proof_id: str, number_id: str) -> dict:
+        return {"id": proof_id, "kind": "fraction", **_p4_fraction(p4_num, number_id, p4_commit), "scope": p4_scope}
+
+    d2 = rows["D2"]["result"]
+    failure_classes = [r["class"] for r in read_json(HEADLINE_P4)["per_class_critic_vs_generic"]["rows"]
+                       if r["class"] != "all"]
+    recall = {"id": "detection_recall", "kind": "comparison",
+              "value": float(_search(r"headline macro recall ([0-9.]+)", d2)),
+              "baseline": float(_search(r"vs SVM baseline ([0-9.]+)", d2)),
+              "classes": len(failure_classes),
+              "split": "test", "scope": "TEST, as reported in RESULTS.md", **_results_row(rows, "D2")}
+    old_rule = p4_proof("old_rule_false_promotions", "old_rule_false_promotions")
+    old_rule["definition"] = {"path": PREREG_P4, "line": _line_of(PREREG_P4, "An old-rule false promotion")}
+    fresh = p4_proof("fresh_seed_failures", "gate_false_promotions_fresh_seeds")
+    fresh["definition"] = {"path": PREREG_P4, "line": _line_of(PREREG_P4, "every gate-promoted patch is re-run")}
+    return {"proof": [
+        p4_proof("llm_patches_broke", "regression_breaks_test"),
+        p4_proof("genuine_patches_broke", "other_fix_h3_breaks"),
+        old_rule,
+        fresh,
+        recall,
+    ]}
+
+
+def _find_key(value, key: str):
+    """First value of ``key`` anywhere in a JSON document."""
+    if isinstance(value, dict):
+        if key in value:
+            return value[key]
+        value = list(value.values())
+    if isinstance(value, list):
+        for item in value:
+            found = _find_key(item, key)
+            if found is not None:
+                return found
+    return None
+
+
+def build_story() -> dict:
+    """Every number the story sections below the hero print, keyed by id, each with its source row."""
+    rows = results_md_rows()
+    results_lines = (ROOT / RESULTS_MD).read_text(encoding="utf-8").splitlines()
+    p4 = read_json(HEADLINE_P4)
+    p4_num = {n["id"]: n for n in p4["numbers"]}
+    p4_commit = p4["provenance"]["git_commit"][:7]
+    p4_scope = "TEST, scored once; transcribed from the committed Phase 4 report, not recomputed"
+    per_class = {r["class"]: r for r in p4["per_class_critic_vs_generic"]["rows"]}
+    cost = read_json(HEAL_COST)
+    p5 = read_json(HEADLINE_P5)
+    l4 = read_json(L4_RERUN)["collector_healthy"]["paired_added_per_step"]
+
+    def frac(number_id: str) -> dict:
+        return _p4_fraction(p4_num, number_id, p4_commit)
+
+    def class_arms(classes: list[str]) -> dict:
+        """Promoted per eligible failure, critic vs generic, summed over ``classes``."""
+        arms = {}
+        for arm, name in (("v1_structured", "critic"), ("generic", "generic")):
+            cells = [per_class[c]["promoted_per_eligible_failure"][arm] for c in classes]
+            k, n = sum(c["k"] for c in cells), sum(c["n"] for c in cells)
+            interval = cells[0]["wilson95"] if len(cells) == 1 else wilson95(k, n)
+            arms[name] = {"k": k, "n": n, "wilson95": interval}
+        return {"kind": "versus", **arms, "classes": classes, "split": "test", "scope": p4_scope,
+                "interval_note": None if len(classes) == 1 else "Wilson 95% computed here from the summed counts",
+                "source": {"path": HEADLINE_P4,
+                           "locator": f"per_class_critic_vs_generic[{', '.join(classes)}] (commit {p4_commit})"},
+                "cite": {"path": per_class[classes[0]]["source"]["path"],
+                         "line": min(per_class[c]["source"]["line"] for c in classes)}}
+
+    def row_line(row_id: str) -> str:
+        return next(line for line in results_lines if line.startswith(f"| {row_id} |"))
+
+    d1, d5, v11 = rows["D1"]["result"], rows["D5"]["result"], rows["S-v1.1-test"]["result"]
+    tta = rows["P6-time-to-alert"]["result"]
+    full_gate = cost["L1"]["full_gate"]["total_s"]
+    promoted = sum(v.get("promoted", 0) for v in cost["gate_decisions"]["by_detector_failure_class"].values())
+    provider = cost["L2"]["provider_usd"]
+    repaired = frac("other_fix_v1_repaired")
+
+    figures = [
+        {"id": "repaired_vs_no_patch", "kind": "versus", "critic": _kn(repaired),
+         "no_patch": _kn(frac("other_fix_no_patch_same_failures")),
+         "split": "test", "scope": p4_scope, "source": repaired["source"], "cite": repaired["cite"]},
+        {"id": "loop_tool_misfire", **class_arms(["LOOP_DETECTED", "TOOL_MISFIRE"])},
+        {"id": "hallucination", **class_arms(["HALLUCINATION"])},
+        {"id": "plan_drift", **class_arms(["PLAN_DRIFT"])},
+        {"id": "regression_dev_test", "kind": "versus",
+         "dev": _kn(frac("regression_breaks_dev")), "test": _kn(frac("regression_breaks_test")),
+         "split": "test", "scope": "DEV and TEST, both on the A2 regression set",
+         "source": frac("regression_breaks_test")["source"], "cite": frac("regression_breaks_dev")["cite"]},
+        {"id": "time_to_alert", "kind": "values", "unit": "s",
+         "values": {"p50": float(_search(r"native p50/p95 ([0-9.]+)/", tta)),
+                    "p95": float(_search(r"native p50/p95 [0-9.]+/([0-9.]+)", tta)),
+                    "n": int(_search(r"\(([0-9]+) DEV traces", tta))},
+         "split": "dev", "scope": "DEV, live stack", **_results_row(rows, "P6-time-to-alert")},
+        {"id": "time_to_verified_decision", "kind": "values", "unit": "s",
+         "values": {"p50": round(full_gate["p50"], 1), "p90": round(full_gate["p90"], 1), "n": full_gate["n"]},
+         "split": "dev", "scope": "DEV, one machine, one night",
+         "source": {"path": HEAL_COST, "locator": "L1.full_gate.total_s"},
+         "cite": {"path": HEAL_COST, "line": _line_of(HEAL_COST, '"full_gate"')}},
+        {"id": "cost_per_fix", "kind": "values", "unit": "usd",
+         "values": {"per_heal_mean": round(provider["mean"], 4), "total": round(provider["total"], 4),
+                    "promoted": promoted, "per_promoted": round(provider["total"] / promoted, 4),
+                    "heals": provider["n"]},
+         "split": "dev", "scope": "DEV, provider usage-priced, not an invoice",
+         "interval_note": "per_promoted is computed here: total provider cost divided by promoted heals",
+         "source": {"path": HEAL_COST, "locator": "L2.provider_usd, gate_decisions.by_detector_failure_class"},
+         "cite": {"path": HEAL_COST, "line": _line_of(HEAL_COST, '"provider_usd"')}},
+        {"id": "sdk_overhead", "kind": "values", "unit": "ms",
+         "values": {"p50": l4["p50_ms"], "p99": l4["p99_ms"]},
+         "split": "dev", "scope": "DEV", **_results_row(rows, "P6-L4")},
+        {"id": "ingestion", "kind": "values", "unit": "events/s",
+         "values": {"sustained": p5["L3_ingestion_max_events_s"]},
+         "split": "dev", "scope": "DEV, one laptop",
+         "source": {"path": HEADLINE_P5, "locator": "L3_ingestion_max_events_s"},
+         "cite": {"path": HEADLINE_P5, "line": _line_of(HEADLINE_P5, '"L3_ingestion_max_events_s"')}},
+        {"id": "hallucination_precision", "kind": "values", "unit": "ratio",
+         "values": {"primary": float(_search(r"H P=([0-9.]+)", d1)),
+                    "target": float(_search(r"target P >= ([0-9.]+)", row_line("D1"))),
+                    "v11": float(_search(r"H P=([0-9.]+)", v11))},
+         "split": "test", "scope": "TEST, as reported in RESULTS.md (D1 primary, S-v1.1-test sensitivity)",
+         **_results_row(rows, "D1")},
+        {"id": "false_alerts", "kind": "values", "unit": "per 1,000 normal traces",
+         "values": {"primary": float(_search(r"per 1,000 NORMAL: ([0-9.]+)", d5)),
+                    "target": float(_search(r"target of <= ([0-9.]+) per 1,000", row_line("D5"))),
+                    "v11": float(_search(r"FA/1000 ([0-9.]+)", v11))},
+         "split": "test", "scope": "TEST, as reported in RESULTS.md (D5 primary, S-v1.1-test sensitivity)",
+         **_results_row(rows, "D5")},
+        {"id": "v11_registration", "kind": "values", "unit": "none", "values": {},
+         "split": "test", "scope": "criterion registered before TEST scoring; labels applied after, to stored predictions",
+         **_results_row(rows, "S-v1.1-test")},
+        {"id": "critic_temperature", "kind": "values", "unit": "none",
+         "values": {"temperature": _find_key(read_json(CRITIC_C1), "temperature")},
+         "split": "dev", "scope": "critic settings",
+         "source": {"path": CRITIC_C1, "locator": "temperature"},
+         "cite": {"path": CRITIC_C1, "line": _line_of(CRITIC_C1, '"temperature"')}},
+        {"id": "lite_limits", "kind": "values", "unit": "none", "values": {},
+         "split": "dev", "scope": "lite mode", **_results_row(rows, "P6-lite-limits")},
+        {"id": "invented_world", "kind": "values", "unit": "none", "values": {},
+         "split": "dev", "scope": "benchmark datasheet",
+         "source": {"path": DATASHEET, "locator": "World"},
+         "cite": {"path": DATASHEET, "line": _line_of(DATASHEET, "fully fictional world")}},
+    ]
+    return {"figures": figures}
 
 
 # ── heals (Phase 5 recorded runs) ────────────────────────────────────────────────────────────────

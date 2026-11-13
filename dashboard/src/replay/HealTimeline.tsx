@@ -6,10 +6,10 @@ export type StepState = 'done' | 'pass' | 'fail' | 'skipped'
 export interface Step { name: (typeof STAGES)[number]; state: StepState; line: string; time: string }
 
 const STATE_STYLE: Record<StepState, string> = {
-  done: 'border-sky-300 bg-sky-50 text-sky-900',
-  pass: 'border-emerald-300 bg-emerald-50 text-emerald-900',
-  fail: 'border-rose-300 bg-rose-50 text-rose-900',
-  skipped: 'border-stone-200 bg-stone-50 text-stone-500',
+  done: 'border-cool bg-coolsoft text-cool',
+  pass: 'border-ok bg-oksoft text-ok',
+  fail: 'border-bad bg-badsoft text-bad',
+  skipped: 'border-rule bg-paper text-muted',
 }
 const STATE_WORD: Record<StepState, string> = { done: 'DONE', pass: 'PASS', fail: 'FAIL', skipped: 'SKIPPED' }
 

@@ -11,13 +11,13 @@ export function HealPicker({ heals, selected, onSelect }: { heals: ReplayHeal[];
       {heals.map(heal => (
         <button key={`${heal.run}-${heal.heal_id}`} role="tab" aria-selected={selected === `${heal.run}-${heal.heal_id}`}
                 onClick={() => onSelect(`${heal.run}-${heal.heal_id}`)}
-                className={`text-left border rounded-lg p-3 transition-colors ${selected === `${heal.run}-${heal.heal_id}` ? 'border-stone-800 bg-white shadow-sm' : 'border-stone-200 bg-stone-50 hover:bg-white'}`}>
+                className={`text-left border rounded-lg p-3 transition-colors ${selected === `${heal.run}-${heal.heal_id}` ? 'border-accent bg-paper2 shadow-sm' : 'border-rule bg-paper hover:bg-paper2'}`}>
           <div className="flex flex-wrap items-center gap-2">
             <span className="font-mono text-xs font-medium">{heal.heal_id}{heal.run === 'gemini' ? ' · side row' : ''}</span>
             <FailureChip name={heal.detector.verdict === 'NORMAL' ? 'NORMAL' : heal.detector_failure_class} />
             <OutcomeBadge value={heal.gate.decision} />
           </div>
-          <p className="text-xs text-stone-600 mt-1.5 leading-snug">{heal.selected_because.split('matching: ')[1]}</p>
+          <p className="text-xs text-ink2 mt-1.5 leading-snug">{heal.selected_because.split('matching: ')[1]}</p>
         </button>
       ))}
     </div>
@@ -33,15 +33,15 @@ export default function HealView({ data, heal }: { data: ReplayData; heal: Repla
         <h2 className="text-base font-semibold">{heal.heal_id} · task <Mono>{heal.task_id}</Mono></h2>
         <FailureChip name={heal.detector.verdict} />
         <OutcomeBadge value={heal.gate.decision} />
-        <span className="text-xs text-stone-500">{heal.run_label}</span>
+        <span className="text-xs text-muted">{heal.run_label}</span>
       </header>
-      <p className="text-xs text-stone-500">Selected by rule: {heal.selected_because}.</p>
+      <p className="text-xs text-muted">Selected by rule: {heal.selected_because}.</p>
       <HealTimeline heal={heal} />
-      <div className="border border-stone-200 bg-white rounded-lg p-4 text-sm" aria-label="Decision">
+      <div className="border border-rule bg-paper2 rounded-lg p-4 text-sm" aria-label="Decision">
         <span className="font-semibold">Decision: </span>{heal.gate.reason}
-        <span className="text-xs text-stone-500"> Total {seconds(heal.timing.total_s)}, provider cost ${heal.cost.provider_usd?.toFixed(4) ?? 'n/a'}.</span>
+        <span className="text-xs text-muted"> Total {seconds(heal.timing.total_s)}, provider cost ${heal.cost.provider_usd?.toFixed(4) ?? 'n/a'}.</span>
         {heal.paired_headline_run && (
-          <p className="text-xs text-stone-500 mt-1">
+          <p className="text-xs text-muted mt-1">
             The same occurrence in the 100-heal run (DeepSeek critic) was {heal.paired_headline_run.decision} ({heal.paired_headline_run.source}).
           </p>
         )}
@@ -55,13 +55,13 @@ export default function HealView({ data, heal }: { data: ReplayData; heal: Repla
         </Section>
       </div>
       <Section title="Gate checks" hint="Each check is a deterministic pass/fail over re-runs; no model judges the patch.">
-        <ul className="divide-y divide-stone-100">
+        <ul className="divide-y divide-rule">
           {heal.gate.checks.map(check => (
             <li key={check.id} className="py-2 grid sm:grid-cols-[10rem_6rem_1fr] gap-x-4 gap-y-1 text-sm" data-check={check.id} data-outcome={check.outcome}>
               <span className="font-medium">{check.label}</span>
               <span><OutcomeBadge value={check.outcome} /></span>
-              <span className="text-xs text-stone-600 min-w-0">
-                <span className="block text-stone-500">{check.rule}</span>
+              <span className="text-xs text-ink2 min-w-0">
+                <span className="block text-muted">{check.rule}</span>
                 <span className="block mt-0.5">{check.outcome === 'skipped' ? 'Not run: the heal ended before this check.' : check.detail}</span>
               </span>
             </li>
@@ -70,14 +70,14 @@ export default function HealView({ data, heal }: { data: ReplayData; heal: Repla
       </Section>
       <Section title="The trace" hint={`${trace.agent_name} · ${trace.spans.length} spans · the detector view: what the detectors and the critic were given.`}>
         <div className="space-y-3">
-          <div><p className="text-xs font-medium text-stone-500">Task input</p>
+          <div><p className="text-xs font-medium text-muted">Task input</p>
             <p className="text-sm whitespace-pre-wrap break-words">{trace.root_input}</p></div>
-          <details><summary className="text-xs font-medium text-stone-500 cursor-pointer">Recorded final output</summary>
+          <details><summary className="text-xs font-medium text-muted cursor-pointer">Recorded final output</summary>
             <p className="text-sm mt-1 whitespace-pre-wrap break-words">{trace.final_output ?? 'No final output recorded.'}</p></details>
           <SpanList spans={trace.spans} evidenceSpanId={trace.detector.evidence?.span_id} citedSpanId={heal.critic.cited_span_id} />
         </div>
       </Section>
-      <details className="text-xs text-stone-500">
+      <details className="text-xs text-muted">
         <summary className="cursor-pointer">Where this heal comes from</summary>
         <dl className="mt-2 grid sm:grid-cols-[9rem_1fr] gap-x-4 gap-y-1">
           <dt>Run</dt><dd>{heal.source.run}</dd>
