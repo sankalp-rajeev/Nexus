@@ -1,0 +1,35 @@
+{
+  "provenance": {
+    "statement": "last commit touching each file (git log -1) and that commit's date in its own recorded time zone; written by scripts/build_results_md.py --refresh-pins"
+  },
+  "files": {
+    "reports/phase3/round3.md": {
+      "commit": "cae749f",
+      "date": "2026-11-11"
+    },
+    "reports/phase6/infra.md": {
+      "commit": "856e5f7",
+      "date": "2026-11-12"
+    },
+    "results/phase6/l4_rerun.json": {
+      "commit": "360aa30",
+      "date": "2026-11-12"
+    },
+    "results/phase6/live_detectors_before_after.json": {
+      "commit": "856e5f7",
+      "date": "2026-11-12"
+    },
+    "results/phase6/live_detectors_equivalence_with_final.json": {
+      "commit": "793cf3c",
+      "date": "2026-11-13"
+    },
+    "results/phase6/otel_parity.json": {
+      "commit": "793cf3c",
+      "date": "2026-11-13"
+    },
+    "results/phase6/stack_validation.json": {
+      "commit": "b1eace6",
+      "date": "2026-11-12"
+    }
+  }
+}
