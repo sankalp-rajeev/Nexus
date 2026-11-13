@@ -63,8 +63,14 @@ class ClassifierService:
         self.synthetic_suppressed = 0
 
     def require_nli(self) -> None:
+        """Load the models the active classifier needs; refuse (never substitute) if one is missing."""
+        # Looked up on the class so test doubles (MagicMock) keep the legacy NLI requirement.
+        require_models = getattr(type(self.classifier), "require_models", None)
         try:
-            NLIScorer.get()
+            if require_models is not None:
+                require_models(self.classifier)
+            else:
+                NLIScorer.get()
         except NLIModelUnavailable as exc:
             self._nli_ready = False
             self.mark_unhealthy(str(exc))
@@ -78,10 +84,15 @@ class ClassifierService:
 
     def health(self) -> dict:
         healthy = self._nli_ready and self._running
-        return {"status": "ok" if healthy else "unhealthy", "nli_ready": self._nli_ready,
-                "consumer_running": self._running, "error": self._error,
-                "synthetic_suppressed": self.synthetic_suppressed,
-                "duplicate_spans_dropped": self.buffer.duplicate_spans_dropped}
+        state = {"status": "ok" if healthy else "unhealthy", "nli_ready": self._nli_ready,
+                 "consumer_running": self._running, "error": self._error,
+                 "synthetic_suppressed": self.synthetic_suppressed,
+                 "duplicate_spans_dropped": self.buffer.duplicate_spans_dropped}
+        status = getattr(type(self.classifier), "status", None)
+        state["classifier"] = "legacy"
+        if status is not None:
+            state.update(status(self.classifier))
+        return state
 
     def _emit(self, topic: str, key: str, value: dict) -> None:
         self._producer.produce(topic, key=key.encode(), value=json.dumps(value).encode())

@@ -42,6 +42,10 @@ LEGACY_INPUT_EVENTS = {
 }
 LEGACY_OUTPUT_EVENT = "gen_ai.choice"
 DETAILS_EVENT = "gen_ai.client.inference.operation.details"
+# GenAI semconv has no notion of an agent's declared plan, which the PLAN_DRIFT detector needs
+# (it reads ``role == "planner"`` and ``plan_steps`` on an agent span). These Nexus-namespaced span
+# attributes are the opt-in way to supply it; without them PLAN_DRIFT cannot fire on OTLP traces.
+NEXUS_AGENT_ATTRIBUTES = {"nexus.agent.role": "role", "nexus.agent.plan_steps": "plan_steps"}
 # Content stored externally. The pinned spec says "_ref"; opentelemetry-instrumentation-openai-v2
 # 2.4b0 still writes the dotted ".ref" form.
 CONTENT_REF_KEYS = (
@@ -73,6 +77,14 @@ def _attributes(attributes) -> dict:
 
 def _text(value) -> str:
     return value if isinstance(value, str) else json.dumps(value, ensure_ascii=False)
+
+
+def _plan_steps(value) -> list[str]:
+    """``nexus.agent.plan_steps`` is a string array; a JSON-encoded array (or one step) is accepted too."""
+    if isinstance(value, str):
+        decoded = _structured(value)
+        value = decoded if isinstance(decoded, list) else [value]
+    return [str(step) for step in value] if isinstance(value, list) else [str(value)]
 
 
 def _structured(value):
@@ -296,6 +308,9 @@ def span_batches(request) -> list[SpanBatch]:
                 }.items():
                     if key in attrs:
                         metadata[alias] = attrs[key]
+                for key, alias in NEXUS_AGENT_ATTRIBUTES.items():
+                    if key in raw:
+                        metadata[alias] = _plan_steps(raw[key]) if alias == "plan_steps" else raw[key]
                 tokens = [attrs.get(f"gen_ai.usage.{d}_tokens") for d in ("input", "output")]
                 if any(t is not None for t in tokens):
                     metadata["tokens_used"] = sum(t for t in tokens if isinstance(t, (int, float)))

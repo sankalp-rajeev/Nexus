@@ -35,8 +35,48 @@ from nexus_agent.integrations.otel import span_batches  # noqa: E402
 from nexus_agent.models import CompleteTrace, Span, SpanBatch  # noqa: E402
 from scripts.phase6 import otel_fixtures as fx  # noqa: E402
 from services.classifier.consumer import TOPIC_ALERTS, TOPIC_CLASSIFIED, ClassifierService  # noqa: E402
-from services.classifier.main import load_classifier  # noqa: E402
+from services.classifier.main import classifier_mode, load_classifier  # noqa: E402
 from services.common.trace_buffer import TIMEOUT_SECONDS, TraceBuffer  # noqa: E402
+
+
+# Whether the fixture writes an agent span's plan as the documented nexus.agent.* attributes.
+PLAN_ATTRIBUTES = True
+
+
+def make_classifier(mode: str):
+    """The classifier the service runs for ``NEXUS_CLASSIFIER=mode`` (default ``detectors``)."""
+    if classifier_mode(mode) == "legacy":
+        return load_classifier()
+    from services.classifier.live_detectors import DetectorClassifier
+
+    classifier = DetectorClassifier()
+    classifier.require_models()
+    return classifier
+
+
+def timed(classifier):
+    """Record every ``classify`` call's wall time (ms) on the instance; returns the list."""
+    samples: list[float] = []
+    original = classifier.classify
+
+    def classify(trace):
+        start = time.perf_counter()
+        try:
+            return original(trace)
+        finally:
+            samples.append((time.perf_counter() - start) * 1000)
+
+    classifier.classify = classify
+    return samples
+
+
+def spread(values: list[float]) -> dict:
+    if not values:
+        return {"n": 0}
+    ordered = sorted(values)
+    pick = lambda q: ordered[min(len(ordered) - 1, round(q * (len(ordered) - 1)))]  # noqa: E731
+    return {"n": len(ordered), "p50": round(pick(.5), 1), "p95": round(pick(.95), 1),
+            "min": round(ordered[0], 1), "max": round(ordered[-1], 1)}
 
 COMPARED_FIELDS = ("span_type", "input", "output", "duration_ms", "error_type", "error_message",
                    "agent_name", "environment", "sdk_version", "client_timestamp")
@@ -49,6 +89,7 @@ PATCH_GROUPS = {
     "error_message": ("error_message",),
     "metadata.tool_name": ("metadata.tool_name",),
     "metadata.model/tokens": ("metadata.model", "metadata.tokens_used", "metadata.provider"),
+    "metadata.role+plan_steps": ("metadata.role", "metadata.plan_steps"),
     "input+output": ("input", "output"),
     "input+output+duration_ms": ("input", "output", "duration_ms"),
 }
@@ -102,7 +143,7 @@ def native_path(classifier, trace):
 
 
 def otlp_path(classifier, trace):
-    wire = fx.trace_to_otlp(trace).SerializeToString()
+    wire = fx.trace_to_otlp(trace, plan_attributes=PLAN_ATTRIBUTES).SerializeToString()
     request = ExportTraceServiceRequest()
     request.ParseFromString(wire)
     spans = [span for batch in span_batches(request) for span in batch.spans]
@@ -181,14 +222,15 @@ def _failure_index(record: dict, ids: list[str]):
     return ids.index(span_id) if span_id in ids else None
 
 
-def run_inprocess(limit: int | None = None, progress: bool = True) -> dict:
+def run_inprocess(limit: int | None = None, progress: bool = True, mode: str = "detectors") -> dict:
     ids = fx.dev_trace_ids()
     labels = fx.dev_labelled()
     if limit:
         ids = ids[:limit]
     traces = fx.load_dev_traces(ids)
-    classifier = load_classifier()
-    rows, fidelity, mismatches = [], Counter(), []
+    classifier = make_classifier(mode)
+    classify_ms = timed(classifier)
+    rows, fidelity, mismatches, localisation_diffs = [], Counter(), [], []
     started = time.time()
     for n, tid in enumerate(ids, 1):
         trace = traces[tid]
@@ -212,6 +254,20 @@ def run_inprocess(limit: int | None = None, progress: bool = True) -> dict:
             row["explanation"] = explain(classifier, t_native, t_otlp, native, otlp)
             row["field_diffs"] = field_fidelity(t_native, t_otlp)
             mismatches.append(row)
+        elif rows[-1]["native_failure_span_index"] != rows[-1]["otlp_failure_span_index"]:
+            # Same verdict, different span blamed: say which spans, and whether the one field
+            # that differs on them (memory-op tool names have no semconv attribute) accounts for it.
+            row = rows[-1]
+            service, _ = _service(classifier)
+            service.process_trace(_patched(t_native, t_otlp, ("metadata.tool_name",)))
+            patched = _failure_index(_classification(service), n_ids)
+            blamed = lambda tr, i: None if i is None else {  # noqa: E731
+                "span_type": tr.spans[i].span_type.value, "tool_name": tr.spans[i].metadata.get("tool_name")}
+            row["localisation"] = {
+                "native_span": blamed(t_native, row["native_failure_span_index"]),
+                "otlp_span": blamed(t_otlp, row["otlp_failure_span_index"]),
+                "tool_name_patch_gives_otlp_index": patched == row["otlp_failure_span_index"]}
+            localisation_diffs.append(row)
         if progress and n % 25 == 0:
             print(f"in-process {n}/{len(ids)} mismatches={len(mismatches)}", flush=True)
     match = sum(r["native"] == r["otlp"] for r in rows)
@@ -223,6 +279,8 @@ def run_inprocess(limit: int | None = None, progress: bool = True) -> dict:
         by_label[label] = {"traces": len(part), "match": sum(r["native"] == r["otlp"] for r in part)}
     return {
         "scope": "all DEV traces" if not limit else f"first {limit} DEV traces (smoke)",
+        "classifier": classifier_mode(mode),
+        "classify_ms_both_paths": spread(classify_ms),
         "traces": len(rows), "spans": sum(r["span_count"] for r in rows),
         "failure_type_match": match, "failure_type_match_rate": match / len(rows),
         "mismatch_count": len(mismatches),
@@ -234,6 +292,7 @@ def run_inprocess(limit: int | None = None, progress: bool = True) -> dict:
         "by_dev_label": by_label,
         "field_differences_over_all_spans": dict(fidelity),
         "mismatches": mismatches,
+        "failure_span_differences": localisation_diffs,
         "seconds": round(time.time() - started, 1),
     }
 
@@ -256,7 +315,12 @@ def pick_subset(count: int = 20) -> list[str]:
     return picked
 
 
-def run_e2e(collector="http://127.0.0.1:8000", kafka="localhost:29092", wait_seconds: int = 1200) -> dict:
+NATIVE_WAIT_SECONDS = 180
+OTLP_GAP_SECONDS = 6.0
+
+
+def run_e2e(collector="http://127.0.0.1:8000", kafka="localhost:29092", wait_seconds: int = 600,
+            expect: str | None = None) -> dict:
     import gzip
 
     import httpx
@@ -277,33 +341,51 @@ def run_e2e(collector="http://127.0.0.1:8000", kafka="localhost:29092", wait_sec
     client = httpx.Client(timeout=30, trust_env=False)
     expected = {}  # trace id -> (path, index, original id)
     sent_at = {}
+    classified, alerts = {}, []
+
+    def poll(seconds: float) -> None:
+        """Read the sink for ``seconds``; record when each classification was first seen."""
+        end = time.time() + seconds
+        while time.time() < end:
+            msg = sink.poll(min(1.0, max(0.05, end - time.time())))
+            if msg is None or msg.error():
+                continue
+            seen = time.time()
+            value = json.loads(msg.value())
+            if msg.topic() == TOPIC_CLASSIFIED and value["trace_id"] in expected:
+                if value["trace_id"] not in classified:
+                    classified[value["trace_id"]] = {
+                        **value, "seen_after_s": round(seen - sent_at[value["trace_id"]], 2)}
+            elif msg.topic() == TOPIC_ALERTS and value.get("trace_id") in expected:
+                alerts.append(value)
+
+    # Latency is the time from the POST that carried a trace's final span returning to its
+    # classification being read from Kafka. Traces are paced so they do not queue behind each
+    # other: native one at a time (it completes on metadata.final), OTLP every OTLP_GAP_SECONDS
+    # (it completes after the 30 s inactivity timeout, so waiting per trace would only idle).
     for i, tid in enumerate(ids):
-        trace = traces[tid]
         native_id = f"p6otel-{nonce}-n{i:02d}"
-        spans = fx.native_spans(trace, trace_id=native_id, id_salt=nonce, synthetic=True)
+        spans = fx.native_spans(traces[tid], trace_id=native_id, id_salt=nonce, synthetic=True)
+        expected[native_id] = ("native", i, tid)
         response = client.post(f"{collector}/v1/spans", json=SpanBatch(spans=spans).model_dump(mode="json"))
         response.raise_for_status()
         assert response.json()["accepted"] == len(spans), response.text
-        expected[native_id] = ("native", i, tid)
         sent_at[native_id] = time.time()
-        request = fx.trace_to_otlp(trace, trace_salt=nonce, synthetic=True)
+        deadline = time.time() + NATIVE_WAIT_SECONDS
+        while native_id not in classified and time.time() < deadline:
+            poll(1.0)
+    for i, tid in enumerate(ids):
+        request = fx.trace_to_otlp(traces[tid], trace_salt=nonce, synthetic=True, plan_attributes=PLAN_ATTRIBUTES)
         otlp_id = request.resource_spans[0].scope_spans[0].spans[0].trace_id.hex()
+        expected[otlp_id] = ("otlp", i, tid)
         response = client.post(f"{collector}/v1/traces", content=gzip.compress(request.SerializeToString()),
                                headers={"Content-Type": "application/x-protobuf", "Content-Encoding": "gzip"})
         response.raise_for_status()
-        expected[otlp_id] = ("otlp", i, tid)
         sent_at[otlp_id] = time.time()
-    classified, alerts = {}, []
+        poll(OTLP_GAP_SECONDS)
     deadline = time.time() + wait_seconds
     while time.time() < deadline and len(classified) < len(expected):
-        msg = sink.poll(1.0)
-        if msg is None or msg.error():
-            continue
-        value = json.loads(msg.value())
-        if msg.topic() == TOPIC_CLASSIFIED and value["trace_id"] in expected:
-            classified[value["trace_id"]] = {**value, "seen_after_s": round(time.time() - sent_at[value["trace_id"]], 1)}
-        elif msg.topic() == TOPIC_ALERTS and value.get("trace_id") in expected:
-            alerts.append(value)
+        poll(1.0)
     # Give a late alert one more chance to show up (synthetic suppression must hold).
     end = time.time() + 5
     while time.time() < end:
@@ -336,7 +418,23 @@ def run_e2e(collector="http://127.0.0.1:8000", kafka="localhost:29092", wait_sec
     for p in pairs:
         if p["native"] != p["otlp"]:
             p["note"] = "mismatch or a path was never classified"
+    stored = json.loads((ROOT / "results" / "phase2_dev_predictions.json").read_text(encoding="utf-8"))["predictions"]
+    for p in pairs:
+        p["phase2_pred"] = stored[p["dev_trace_id"]]["pred"]
+    vs_phase2 = {path: sum(p[path] == p["phase2_pred"] for p in pairs) for path in ("native", "otlp")}
+    rules_seen = {c["triggered_rule"] for c in classified.values()}
+    observed = ("detectors" if all(r and (r.startswith("detectors:") or r == "insufficient_content")
+                                   for r in rules_seen) else "legacy")
+    if expect and observed != expect:
+        raise RuntimeError(f"expected the {expect} classifier in the stack, saw rules {sorted(rules_seen)}")
+    latency = {path: spread([p[f"{path}_seen_after_s"] for p in pairs if p[f"{path}_seen_after_s"] is not None])
+               for path in ("native", "otlp")}
     return {
+        "classifier_observed": observed,
+        "matches_phase2_dev_prediction": vs_phase2,
+        "latency_final_span_to_classification_s": latency,
+        "latency_pacing": f"native one at a time; OTLP every {OTLP_GAP_SECONDS:g} s; "
+                          "time from the final span's POST returning to the classification read from Kafka",
         "scope": "20-trace DEV subset, label-stratified, sha256-ordered", "nonce": nonce,
         "traces": len(pairs), "classified_both_paths": len(complete),
         "failure_type_match": match, "failure_type_match_rate": match / len(pairs),
@@ -354,13 +452,20 @@ def main() -> None:
     parser.add_argument("--inprocess", action="store_true")
     parser.add_argument("--e2e", action="store_true")
     parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--classifier", choices=("detectors", "legacy"), default="detectors",
+                        help="in-process: which classifier; end to end: which one the stack must be running")
+    parser.add_argument("--no-plan-attributes", action="store_true",
+                        help="emit role/plan_steps as app.* attributes, as an application unaware of Nexus would")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
-    result = {"generated_at": datetime.now(timezone.utc).isoformat()}
+    global PLAN_ATTRIBUTES
+    PLAN_ATTRIBUTES = not args.no_plan_attributes
+    result = {"generated_at": datetime.now(timezone.utc).isoformat(), "classifier": args.classifier,
+              "plan_attributes": PLAN_ATTRIBUTES}
     if args.inprocess:
-        result["inprocess"] = run_inprocess(args.limit)
+        result["inprocess"] = run_inprocess(args.limit, mode=args.classifier)
     if args.e2e:
-        result["end_to_end"] = run_e2e()
+        result["end_to_end"] = run_e2e(expect=args.classifier)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(result, indent=2, default=str), encoding="utf-8")
     for key in ("inprocess", "end_to_end"):

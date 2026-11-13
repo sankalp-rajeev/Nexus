@@ -1,4 +1,4 @@
-# Phase 6 step 6.3: OpenTelemetry GenAI ingestion
+﻿# Phase 6 step 6.3: OpenTelemetry GenAI ingestion
 
 Field-by-field contract: [`docs/otel_mapping.md`](../../docs/otel_mapping.md).
 Raw parity result: `results/phase6/otel_parity.json`. No LLM or provider call was made
@@ -34,7 +34,53 @@ and stored, flagged `nexus.content_missing=true` (not applied to non-GenAI spans
 `tests/unit/collector/test_otlp_semconv.py`, one or more per alias, plus the content-missing
 cases and an HTTP acceptance test for a content-less export.
 
-## Parity (DEV split only)
+## Parity with the scored detectors (2026-11-12, step 6.3b: the current default)
+
+Since 6.3b the classifier service runs the frozen Phase 2 detectors (`reports/phase6/live_detectors.md`),
+so the parity below was re-run with them. Same method, same DEV whitelist, nothing tuned. Raw data:
+`results/phase6/otel_parity.json`, section `detectors_2026-11-12_step_6.3b`.
+
+| Check | Result |
+|---|---|
+| (a) In-process, all 359 DEV traces, plan sent as the documented `nexus.agent.*` attributes | **359/359 `failure_type`**, rule 359/359, blamed span 359/359 |
+| (a) Same, application emits the plan as plain `app.*` attributes | **335/359 (93.3 %)**, 24 mismatches |
+| (b) End to end, 20-trace DEV subset | **20/20** match; both paths also equal the Phase 2 DEV prediction on 20/20; 0 alerts |
+
+**The 24 mismatches**, every one of them: DEV `PLAN_DRIFT`, native `PLAN_DRIFT`, OTLP `NORMAL`, rule
+`detectors:plan_drift` versus `detectors:none`. These are *all* 24 DEV PLAN_DRIFT traces. The frozen
+PLAN_DRIFT detector compares each tool call with the plan the planner span declares
+(`role == "planner"`, `plan_steps`), and GenAI semconv has no such concept, so an instrumentation
+that knows nothing about Nexus leaves the plan in `otel.attributes` where no detector reads it.
+Patching `role` and `plan_steps` alone from the native trace into the OTLP trace reproduces the
+native verdict in 24/24 (`explain()` group `metadata.role+plan_steps`); no other field group does.
+This is a real limit of OpenTelemetry, not a classifier problem. The mapping now accepts the opt-in
+`nexus.agent.role` and `nexus.agent.plan_steps` span attributes (documented in
+`docs/otel_mapping.md`), and with them the mismatches disappear. Applications that do not emit them
+get no PLAN_DRIFT detection.
+
+**A second, smaller finding.** With the plan attributes written on agent spans only, the verdict
+matched on all 359 but the *blamed span* differed on 16 PLAN_DRIFT traces (native blamed
+`get_order`, OTLP blamed `list_orders`). Cause: NexusBench also tags the planner's `llm_call` span
+`role=planner`; `detector_adapter.from_detector` takes the first span with that role, finds no
+`plan_steps` on it on the native path, and falls back to the first tool call, whereas on the OTLP
+path the first planner span was the agent span with the plan, so it blamed the call that is
+actually off plan. The converter now carries `role` on every span, as the benchmark does, and the
+two paths blame the same span in 359/359. Localisation is a heuristic in the frozen adapter and
+was not changed.
+
+Remaining field differences, none of which changed a verdict: `duration_ms` (integer ns versus
+float noise), `sdk_version`, and the memory-operation `tool_name` on 130 spans (no semconv
+attribute; the OTLP side falls back to the span type).
+
+Classifier compute inside these in-process runs (718 `classify` calls): p50 1.6 ms, p95 621 ms, max
+710 ms (only traces with retrieved context run the NLI model).
+
+## Parity with the legacy classifier (2026-11-12, step 6.3; superseded as default by 6.3b)
+
+Everything from here to "Official-exporter interop test" was measured with the legacy classifier
+(rules, MiniLM, PatchCore, NLI, SVM), which was the live default when 6.3 was written. It stays
+here as the earlier record; the rule names in it (`loop_detector`, `embedding+svm`) are the
+legacy classifier's.
 
 Method: `scripts/phase6/otel_fixtures.py` converts DEV traces to OTLP with current semconv
 names, loading them through the DEV whitelist before deserialising. Both paths classify with
@@ -114,20 +160,20 @@ Caveats, stated plainly:
 HTTP to the running collector; then Kafka, assembler and classifier on the `nexus-phase6`
 stack. 5 passed in 37 s: export SUCCESS, collector span-count delta, Postgres assembly with
 plain-text content, `tokens_used == 30`, `provider == fake`, `nexus.synthetic is True`, the
-looping trace classified `LOOP_DETECTED` by `loop_detector` with `failure_span_id` a tool
+looping trace classified `LOOP_DETECTED` by `loop_detector` (6.3, legacy; since 6.3b `detectors:loop`) with `failure_span_id` a tool
 span, the normal trace classified, zero alerts. The test skips itself unless the collector
 reports Kafka, Postgres is reachable and the classifier and assembler groups have members.
 
 ## Example
 
 `examples/otel_plain/run_demo.py` imports only `opentelemetry-sdk` and the OTLP exporter
-(no `nexus` import). Runs against the stack, all with `--synthetic`:
+(no `nexus` import). Runs against the stack, all with `--synthetic`. Re-run on 2026-11-12 with the 6.3b default (the 6.3 legacy results are in the git history):
 
 | Run | Trace | Spans | Nexus result |
 |---|---|---|---|
-| `--scenario loop` | `01f6e8cdd7885c14c6e01a047662bad3` | 6 | `LOOP_DETECTED`, `loop_detector`, confidence 1.0, `failure_span_id` `4575eb2909ed96b0` |
-| `--scenario normal` | `3d321651917a8c0b7820603ca3f2861b` | 4 | `NORMAL`, `embedding+svm`, anomaly 0.746, confidence 0.897 |
-| `--scenario normal --no-content` | `6832dfb0a2c4a74b626d355905975360` | 4 | `NORMAL`, `embedding+svm`, anomaly 0.678, confidence 0.893 (spans flagged `nexus.content_missing`) |
+| `--scenario loop` | `d5320ca5f4fb4ae8aec13d2ee530ff16` | 6 | `LOOP_DETECTED`, `detectors:loop`, confidence 1.0, `failure_span_id` `28b5d49edee6db13` |
+| `--scenario normal` | `e253438d01fc8f36e002813567fa83cc` | 4 | `NORMAL`, `detectors:none` |
+| `--scenario normal --no-content` | `a773c570d5b9bf06887ea704dc408e59` | 4 | `NORMAL`, `detectors:none` (spans flagged `nexus.content_missing`) |`n| `--scenario loop --no-content` | `817aab7ff6370ca8766e41d01c6f32c6` | 6 | `NORMAL`, `insufficient_content`: the guard suppressed the loop alert (health counter `insufficient_content_suppressed` = 1) |
 
 A real auto-instrumentation env-var snippet is in the README, documentation only; it was not
 run because it would call a model provider.
@@ -151,10 +197,8 @@ extra would only make sense if Nexus later ships a client-side `SpanProcessor` t
 
 ## Known limits (documented, not fixed)
 
-- Content is opt-in in OpenTelemetry. Without it Nexus gets structure only, and **three
-  content-less identical-looking tool spans trip `loop_detector`** (an empty input hashes the
-  same). This is covered by a documented-limit test, and the spans are flagged so a caller
-  can tell. I did not change the rule.
+- Content is opt-in in OpenTelemetry. Without it Nexus gets structure only, and three content-less identical-looking tool spans used to trip the loop rule (an empty input hashes the same). Since 6.3b the classifier adapter does not alert on that: when every span that makes up the loop is flagged `nexus.content_missing` it classifies `NORMAL` with reason `insufficient_content` and counts it (health: `insufficient_content_suppressed`). A real loop with captured arguments still alerts. See `reports/phase6/live_detectors.md`.
+- The PLAN_DRIFT detector needs the planner's plan (`nexus.agent.role` / `nexus.agent.plan_steps` span attributes). Without them OTLP traces get no PLAN_DRIFT detection (24/24 DEV PLAN_DRIFT traces lost in the parity run above).
 - `EVENT_ONLY` capture sends log records; Nexus has no OTLP logs endpoint, so that content is
   never seen.
 - A trace is complete 30 s after its last span, not on a final flag.

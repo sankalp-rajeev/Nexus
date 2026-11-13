@@ -792,3 +792,14 @@ From this commit, both CI jobs always invoke
 guarded-run arguments. This applies to every configured PR and push event,
 including main pushes, without a branch-name exception. `scripts/phase5/`
 and the frozen benchmark logic remain unchanged.
+
+**D79. Record the TEST-label exposure during Phase 6.3 (2026-11-12).**
+On 2026-11-12, while inspecting column names during step 6.3, the command
+`Get-Content data/nexusbench/labels.csv -TotalCount 3` printed two TEST-split
+label rows to the terminal. Nothing from them was used, stored, copied or
+scored: every 6.3 number (OTel parity, interop, examples) was produced through
+the DEV-only adapter and whitelist, and no TEST trace was opened, loaded,
+converted or run. No result, threshold, model choice or gate decision depends
+on the exposure. From now on the raw NexusBench files (`labels.csv`,
+`traces.jsonl`, `splits.json`) are off-limits for any direct read, even for
+column names; they are reached only through `services/critic/dev_adapter.py`.

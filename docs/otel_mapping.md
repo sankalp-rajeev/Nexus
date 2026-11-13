@@ -64,15 +64,21 @@ about detector quality):
 | --- | --- |
 | Span ingestion, trees, durations, errors, model and token counts | Unaffected. |
 | `input` / `output` | `""` / `None`, and the span is flagged `metadata["nexus.content_missing"] = true`. |
-| Loop rule (`loop_detector`) | Every span of the same type and tool hashes the empty input identically, so repeated *different* calls look identical. The rule can fire on a trace that is not looping. It needs `gen_ai.tool.call.arguments` to tell calls apart. |
-| Tool-misfire rule | Needs an errored tool call followed by an identical call; with empty inputs, any later tool call of that tool counts as identical. |
-| NLI contradiction and input/output divergence | Skipped (`0.0`) for spans with an empty side. Hallucination detection has nothing to compare. |
-| Embedding / PatchCore / SVM | Runs on type, model, duration, error flag and token counts only. It will produce a label, but it has seen no text, so treat it as low-information. |
+| Loop rule | Every call of the same tool with empty arguments looks identical, so repeated *different* calls look like a loop. The frozen loop rule can fire on a trace that is not looping. It needs `gen_ai.tool.call.arguments` to tell calls apart. **The live classifier guards this** (below). |
+| Tool-misfire rule | Needs an errored tool call followed by an identical call; with empty inputs, any later tool call of that tool counts as identical. Not guarded. |
+| HALLUCINATION detector | Needs retrieved context and a final answer; with no text it returns "nothing to check" and does not fire. |
+| PLAN_DRIFT, CONTEXT_BLEED detectors | PLAN_DRIFT reads tool arguments and results as well as the plan; CONTEXT_BLEED reads memory results. Without content they do not fire. |
+| Legacy classifier (embedding / PatchCore / SVM) | Only with `NEXUS_CLASSIFIER=legacy`. It runs on type, model, duration, error flag and token counts only, so treat its label as low-information. |
 
 The flag is for consumers that need to tell "this span said nothing" from "this
-span's content was not captured". **The classifier does not read it yet**, and the
-classifier was deliberately not changed in this step: a trace made of
-`nexus.content_missing` spans is still classified from the structure alone.
+span's content was not captured". **The live classifier (the scored detectors, 6.3b)
+reads it in one place**: if every span in every loop run is flagged
+`nexus.content_missing`, the loop verdict is dropped. The trace is classified without
+it (usually `NORMAL`), the reason is `insufficient_content` in `triggered_rule`, no
+alert is raised, and `/health` counts it as `insufficient_content_suppressed`. The
+frozen detector is not edited; the guard sits in the adapter
+(`services/classifier/live_detectors.py`). A loop in which any span has captured
+arguments still alerts.
 
 ## Transport
 
@@ -175,6 +181,8 @@ All additive; the original attributes are never removed.
 | `gen_ai.provider.name` | `provider` | |
 | `gen_ai.usage.input_tokens`, `gen_ai.usage.output_tokens` | `input_tokens`, `output_tokens` | |
 | (their numeric sum) | `tokens_used` | Used in the classifier's span feature string. |
+| `nexus.agent.role` | `role` | **Nexus extension** (semconv has no plan). PLAN_DRIFT reads `role == "planner"` on an agent span. Without the plan attributes PLAN_DRIFT cannot fire on OTLP traces. |
+| `nexus.agent.plan_steps` | `plan_steps` | **Nexus extension.** String array (a JSON-array string or one step is accepted): the tools the planner declared. |
 | any `nexus.*` attribute (span, or resource; span wins) | same key | The namespace Nexus owns. `nexus.synthetic` must be a **boolean** `true` to suppress alerts (a string `"true"` is not the flag). |
 | derived | `nexus.content_missing` | `true` when a `gen_ai` span has neither input nor output content. Never set on `custom` spans. |
 | derived | `nexus.content_refs` | The `*_ref` URIs, when content was stored externally. |
@@ -265,10 +273,15 @@ These are properties of OTLP, measured in [`reports/phase6/otel.md`](../reports/
   `duration_ms` with sub-nanosecond float noise (for example `0.025200002710334957`)
   comes back as `0.0252`. Classifier features print `duration_ms` as text.
 - **Arbitrary metadata.** Native `metadata` keys other than the ones in the table
-  above (for example `role`, `cached`, `plan_steps`) have no semconv name. An
-  instrumentation emits them as custom attributes, and they stay in
-  `metadata["otel.attributes"]`, not as top-level metadata keys. Components that
-  read such keys directly (the critic's evidence code reads `role`) will not see them.
+  above (for example `cached`) have no semconv name. An instrumentation emits
+  them as custom attributes, and they stay in `metadata["otel.attributes"]`, not
+  as top-level metadata keys. The two the detectors read are the exception:
+  `nexus.agent.role` and `nexus.agent.plan_steps` (table above). Measured on DEV
+  (`reports/phase6/otel.md`): an application that emits the plan as ordinary
+  `app.*` attributes loses PLAN_DRIFT on every one of the 24 DEV PLAN_DRIFT traces.
+- **Memory-operation tool names.** `search_memory` has no tool-name attribute, so the
+  `tool_name` of a memory read is the span type on the OTLP path. The loop and misfire
+  rules group by it; no DEV trace changed classification because of this (130 spans differ).
 - **`sdk_version`** is the OTel resource's `telemetry.sdk.version` (or `otel`).
 
 ## Tests

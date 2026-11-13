@@ -324,3 +324,23 @@ def test_base_sdk_import_pulls_in_no_otel_or_protobuf():
     env = {**os.environ, "PYTHONPATH": os.pathsep.join([str(ROOT / "sdk"), str(ROOT)])}
     result = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, env=env, cwd=ROOT)
     assert result.returncode == 0, result.stdout + result.stderr
+
+
+# -- plan attributes for PLAN_DRIFT (Nexus extension; semconv has no plan) ----
+
+def test_nexus_agent_plan_attributes_become_detector_metadata():
+    span = spans_for({"nexus.agent.role": "planner", "nexus.agent.plan_steps": ["get_order", "refund"]},
+                     operation="invoke_agent")
+    assert span.span_type.value == "agent_step"
+    assert span.metadata["role"] == "planner" and span.metadata["plan_steps"] == ["get_order", "refund"]
+
+
+def test_plan_steps_accept_a_json_array_string_or_a_single_step():
+    assert spans_for({"nexus.agent.plan_steps": '["a", "b"]'}, operation="invoke_agent").metadata["plan_steps"] == ["a", "b"]
+    assert spans_for({"nexus.agent.plan_steps": "only_step"}, operation="invoke_agent").metadata["plan_steps"] == ["only_step"]
+
+
+def test_a_plan_in_app_attributes_is_not_guessed_into_detector_metadata():
+    span = spans_for({"app.role": "planner", "app.plan_steps": ["a"]}, operation="invoke_agent")
+    assert "role" not in span.metadata and "plan_steps" not in span.metadata
+    assert span.metadata["otel.attributes"]["app.role"] == "planner"  # still preserved raw

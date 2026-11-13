@@ -1,4 +1,9 @@
-"""Build-time staging of the classifier's pinned NLI and embedding snapshots."""
+"""Build-time staging of the classifier's pinned NLI and embedding snapshots.
+
+nli-deberta-v3-base is the HALLUCINATION detector's model (6.3b: the live classifier runs the scored
+Phase 2 detectors). The frozen detector loads it by repo id, which resolves to this directory
+relative to the image's working directory, /app.
+"""
 import json
 from pathlib import Path
 import re
@@ -6,7 +11,8 @@ import re
 from huggingface_hub import snapshot_download
 
 ROOT = Path(__file__).resolve().parents[2]
-MODELS = ("cross-encoder/nli-MiniLM2-L6-H768", "sentence-transformers/all-MiniLM-L6-v2")
+MODELS = ("cross-encoder/nli-MiniLM2-L6-H768", "sentence-transformers/all-MiniLM-L6-v2",
+          "cross-encoder/nli-deberta-v3-base")
 
 
 def main():

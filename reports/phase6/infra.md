@@ -426,3 +426,39 @@ No `.github/`, existing conftest/fixture or DEV-only pytest runner changed.
 The new infrastructure regression is a standalone script; no benchmark split
 or pytest collection was invoked. The handoff includes the commit-specific CI
 run link without waiting for CI.
+
+## Step 6.3b: lite versus the live detectors
+
+The classifier image now runs the scored Phase 2 detectors by default
+(`reports/phase6/live_detectors.md`). Lite was **not** moved onto the same adapter: that is
+not a small change, because the adapter runs the HALLUCINATION detector, which needs
+`cross-encoder/nli-deberta-v3-base` (about 700 MB of weights) plus torch and
+sentence-transformers, and lite deliberately ships none of them (`lite.py`: "No NLI model
+download or optional LLM judge in lite mode"). The frozen `pipeline.compute_scores` always
+runs every detector, so a lite variant cannot simply skip HALLUCINATION without a copy of
+frozen logic, which is not allowed. What lite does today, and how it differs from the live
+classifier (`services/collector/lite.py`):
+
+| | Lite | Live classifier (default) |
+|---|---|---|
+| Detectors | frozen `rules.loop`, `rules.misfire`, `bleed.score >= 1`, `drift.flags()["ungrounded_any_source"]` | all five frozen detectors through `pipeline.compute_scores` / `label` |
+| HALLUCINATION | **absent** (no NLI model) | scored, threshold 0.5034 from `thresholds.json` |
+| Thresholds | hard-coded (`>= 1` for CONTEXT_BLEED, the variant name for PLAN_DRIFT); equal to `thresholds.json` today but not read from it | read from `thresholds.json` |
+| Detector view | none (detectors see the raw trace) | `bench.detector_view`, as in Phase 4 |
+| Several detectors fire | **one alert per detector** (a trace can alert for LOOP and CONTEXT_BLEED) | one label by the frozen precedence |
+| PLAN_DRIFT | only when the trace has a root span | whenever the planner span is present |
+| Evaluated on | every span arrival, over the accumulated spans so far (alerts are idempotent per trace and type) | the completed trace, after the 30 s inactivity timeout |
+| Content-missing guard | none: a content-less OTLP loop alerts | loop verdict dropped, counted as `insufficient_content` |
+| Result type | alert, generic fallback proposal, placeholder gate decision (no LLM) | `Classification`; alert only for non-synthetic, non-NORMAL |
+
+Consequence: lite can alert earlier and more than the live stack, never alerts for
+hallucinations, and has no OTLP content guard. Moving lite onto the adapter would need either
+the NLI model in the lite image or a detector-subset API in the frozen package; both are
+decisions for a later step.
+
+The classifier image also grew: it now bakes `cross-encoder/nli-deberta-v3-base` at
+`6c749ce3425cd33b46d187e45b92bbf96ee12ec7` (already pinned in `.github/model-revisions.json`),
+copies `services/detectors`, `services/critic/{__init__,detector_adapter,evidence}.py` and
+`bench/{__init__,detector_view,tools,memory,world}.py` unmodified, and the build loads the
+detector model offline as a check. `NEXUS_CLASSIFIER=legacy` selects the old pipeline;
+`/health` reports `classifier`, `detector_config` and `insufficient_content_suppressed`.

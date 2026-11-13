@@ -65,10 +65,11 @@ def test_parents_follow_the_span_order(trace):
 
 
 def test_unmapped_metadata_is_kept_only_as_custom_attributes(trace):
-    llm = mapped(trace)[0]
+    llm = mapped(trace, plan_attributes=False)[0]
     assert llm.metadata["otel.attributes"]["app.role"] == "actor"
     assert llm.metadata["otel.attributes"]["app.cached"] is True
     assert "role" not in llm.metadata
+    assert mapped(trace)[0].metadata["role"] == "actor"  # the documented attribute carries it on any span
 
 
 def test_synthetic_marker_is_a_boolean_on_every_mapped_span(trace):
@@ -107,3 +108,11 @@ def test_unsupported_span_types_are_rejected_not_guessed(trace):
     odd = trace.model_copy(update={"spans": [make("c", SpanType.CUSTOM)]})
     with pytest.raises(ValueError, match="does not cover"):
         fx.trace_to_otlp(odd)
+
+
+def test_plan_reaches_detector_metadata_only_through_the_documented_attributes(trace):
+    planner = next(s for s in mapped(trace) if s.span_type == SpanType.AGENT_STEP)
+    assert planner.metadata["role"] == "planner" and planner.metadata["plan_steps"] == ["a", "b"]
+    unaware = next(s for s in mapped(trace, plan_attributes=False) if s.span_type == SpanType.AGENT_STEP)
+    assert "role" not in unaware.metadata and "plan_steps" not in unaware.metadata
+    assert unaware.metadata["otel.attributes"]["app.plan_steps"] == ["a", "b"]

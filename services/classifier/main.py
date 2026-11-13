@@ -28,14 +28,35 @@ def load_classifier() -> FailureClassifier:
     return clf
 
 
+def classifier_mode(value: str | None = None) -> str:
+    """``NEXUS_CLASSIFIER``: unset or ``detectors`` (default), or ``legacy``. Anything else refuses."""
+    mode = ((os.getenv("NEXUS_CLASSIFIER") if value is None else value) or "detectors").strip().lower()
+    if mode not in ("detectors", "legacy"):
+        raise ValueError(f"NEXUS_CLASSIFIER must be 'detectors' or 'legacy', not {mode!r}")
+    return mode
+
+
+def build_classifier(mode: str | None = None):
+    """Live classifier: the scored Phase 2 detectors by default, the legacy pipeline on request."""
+    mode = classifier_mode(mode)
+    logging.info("nexus-classifier: NEXUS_CLASSIFIER=%s", mode)
+    if mode == "legacy":
+        return FailureClassifier()  # loads its trained model after the NLI check, as before
+    from services.classifier.live_detectors import DetectorClassifier
+
+    return DetectorClassifier()
+
+
 def main() -> None:
-    service = ClassifierService(FailureClassifier())
+    initial = build_classifier()
+    service = ClassifierService(initial)
     server = make_health_server(service, port=int(os.getenv("CLASSIFIER_HEALTH_PORT", "8002")))
 
     def consume():
         try:
             service.require_nli()
-            service.classifier = load_classifier()
+            if isinstance(initial, FailureClassifier):
+                service.classifier = load_classifier()
             service.run()
         except Exception as exc:  # noqa: BLE001
             service.mark_unhealthy(str(exc))

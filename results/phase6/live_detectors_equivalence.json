@@ -1,0 +1,99 @@
+{
+  "generated_at": "2026-11-13T03:40:36.182910+00:00",
+  "equivalence": {
+    "scope": "all DEV traces",
+    "compared_with": "results/phase2_dev_predictions.json (pred)",
+    "detector_config": {
+      "detectors": "services/detectors (frozen)",
+      "frozen_tag": "phase2-detectors-frozen",
+      "variant": "pipeline (no LLM judge)",
+      "thresholds_file": "services/detectors/thresholds.json",
+      "thresholds": {
+        "HALLUCINATION": 0.5034,
+        "CONTEXT_BLEED": 1.0,
+        "PLAN_DRIFT": "ungrounded_any_source"
+      },
+      "precedence": [
+        "LOOP_DETECTED",
+        "TOOL_MISFIRE",
+        "CONTEXT_BLEED",
+        "PLAN_DRIFT",
+        "HALLUCINATION"
+      ],
+      "nli_model": "cross-encoder/nli-deberta-v3-base",
+      "nli_revision": "6c749ce3425cd33b46d187e45b92bbf96ee12ec7"
+    },
+    "traces": 359,
+    "adapter_match": 359,
+    "adapter_match_rate": 1.0,
+    "service_match": 359,
+    "service_match_rate": 1.0,
+    "mismatch_count": 0,
+    "predicted_distribution": {
+      "CONTEXT_BLEED": 23,
+      "NORMAL": 209,
+      "HALLUCINATION": 35,
+      "LOOP_DETECTED": 34,
+      "PLAN_DRIFT": 24,
+      "TOOL_MISFIRE": 34
+    },
+    "by_dev_label": {
+      "CONTEXT_BLEED": {
+        "traces": 30,
+        "adapter_match": 30,
+        "service_match": 30
+      },
+      "HALLUCINATION": {
+        "traces": 34,
+        "adapter_match": 34,
+        "service_match": 34
+      },
+      "LOOP_DETECTED": {
+        "traces": 34,
+        "adapter_match": 34,
+        "service_match": 34
+      },
+      "NORMAL": {
+        "traces": 118,
+        "adapter_match": 118,
+        "service_match": 118
+      },
+      "OTHER_FAILURE": {
+        "traces": 85,
+        "adapter_match": 85,
+        "service_match": 85
+      },
+      "PLAN_DRIFT": {
+        "traces": 24,
+        "adapter_match": 24,
+        "service_match": 24
+      },
+      "TOOL_MISFIRE": {
+        "traces": 34,
+        "adapter_match": 34,
+        "service_match": 34
+      }
+    },
+    "nli_score_abs_diff_vs_phase2": {
+      "compared": 55,
+      "max": 0.0,
+      "median": 0.0
+    },
+    "classify_ms": {
+      "adapter_direct": {
+        "n": 359,
+        "p50": 1.2,
+        "p95": 630.1,
+        "max": 908.4
+      },
+      "service_path": {
+        "n": 359,
+        "p50": 1.3,
+        "p95": 629.7,
+        "max": 733.0
+      }
+    },
+    "mismatches": [],
+    "seconds": 70.8
+  }
+}

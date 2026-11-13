@@ -108,8 +108,13 @@ def message_json(role: str, text: str, *, finish_reason: str | None = None) -> s
     return json.dumps([message], ensure_ascii=False)
 
 
-def span_attributes(span: Span) -> dict:
-    """Current-semconv attributes for one Nexus span (ordered; no nested values)."""
+def span_attributes(span: Span, plan_attributes: bool = True) -> dict:
+    """Current-semconv attributes for one Nexus span (ordered; no nested values).
+
+    ``plan_attributes`` writes a span's ``role``/``plan_steps`` as the documented ``nexus.agent.*``
+    attributes; with False they are plain ``app.*`` attributes, as a generic OpenTelemetry
+    application that knows nothing about Nexus would emit them.
+    """
     if span.span_type not in OPERATIONS:
         raise ValueError(f"fixture converter does not cover span_type={span.span_type.value}")
     meta = span.metadata or {}
@@ -134,14 +139,19 @@ def span_attributes(span: Span) -> dict:
         attrs[out_key] = message_json("assistant", span.output, finish_reason="stop") if as_messages else span.output
     if span.error_type:
         attrs["error.type"] = span.error_type
+    plan_keys = {"role": "nexus.agent.role", "plan_steps": "nexus.agent.plan_steps"}
     for key, value in meta.items():
-        if key not in SEMCONV_METADATA:
+        if key in SEMCONV_METADATA:
+            continue
+        if plan_attributes and key in plan_keys:  # any span: NexusBench also tags the planner's llm_call
+            attrs[plan_keys[key]] = value
+        else:
             attrs[f"app.{key}"] = value
     return attrs
 
 
 def trace_to_otlp(trace, *, trace_salt: str = "", synthetic: bool = False,
-                  id_prefix: str | None = None) -> ExportTraceServiceRequest:
+                  id_prefix: str | None = None, plan_attributes: bool = True) -> ExportTraceServiceRequest:
     """One OTLP export request holding every span of ``trace``, in the trace's span order."""
     request = ExportTraceServiceRequest()
     resource = request.resource_spans.add()
@@ -151,7 +161,7 @@ def trace_to_otlp(trace, *, trace_salt: str = "", synthetic: bool = False,
     scope.scope.name, scope.scope.version = SCOPE_NAME, SCOPE_VERSION
     tid = otel_trace_id(id_prefix or trace.trace_id, trace_salt)
     for source in trace.spans:
-        attrs = span_attributes(source)  # raises for span types the converter does not cover
+        attrs = span_attributes(source, plan_attributes)  # raises for span types the converter does not cover
         start = _nanos(source.client_timestamp)
         wire = scope.spans.add(
             trace_id=tid, span_id=otel_span_id(trace.trace_id, source.span_id, trace_salt),

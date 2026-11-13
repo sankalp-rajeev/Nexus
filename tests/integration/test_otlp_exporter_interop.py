@@ -191,7 +191,8 @@ def test_traces_are_classified(interop):
     loop, normal = interop["sent"]["loop"], interop["sent"]["normal"]
     assert set(interop["classified"]) == {loop["trace_id"], normal["trace_id"]}, "a trace was never classified"
     looped = interop["classified"][loop["trace_id"]]
-    assert (looped["failure_type"], looped["triggered_rule"]) == ("LOOP_DETECTED", "loop_detector")
+    # The stack's default classifier is the scored detectors (NEXUS_CLASSIFIER unset since 6.3b).
+    assert (looped["failure_type"], looped["triggered_rule"]) == ("LOOP_DETECTED", "detectors:loop")
     assert looped["failure_span_id"] in loop["tools"]
     assert interop["classified"][normal["trace_id"]]["failure_type"] in FAILURE_TYPES
 

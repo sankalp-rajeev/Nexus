@@ -20,13 +20,20 @@ RUN python scripts/phase6/prepare_classifier_models.py
 COPY services/__init__.py /app/services/__init__.py
 COPY services/common /app/services/common
 COPY services/classifier /app/services/classifier
+# The scored Phase 2 detectors, unmodified, and the two modules Phase 4 used around them
+# (the detector view and the failure-span localisation). Nothing here is rewritten for the image.
+COPY services/detectors /app/services/detectors
+COPY services/critic/__init__.py services/critic/detector_adapter.py services/critic/evidence.py /app/services/critic/
+COPY bench/__init__.py bench/detector_view.py bench/tools.py bench/memory.py bench/world.py /app/bench/
 COPY tests/fixtures/generate_synthetic_traces.py /app/tests/fixtures/generate_synthetic_traces.py
 COPY data/classifier_model /app/data/classifier_model
 
 ENV PYTHONUNBUFFERED=1
 ENV CLASSIFIER_MODEL_DIR=/app/data/classifier_model
+# NEXUS_CLASSIFIER=detectors (default) runs the scored detectors; "legacy" runs the old pipeline.
 ENV HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1
-RUN python -c "from services.classifier.embedder import NLIScorer, _load_model, DEFAULT_MODEL; NLIScorer.get(); _load_model(DEFAULT_MODEL)"
+RUN python -c "from services.classifier.embedder import NLIScorer, _load_model, DEFAULT_MODEL; NLIScorer.get(); _load_model(DEFAULT_MODEL)" \
+ && python -c "from services.classifier.live_detectors import DetectorClassifier; DetectorClassifier().require_models()"
 EXPOSE 8002
 HEALTHCHECK --interval=10s --timeout=3s --start-period=60s --retries=3 CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8002/health', timeout=2).close()"
 CMD ["python", "-m", "services.classifier.main"]
