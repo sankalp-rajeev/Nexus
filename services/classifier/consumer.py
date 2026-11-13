@@ -80,7 +80,8 @@ class ClassifierService:
         healthy = self._nli_ready and self._running
         return {"status": "ok" if healthy else "unhealthy", "nli_ready": self._nli_ready,
                 "consumer_running": self._running, "error": self._error,
-                "synthetic_suppressed": self.synthetic_suppressed}
+                "synthetic_suppressed": self.synthetic_suppressed,
+                "duplicate_spans_dropped": self.buffer.duplicate_spans_dropped}
 
     def _emit(self, topic: str, key: str, value: dict) -> None:
         self._producer.produce(topic, key=key.encode(), value=json.dumps(value).encode())
