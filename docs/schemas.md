@@ -195,9 +195,9 @@ class AgentConfig(BaseModel):          # Config Store row (agent_configs)
 | `spans` | TimescaleDB hypertable, partitioned on `server_timestamp` | assembler |
 | `classifications` | Per-trace failure classification result | not written on the live path (classifications go to Kafka) |
 | `alerts` | Fired alerts for non-NORMAL classifications | not written on the live path (alerts go to Kafka) |
-| `patches` | Critic-produced patch proposals (`PENDING_REVIEW` only for an LLM patch that passed the dry run) | critic; status updated by healer and API |
-| `eval_runs` | Before/after eval scores (auto-computed `score_delta`) | healer |
-| `agent_configs` | Config Store: active prompt/tool/retry content per component | healer |
+| `patches` | Critic-produced patch proposals (`PENDING_REVIEW` only for an LLM patch that passed the dry run) | critic; status set to `APPLIED` by the healer only with `NEXUS_HEALER_AUTO_APPLY=true`, and by the API on approve/reject |
+| `eval_runs` | Before/after eval scores (auto-computed `score_delta`) | healer (also marks a proposal as evaluated when auto-apply is off) |
+| `agent_configs` | Config Store: active prompt/tool/retry content per component | healer, only with `NEXUS_HEALER_AUTO_APPLY=true` (legacy, unverified: no promotion gate); off by default |
 
 Lite mode does not use Postgres: one SQLite file holds spans and the `traces`, `alerts`, `proposals` and
 `gate_decisions` artifacts ([`services/collector/lite.py`](../services/collector/lite.py)).

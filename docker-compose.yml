@@ -120,6 +120,9 @@ services:
       context: .
       dockerfile: services/healer/Dockerfile
     env_file: [.env]
+    environment:
+      # Off unless set: evaluate and log proposals, never apply them. true = legacy, unverified (no gate).
+      NEXUS_HEALER_AUTO_APPLY: ${NEXUS_HEALER_AUTO_APPLY:-false}
     restart: unless-stopped
     depends_on:
       postgres: {condition: service_healthy}
