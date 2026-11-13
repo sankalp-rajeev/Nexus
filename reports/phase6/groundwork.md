@@ -11,7 +11,7 @@
 The collector accepts OTLP/HTTP traces at `/v1/traces`, using JSON or binary
 protobuf, with gzip support. The optional SDK integration maps GenAI
 attributes to Nexus `SpanBatch` without dropping unmapped attributes. See
-[the field mapping](otel-mapping.md) for exact precedence, defaults,
+[the field mapping](../../docs/otel_mapping.md) for exact precedence, defaults,
 preservation and transport behavior. Native `/v1/spans` ingestion remains
 available. Both paths use the selected queue backend.
 

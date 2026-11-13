@@ -20,6 +20,10 @@ scipy==1.17.1
 # deepeval>=4 no longer imports langchain from its pytest plugin; pytest.ini
 # also disables that plugin (-p no:deepeval) so unit tests never depend on it.
 
+# Official OTLP exporter used by tests/integration/test_otlp_exporter_interop.py and
+# examples/otel_plain (same version as the opentelemetry-sdk pin in services/collector).
+opentelemetry-exporter-otlp-proto-http==1.42.1
+
 # Test + QA tooling
 pytest==9.0.3
 pytest-asyncio==1.4.0

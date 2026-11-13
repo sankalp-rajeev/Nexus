@@ -118,7 +118,7 @@ OTel HTTP exporter with
 `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://127.0.0.1:18000/v1/traces` and
 `OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=http/protobuf`. Inspect
 `http://127.0.0.1:18000/v1/lite/snapshot` and `/health`.
-See [the OTLP field mapping](otel-mapping.md) for input/output and attribute
+See [the OTLP field mapping](../../docs/otel_mapping.md) for input/output and attribute
 preservation. Keep the worker count unchanged: the queue is process-local.
 
 For a later, separately scheduled container validation, the equivalent entry

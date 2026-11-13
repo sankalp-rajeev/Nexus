@@ -132,8 +132,10 @@ def test_real_otel_sdk_tracer_to_nexus_spans(client, media_type):
     assert llm["trace_id"] == f"{root.context.trace_id:032x}"
     assert llm["parent_span_id"] == root_span["span_id"]
     assert llm["span_type"] == "llm_call" and llm["agent_name"] == "otel-demo"
-    assert json.loads(llm["input"])[0]["role"] == "user"
-    assert json.loads(llm["output"])[0]["role"] == "assistant"
+    # Text-only message lists project to plain text (detectors read prose, not a JSON envelope);
+    # the structured original is still in metadata["otel.attributes"].
+    assert llm["input"] == "hello" and llm["output"] == "hi"
+    assert json.loads(llm["metadata"]["otel.attributes"]["gen_ai.input.messages"])[0]["role"] == "user"
     assert llm["duration_ms"] == (chat.end_time - chat.start_time) / 1e6
     assert llm["environment"] == "dev" and llm["sdk_version"] == "sdk-test"
     assert llm["server_timestamp"] is not None
