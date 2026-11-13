@@ -65,8 +65,9 @@ export default function Hero({ data }: { data: ReplayData }) {
             </span>
           </h1>
           <p className="lead nx-hero__lead">
-            Nexus detects the failure, lets an LLM propose a fix, then promotes it only if it fixes the task,
-            works on similar tasks it wasn’t tuned on, and breaks nothing that already worked.
+            Nexus detects failures live and lets an LLM propose a fix. A fix is promoted only after a
+            three-check verification job (repair, held-out, regression) passes against your agent’s task
+            suite; the results below come from that job on NexusBench.
           </p>
           <div className="nx-actions">
             <CopyBlock text={INSTALL} label="the install command" />

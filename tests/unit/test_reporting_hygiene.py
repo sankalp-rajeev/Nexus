@@ -1,6 +1,6 @@
 """Credibility guards (Improvement Plan, Phase 0).
 
-* Every docs/*report*.md states provider, model and whether it is a mock.
+* Every docs/*report*.md and docs/history/*report*.md states provider, model and whether it is a mock.
 * Every results/*.json result carries full provenance.
 * RESULTS.md is regenerated from results/, never hand-edited.
 """
@@ -17,6 +17,7 @@ import pytest
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 REPORTS = sorted(glob.glob(os.path.join(REPO, "docs", "*report*.md"))
+                 + glob.glob(os.path.join(REPO, "docs", "history", "*report*.md"))
                  + glob.glob(os.path.join(REPO, "reports", "**", "baseline*.md"), recursive=True))
 RESULTS = sorted(glob.glob(os.path.join(REPO, "results", "*.json")))
 

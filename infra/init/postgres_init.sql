@@ -1,6 +1,6 @@
 -- infra/init/postgres_init.sql
 -- Nexus persistent storage schema (TimescaleDB on PostgreSQL 15).
--- Source: NEXUS_PRD.md Section 13.2.
+-- Source: the original PRD, Section 13.2 (removed from the tree after the 0.1.0 release; in git history).
 
 CREATE EXTENSION IF NOT EXISTS timescaledb;
 

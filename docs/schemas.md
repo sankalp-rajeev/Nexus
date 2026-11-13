@@ -1,8 +1,9 @@
 # Nexus — Data Models & Schemas
 
 All Pydantic models are the single source of truth in
-[`sdk/nexus_llmops/models.py`](../sdk/nexus_llmops/models.py). The Postgres DDL
-lives in [`infra/init/postgres_init.sql`](../infra/init/postgres_init.sql).
+[`sdk/nexus_llmops/models.py`](../sdk/nexus_llmops/models.py) (also importable as `nexus_agent.models`).
+The Postgres DDL lives in [`infra/init/postgres_init.sql`](../infra/init/postgres_init.sql). The flow between
+services is in the README's architecture diagram.
 
 ## Span (core SDK model)
 
@@ -39,6 +40,41 @@ class SpanBatch(BaseModel):
     batch_id: str                      # default: uuid hex
 ```
 
+### Metadata keys the service reads
+
+| Key | Set by | Meaning |
+|---|---|---|
+| `final` | SDK on the root span; collector on a parentless OTLP span | Complete the trace on arrival instead of waiting for the idle timeout |
+| `nexus.synthetic` (boolean) | Load tools | Classified, but never published to `nexus.alerts` (counted as `synthetic_suppressed`) |
+| `otel.legacy_aliases` | Collector, OTLP path | Legacy GenAI attribute names that were mapped |
+| `nexus.content_refs`, `nexus.content_missing` | Collector, OTLP path | Message content was referenced but not sent; a loop verdict resting only on such spans is dropped |
+
+## Trace assembly
+
+```python
+class TraceStatus(str, Enum):
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+class CompleteTrace(BaseModel):
+    trace_id: str
+    agent_name: str
+    environment: str = "development"
+    root_input: str | None = None
+    final_output: str | None = None
+    span_count: int = 0
+    total_duration_ms: float | None = None
+    started_at: datetime
+    completed_at: datetime | None = None
+    status: TraceStatus = IN_PROGRESS
+    spans: list[Span] = []
+```
+
+The assembler and the classifier each assemble traces from `nexus.spans.raw` with their own
+`TraceBuffer` ([`services/common/trace_buffer.py`](../services/common/trace_buffer.py)), which drops replayed
+spans by `span_id`.
+
 ## Failure Taxonomy
 
 ```python
@@ -53,6 +89,9 @@ class FailureType(str, Enum):
 
 ## Classification & Alert
 
+The live classifier publishes each `Classification` to `nexus.spans.classified` and, for a non-`NORMAL`,
+non-synthetic trace, an `Alert` to `nexus.alerts` (keyed by `agent_name`).
+
 ```python
 class Classification(BaseModel):
     classification_id: str
@@ -63,6 +102,12 @@ class Classification(BaseModel):
     triggered_rule: str | None        # rule name, or 'patchcore'
     failure_span_id: str | None
     created_at: datetime
+
+class ClassifiedSpan(BaseModel):     # defined, but the classifier publishes Classification
+    span: Span
+    failure_type: FailureType
+    anomaly_score: float | None = None
+    triggered_rule: str | None = None
 
 class Alert(BaseModel):
     alert_id: str
@@ -129,16 +174,30 @@ class HealthDiff(BaseModel):
     failure_type: FailureType
     patch_id: str | None
     created_at: datetime
+
+class AgentConfig(BaseModel):          # Config Store row (agent_configs)
+    config_id: str
+    agent_name: str
+    component_name: str
+    config_type: Literal["prompt","tool_config","retry_policy"]
+    content: str
+    version: int = 1
+    applied_patch_id: str | None
+    created_at: datetime
+    updated_at: datetime
 ```
 
 ## Postgres Tables
 
-| Table | Purpose |
-|---|---|
-| `traces` | One row per agent execution run |
-| `spans` | TimescaleDB hypertable, partitioned on `server_timestamp` |
-| `classifications` | Per-trace failure classification result |
-| `alerts` | Fired alerts for non-NORMAL classifications |
-| `patches` | Critic-produced patch proposals |
-| `eval_runs` | Before/after eval scores (auto-computed `score_delta`) |
-| `agent_configs` | Config Store — active prompt/tool/retry content per component |
+| Table | Purpose | Written by (live stack) |
+|---|---|---|
+| `traces` | One row per agent execution run | assembler |
+| `spans` | TimescaleDB hypertable, partitioned on `server_timestamp` | assembler |
+| `classifications` | Per-trace failure classification result | not written on the live path (classifications go to Kafka) |
+| `alerts` | Fired alerts for non-NORMAL classifications | not written on the live path (alerts go to Kafka) |
+| `patches` | Critic-produced patch proposals (`PENDING_REVIEW` only for an LLM patch that passed the dry run) | critic; status set to `APPLIED` by the healer only with `NEXUS_HEALER_AUTO_APPLY=true`, and by the API on approve/reject |
+| `eval_runs` | Before/after eval scores (auto-computed `score_delta`) | healer (also marks a proposal as evaluated when auto-apply is off) |
+| `agent_configs` | Config Store: active prompt/tool/retry content per component | healer, only with `NEXUS_HEALER_AUTO_APPLY=true` (legacy, unverified: no promotion gate); off by default |
+
+Lite mode does not use Postgres: one SQLite file holds spans and the `traces`, `alerts`, `proposals` and
+`gate_decisions` artifacts ([`services/collector/lite.py`](../services/collector/lite.py)).

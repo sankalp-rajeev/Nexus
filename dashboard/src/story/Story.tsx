@@ -1,4 +1,4 @@
-import { useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
+import { useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react'
 import type { Count, GateCheck, ReplayData, ReplayHeal, StoryFigure } from '../replay'
 import {
   arm, decimal, figure, interval, proof, repoFile, secondsText, usd, value, word,
@@ -81,6 +81,13 @@ export function Mechanism({ data }: { data: ReplayData }) {
           </li>
         ))}
       </ol>
+      <p className="nx-flow__more">
+        <a className="nx-source" href={`${import.meta.env.BASE_URL}nexus-architecture-dark.png`}
+           target="_blank" rel="noreferrer"
+           aria-label="View full diagram: the Nexus architecture as an image (opens in a new tab)">
+          View full diagram
+        </a>
+      </p>
     </Section>
   )
 }
@@ -325,13 +332,30 @@ export function Walkthrough({ data }: { data: ReplayData }) {
 
 // ── 6. how it works, speed and cost ───────────────────────────────────────────
 
+// Two separate things run: the live service, which ends at a proposal, and the verification job,
+// which decides. The live service does not run the gate.
 const ARCHITECTURE = [
-  { name: 'SDK or OpenTelemetry', line: 'Your agent emits spans.' },
-  { name: 'Collector', line: 'Receives and validates them.' },
-  { name: 'Kafka', line: 'Queues them in order.' },
-  { name: 'Detectors', line: 'Classify each finished trace.' },
-  { name: 'Critic', line: 'Proposes a patch.' },
-  { name: 'Gate', line: 'Runs the three checks.' },
+  {
+    name: 'Live service',
+    note: 'Runs continuously next to your agent and ends at a proposal.',
+    parts: [
+      { name: 'SDK or OpenTelemetry', line: 'Your agent emits spans.' },
+      { name: 'Collector', line: 'Receives and validates them.' },
+      { name: 'Kafka', line: 'Queues them in order.' },
+      { name: 'Detectors', line: 'Classify each finished trace.' },
+      { name: 'Critic', line: 'Writes a proposal.' },
+    ],
+  },
+  {
+    name: 'Verification job',
+    note: 'Runs separately, against your agent’s task suite, and decides.',
+    parts: [
+      { name: 'Repair', line: 'Reruns the failing task with the patch.' },
+      { name: 'Held-out', line: 'Runs similar tasks the patch was not written for.' },
+      { name: 'Regression', line: 'Reruns tasks that already passed.' },
+      { name: 'Promote or reject', line: 'Promoted only if all three checks pass.' },
+    ],
+  },
 ]
 
 export function Architecture({ data }: { data: ReplayData }) {
@@ -343,14 +367,23 @@ export function Architecture({ data }: { data: ReplayData }) {
   return (
     <Section id="architecture" title="What runs, and what it costs" band
              lead="Measured on one laptop with the full stack running.">
-      <ol className="nx-arch" aria-label="Architecture, in data-flow order">
-        {ARCHITECTURE.map(part => (
-          <li key={part.name} className="nx-arch__part">
-            <span className="nx-arch__name">{part.name}</span>
-            <span className="nx-arch__line">{part.line}</span>
-          </li>
+      <div className="nx-arch-groups">
+        {ARCHITECTURE.map(group => (
+          <div key={group.name} className="nx-arch-group">
+            <h3 className="nx-arch-group__name">{group.name}</h3>
+            <p className="nx-arch-group__note">{group.note}</p>
+            <ol className="nx-arch" style={{ '--cols': group.parts.length } as CSSProperties}
+                aria-label={`${group.name}, in order`}>
+              {group.parts.map(part => (
+                <li key={part.name} className="nx-arch__part">
+                  <span className="nx-arch__name">{part.name}</span>
+                  <span className="nx-arch__line">{part.line}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
         ))}
-      </ol>
+      </div>
       <dl className="nx-figures">
         <div className="nx-figures__item">
           <dt>Time to alert</dt>
@@ -476,6 +509,15 @@ export function Limits({ data }: { data: ReplayData }) {
         <div className="nx-rows__row">
           <dt>Lite mode is partial.</dt>
           <dd>No hallucination detector, no LLM critic, SQLite instead of Kafka. <SourceLink data={data} item={lite} /></dd>
+        </div>
+        <div className="nx-rows__row">
+          <dt>The live service does not yet run the gate.</dt>
+          <dd>
+            Live gating via a pluggable task-suite runner is planned for the next release. Live auto-apply is
+            off by default.{' '}
+            <a className="nx-source" href={repoFile(data, 'CHANGELOG.md')} target="_blank" rel="noreferrer"
+               aria-label="Changelog (opens on GitHub in a new tab)">CHANGELOG.md</a>
+          </dd>
         </div>
       </dl>
     </Section>

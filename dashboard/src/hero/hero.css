@@ -114,6 +114,7 @@
 .nx-flow__step--check { border-color: var(--color-cool); }
 .nx .nx-flow__name { font-size: var(--text-lg); line-height: 1.2; }
 .nx .nx-flow__line { font-size: var(--text-md); line-height: 1.5; color: var(--color-ink-2); }
+.nx .nx-flow__more { margin: var(--space-md) 0 0; }
 
 /* 4. the finding as an index: reading, meaning, interval and source */
 .nx-index { border-top: var(--rule-hair) solid var(--color-rule); }
@@ -173,7 +174,10 @@
 .nx-diff:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 
 /* 6. architecture and figures */
-.nx-arch { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); margin: 0 0 var(--space-2xl); padding: 0; list-style: none; border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-card); overflow: hidden; gap: var(--rule-hair); background: var(--color-rule); }
+.nx-arch { display: grid; grid-template-columns: repeat(var(--cols, 6), minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-card); overflow: hidden; gap: var(--rule-hair); background: var(--color-rule); }
+.nx-arch-groups { display: grid; gap: var(--space-xl); margin: 0 0 var(--space-2xl); }
+.nx .nx-arch-group__name { font-size: var(--text-lg); line-height: 1.2; margin: 0; }
+.nx .nx-arch-group__note { font-size: var(--text-sm); color: var(--color-ink-2); margin: var(--space-2xs) 0 var(--space-sm); }
 .nx-arch__part { display: flex; flex-direction: column; gap: var(--space-2xs); padding: var(--space-lg); background: var(--color-paper-2); }
 .nx-arch__name { font-weight: 500; color: var(--color-ink); }
 .nx-arch__line { font-size: var(--text-sm); color: var(--color-ink-2); }

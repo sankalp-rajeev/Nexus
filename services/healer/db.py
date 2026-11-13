@@ -23,15 +23,21 @@ def get_connection():
     )
 
 
-def fetch_pending_patches(conn, limit: int = 10) -> list[dict[str, Any]]:
-    """Return PENDING_REVIEW patches ordered by created_at ASC."""
+def fetch_pending_patches(conn, limit: int = 10, *, exclude_evaluated: bool = False) -> list[dict[str, Any]]:
+    """Return PENDING_REVIEW patches ordered by created_at ASC.
+
+    ``exclude_evaluated`` skips proposals that already have an eval_runs row (used when auto-apply
+    is off, since an evaluated-but-unapplied proposal stays PENDING_REVIEW).
+    """
+    evaluated = (" AND NOT EXISTS (SELECT 1 FROM eval_runs e WHERE e.patch_id = patches.proposal_id)"
+                 if exclude_evaluated else "")
     with conn.cursor() as cur:
         cur.execute("""
             SELECT proposal_id, alert_id, trace_id, failure_type, patch_type,
                    target_component, explanation, patch_content, confidence,
                    estimated_impact, root_cause_analysis, status, created_at
             FROM patches
-            WHERE status = 'PENDING_REVIEW'
+            WHERE status = 'PENDING_REVIEW'""" + evaluated + """
             ORDER BY created_at ASC
             LIMIT %s
         """, (limit,))

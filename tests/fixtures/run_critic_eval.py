@@ -9,7 +9,7 @@ end; it says nothing about whether a real LLM diagnoses failures correctly
 
     python tests/fixtures/run_critic_eval.py
 
-Writes docs/critic_smoke_test_report.md and results/critic_smoke_mock.json.
+Writes docs/history/critic_smoke_test_report.md (legacy, pre-rework) and results/critic_smoke_mock.json.
 """
 
 from __future__ import annotations
@@ -31,7 +31,7 @@ from services.common.results import provenance, report_header, write_result  # n
 from services.critic.fallback import _FALLBACKS  # noqa: E402
 from services.critic.graph import run_critic  # noqa: E402
 
-OUT_PATH = os.path.join(_REPO, "docs", "critic_smoke_test_report.md")
+OUT_PATH = os.path.join(_REPO, "docs", "history", "critic_smoke_test_report.md")
 RESULT_FILE = "critic_smoke_mock.json"
 
 

@@ -2,6 +2,18 @@
 
 The Python SDK is `nexus-llmops` (import `nexus_llmops`); the service is the rest of this repository.
 
+## Unreleased
+
+### Service
+
+- **Live auto-apply is off by default.** `NEXUS_HEALER_AUTO_APPLY` (default `false`): the healer evaluates
+  and logs each proposal once but never writes it to the Config Store or emits a health-diff event.
+  `true` keeps the old apply path, which is legacy and unverified: it does not run the promotion gate.
+
+### Planned
+
+- Live gating via a pluggable task-suite runner is planned for 0.2. The live service does not yet run the gate.
+
 ## 0.1.0 (2026-11-13)
 
 First stable release of the SDK. Same code as 0.1.0rc1 apart from the version number; the entries

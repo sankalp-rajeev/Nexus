@@ -1,8 +1,8 @@
 # Nexus
 
-**An open-source reliability layer for LLM agents.** Nexus detects when an agent run fails, lets an LLM
-propose a fix, and promotes the fix only if it repairs the failing task, works on similar tasks it was not
-written for, and breaks nothing that already worked.
+**An open-source reliability layer for LLM agents.** Nexus detects failures live and lets an LLM propose a
+fix. A fix is promoted only after a three-check verification job (repair, held-out, regression) passes
+against your agent's task suite; the results below come from that job on NexusBench.
 
 - **Demo:** https://nexus-llmops.vercel.app (a static replay of recorded runs; no backend, no keys)
 - **SDK:** [`nexus-llmops` on PyPI](https://pypi.org/project/nexus-llmops/): `pip install nexus-llmops`
@@ -86,16 +86,15 @@ A number measured where you tuned flatters you.
 
 ## How it works
 
-```mermaid
-flowchart LR
-    A[Your agent<br/>nexus-llmops SDK<br/>or OpenTelemetry] -->|spans| C[Collector<br/>/v1/spans, /v1/traces]
-    C --> K[(Kafka)]
-    K --> AS[Assembler<br/>builds traces]
-    AS --> DT[Detectors<br/>classify each trace]
-    DT -->|alert| CR[Critic<br/>proposes a patch]
-    CR --> G[Gate<br/>fix, held-out and<br/>regression checks]
-    G --> DB[(Postgres)]
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/nexus-architecture-dark.png">
+  <img src="docs/assets/nexus-architecture-light.png" alt="Nexus architecture. Your agent sends spans with the nexus-llmops SDK or OpenTelemetry to the collector, which publishes them to Kafka. The assembler builds traces and stores them in Postgres; the classifier runs the frozen detectors, drops synthetic traffic, and raises alerts. The LLM critic, with a config registry and a dry-run validator, writes patches to Postgres, where the healer evaluates them, logs eval runs to MLflow and, by default, applies nothing; the API and dashboard read Postgres. Separately, the promotion gate runs as an offline verification job: it reruns the agent and promotes a patch only if it passes the fix, held-out and regression checks. Lite mode is a single collector with SQLite and the rule detectors.">
+</picture>
+
+The live stack runs the detectors and the critic as services and ends at a proposal. The three-check
+promotion gate runs as a separate verification job: the evaluation harness that produced the results above
+(`bench/heal/`, `services/healer/gate.py`). The live healer evaluates and logs proposals; it applies them only
+with `NEXUS_HEALER_AUTO_APPLY=true`, a legacy path that does not run the gate (off by default).
 
 Speed and cost, measured on one laptop with the full stack running (development data):
 
@@ -119,6 +118,7 @@ rates, not an invoice.
 - **The benchmark world is invented.** All results come from real agent runs in an invented task world with injected faults ([DATASHEET.md:17](bench/DATASHEET.md?plain=1#L17)). Detection was also checked on HaluEval and ToolBench ([RESULTS.md:41](RESULTS.md?plain=1#L41)). Healing hasn't been tested on real production failures.
 - **One laptop, one critic draw.** Speed is from one machine. The critic runs at temperature 0.2, so a rerun can write a different patch. Source: [c1.json:7](results/critic_dev/c1.json#L7).
 - **Lite mode is partial.** It has no hallucination detector and no LLM critic, and uses SQLite instead of Kafka. Source: [RESULTS.md:112](RESULTS.md?plain=1#L112).
+- **The live service does not yet run the gate.** Live gating via a pluggable task-suite runner is planned for 0.2. Live auto-apply is off by default. Source: [CHANGELOG.md:15](CHANGELOG.md?plain=1#L15).
 
 <!-- readme-numbers:end -->
 
