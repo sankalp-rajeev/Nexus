@@ -58,7 +58,10 @@ async def ingest_spans(batch: SpanBatch, request: Request) -> JSONResponse:
 
 @router.post("/v1/spans/single")
 async def ingest_single(span: Span, request: Request) -> dict:
-    _publish(request, span)
+    from fastapi import HTTPException
+
+    if not _publish(request, span):
+        raise HTTPException(503, "Span queue unavailable; retry export")
     request.app.state.spans_received_total += 1
     return {"span_id": span.span_id, "trace_id": span.trace_id}
 
@@ -69,7 +72,19 @@ async def health(request: Request) -> dict:
     connected = producer.is_connected()
     return {
         "status": "ok" if connected else "degraded",
-        "kafka_connected": connected,
+        "kafka_connected": connected if not hasattr(producer, "snapshot") else False,
+        "queue_backend": "inprocess" if hasattr(producer, "snapshot") else "kafka",
+        "queue_connected": connected,
         "spans_received_total": request.app.state.spans_received_total,
         "uptime_seconds": round(time.time() - request.app.state.start_time, 2),
     }
+
+
+@router.get("/v1/lite/snapshot")
+async def lite_snapshot(request: Request) -> dict:
+    from fastapi import HTTPException
+
+    producer = request.app.state.producer
+    if not hasattr(producer, "snapshot"):
+        raise HTTPException(404, "Snapshot is available only in lite mode")
+    return producer.snapshot()

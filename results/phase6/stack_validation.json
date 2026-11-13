@@ -1,0 +1,1145 @@
+{
+  "status": "pass",
+  "attempt": 2,
+  "run_id": "20261113013814",
+  "commit_hash": "5779aac054164f247145af1ccb2b3737144688e4",
+  "images": {
+    "source_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+    "source_application_tree_clean": true,
+    "projects": {
+      "nexus-phase6": {
+        "build_seconds": 207.5,
+        "images": {
+          "nexus-api": {
+            "tag": "nexus-phase6-nexus-api:61d-5779aac",
+            "id": "sha256:bb248fa210b89e716f65cbbdcc0f86e336232f0001f59b43e2fce1d6ef83f9ab",
+            "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+            "created": "2026-11-13T01:22:20.314620522Z"
+          },
+          "nexus-assembler": {
+            "tag": "nexus-phase6-nexus-assembler:61d-5779aac",
+            "id": "sha256:2e9fec7302dd3185a4182acedd354deb130135a22871b55f9197fcf3192a8be7",
+            "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+            "created": "2026-11-13T01:23:44.970505731Z"
+          },
+          "nexus-classifier": {
+            "tag": "nexus-phase6-nexus-classifier:61d-5779aac",
+            "id": "sha256:4da7336c4b60378aaeea47d9d0239b70ca10a4669aec22b188776b8c78e19226",
+            "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+            "created": "2026-11-12T22:33:02.708631165Z"
+          },
+          "nexus-collector": {
+            "tag": "nexus-phase6-nexus-collector:61d-5779aac",
+            "id": "sha256:4584c4b5fa5bfcf6763ea0f75817ddb047786164b4d9a22ebacbe42846a7b431",
+            "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+            "created": "2026-11-13T01:23:44.728491159Z"
+          },
+          "nexus-critic": {
+            "tag": "nexus-phase6-nexus-critic:61d-5779aac",
+            "id": "sha256:a573da7623a082344638116dbd7774437924f124d551548a69e02913764e893a",
+            "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+            "created": "2026-11-13T01:24:41.782104075Z"
+          },
+          "nexus-dashboard": {
+            "tag": "nexus-phase6-nexus-dashboard:61d-5779aac",
+            "id": "sha256:c447aa73f56b70b2ef096cb0a9a9af6343feec5fc19f31d2658851e4d6e3f3f4",
+            "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+            "created": "2026-11-13T01:23:31.393390742Z"
+          },
+          "nexus-healer": {
+            "tag": "nexus-phase6-nexus-healer:61d-5779aac",
+            "id": "sha256:c9abb701216a7efebbbf7076755346b68fcbb366c279bd4fd214f31a3a574bdb",
+            "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+            "created": "2026-11-13T01:23:08.383308802Z"
+          }
+        }
+      },
+      "nexus-lite": {
+        "build_seconds": 9.95300000000043,
+        "images": {
+          "nexus-lite": {
+            "tag": "nexus-lite-nexus-lite:61d-5779aac",
+            "id": "sha256:34d4b4bbfe17d119c450a790a403adf38bb3219b38e4c3901b7797894090fb15",
+            "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+            "created": "2026-11-12T22:36:48.74705085Z"
+          }
+        }
+      }
+    }
+  },
+  "checks": {
+    "phase5_stopped_before": true,
+    "startup_idle_source_review": "pass_unchanged_audited_source",
+    "full_startup": "pass",
+    "synthetic_http_kafka": "pass",
+    "zero_pending_boundary": "pass",
+    "full_idle_no_restarts_no_providers": "pass",
+    "lite_host_cold_start_hold_trace_no_restarts": "pass",
+    "original_containers_volumes_preserved": "pass",
+    "all_stacks_stopped": "pass",
+    "actual_runtime_image_ids_and_revisions": "pass",
+    "collector_protobuf_import": "pass"
+  },
+  "full": {
+    "images": {
+      "kafka": {
+        "tag": "apache/kafka:3.7.0",
+        "id": "sha256:41c20d65b0a2180b9deca056d47540771752e69fe9225d5748dd65a25a9675d7",
+        "built_from_commit": null,
+        "upstream_digests": [
+          "apache/kafka@sha256:41c20d65b0a2180b9deca056d47540771752e69fe9225d5748dd65a25a9675d7"
+        ],
+        "container_image_verified": true
+      },
+      "mlflow": {
+        "tag": "ghcr.io/mlflow/mlflow:v2.13.0",
+        "id": "sha256:47c5c26d06a4edadab1a7c10a4c9d3653427a3173da1e771e2b8efd7e82695af",
+        "built_from_commit": null,
+        "upstream_digests": [
+          "ghcr.io/mlflow/mlflow@sha256:47c5c26d06a4edadab1a7c10a4c9d3653427a3173da1e771e2b8efd7e82695af"
+        ],
+        "container_image_verified": true
+      },
+      "nexus-api": {
+        "tag": "nexus-phase6-nexus-api:61d-5779aac",
+        "id": "sha256:bb248fa210b89e716f65cbbdcc0f86e336232f0001f59b43e2fce1d6ef83f9ab",
+        "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+        "upstream_digests": [
+          "nexus-phase6-nexus-api@sha256:bb248fa210b89e716f65cbbdcc0f86e336232f0001f59b43e2fce1d6ef83f9ab"
+        ],
+        "container_image_verified": true
+      },
+      "nexus-assembler": {
+        "tag": "nexus-phase6-nexus-assembler:61d-5779aac",
+        "id": "sha256:2e9fec7302dd3185a4182acedd354deb130135a22871b55f9197fcf3192a8be7",
+        "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+        "upstream_digests": [
+          "nexus-phase6-nexus-assembler@sha256:2e9fec7302dd3185a4182acedd354deb130135a22871b55f9197fcf3192a8be7"
+        ],
+        "container_image_verified": true
+      },
+      "nexus-classifier": {
+        "tag": "nexus-phase6-nexus-classifier:61d-5779aac",
+        "id": "sha256:4da7336c4b60378aaeea47d9d0239b70ca10a4669aec22b188776b8c78e19226",
+        "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+        "upstream_digests": [
+          "nexus-phase6-nexus-classifier@sha256:4da7336c4b60378aaeea47d9d0239b70ca10a4669aec22b188776b8c78e19226"
+        ],
+        "container_image_verified": true
+      },
+      "nexus-collector": {
+        "tag": "nexus-phase6-nexus-collector:61d-5779aac",
+        "id": "sha256:4584c4b5fa5bfcf6763ea0f75817ddb047786164b4d9a22ebacbe42846a7b431",
+        "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+        "upstream_digests": [
+          "nexus-phase6-nexus-collector@sha256:4584c4b5fa5bfcf6763ea0f75817ddb047786164b4d9a22ebacbe42846a7b431"
+        ],
+        "container_image_verified": true
+      },
+      "nexus-critic": {
+        "tag": "nexus-phase6-nexus-critic:61d-5779aac",
+        "id": "sha256:a573da7623a082344638116dbd7774437924f124d551548a69e02913764e893a",
+        "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+        "upstream_digests": [
+          "nexus-phase6-nexus-critic@sha256:a573da7623a082344638116dbd7774437924f124d551548a69e02913764e893a"
+        ],
+        "container_image_verified": true
+      },
+      "nexus-dashboard": {
+        "tag": "nexus-phase6-nexus-dashboard:61d-5779aac",
+        "id": "sha256:c447aa73f56b70b2ef096cb0a9a9af6343feec5fc19f31d2658851e4d6e3f3f4",
+        "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+        "upstream_digests": [
+          "nexus-phase6-nexus-dashboard@sha256:c447aa73f56b70b2ef096cb0a9a9af6343feec5fc19f31d2658851e4d6e3f3f4"
+        ],
+        "container_image_verified": true
+      },
+      "nexus-healer": {
+        "tag": "nexus-phase6-nexus-healer:61d-5779aac",
+        "id": "sha256:c9abb701216a7efebbbf7076755346b68fcbb366c279bd4fd214f31a3a574bdb",
+        "built_from_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+        "upstream_digests": [
+          "nexus-phase6-nexus-healer@sha256:c9abb701216a7efebbbf7076755346b68fcbb366c279bd4fd214f31a3a574bdb"
+        ],
+        "container_image_verified": true
+      },
+      "postgres": {
+        "tag": "timescale/timescaledb:latest-pg15",
+        "id": "sha256:6343bdc87ca132c6b53acb26113a6bad1821d188fa39975a745f32ddd9757634",
+        "built_from_commit": null,
+        "upstream_digests": [
+          "timescale/timescaledb@sha256:6343bdc87ca132c6b53acb26113a6bad1821d188fa39975a745f32ddd9757634"
+        ],
+        "container_image_verified": true
+      },
+      "redis": {
+        "tag": "redis:7",
+        "id": "sha256:2e3eb11462c4e3759e6972678dd051d150ff54b1e60714b3c33b701260172a90",
+        "built_from_commit": null,
+        "upstream_digests": [
+          "redis@sha256:2e3eb11462c4e3759e6972678dd051d150ff54b1e60714b3c33b701260172a90"
+        ],
+        "container_image_verified": true
+      }
+    },
+    "containers": {
+      "kafka": "nexus-phase6-kafka-61d-20261113013814-1",
+      "mlflow": "nexus-phase6-mlflow-61d-20261113013814-1",
+      "nexus-api": "nexus-phase6-nexus-api-61d-20261113013814-1",
+      "nexus-assembler": "nexus-phase6-nexus-assembler-61d-20261113013814-1",
+      "nexus-classifier": "nexus-phase6-nexus-classifier-61d-20261113013814-1",
+      "nexus-collector": "nexus-phase6-nexus-collector-61d-20261113013814-1",
+      "nexus-critic": "nexus-phase6-nexus-critic-61d-20261113013814-1",
+      "nexus-dashboard": "nexus-phase6-nexus-dashboard-61d-20261113013814-1",
+      "nexus-healer": "nexus-phase6-nexus-healer-61d-20261113013814-1",
+      "postgres": "nexus-phase6-postgres-61d-20261113013814-1",
+      "redis": "nexus-phase6-redis-61d-20261113013814-1"
+    },
+    "volumes": [
+      "nexus-phase6_61d_20261113013814_nexus_mlflow",
+      "nexus-phase6_61d_20261113013814_nexus_pgdata"
+    ],
+    "network": {
+      "driver": "bridge",
+      "internal": false
+    },
+    "runtime_controls": "Fresh volumes, explicit local-only service configuration, provider keys/webhooks empty, telemetry disabled, offline inference. No source bind mounts or stale application images.",
+    "startup_seconds": 75.53099999999995,
+    "synthetic_check": {
+      "collector_responses": [
+        {
+          "http_status": 202,
+          "body": {
+            "accepted": 4,
+            "rejected": 0,
+            "batch_id": "phase6-fictional-loop-fixture",
+            "trace_ids": [
+              "phase6-fictional-synthetic"
+            ]
+          }
+        },
+        {
+          "http_status": 202,
+          "body": {
+            "accepted": 4,
+            "rejected": 0,
+            "batch_id": "phase6-fictional-unmarked",
+            "trace_ids": [
+              "phase6-fictional-unmarked"
+            ]
+          }
+        }
+      ],
+      "classified_records": [
+        {
+          "classification_id": "11b82ffd977447c3aebb135dc4726380",
+          "trace_id": "phase6-fictional-synthetic",
+          "failure_type": "LOOP_DETECTED",
+          "anomaly_score": null,
+          "confidence": 1.0,
+          "triggered_rule": "loop_detector",
+          "failure_span_id": "fictional-tool-1",
+          "created_at": "2026-11-13T01:39:38.938740"
+        },
+        {
+          "classification_id": "91c8a0ed61b74f1fb3f6140d248a72ee",
+          "trace_id": "phase6-fictional-unmarked",
+          "failure_type": "LOOP_DETECTED",
+          "anomaly_score": null,
+          "confidence": 1.0,
+          "triggered_rule": "loop_detector",
+          "failure_span_id": "fictional-tool-1-unmarked",
+          "created_at": "2026-11-13T01:39:38.939005"
+        }
+      ],
+      "alerts": [
+        {
+          "alert_id": "d719e00250284dcb8c7a9cb33d257634",
+          "trace_id": "phase6-fictional-unmarked",
+          "classification_id": "91c8a0ed61b74f1fb3f6140d248a72ee",
+          "agent_name": "phase6-fictional-agent",
+          "failure_type": "LOOP_DETECTED",
+          "severity": "HIGH",
+          "status": "OPEN",
+          "created_at": "2026-11-13T01:39:38.939034",
+          "resolved_at": null
+        }
+      ],
+      "classified_count": 2,
+      "alert_count": 1,
+      "synthetic_suppressed": 1,
+      "classifier_health": {
+        "status": "ok",
+        "nli_ready": true,
+        "consumer_running": true,
+        "error": null,
+        "synthetic_suppressed": 1
+      }
+    },
+    "zero_pending_boundary": {
+      "current_offset": 1,
+      "log_end_offset": 1,
+      "lag": 0,
+      "healer_pending_patches": 0
+    },
+    "critic_healer_startup_seconds": 11.82799999999952,
+    "idle_hold": {
+      "seconds": 300.0,
+      "observations_utc": [
+        "2026-11-13T01:40:26.945255+00:00",
+        "2026-11-13T01:40:57.241570+00:00",
+        "2026-11-13T01:41:27.501866+00:00",
+        "2026-11-13T01:41:57.751876+00:00",
+        "2026-11-13T01:42:27.987802+00:00",
+        "2026-11-13T01:42:58.198791+00:00",
+        "2026-11-13T01:43:28.449297+00:00",
+        "2026-11-13T01:43:58.734913+00:00",
+        "2026-11-13T01:44:29.045348+00:00",
+        "2026-11-13T01:44:59.314753+00:00"
+      ]
+    },
+    "provider_evidence": {
+      "provider_calls_observed": 0,
+      "actor_logs": {
+        "nexus-critic": {
+          "processing_or_provider_or_error_events": 0,
+          "sha256": "d3dc1bce8f156d29cf808e5e44ff1346d1cfe7d91a02b6b8f6c25487174ae321",
+          "text": "INFO:nexus.critic.consumer:nexus-critic: consuming nexus.alerts\n"
+        },
+        "nexus-healer": {
+          "processing_or_provider_or_error_events": 0,
+          "sha256": "3d8900bee3dcc155b8d2cd021b20fdd433daa492ee9a4f3104617c2bb7cfe933",
+          "text": "2026-11-13 01:40:18,957 INFO nexus.healer: healer: Redis connected\n2026-11-13 01:40:18,967 INFO nexus.healer.consumer: healer: starting (autonomous=False, poll_interval=5.0s)\n"
+        }
+      },
+      "critic_cost_ledger_before": {
+        "exists": false,
+        "bytes": 0,
+        "sha256": null,
+        "rows": 0
+      },
+      "critic_cost_ledger_after": {
+        "exists": false,
+        "bytes": 0,
+        "sha256": null,
+        "rows": 0
+      },
+      "host_cost_ledger_before": {
+        "exists": true,
+        "bytes": 131248,
+        "sha256": "168598a9dd084436b045cfc4caae32772dfcde2b7dbe23ad38e907d9ee84c91a"
+      },
+      "host_cost_ledger_after": {
+        "exists": true,
+        "bytes": 131248,
+        "sha256": "168598a9dd084436b045cfc4caae32772dfcde2b7dbe23ad38e907d9ee84c91a"
+      },
+      "critic_group_after": {
+        "current_offset": 1,
+        "log_end_offset": 1,
+        "lag": 0
+      },
+      "patches_after": 0
+    },
+    "restart_counts": {
+      "kafka": 0,
+      "mlflow": 0,
+      "nexus-api": 0,
+      "nexus-assembler": 0,
+      "nexus-classifier": 0,
+      "nexus-collector": 0,
+      "nexus-critic": 0,
+      "nexus-dashboard": 0,
+      "nexus-healer": 0,
+      "postgres": 0,
+      "redis": 0
+    },
+    "container_limits": {
+      "nexus-phase6-kafka-61d-20261113013814-1": {
+        "memory_bytes": 0,
+        "nano_cpus": 0
+      },
+      "nexus-phase6-mlflow-61d-20261113013814-1": {
+        "memory_bytes": 0,
+        "nano_cpus": 0
+      },
+      "nexus-phase6-nexus-api-61d-20261113013814-1": {
+        "memory_bytes": 0,
+        "nano_cpus": 0
+      },
+      "nexus-phase6-nexus-assembler-61d-20261113013814-1": {
+        "memory_bytes": 0,
+        "nano_cpus": 0
+      },
+      "nexus-phase6-nexus-classifier-61d-20261113013814-1": {
+        "memory_bytes": 0,
+        "nano_cpus": 0
+      },
+      "nexus-phase6-nexus-collector-61d-20261113013814-1": {
+        "memory_bytes": 0,
+        "nano_cpus": 0
+      },
+      "nexus-phase6-nexus-critic-61d-20261113013814-1": {
+        "memory_bytes": 0,
+        "nano_cpus": 0
+      },
+      "nexus-phase6-nexus-dashboard-61d-20261113013814-1": {
+        "memory_bytes": 0,
+        "nano_cpus": 0
+      },
+      "nexus-phase6-nexus-healer-61d-20261113013814-1": {
+        "memory_bytes": 0,
+        "nano_cpus": 0
+      },
+      "nexus-phase6-postgres-61d-20261113013814-1": {
+        "memory_bytes": 0,
+        "nano_cpus": 0
+      },
+      "nexus-phase6-redis-61d-20261113013814-1": {
+        "memory_bytes": 0,
+        "nano_cpus": 0
+      }
+    },
+    "ram": {
+      "per_service_peak_bytes": {
+        "kafka": 420269261,
+        "mlflow": 476787507,
+        "postgres": 130547712,
+        "redis": 8032092,
+        "nexus-collector": 46462403,
+        "nexus-api": 49325015,
+        "nexus-assembler": 38671483,
+        "nexus-classifier": 402128896,
+        "nexus-dashboard": 29496443,
+        "nexus-critic": 33879491,
+        "nexus-healer": 40317747
+      },
+      "sum_of_service_peaks_bytes": 1675918050,
+      "peak_sampled_total_bytes": 1575644823,
+      "sample_count": 75,
+      "sampling": "docker stats --no-stream; 3-second pause between samples; CLI-rounded memory converted to bytes",
+      "scope": "Entire measured full validation: startup, synthetic checks including Kafka console tools, and idle hold; health/stat probes included."
+    },
+    "stopped": true,
+    "idle_ram": {
+      "scope": "Five-minute idle hold only; health/stat probes included",
+      "per_service_peak_bytes": {
+        "kafka": 349490381,
+        "mlflow": 474480640,
+        "nexus-api": 49325015,
+        "nexus-assembler": 38671483,
+        "nexus-classifier": 399612314,
+        "nexus-collector": 45980058,
+        "nexus-critic": 33879491,
+        "nexus-dashboard": 29496443,
+        "nexus-healer": 40317747,
+        "postgres": 130547712,
+        "redis": 7319060
+      },
+      "sum_of_service_peaks_bytes": 1599120344,
+      "peak_sampled_total_bytes": 1567385191,
+      "sample_count": 54
+    }
+  },
+  "prior_fail_loud": {
+    "status": "pass_carried_forward_not_repeated",
+    "validated_commit": "a18b0b8cf8755b74a21d4d785a9cb26f6e7f0686",
+    "result": {
+      "http_status": 503,
+      "body": {
+        "status": "unhealthy",
+        "nli_ready": false,
+        "consumer_running": false,
+        "error": "Required NLI model cross-encoder/nli-MiniLM2-L6-H768 could not load offline; classifier startup and consumption refused. Rebuild the image with its pinned models or run scripts/ci/prepare_models.py locally.",
+        "synthetic_suppressed": 0
+      },
+      "status": "pass",
+      "network": "none",
+      "hidden_directories": [
+        "/root/.cache/huggingface",
+        "/app/cross-encoder",
+        "/app/sentence-transformers"
+      ],
+      "hiding_method": "empty tmpfs; no model deletion",
+      "consumer_start_log_count": 0,
+      "startup_refusal_log_count": 1
+    }
+  },
+  "machine": {
+    "docker_cpus": 32,
+    "docker_memory_bytes": 10424061952,
+    "docker_version": "28.5.1",
+    "host": {
+      "TotalPhysicalMemory": 33986535424,
+      "NumberOfLogicalProcessors": 32
+    },
+    "wsl_config": {
+      "memory": "10GB",
+      "swap": "8GB",
+      "autoMemoryReclaim": "gradual"
+    }
+  },
+  "lite": {
+    "status": "pass",
+    "project": "nexus-lite",
+    "run_id": "20261113014540",
+    "container": "nexus-lite-nexus-lite-61d-20261113014540-1",
+    "image": "nexus-lite-nexus-lite:61d-5779aac",
+    "volumes": [
+      "nexus-lite_61d_20261113014540_data"
+    ],
+    "image_id": "sha256:34d4b4bbfe17d119c450a790a403adf38bb3219b38e4c3901b7797894090fb15",
+    "image_revision": "5779aac054164f247145af1ccb2b3737144688e4",
+    "startup_seconds": 13.657000000000153,
+    "started_at": "2026-11-13T01:45:42.263373072Z",
+    "host_health_after_cold_up": {
+      "status_code": 200,
+      "body": {
+        "status": "ok",
+        "kafka_connected": false,
+        "queue_backend": "inprocess",
+        "queue_connected": true,
+        "spans_received_total": 0,
+        "uptime_seconds": 9.91
+      }
+    },
+    "idle_hold": {
+      "seconds": 300.0,
+      "observations": [
+        {
+          "utc": "2026-11-13T01:45:54.242454+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:45:59.242818+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:46:03.815954+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:46:09.255560+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:46:13.877919+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:46:19.450527+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:46:24.039993+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:46:29.274257+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:46:33.868737+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:46:39.510404+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:46:44.101343+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:46:49.439282+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:46:54.033254+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:46:59.289847+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:47:03.880464+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:47:09.312093+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:47:13.910097+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:47:19.325935+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:47:23.929266+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:47:29.321726+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:47:33.909227+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:47:39.297995+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:47:43.882877+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:47:49.355316+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:47:53.950424+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:47:59.402796+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:48:03.976008+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:48:09.523287+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:48:14.107940+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:48:19.375669+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:48:23.980115+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:48:29.484606+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:48:34.061575+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:48:39.366226+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:48:43.954298+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:48:49.378531+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:48:53.976049+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:48:59.418813+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:49:03.991831+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:49:09.384014+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:49:13.980542+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:49:19.422310+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:49:24.019707+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:49:28.613161+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:49:33.182062+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:49:37.772994+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:49:42.360951+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:49:46.948669+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:49:51.542323+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:49:56.137959+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:50:00.731026+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:50:05.301659+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:50:10.440620+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:50:15.034655+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:50:20.459168+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:50:25.061600+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:50:30.488803+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:50:35.063465+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:50:40.471046+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:50:45.065106+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        },
+        {
+          "utc": "2026-11-13T01:50:50.497794+00:00",
+          "restart_count": 0,
+          "health": "healthy"
+        }
+      ]
+    },
+    "host_trace_response": {
+      "status_code": 202,
+      "body": {
+        "accepted": 4,
+        "rejected": 0,
+        "batch_id": "phase6-fictional-loop-fixture",
+        "trace_ids": [
+          "phase6-fictional-synthetic"
+        ]
+      }
+    },
+    "snapshot": {
+      "traces": [
+        {
+          "trace_id": "phase6-fictional-synthetic",
+          "agent_name": "phase6-fictional-agent",
+          "environment": "development",
+          "root_input": "Find the imaginary purple moon once.",
+          "final_output": "Repeated the same fictional lookup three times.",
+          "span_count": 4,
+          "total_duration_ms": 3040.0,
+          "started_at": "2026-11-12T12:00:00Z",
+          "completed_at": "2026-11-12T12:00:03.040000Z",
+          "status": "completed",
+          "spans": [
+            {
+              "span_id": "fictional-tool-1",
+              "trace_id": "phase6-fictional-synthetic",
+              "parent_span_id": "fictional-root",
+              "agent_name": "phase6-fictional-agent",
+              "span_type": "tool_call",
+              "input": "{\"object\":\"imaginary-purple-moon\"}",
+              "output": "fictional object found",
+              "duration_ms": 10.0,
+              "error_type": null,
+              "error_message": null,
+              "metadata": {
+                "tool_name": "fictional_lookup",
+                "nexus.synthetic": true
+              },
+              "client_timestamp": "2026-11-12T12:00:00Z",
+              "server_timestamp": "2026-11-13T01:50:54.163485Z",
+              "environment": "development",
+              "sdk_version": "0.1.0"
+            },
+            {
+              "span_id": "fictional-tool-2",
+              "trace_id": "phase6-fictional-synthetic",
+              "parent_span_id": "fictional-root",
+              "agent_name": "phase6-fictional-agent",
+              "span_type": "tool_call",
+              "input": "{\"object\":\"imaginary-purple-moon\"}",
+              "output": "fictional object found",
+              "duration_ms": 10.0,
+              "error_type": null,
+              "error_message": null,
+              "metadata": {
+                "tool_name": "fictional_lookup",
+                "nexus.synthetic": true
+              },
+              "client_timestamp": "2026-11-12T12:00:01Z",
+              "server_timestamp": "2026-11-13T01:50:54.163640Z",
+              "environment": "development",
+              "sdk_version": "0.1.0"
+            },
+            {
+              "span_id": "fictional-tool-3",
+              "trace_id": "phase6-fictional-synthetic",
+              "parent_span_id": "fictional-root",
+              "agent_name": "phase6-fictional-agent",
+              "span_type": "tool_call",
+              "input": "{\"object\":\"imaginary-purple-moon\"}",
+              "output": "fictional object found",
+              "duration_ms": 10.0,
+              "error_type": null,
+              "error_message": null,
+              "metadata": {
+                "tool_name": "fictional_lookup",
+                "nexus.synthetic": true
+              },
+              "client_timestamp": "2026-11-12T12:00:02Z",
+              "server_timestamp": "2026-11-13T01:50:54.163655Z",
+              "environment": "development",
+              "sdk_version": "0.1.0"
+            },
+            {
+              "span_id": "fictional-root",
+              "trace_id": "phase6-fictional-synthetic",
+              "parent_span_id": null,
+              "agent_name": "phase6-fictional-agent",
+              "span_type": "agent_step",
+              "input": "Find the imaginary purple moon once.",
+              "output": "Repeated the same fictional lookup three times.",
+              "duration_ms": 40.0,
+              "error_type": null,
+              "error_message": null,
+              "metadata": {
+                "final": true,
+                "nexus.synthetic": true
+              },
+              "client_timestamp": "2026-11-12T12:00:03Z",
+              "server_timestamp": "2026-11-13T01:50:54.163664Z",
+              "environment": "development",
+              "sdk_version": "0.1.0"
+            }
+          ]
+        }
+      ],
+      "alerts": [
+        {
+          "alert_id": "lite-phase6-fictional-synthetic-LOOP_DETECTED",
+          "trace_id": "phase6-fictional-synthetic",
+          "classification_id": null,
+          "agent_name": "phase6-fictional-agent",
+          "failure_type": "LOOP_DETECTED",
+          "severity": "HIGH",
+          "status": "OPEN",
+          "created_at": "2026-11-13T01:50:54.275444",
+          "resolved_at": null
+        }
+      ],
+      "proposals": [
+        {
+          "proposal_id": "lite-phase6-fictional-synthetic-LOOP_DETECTED-fallback",
+          "alert_id": "lite-phase6-fictional-synthetic-LOOP_DETECTED",
+          "trace_id": "phase6-fictional-synthetic",
+          "failure_type": "LOOP_DETECTED",
+          "patch_type": "RETRY_POLICY_PATCH",
+          "target_component": "agent_loop_controller",
+          "explanation": "Infinite loop detected: the agent repeated the same operation 3+ times. This generic patch caps total agent steps and enables identical-call deduplication. Targeted fix requires identifying the missing exit condition in the planning logic.",
+          "patch_content": "{\n  \"max_steps\": 15,\n  \"max_identical_calls\": 1,\n  \"dedup_key\": \"tool_name+input_hash\",\n  \"on_loop\": \"raise LoopLimitError\"\n}",
+          "confidence": "LOW",
+          "estimated_impact": "Loop incidents eliminated; agent will fail fast instead of hanging",
+          "root_cause_analysis": "Lite deterministic detector; generic fallback only, no LLM analysis.",
+          "created_at": "2026-11-13T01:50:54.275529",
+          "status": "REJECTED",
+          "critic_arm": "new",
+          "diagnosed_failure_type": null,
+          "cited_span_id": null,
+          "cited_step": null,
+          "provenance": {
+            "source": "fallback",
+            "model": "none",
+            "model_version": "template-v1",
+            "temperature": 0.0,
+            "prompt_version": "critic-round3-v2",
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "cost_usd": 0.0,
+            "latency_ms": 0.0,
+            "mock": false,
+            "prompt_hashes": {}
+          },
+          "valid_without_fallback": false,
+          "dry_run_applied": false,
+          "rejection_reasons": [],
+          "no_op_patch": false,
+          "bad_references": [],
+          "fix_tag": null,
+          "clean_config_diff": [],
+          "source": "generic_fallback_no_llm"
+        }
+      ],
+      "gate_decisions": [
+        {
+          "proposal_id": "lite-phase6-fictional-synthetic-LOOP_DETECTED-fallback",
+          "trace_id": "phase6-fictional-synthetic",
+          "status": "placeholder",
+          "decision": null,
+          "reason": "Phase 4 pending; no evaluation or application in lite mode."
+        }
+      ]
+    },
+    "host_health_after_trace": {
+      "status_code": 200,
+      "body": {
+        "status": "ok",
+        "kafka_connected": false,
+        "queue_backend": "inprocess",
+        "queue_connected": true,
+        "spans_received_total": 4,
+        "uptime_seconds": 311.95
+      }
+    },
+    "ram": {
+      "per_service_peak_bytes": {
+        "nexus-lite": 50604278
+      },
+      "sum_of_service_peaks_bytes": 50604278,
+      "peak_sampled_total_bytes": 50604278,
+      "sample_count": 65
+    },
+    "restart_counts": {
+      "nexus-lite": 0
+    },
+    "same_started_at_through_host_trace": true,
+    "stopped": true,
+    "sampling_evidence": {
+      "path": "data/phase6/runs/scratch/stack-61d/measured-run/lite/lite-result.json",
+      "sample_count": 65
+    }
+  },
+  "monitor_errors": [],
+  "phase": "6.1d",
+  "recorded_at_utc": "2026-11-13T01:52:00.706636+00:00",
+  "user_date": "2026-11-12",
+  "timezone": "America/New_York",
+  "commit_hash_meaning": "Application source HEAD at build/validation time; application source was clean. The result-containing commit is reported in the handoff.",
+  "build_provenance": "All eight buildable application images rebuilt with docker compose build, with normal layer-cache reuse and org.opencontainers.image.revision labels. The four infrastructure images have no repository build definitions; their local IDs/upstream digests are recorded separately.",
+  "collector_import_check": {
+    "status": "pass",
+    "protobuf_version": "6.33.6",
+    "collector_application_import": true,
+    "image_id": "sha256:4584c4b5fa5bfcf6763ea0f75817ddb047786164b4d9a22ebacbe42846a7b431",
+    "network": "none",
+    "exit_code": 0
+  },
+  "lite_ingress_root_cause": {
+    "status": "fixed",
+    "cause": "The 6.1c validation override attached lite only to an internal Docker bridge. On this Docker Desktop host, the configured host port was not published for that internal-only network.",
+    "bind_address": "0.0.0.0:8000",
+    "documented_host_endpoint": "http://127.0.0.1:18000",
+    "evidence_internal_only": {
+      "before": {
+        "state": "exited",
+        "port_bindings": {
+          "8000/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "18000"
+            }
+          ]
+        }
+      },
+      "started_at": "2026-11-13T01:17:55.29111681Z",
+      "internal_network": true,
+      "host_internal_only": {
+        "error": "URLError(ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None))"
+      },
+      "container_loopback": {
+        "status": "ok",
+        "kafka_connected": false,
+        "queue_backend": "inprocess",
+        "queue_connected": true,
+        "spans_received_total": 0,
+        "uptime_seconds": 20.06
+      },
+      "host_after_bridge_connect": {
+        "error": "URLError(ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None))"
+      },
+      "same_started_at": true,
+      "restart_count": 0,
+      "left_stopped": true
+    },
+    "control": "Adding a non-internal bridge to the running old container still refused host ingress; a cold start with the bridge already attached returned host HTTP 200 without changing the application or port binding.",
+    "fix": "Use an ordinary bridge at cold up. docker-compose.lite.yml explicitly sets internal=false; the validation configurations do the same. The old stop/start alone did not change its internal-only network and did not fix host ingress.",
+    "regression_script": "scripts/phase6/check_lite_host_ingress.py",
+    "quick_cold_regression": {
+      "status": "pass",
+      "startup_seconds": 13.79699999999957,
+      "restart_counts": {
+        "nexus-lite": 0
+      },
+      "same_started_at_through_host_trace": true,
+      "host_post_status": 202
+    },
+    "passing_run_host_post_status": 202,
+    "passing_run_same_started_at_through_host_trace": true
+  },
+  "network_policy": "Registry/package/model downloads and GitHub operations allowed. Runtime services received no provider keys/webhook URLs, telemetry was disabled, inference was offline, and all trace traffic stayed local. Ordinary bridges preserve Docker Desktop host ingress.",
+  "attempt_1": {
+    "status": "failed",
+    "date": "2026-11-12",
+    "result_commit": "5779aac054164f247145af1ccb2b3737144688e4",
+    "report": "reports/phase6/infra.md",
+    "reason": "Stale collector image and overly strict network policy; original measurements retained in the dated report and original Git commit."
+  },
+  "setup_calibrations": [
+    {
+      "status": "discarded_probe_setup",
+      "evidence_directory": "data/phase6/runs/scratch/stack-61d",
+      "reason": "Classifier received a generic PostgreSQL health probe requiring psycopg2; its real HTTP health was 200. Corrected to the existing HTTP readiness endpoint. No traces submitted in this setup."
+    },
+    {
+      "status": "discarded_probe_setup",
+      "evidence_directory": "data/phase6/runs/scratch/stack-61d/passing-run",
+      "reason": "Temporary critic AdminClient was not retained while its asynchronous membership request completed. Real consumer membership was 1 and lag 0. Corrected probe was verified in-container. Synthetic/boundary checks passed, but the idle measurement was not counted. No provider/processing events; all data retained."
+    }
+  ],
+  "sampling": "docker stats --no-stream, three-second pause between samples. Values are CLI-rounded container memory, converted to bytes; totals distinguish sum of individual peaks from peak concurrent sampled total.",
+  "evidence_directory": "data/phase6/runs/scratch/stack-61d/measured-run",
+  "test_sealed": true,
+  "ntfy_sent": false,
+  "ci_checks_url": "https://github.com/sankalp-rajeev/Nexus/pull/5/checks",
+  "ci_status_at_recording": "Not pushed yet; handoff includes the commit-specific CI run link. No .github files, existing conftest/fixtures, or DEV-only pytest runner changed.",
+  "evidence_sha256": {
+    "data/phase6/runs/scratch/stack-61d/measured-run/full-samples.json": "c5005d8d4f90ca47588f62e7f77ee47b5d776a21b96bb15aa2478b64b24d0aff",
+    "data/phase6/runs/scratch/stack-61d/measured-run/critic-offsets-before.txt": "0cbc24dd7dd559affce9db09df6ae8a590fcca36bc96583275dfcf3fbba74fa6",
+    "data/phase6/runs/scratch/stack-61d/measured-run/critic-offsets-after.txt": "3c606dd8d914d2ce7c8e988669ef1cda974568806b8578e58fef5248ab82b463",
+    "data/phase6/runs/scratch/stack-61d/measured-run/nexus.spans.classified.txt": "f964653fb5084e7d43ebac0f9b8fcee9a6120856866c493c1c0dcc196d72b307",
+    "data/phase6/runs/scratch/stack-61d/measured-run/nexus.alerts.txt": "c1522d857c15e6ae8b6c4f2fb8da9257141c4c9abd20e9e3be30be34d99f381d",
+    "data/phase6/runs/scratch/stack-61d/measured-run/nexus-critic.log": "d1876ca5df28339b3d557861baeabeb463659b1b79c2018c5b96fa1ff6d26dc9",
+    "data/phase6/runs/scratch/stack-61d/measured-run/nexus-healer.log": "469275d914c4fc24840b83e03ccb314411765a92c282b8fd3616da1d90aff35a",
+    "data/phase6/runs/scratch/stack-61d/measured-run/original-inventory.json": "b265c6fff45a38ef9794f36f6afdefe0adbbeface29d202b971373bba6110b33",
+    "data/phase6/runs/scratch/stack-61d/measured-run/lite/lite-result.json": "50f7c3207a02ef98c21ed24e6cba9ef11ebdfa7c6fe1b63a0d30bcb6d381cf94",
+    "data/phase6/runs/scratch/stack-61d/measured-run/lite/lite.log": "bbb1b35d6984fbdd0f0cc8c9c2a12ac053fa5f61f9a75fff5281dbea28b65d6b",
+    "data/phase6/runs/scratch/stack-61d/build-images.json": "5c6aa3de47a2b3ca690ee6ab90124c3f5544c1f37370874636eed1faa2bcfe10",
+    "data/phase6/runs/scratch/stack-61d/lite-root-cause.json": "a02c403d1c8936c4a47ae6fb8566382be3b6d2b4c8c76a161b0f05a59c515ac0",
+    "data/phase6/runs/scratch/stack-61d/ingress-regression/lite-result.json": "88ef1b31e06208424d3d7ce02f2749dea245861eef026c236110dadaee0b3c92"
+  },
+  "fixture": {
+    "path": "scripts/phase6/fixtures/fictional_loop.json",
+    "sha256": "9899f9fd634c1a3461cf4ee1a9cd070f96b36e959c4cfffcc978de546274a865",
+    "origin": "Hand-written imaginary purple moon trace; no benchmark records read; every fixture span marked nexus.synthetic=true"
+  },
+  "startup_review_source_sha256": {
+    "infra/entrypoints/critic.py": "a1b42546dc2f47868fb2bd3d2f4c3e840f4ecf95bd95ffaf5db66d496958829f",
+    "services/critic/main.py": "cc38826c1fb679f7f6f4d8405affdf34d82ce930f170830fff9243fdb51a9c24",
+    "services/critic/consumer.py": "66e0ca1a675dcfb6a50007297d4a2cac082dfda791560afdbbe7d6a90691b46e",
+    "services/critic/graph.py": "f9d382b42e11138fd8c93339ab5fbe5a1be9a76081abf690f7d0d61859562321",
+    "services/critic/llm.py": "b354645624b3c25f05659a3b59d3ca717e5a2a2553eea8a094b015b197ff7918",
+    "services/critic/accounting.py": "1cacb613e44540b5c8f4cbd4cb700ddb2be0fbeeff444a58ce33f73db1fd4ce8",
+    "services/healer/main.py": "50f0867ef00b09e3a481804990b269093785da262a1d33a6775f01313e1241b8",
+    "services/healer/consumer.py": "6cf60dc4d4e1aaf10d6a9116ce8694efe19881e839c753cd380aad9f31aa009b",
+    "services/healer/db.py": "5e28142345b85ef15cbe0421b9bc62d7674d76911cf1ea6c1faefdbb082da8f5",
+    "services/healer/eval_runner.py": "a9a7418e587a5240b5ebd6378205428e39793f068a57749a6656da170ca3e0e3",
+    "services/healer/mlflow_logger.py": "2caa28933347805fa2f4d150bc4f85e00dd2f63b82d78e4f36c3503f95d90ae3",
+    "services/healer/slack_notifier.py": "4dcd96af89d115eb139fd098732d33eb088678da488997058b8f69488d7aa187"
+  }
+}

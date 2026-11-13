@@ -1,0 +1,712 @@
+{
+  "experiment_id": "P4-headline-transcribed",
+  "summary": "Phase 4 headline numbers transcribed from reports/phase4/test_scoring.md (critic v1_structured vs generic vs no patch on the sealed TEST split, scored once): gate promoted 25/51 vs 12/51 vs 0/51; old 'rerun improved' rule would promote 32/48, 6 falsely; 0 gate promotions failed fresh seeds.",
+  "provenance": {
+    "provider": "none (transcription)",
+    "model": "none",
+    "mock": false,
+    "seed": null,
+    "git_commit": "d45d2bf6fa01a4c61824cb3983fa8dd2146d2b0e",
+    "date_utc": "2026-11-11T21:31:39-05:00",
+    "statement": "transcribed from committed Phase 4 reports at commit d45d2bf6fa01a4c61824cb3983fa8dd2146d2b0e; not recomputed; TEST data not opened",
+    "source_report": {
+      "path": "reports/phase4/test_scoring.md",
+      "last_commit": "d45d2bf6fa01a4c61824cb3983fa8dd2146d2b0e",
+      "blob": "a88700c1cb7332287ed95a4568e309dbaf644603",
+      "report_generated_at": "commit f2a4939 by python -m bench.heal.report_test (report header, line 6)"
+    },
+    "split_of_numbers": "TEST unless a record says dev (the report's section 7 repeats the dev result for comparison)",
+    "interval_method": "Wilson 95% computed here from k/n. The report itself prints Clopper-Pearson intervals; they are quoted verbatim in each cited_text and differ slightly."
+  },
+  "numbers": [
+    {
+      "id": "gate_promoted_v1_structured",
+      "label": "Gate promoted, critic v1_structured, per eligible failure",
+      "split": "test",
+      "k": 25,
+      "n": 51,
+      "wilson95": [
+        0.3586,
+        0.6232
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 70,
+        "section": "3. Critic vs generic",
+        "row": "all",
+        "column": "Promoted per eligible failure: generic vs v1_structured (second fraction)",
+        "cell": "12/51 (0.24; 0.13–0.37) vs 25/51 (0.49; 0.35–0.63)",
+        "n_cell": "12/51 (0.24; 0.13–0.37) vs 25/51 (0.49; 0.35–0.63)"
+      },
+      "cited_text": "| **all** | 51 | 4/51 | 36 / 12 / 12 / 0 | 48 / 32 / 25 / 12 | 14 | 12/51 (0.24; 0.13–0.37) vs 25/51 (0.49; 0.35–0.63) |"
+    },
+    {
+      "id": "gate_promoted_generic",
+      "label": "Gate promoted, generic templates, per eligible failure",
+      "split": "test",
+      "k": 12,
+      "n": 51,
+      "wilson95": [
+        0.14,
+        0.3676
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 70,
+        "section": "3. Critic vs generic",
+        "row": "all",
+        "column": "Promoted per eligible failure: generic vs v1_structured (first fraction)",
+        "cell": "12/51 (0.24; 0.13–0.37) vs 25/51 (0.49; 0.35–0.63)",
+        "n_cell": "12/51 (0.24; 0.13–0.37) vs 25/51 (0.49; 0.35–0.63)"
+      },
+      "cited_text": "| **all** | 51 | 4/51 | 36 / 12 / 12 / 0 | 48 / 32 / 25 / 12 | 14 | 12/51 (0.24; 0.13–0.37) vs 25/51 (0.49; 0.35–0.63) |"
+    },
+    {
+      "id": "gate_promoted_no_patch",
+      "label": "Gate promoted, no patch (51 patches = the 51 eligible failures)",
+      "split": "test",
+      "k": 0,
+      "n": 51,
+      "wilson95": [
+        0.0,
+        0.07
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 37,
+        "section": "2. Gate vs the old rule",
+        "row": "no patch / all",
+        "column": "Gate promoted (patches in column 'Patches')",
+        "cell": "0",
+        "n_cell": "51"
+      },
+      "cited_text": "| no patch | all | 51 | 3 | 3 | 0 | 0 |"
+    },
+    {
+      "id": "no_patch_own_task_safe",
+      "label": "No patch: own task already safe at >= 2 of 3 seeds",
+      "split": "test",
+      "k": 4,
+      "n": 51,
+      "wilson95": [
+        0.0309,
+        0.185
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 70,
+        "section": "3. Critic vs generic",
+        "row": "**all**",
+        "column": "No patch: own task safe",
+        "cell": "4/51",
+        "n_cell": "4/51"
+      },
+      "cited_text": "| **all** | 51 | 4/51 | 36 / 12 / 12 / 0 | 48 / 32 / 25 / 12 | 14 | 12/51 (0.24; 0.13–0.37) vs 25/51 (0.49; 0.35–0.63) |"
+    },
+    {
+      "id": "other_fix_v1_repaired",
+      "label": "v1_structured, other_fix patches: own task repaired (H1)",
+      "split": "test",
+      "k": 21,
+      "n": 36,
+      "wilson95": [
+        0.422,
+        0.7286
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 27,
+        "section": "1. H1",
+        "row": "v1_structured / **all** / other_fix",
+        "column": "H1 repair (s0-2)",
+        "cell": "21/36 (0.58; 0.41–0.74)",
+        "n_cell": "21/36 (0.58; 0.41–0.74)"
+      },
+      "cited_text": "| v1_structured | **all** | other_fix | 36 | 21/36 (0.58; 0.41–0.74) | 4/36 | +17 (+0.47) | 22/36 (0.61; 0.43–0.77) | 0.55 vs 0.08 | 12/36 (0.33; 0.19–0.51) | 0/36 |"
+    },
+    {
+      "id": "other_fix_no_patch_same_failures",
+      "label": "No patch on the same 36 failures: own task already safe",
+      "split": "test",
+      "k": 4,
+      "n": 36,
+      "wilson95": [
+        0.0441,
+        0.2531
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 27,
+        "section": "1. H1",
+        "row": "v1_structured / **all** / other_fix",
+        "column": "No patch, same failures",
+        "cell": "4/36",
+        "n_cell": "4/36"
+      },
+      "cited_text": "| v1_structured | **all** | other_fix | 36 | 21/36 (0.58; 0.41–0.74) | 4/36 | +17 (+0.47) | 22/36 (0.61; 0.43–0.77) | 0.55 vs 0.08 | 12/36 (0.33; 0.19–0.51) | 0/36 |"
+    },
+    {
+      "id": "other_fix_h3_breaks",
+      "label": "v1_structured, other_fix patches: broke at least 1 passing task (H3)",
+      "split": "test",
+      "k": 12,
+      "n": 36,
+      "wilson95": [
+        0.2021,
+        0.4967
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 27,
+        "section": "1. H1",
+        "row": "v1_structured / **all** / other_fix",
+        "column": "H3 regress (>=1 break)",
+        "cell": "12/36 (0.33; 0.19–0.51)",
+        "n_cell": "12/36 (0.33; 0.19–0.51)"
+      },
+      "cited_text": "| v1_structured | **all** | other_fix | 36 | 21/36 (0.58; 0.41–0.74) | 4/36 | +17 (+0.47) | 22/36 (0.61; 0.43–0.77) | 0.55 vs 0.08 | 12/36 (0.33; 0.19–0.51) | 0/36 |"
+    },
+    {
+      "id": "other_fix_gate_promoted",
+      "label": "v1_structured, other_fix patches: gate promoted",
+      "split": "test",
+      "k": 14,
+      "n": 36,
+      "wilson95": [
+        0.2478,
+        0.5514
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 41,
+        "section": "2. Gate vs the old rule",
+        "row": "v1_structured / other_fix",
+        "column": "Gate promoted (patches in column 'Patches')",
+        "cell": "14",
+        "n_cell": "36"
+      },
+      "cited_text": "| v1_structured | other_fix | 36 | 21 | 6 | 14 | 0 |"
+    },
+    {
+      "id": "old_rule_promoted",
+      "label": "Old 'same input improved' rule: promoted (v1_structured, 48 scored patches)",
+      "split": "test",
+      "k": 32,
+      "n": 48,
+      "wilson95": [
+        0.5254,
+        0.7832
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 40,
+        "section": "2. Gate vs the old rule",
+        "row": "v1_structured / all",
+        "column": "Old rule promoted (patches in column 'Patches')",
+        "cell": "32",
+        "n_cell": "48"
+      },
+      "cited_text": "| v1_structured | all | 48 | 32 | 6 | 25 | 0 |"
+    },
+    {
+      "id": "old_rule_false_promotions",
+      "label": "Old rule promoted but the gate rejected, out of the 32 the old rule promoted",
+      "split": "test",
+      "k": 6,
+      "n": 32,
+      "wilson95": [
+        0.0889,
+        0.3531
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 40,
+        "section": "2. Gate vs the old rule",
+        "row": "v1_structured / all",
+        "column": "Old-rule false promotions (denominator: column 'Old rule promoted')",
+        "cell": "6",
+        "n_cell": "32"
+      },
+      "cited_text": "| v1_structured | all | 48 | 32 | 6 | 25 | 0 |",
+      "note": "The report calls these 'false promotions' (promoted by the old rule, rejected by the gate). It does not use the word 'harmful'; the 6 are all other_fix patches (section 2, other_fix row)."
+    },
+    {
+      "id": "gate_false_promotions_fresh_seeds",
+      "label": "Gate-promoted patches that failed on fresh seeds 3-5 (out of 25)",
+      "split": "test",
+      "k": 0,
+      "n": 25,
+      "wilson95": [
+        0.0,
+        0.1332
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 40,
+        "section": "2. Gate vs the old rule",
+        "row": "v1_structured / all",
+        "column": "Gate false promotions (s3-5) (denominator: column 'Gate promoted')",
+        "cell": "0",
+        "n_cell": "25"
+      },
+      "cited_text": "| v1_structured | all | 48 | 32 | 6 | 25 | 0 |"
+    },
+    {
+      "id": "regression_breaks_test",
+      "label": "v1_structured regression breaks (>=1 passing task broken), TEST, per scored patch",
+      "split": "test",
+      "k": 12,
+      "n": 48,
+      "wilson95": [
+        0.1492,
+        0.3878
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 108,
+        "section": "7. Dev vs test",
+        "row": "v1_structured / **test** (A2 set)",
+        "column": "H3 regress",
+        "cell": "12/48 (0.25; 0.14–0.40)",
+        "n_cell": "12/48 (0.25; 0.14–0.40)"
+      },
+      "cited_text": "| v1_structured | **test** (A2 set) | 48 | 48/51 | 32/48 (0.67; 0.52–0.80) | +0.58 | 34/48 (0.71; 0.56–0.83) | 12/48 (0.25; 0.14–0.40) | 25/48 (0.52; 0.37–0.67) | 0 | 32 | 6 |"
+    },
+    {
+      "id": "regression_breaks_dev",
+      "label": "v1_structured regression breaks (>=1 passing task broken), DEV, per scored patch",
+      "split": "dev",
+      "k": 3,
+      "n": 44,
+      "wilson95": [
+        0.0235,
+        0.1823
+      ],
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 107,
+        "section": "7. Dev vs test",
+        "row": "v1_structured / dev (A2 regression set)",
+        "column": "H3 regress",
+        "cell": "3/44 (0.07; 0.01–0.19)",
+        "n_cell": "3/44 (0.07; 0.01–0.19)"
+      },
+      "cited_text": "| v1_structured | dev (A2 regression set) | 44 | 44/48 | 31/44 (0.70; 0.55–0.83) | +0.66 | 32/44 (0.73; 0.57–0.85) | 3/44 (0.07; 0.01–0.19) | 29/44 (0.66; 0.50–0.80) | 0 | 31 | 2 |"
+    },
+    {
+      "id": "other_fix_breakers_blocked_by_gate",
+      "label": "Of the other_fix patches that broke a passing task, blocked by the gate",
+      "split": "test",
+      "k": 12,
+      "n": 12,
+      "wilson95": [
+        0.7575,
+        1.0
+      ],
+      "derived_from_definition": true,
+      "source": {
+        "path": "reports/phase4/test_scoring.md",
+        "line": 11,
+        "section": "preamble (gate definition)",
+        "row": "definition",
+        "column": "",
+        "cell": "Gate = own task repaired ∧ held-out rate strictly above no patch ∧ no break on the regression set.",
+        "n_cell": "12/36 (0.33; 0.19–0.51)"
+      },
+      "cited_text": "Gate = own task repaired ∧ held-out rate strictly above no patch ∧ no break on the regression set.",
+      "note": "NOT a number printed in the report. It follows from the gate definition quoted here (a patch that breaks a regression-set task fails check 3) and from the 12/36 breaks cited in other_fix_h3_breaks (line 27). The per-patch gate decisions are in the sealed TEST result file, which was not opened, so this could not be confirmed against them."
+    }
+  ],
+  "per_class_critic_vs_generic": {
+    "columns": [
+      "Class",
+      "Eligible failures",
+      "No patch: own task safe",
+      "Generic: patches / repaired / promoted / H3 breaks",
+      "v1_structured: patches / repaired / promoted / H3 breaks",
+      "v1_structured promoted, other_fix only",
+      "Promoted per eligible failure: generic vs v1_structured"
+    ],
+    "rows": [
+      {
+        "class": "HALLUCINATION",
+        "split": "test",
+        "eligible_failures": 12,
+        "no_patch_own_task_safe": {
+          "k": 0,
+          "n": 12,
+          "wilson95": [
+            0.0,
+            0.2425
+          ]
+        },
+        "generic": {
+          "patches": 12,
+          "repaired": 12,
+          "promoted": 12,
+          "h3_breaks": 0
+        },
+        "v1_structured": {
+          "patches": 12,
+          "repaired": 11,
+          "promoted": 11,
+          "h3_breaks": 0
+        },
+        "v1_structured_promoted_other_fix_only": 0,
+        "promoted_per_eligible_failure": {
+          "generic": {
+            "k": 12,
+            "n": 12,
+            "wilson95": [
+              0.7575,
+              1.0
+            ]
+          },
+          "v1_structured": {
+            "k": 11,
+            "n": 12,
+            "wilson95": [
+              0.6461,
+              0.9851
+            ]
+          }
+        },
+        "interval_note": null,
+        "source": {
+          "path": "reports/phase4/test_scoring.md",
+          "line": 65,
+          "section": "3. Critic vs generic",
+          "row": "HALLUCINATION"
+        },
+        "cited_text": "| HALLUCINATION | 12 | 0/12 | 12 / 12 / 12 / 0 | 12 / 11 / 11 / 0 | 0 | 12/12 (1.00; 0.74–1.00) vs 11/12 (0.92; 0.62–1.00) |"
+      },
+      {
+        "class": "TOOL_MISFIRE",
+        "split": "test",
+        "eligible_failures": 12,
+        "no_patch_own_task_safe": {
+          "k": 4,
+          "n": 12,
+          "wilson95": [
+            0.1381,
+            0.6094
+          ]
+        },
+        "generic": {
+          "patches": 0,
+          "repaired": 0,
+          "promoted": 0,
+          "h3_breaks": 0
+        },
+        "v1_structured": {
+          "patches": 10,
+          "repaired": 9,
+          "promoted": 6,
+          "h3_breaks": 3
+        },
+        "v1_structured_promoted_other_fix_only": 6,
+        "promoted_per_eligible_failure": {
+          "generic": {
+            "k": 0,
+            "n": 12,
+            "wilson95": [
+              0.0,
+              0.2425
+            ]
+          },
+          "v1_structured": {
+            "k": 6,
+            "n": 12,
+            "wilson95": [
+              0.2538,
+              0.7462
+            ]
+          }
+        },
+        "interval_note": null,
+        "source": {
+          "path": "reports/phase4/test_scoring.md",
+          "line": 66,
+          "section": "3. Critic vs generic",
+          "row": "TOOL_MISFIRE"
+        },
+        "cited_text": "| TOOL_MISFIRE | 12 | 4/12 | 0 / 0 / 0 / 0 | 10 / 9 / 6 / 3 | 6 | 0/12 (0.00; 0.00–0.26) vs 6/12 (0.50; 0.21–0.79) |"
+      },
+      {
+        "class": "CONTEXT_BLEED",
+        "split": "test",
+        "eligible_failures": 3,
+        "no_patch_own_task_safe": {
+          "k": 0,
+          "n": 3,
+          "wilson95": null
+        },
+        "generic": {
+          "patches": 0,
+          "repaired": 0,
+          "promoted": 0,
+          "h3_breaks": 0
+        },
+        "v1_structured": {
+          "patches": 2,
+          "repaired": 1,
+          "promoted": 0,
+          "h3_breaks": 1
+        },
+        "v1_structured_promoted_other_fix_only": 0,
+        "promoted_per_eligible_failure": {
+          "generic": {
+            "k": 0,
+            "n": 3,
+            "wilson95": null
+          },
+          "v1_structured": {
+            "k": 0,
+            "n": 3,
+            "wilson95": null
+          }
+        },
+        "interval_note": "CONTEXT_BLEED has n = 3 (2 scored patches): the report gives counts only, so no interval is shown",
+        "source": {
+          "path": "reports/phase4/test_scoring.md",
+          "line": 67,
+          "section": "3. Critic vs generic",
+          "row": "CONTEXT_BLEED"
+        },
+        "cited_text": "| CONTEXT_BLEED | 3 | 0/3 | 0 / 0 / 0 / 0 | 2 / 1 / 0 / 1 | 0 | 0/3 vs 0/3 |"
+      },
+      {
+        "class": "PLAN_DRIFT",
+        "split": "test",
+        "eligible_failures": 12,
+        "no_patch_own_task_safe": {
+          "k": 0,
+          "n": 12,
+          "wilson95": [
+            0.0,
+            0.2425
+          ]
+        },
+        "generic": {
+          "patches": 12,
+          "repaired": 0,
+          "promoted": 0,
+          "h3_breaks": 0
+        },
+        "v1_structured": {
+          "patches": 12,
+          "repaired": 1,
+          "promoted": 0,
+          "h3_breaks": 5
+        },
+        "v1_structured_promoted_other_fix_only": 0,
+        "promoted_per_eligible_failure": {
+          "generic": {
+            "k": 0,
+            "n": 12,
+            "wilson95": [
+              0.0,
+              0.2425
+            ]
+          },
+          "v1_structured": {
+            "k": 0,
+            "n": 12,
+            "wilson95": [
+              0.0,
+              0.2425
+            ]
+          }
+        },
+        "interval_note": null,
+        "source": {
+          "path": "reports/phase4/test_scoring.md",
+          "line": 68,
+          "section": "3. Critic vs generic",
+          "row": "PLAN_DRIFT"
+        },
+        "cited_text": "| PLAN_DRIFT | 12 | 0/12 | 12 / 0 / 0 / 0 | 12 / 1 / 0 / 5 | 0 | 0/12 (0.00; 0.00–0.26) vs 0/12 (0.00; 0.00–0.26) |"
+      },
+      {
+        "class": "LOOP_DETECTED",
+        "split": "test",
+        "eligible_failures": 12,
+        "no_patch_own_task_safe": {
+          "k": 0,
+          "n": 12,
+          "wilson95": [
+            0.0,
+            0.2425
+          ]
+        },
+        "generic": {
+          "patches": 12,
+          "repaired": 0,
+          "promoted": 0,
+          "h3_breaks": 0
+        },
+        "v1_structured": {
+          "patches": 12,
+          "repaired": 10,
+          "promoted": 8,
+          "h3_breaks": 3
+        },
+        "v1_structured_promoted_other_fix_only": 8,
+        "promoted_per_eligible_failure": {
+          "generic": {
+            "k": 0,
+            "n": 12,
+            "wilson95": [
+              0.0,
+              0.2425
+            ]
+          },
+          "v1_structured": {
+            "k": 8,
+            "n": 12,
+            "wilson95": [
+              0.3906,
+              0.8619
+            ]
+          }
+        },
+        "interval_note": null,
+        "source": {
+          "path": "reports/phase4/test_scoring.md",
+          "line": 69,
+          "section": "3. Critic vs generic",
+          "row": "LOOP_DETECTED"
+        },
+        "cited_text": "| LOOP_DETECTED | 12 | 0/12 | 12 / 0 / 0 / 0 | 12 / 10 / 8 / 3 | 8 | 0/12 (0.00; 0.00–0.26) vs 8/12 (0.67; 0.35–0.90) |"
+      },
+      {
+        "class": "all",
+        "split": "test",
+        "eligible_failures": 51,
+        "no_patch_own_task_safe": {
+          "k": 4,
+          "n": 51,
+          "wilson95": [
+            0.0309,
+            0.185
+          ]
+        },
+        "generic": {
+          "patches": 36,
+          "repaired": 12,
+          "promoted": 12,
+          "h3_breaks": 0
+        },
+        "v1_structured": {
+          "patches": 48,
+          "repaired": 32,
+          "promoted": 25,
+          "h3_breaks": 12
+        },
+        "v1_structured_promoted_other_fix_only": 14,
+        "promoted_per_eligible_failure": {
+          "generic": {
+            "k": 12,
+            "n": 51,
+            "wilson95": [
+              0.14,
+              0.3676
+            ]
+          },
+          "v1_structured": {
+            "k": 25,
+            "n": 51,
+            "wilson95": [
+              0.3586,
+              0.6232
+            ]
+          }
+        },
+        "interval_note": null,
+        "source": {
+          "path": "reports/phase4/test_scoring.md",
+          "line": 70,
+          "section": "3. Critic vs generic",
+          "row": "all"
+        },
+        "cited_text": "| **all** | 51 | 4/51 | 36 / 12 / 12 / 0 | 48 / 32 / 25 / 12 | 14 | 12/51 (0.24; 0.13–0.37) vs 25/51 (0.49; 0.35–0.63) |"
+      }
+    ]
+  },
+  "reconciliation_with_results_md_row_A3_test_v1_structured": {
+    "row_in_results_md": "per failure H1 32/48, H2 34, H3 12, gate 25, gate false promotions 0; distinct patches 48 (H1 32, H3 12)",
+    "matches_report": {
+      "H1": {
+        "k": 32,
+        "n": 48,
+        "line": 108
+      },
+      "H2": {
+        "k": 34,
+        "n": 48,
+        "line": 108
+      },
+      "H3": {
+        "k": 12,
+        "n": 48,
+        "line": 108
+      },
+      "gate": {
+        "k": 25,
+        "n": 48,
+        "line": 108
+      },
+      "gate_false_promotions": {
+        "k": 0,
+        "n": 25,
+        "line": 40
+      }
+    },
+    "denominators": [
+      {
+        "n": 60,
+        "what": "TEST failures the critic was run on",
+        "line": 83,
+        "cited_text": "**50/60 test failures got a usable `v1_structured` patch.**"
+      },
+      {
+        "n": 51,
+        "what": "eligible failures: the 60 minus the 9 CONTEXT_BLEED failures with no observable harm. Denominator of 'gate promoted 25/51', 'generic 12/51', 'no patch 0/51' (a failure with no patch counts as not repaired and not promoted)",
+        "line": 61,
+        "cited_text": "Per eligible failure (the 9 no-observable-harm CONTEXT_BLEED failures are left out)"
+      },
+      {
+        "n": 50,
+        "what": "usable v1_structured patches (10 failures got none: 7+1 CONTEXT_BLEED, 2 TOOL_MISFIRE)",
+        "line": 83,
+        "cited_text": "**50/60 test failures got a usable `v1_structured` patch.**"
+      },
+      {
+        "n": 48,
+        "what": "scored patches = 50 minus 2 patches on no-observable-harm CONTEXT_BLEED failures. Denominator of the RESULTS.md row (H1 32/48, gate 25) and of the 'distinct patches 48' (every v1 patch is distinct)",
+        "line": 91,
+        "cited_text": "That leaves 48 scored patches on 51 eligible failures."
+      },
+      {
+        "n": 36,
+        "what": "other_fix scored patches (TOOL_MISFIRE 10, CONTEXT_BLEED 2, PLAN_DRIFT 12, LOOP_DETECTED 12)",
+        "line": 27,
+        "cited_text": "| v1_structured | **all** | other_fix | 36 | 21/36 (0.58; 0.41–0.74) | 4/36 | +17 (+0.47) | 22/36 (0.61; 0.43–0.77) | 0.55 vs 0.08 | 12/36 (0.33; 0.19–0.51) | 0/36 |"
+      },
+      {
+        "n": 12,
+        "what": "reverts_injection scored patches (HALLUCINATION: the patch removes the injected prompt)",
+        "line": 29,
+        "cited_text": "| v1_structured | **all** | reverts_injection | 12 | 11/12 (0.92; 0.62–1.00) | 0/12 | +11 (+0.92) | 12/12 (1.00; 0.74–1.00) | 0.97 vs 0.00 | 0/12 (0.00; 0.00–0.26) | 0/12 |"
+      }
+    ],
+    "arithmetic": "36 other_fix + 12 reverts_injection = 48 scored patches; 51 eligible failures - 48 scored = 3 failures with no scored patch (2 TOOL_MISFIRE failed the dry run, 1 CONTEXT_BLEED); 48 + 2 excluded CONTEXT_BLEED patches = 50 usable. Gate 25 = 14 other_fix + 11 reverts_injection (section 2). 25/51 = 0.49 and 25/48 = 0.52 are the same 25 promotions over the two denominators.",
+    "flags": [
+      "'Gate blocked 12/12' (the 12 other_fix patches that broke a passing task) is not printed in the report; it is derived from the gate definition. See other_fix_breakers_blocked_by_gate.",
+      "'6 harmful': the report counts 6 old-rule FALSE PROMOTIONS (promoted by the old rule, rejected by the gate), not 'harmful' patches. Whether each of the 6 broke a passing task is not stated in the report.",
+      "All 12 regression breaks are other_fix patches (12/36 in section 1; reverts_injection 0/12), so 12/36 (other_fix) and 12/48 (all scored patches) count the same 12 patches over two denominators.",
+      "The DEV 3/44 and the TEST 12/48 are both measured on the A2 regression set (report section 7), so they are comparable; the generic arm's 3-class dev result is not (section 7 preamble)."
+    ],
+    "unreconciled": []
+  }
+}

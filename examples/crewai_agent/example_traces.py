@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 
-from nexus_agent.models import CompleteTrace, FailureType, Span, SpanType, TraceStatus
+from nexus_llmops.models import CompleteTrace, FailureType, Span, SpanType, TraceStatus
 
 AGENT = "crewai-research-agent"
 

@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 import pytest
 from pydantic import ValidationError
 
-from nexus_agent.models import (
+from nexus_llmops.models import (
     Alert,
     FailureType,
     PatchProposal,

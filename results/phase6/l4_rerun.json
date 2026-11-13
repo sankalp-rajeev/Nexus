@@ -1,0 +1,491 @@
+{
+  "generated_at": "2026-11-13T02:09:00.247860+00:00",
+  "methodology": {
+    "seed": 202611117,
+    "warmup_passes_discarded": 2,
+    "measured_passes": 18,
+    "manifest_occurrences": 20,
+    "unique_dev_traces": 20,
+    "unique_task_ids": 18,
+    "agent_steps_per_pass": 113,
+    "steps_per_arm": 2034,
+    "task_pairing": "same recorded task, balanced random AB/BA; paired step indices",
+    "network": "loopback only; deterministic recorded DEV LLM/tool response replay; zero provider calls",
+    "collector": "separate-process /v1/spans HTTP fixture; stopped listener for outage; no Kafka/downstream work",
+    "sdk_defaults": {
+      "async_export": true,
+      "export_timeout_ms": 200,
+      "flush_interval_ms": 100,
+      "max_batch_size": 50,
+      "max_queue_size": 10000
+    },
+    "memory": "three fresh processes/arm; RSS sampler requested 1ms; separate tracemalloc probe",
+    "runtime": "3.11.14",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "workload_sha256": "af60cc053765e68545e655940f443d33335c1b6838b0578895f1887f2eba5b7f",
+    "sdk_source_sha256": {
+      "client.py": "55fd06cad79db812f74b6b3b690c8ff3223965037219f281e62e64d9652a40a6",
+      "config.py": "6677dfc8ffed730775df0583690aa7088bd9423743cd73c61a227c4663835f89",
+      "decorators.py": "2f36b3ca6bac65da9a69a60755de67ddd367b84a8996aebe1232b4f21b02cda2",
+      "models.py": "7e3f3b6dd560916cd2d5edbefa7de2b2e1a8d4b3fd37f874dc81633f0dba57d9",
+      "exporters/http.py": "cff690865985ec4b680d3e93a466e5a110670a4c5e1dae0b0ab0a949147cc766",
+      "__init__.py": "ba1376b0c32cf7d225b1791f203b1c4476055c6693a9e277a42eb45495a47e4a"
+    }
+  },
+  "collector_healthy": {
+    "steps_per_arm": {
+      "off": 2034,
+      "on": 2034
+    },
+    "warmup_steps_discarded_per_arm": 226,
+    "task_pairs": 360,
+    "output_or_response_mismatches": 0,
+    "exceptions": 0,
+    "sdk_off": {
+      "n": 2034,
+      "p50_ms": 0.0028,
+      "p99_ms": 0.01716700000000001,
+      "max_ms": 0.0955
+    },
+    "sdk_on": {
+      "n": 2034,
+      "p50_ms": 0.0448,
+      "p99_ms": 0.14651000000000022,
+      "max_ms": 0.4537
+    },
+    "paired_added_per_step": {
+      "n": 2034,
+      "p50_ms": 0.0419,
+      "p99_ms": 0.14139000000000052,
+      "max_ms": 0.4478
+    },
+    "paired_added_per_task": {
+      "n": 360,
+      "p50_ms": 0.2627,
+      "p99_ms": 0.7183760000000003,
+      "max_ms": 1.0015
+    },
+    "sdk_client_setup_total_s": 3.3458464999748685,
+    "flush_shutdown_total_s": 5.6941916000359925,
+    "arm_order_counts": {
+      "off-on": 180,
+      "on-off": 180
+    },
+    "gc_enabled": true
+  },
+  "collector_stopped": {
+    "steps_per_arm": {
+      "off": 2034,
+      "on": 2034
+    },
+    "warmup_steps_discarded_per_arm": 226,
+    "task_pairs": 360,
+    "output_or_response_mismatches": 0,
+    "exceptions": 0,
+    "sdk_off": {
+      "n": 2034,
+      "p50_ms": 0.0079,
+      "p99_ms": 0.04976800000000003,
+      "max_ms": 0.3454
+    },
+    "sdk_on": {
+      "n": 2034,
+      "p50_ms": 0.0521,
+      "p99_ms": 0.28520100000000004,
+      "max_ms": 0.7357
+    },
+    "paired_added_per_step": {
+      "n": 2034,
+      "p50_ms": 0.04235,
+      "p99_ms": 0.2746450000000003,
+      "max_ms": 0.7317
+    },
+    "paired_added_per_task": {
+      "n": 360,
+      "p50_ms": 0.27285,
+      "p99_ms": 2.1882780000000004,
+      "max_ms": 2.2741
+    },
+    "sdk_client_setup_total_s": 4.974609800019607,
+    "flush_shutdown_total_s": 83.15446170002178,
+    "arm_order_counts": {
+      "off-on": 180,
+      "on-off": 180
+    },
+    "gc_enabled": true
+  },
+  "memory": {
+    "off": {
+      "baseline_rss_bytes": {
+        "median": 56000512.0,
+        "minimum": 55980032,
+        "maximum": 56238080
+      },
+      "peak_rss_bytes": {
+        "median": 56123392.0,
+        "minimum": 56107008,
+        "maximum": 56393728
+      },
+      "post_cleanup_rss_bytes": {
+        "median": 56123392.0,
+        "minimum": 56107008,
+        "maximum": 56393728
+      },
+      "peak_incremental_rss_bytes": {
+        "median": 126976.0,
+        "minimum": 122880,
+        "maximum": 155648
+      },
+      "traced_heap_peak_bytes": {
+        "median": 25112.0,
+        "minimum": 25088,
+        "maximum": 25248
+      },
+      "traced_heap_after_cleanup_bytes": {
+        "median": 3974.0,
+        "minimum": 3970,
+        "maximum": 4058
+      },
+      "rss_sample_count": {
+        "median": 2.0,
+        "minimum": 2,
+        "maximum": 2
+      },
+      "rss_sample_interval_mean_ms": {
+        "median": 28.908500000397908,
+        "minimum": 19.807200000286684,
+        "maximum": 36.29220000038913
+      },
+      "rss_sample_interval_max_ms": {
+        "median": 28.908500000397908,
+        "minimum": 19.807200000286684,
+        "maximum": 36.29220000038913
+      }
+    },
+    "on": {
+      "baseline_rss_bytes": {
+        "median": 62529536.0,
+        "minimum": 62476288,
+        "maximum": 62570496
+      },
+      "peak_rss_bytes": {
+        "median": 86937600.0,
+        "minimum": 86622208,
+        "maximum": 87404544
+      },
+      "post_cleanup_rss_bytes": {
+        "median": 77914112.0,
+        "minimum": 77848576,
+        "maximum": 78229504
+      },
+      "peak_incremental_rss_bytes": {
+        "median": 24367104.0,
+        "minimum": 24092672,
+        "maximum": 24928256
+      },
+      "traced_heap_peak_bytes": {
+        "median": 10086826.0,
+        "minimum": 10015341,
+        "maximum": 10266498
+      },
+      "traced_heap_after_cleanup_bytes": {
+        "median": 40073.0,
+        "minimum": 39908,
+        "maximum": 40678
+      },
+      "rss_sample_count": {
+        "median": 56.0,
+        "minimum": 56,
+        "maximum": 57
+      },
+      "rss_sample_interval_mean_ms": {
+        "median": 18.50107999998727,
+        "minimum": 18.29950535716307,
+        "maximum": 18.773550909099868
+      },
+      "rss_sample_interval_max_ms": {
+        "median": 46.05780000019877,
+        "minimum": 43.29119999965769,
+        "maximum": 46.8897000009747
+      }
+    },
+    "added_median_peak_rss_bytes": 30814208.0,
+    "added_median_traced_heap_peak_bytes": 10061714.0,
+    "trials_per_arm": 3,
+    "steps_per_trial": 2034
+  },
+  "recovery": {
+    "outage_steps": 2034,
+    "generated_outage_events": 5814,
+    "queued_events_at_restart": 5797,
+    "held_unattempted_batch_events": 17,
+    "recovery_only_scheduling_barrier": true,
+    "queue_full_drops_at_restart": 0,
+    "failed_events_before_restart": 17,
+    "failed_export_batches": 1,
+    "failed_export_events": 17,
+    "old_events_received_after_restart": 5814,
+    "old_events_received_final": 5814,
+    "failed_event_ids_seen_after_restart": 17,
+    "lost_outage_events": 0,
+    "fresh_recovery_steps": 113,
+    "expected_fresh_events": 323,
+    "fresh_recovery_events_received": 323,
+    "final_queue_size": 0,
+    "final_queue_full_dropped": 0,
+    "accounted_loss_matches": false,
+    "explanation": "Failed HTTP batches are dropped without retry/persistence; events still queued when service returns can export, but previously failed batches are not replayed."
+  },
+  "duplicate_events_at_collector": 0,
+  "fail_open_bound_passed": true,
+  "api_spend_usd": 0.0,
+  "no_api_spend_verification": {
+    "before": {
+      "api_attempts": 29785,
+      "ledger_usd": 7.244432699999988,
+      "provider_usd": 3.1588436310000145
+    },
+    "after": {
+      "api_attempts": 29785,
+      "ledger_usd": 7.244432699999988,
+      "provider_usd": 3.1588436310000145
+    },
+    "unchanged": true
+  },
+  "harness_experiment_id": "phase5-L4-recorded-response-replay",
+  "experiment_id": "phase6-L4-rerun-hardened-sdk",
+  "phase6_rerun": {
+    "preregistration": {
+      "file": "reports/phase6/l4_rerun_prereg.md",
+      "commit": "08403ef"
+    },
+    "completed_at": "2026-11-13T02:09:00.308284+00:00",
+    "only_change": "hardened SDK (sdk/nexus_agent); harness imported unmodified",
+    "harness": {
+      "path": "scripts/phase5/sdk_overhead.py",
+      "sha256": "44c4c1ad800799b8cb1d8040508114099bdf688a368eb689810828c59574e021",
+      "git_blob": "d78173af40c3ec47a351f77147b97dd99f6faa11",
+      "git_blob_at_prereg_commit": "d78173af40c3ec47a351f77147b97dd99f6faa11",
+      "identical_to_prereg_commit": true
+    },
+    "redirected_outputs": {
+      "raw": "data\\phase6\\runs\\l4",
+      "result": "results/phase6/l4_rerun.json",
+      "markdown_writer": "disabled",
+      "ledger_read_only": "C:\\Umich\\Projects\\nexus-phase5\\data\\phase5\\runs\\budget.sqlite3"
+    },
+    "phase5_tree_clean_after_run": true,
+    "sdk_counters": {
+      "collector_healthy": {
+        "clients": 400,
+        "invariant_violations": 0,
+        "produced": 6460,
+        "exported": 6460,
+        "dropped": 0,
+        "dropped_queue_full": 0,
+        "dropped_bytes_cap": 0,
+        "export_retried": 0,
+        "export_failed": 0,
+        "dropped_total": 0,
+        "queued": 0
+      },
+      "collector_stopped": {
+        "clients": 400,
+        "invariant_violations": 0,
+        "produced": 6460,
+        "exported": 0,
+        "dropped": 0,
+        "dropped_queue_full": 0,
+        "dropped_bytes_cap": 0,
+        "export_retried": 0,
+        "export_failed": 6460,
+        "dropped_total": 6460,
+        "queued": 0
+      },
+      "recovery": {
+        "clients": 1,
+        "invariant_violations": 0,
+        "produced": 6137,
+        "exported": 6137,
+        "dropped": 0,
+        "dropped_queue_full": 0,
+        "dropped_bytes_cap": 0,
+        "export_retried": 1,
+        "export_failed": 0,
+        "dropped_total": 0,
+        "queued": 0,
+        "final_stats": {
+          "produced": 6137,
+          "queued": 0,
+          "exported": 6137,
+          "dropped": 0,
+          "dropped_queue_full": 0,
+          "dropped_bytes_cap": 0,
+          "export_retried": 1,
+          "export_failed": 0,
+          "dropped_total": 0,
+          "queued_bytes_estimate": 0,
+          "pending": 0
+        }
+      }
+    },
+    "counter_notes": "Read after each client was shut down, outside timed regions. 'timing' phases aggregate every SDK-on client; 'recovery' is the single long-lived probe client. Memory trials run in child processes and are not counted here.",
+    "phase5_reference": {
+      "source": "results/phase5/sdk_overhead.json",
+      "sdk_source_sha256": {
+        "client.py": "2678a85f879685078f8f900f80234a7ed0e1f3ad5956039b4e79b37875dfeab6",
+        "config.py": "a1133b045e75ac010610037f0bd71fd3039b862b6399415ccd4a3d2547f4ef73",
+        "decorators.py": "2f36b3ca6bac65da9a69a60755de67ddd367b84a8996aebe1232b4f21b02cda2",
+        "models.py": "7e3f3b6dd560916cd2d5edbefa7de2b2e1a8d4b3fd37f874dc81633f0dba57d9",
+        "exporters/http.py": "cff690865985ec4b680d3e93a466e5a110670a4c5e1dae0b0ab0a949147cc766",
+        "__init__.py": "ba1376b0c32cf7d225b1791f203b1c4476055c6693a9e277a42eb45495a47e4a"
+      },
+      "healthy_paired_added_per_step": {
+        "n": 2034,
+        "p50_ms": 0.033600000000000005,
+        "p99_ms": 0.2127030000000001,
+        "max_ms": 1.1503999999999999
+      },
+      "stopped_paired_added_per_step": {
+        "n": 2034,
+        "p50_ms": 0.03405,
+        "p99_ms": 0.23220000000000002,
+        "max_ms": 0.6056
+      },
+      "added_median_peak_rss_bytes": 29966336.0,
+      "lost_outage_events": 17
+    }
+  },
+  "step_6_2b_outage_rerun": {
+    "completed_at": "2026-11-13T02:25:35.787829+00:00",
+    "what": "collector-stopped timing (2,034 steps/arm) and outage/recovery probe re-run with shutdown(timeout=...) added; healthy-condition and memory trials were not re-run",
+    "shutdown_timeout_ms_default": 5000,
+    "harness_blob_identical_to_prereg_commit": true,
+    "raw": "data\\phase6\\runs\\l4_6_2b",
+    "sdk_source_sha256": {
+      "client.py": "1ef2310a98471148293b2c2cb7e9e1f31f517e9984ceb5d22e8aed11563421eb",
+      "config.py": "0780ca33b5d33f99edc26bdca9b8f5249a606da41c1fc0f32a2f4ab315b4564c",
+      "decorators.py": "2f36b3ca6bac65da9a69a60755de67ddd367b84a8996aebe1232b4f21b02cda2",
+      "models.py": "7e3f3b6dd560916cd2d5edbefa7de2b2e1a8d4b3fd37f874dc81633f0dba57d9",
+      "exporters/http.py": "cff690865985ec4b680d3e93a466e5a110670a4c5e1dae0b0ab0a949147cc766",
+      "__init__.py": "ebac303df640931e17b51e26dac367df4da7fb91cb4816b543d2f70bde850a32"
+    },
+    "collector_stopped": {
+      "steps_per_arm": {
+        "off": 2034,
+        "on": 2034
+      },
+      "warmup_steps_discarded_per_arm": 226,
+      "task_pairs": 360,
+      "output_or_response_mismatches": 0,
+      "exceptions": 0,
+      "sdk_off": {
+        "n": 2034,
+        "p50_ms": 0.0054,
+        "p99_ms": 0.042402000000000044,
+        "max_ms": 0.1437
+      },
+      "sdk_on": {
+        "n": 2034,
+        "p50_ms": 0.050949999999999995,
+        "p99_ms": 0.28414100000000014,
+        "max_ms": 1.1544
+      },
+      "paired_added_per_step": {
+        "n": 2034,
+        "p50_ms": 0.0431,
+        "p99_ms": 0.2724380000000001,
+        "max_ms": 1.1408
+      },
+      "paired_added_per_task": {
+        "n": 360,
+        "p50_ms": 0.30069999999999997,
+        "p99_ms": 2.158105000000003,
+        "max_ms": 2.3669000000000002
+      },
+      "sdk_client_setup_total_s": 5.305882599970573,
+      "flush_shutdown_total_s": 83.34782169997015,
+      "arm_order_counts": {
+        "off-on": 180,
+        "on-off": 180
+      },
+      "gc_enabled": true
+    },
+    "recovery": {
+      "outage_steps": 2034,
+      "generated_outage_events": 5814,
+      "queued_events_at_restart": 5797,
+      "held_unattempted_batch_events": 17,
+      "recovery_only_scheduling_barrier": true,
+      "queue_full_drops_at_restart": 0,
+      "failed_events_before_restart": 17,
+      "failed_export_batches": 1,
+      "failed_export_events": 17,
+      "old_events_received_after_restart": 5814,
+      "old_events_received_final": 5814,
+      "failed_event_ids_seen_after_restart": 17,
+      "lost_outage_events": 0,
+      "fresh_recovery_steps": 113,
+      "expected_fresh_events": 323,
+      "fresh_recovery_events_received": 323,
+      "final_queue_size": 0,
+      "final_queue_full_dropped": 0,
+      "accounted_loss_matches": false,
+      "explanation": "Failed HTTP batches are dropped without retry/persistence; events still queued when service returns can export, but previously failed batches are not replayed."
+    },
+    "sdk_counters": {
+      "collector_stopped": {
+        "clients": 400,
+        "invariant_violations": 0,
+        "produced": 6460,
+        "exported": 0,
+        "dropped": 0,
+        "dropped_queue_full": 0,
+        "dropped_bytes_cap": 0,
+        "export_retried": 0,
+        "export_failed": 6460,
+        "dropped_shutdown": 0,
+        "dropped_total": 6460,
+        "queued": 0
+      },
+      "recovery": {
+        "clients": 1,
+        "invariant_violations": 0,
+        "produced": 6137,
+        "exported": 6137,
+        "dropped": 0,
+        "dropped_queue_full": 0,
+        "dropped_bytes_cap": 0,
+        "export_retried": 1,
+        "export_failed": 0,
+        "dropped_shutdown": 0,
+        "dropped_total": 0,
+        "queued": 0,
+        "final_stats": {
+          "produced": 6137,
+          "queued": 0,
+          "exported": 6137,
+          "dropped": 0,
+          "dropped_queue_full": 0,
+          "dropped_bytes_cap": 0,
+          "export_retried": 1,
+          "export_failed": 0,
+          "dropped_shutdown": 0,
+          "dropped_total": 0,
+          "queued_bytes_estimate": 0,
+          "pending": 0
+        }
+      }
+    },
+    "duplicate_events_at_collector": 0,
+    "fail_open_bound_passed": true,
+    "provider_ledger_unchanged": true,
+    "flush_shutdown_total_s": {
+      "step_6_2_run_healthy": 5.6941916000359925,
+      "step_6_2_run_stopped": 83.15446170002178,
+      "step_6_2b_stopped": 83.34782169997015,
+      "healthy_not_remeasured": true
+    },
+    "phase5_tree_clean_after_run": true
+  }
+}

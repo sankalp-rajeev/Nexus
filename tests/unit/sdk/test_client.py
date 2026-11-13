@@ -6,9 +6,9 @@ import queue
 
 import pytest
 
-from nexus_agent.client import NexusClient
-from nexus_agent.config import NexusConfig
-from nexus_agent.models import SpanType
+from nexus_llmops.client import NexusClient
+from nexus_llmops.config import NexusConfig
+from nexus_llmops.models import SpanType
 
 
 def test_config_requires_agent_name():
@@ -92,7 +92,7 @@ def test_queue_full_drops_fail_silent():
     client.record(s1)  # fills queue
     client.record(s2)  # dropped, must not raise
     assert client.stats["dropped"] == 1
-    assert client._queue.get_nowait().span_id == "s1"  # newest was dropped
+    assert client._queue.get_nowait()[0].span_id == "s1"  # newest was dropped
     assert client.stats["dropped_total"] == 1
 
 
@@ -110,7 +110,7 @@ def test_flush_is_fail_silent_when_exporter_raises(nexus_client):
     client.config.async_export = True
     span = client.build_span(span_type=SpanType.CUSTOM, span_id="s", trace_id="t",
                              parent_span_id=None, input_text="", output_text=None, duration_ms=1.0)
-    client._queue.put_nowait(span)
+    client._queue.put_nowait((span, 0))
     client.flush()  # exporter raises internally → flush must not propagate
     assert client.stats["export_failed"] == 1
     assert client.stats["dropped_total"] == 1
@@ -118,7 +118,10 @@ def test_flush_is_fail_silent_when_exporter_raises(nexus_client):
 
 def test_stats_keys(nexus_client):
     client, _ = nexus_client
-    assert set(client.stats) == {"queued", "exported", "dropped", "pending", "export_failed", "dropped_total"}
+    assert set(client.stats) == {
+        "produced", "queued", "exported", "dropped", "dropped_queue_full", "dropped_bytes_cap",
+        "export_retried", "export_failed", "dropped_shutdown", "dropped_total", "queued_bytes_estimate",
+        "pending"}
 
 
 def test_failed_export_counts_whole_batch_without_retry(nexus_client):
@@ -143,5 +146,7 @@ def test_failed_export_counts_whole_batch_without_retry(nexus_client):
     client.flush()
     client.flush()
     assert exporter.calls == 1
-    assert client.stats == dict(queued=0, exported=0, dropped=0, pending=0,
-                                export_failed=17, dropped_total=17)
+    assert client.stats == dict(produced=17, queued=0, exported=0, dropped=0, dropped_queue_full=0,
+                                dropped_bytes_cap=0, export_retried=0, export_failed=17,
+                                dropped_shutdown=0, dropped_total=17, queued_bytes_estimate=0,
+                                pending=0)

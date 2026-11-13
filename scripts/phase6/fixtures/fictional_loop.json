@@ -1,0 +1,9 @@
+{
+  "batch_id": "phase6-fictional-loop-fixture",
+  "spans": [
+    {"span_id":"fictional-tool-1","trace_id":"phase6-fictional-synthetic","parent_span_id":"fictional-root","agent_name":"phase6-fictional-agent","span_type":"tool_call","input":"{\"object\":\"imaginary-purple-moon\"}","output":"fictional object found","duration_ms":10,"metadata":{"tool_name":"fictional_lookup","nexus.synthetic":true},"client_timestamp":"2026-11-12T12:00:00Z","environment":"development","sdk_version":"0.1.0"},
+    {"span_id":"fictional-tool-2","trace_id":"phase6-fictional-synthetic","parent_span_id":"fictional-root","agent_name":"phase6-fictional-agent","span_type":"tool_call","input":"{\"object\":\"imaginary-purple-moon\"}","output":"fictional object found","duration_ms":10,"metadata":{"tool_name":"fictional_lookup","nexus.synthetic":true},"client_timestamp":"2026-11-12T12:00:01Z","environment":"development","sdk_version":"0.1.0"},
+    {"span_id":"fictional-tool-3","trace_id":"phase6-fictional-synthetic","parent_span_id":"fictional-root","agent_name":"phase6-fictional-agent","span_type":"tool_call","input":"{\"object\":\"imaginary-purple-moon\"}","output":"fictional object found","duration_ms":10,"metadata":{"tool_name":"fictional_lookup","nexus.synthetic":true},"client_timestamp":"2026-11-12T12:00:02Z","environment":"development","sdk_version":"0.1.0"},
+    {"span_id":"fictional-root","trace_id":"phase6-fictional-synthetic","agent_name":"phase6-fictional-agent","span_type":"agent_step","input":"Find the imaginary purple moon once.","output":"Repeated the same fictional lookup three times.","duration_ms":40,"metadata":{"final":true,"nexus.synthetic":true},"client_timestamp":"2026-11-12T12:00:03Z","environment":"development","sdk_version":"0.1.0"}
+  ]
+}

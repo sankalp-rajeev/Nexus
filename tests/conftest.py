@@ -38,7 +38,7 @@ class CollectingExporter:
 @pytest.fixture(autouse=True)
 def _clean_nexus_state():
     """Ensure each test starts and ends with no global client."""
-    import nexus_agent as nexus
+    import nexus_llmops as nexus
 
     nexus.shutdown()
     yield
@@ -48,7 +48,7 @@ def _clean_nexus_state():
 @pytest.fixture
 def nexus_client():
     """Synchronous client whose exporter collects spans in memory."""
-    import nexus_agent as nexus
+    import nexus_llmops as nexus
 
     client = nexus.init(agent_name="test-agent", async_export=False)
     exporter = CollectingExporter()

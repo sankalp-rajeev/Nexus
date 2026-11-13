@@ -39,7 +39,7 @@ jobs:
         run: ruff check .
 
       - name: Type-check (mypy, non-blocking)
-        run: mypy sdk/nexus_agent/ --ignore-missing-imports
+        run: mypy sdk/nexus_llmops/ --ignore-missing-imports
         continue-on-error: true
 
       - name: Unit + e2e tests with coverage
@@ -50,15 +50,9 @@ jobs:
           TOKENIZERS_PARALLELISM: "false"
           HF_HUB_DISABLE_SYMLINKS_WARNING: "1"
         run: |
-          if [ "${{ github.head_ref }}" = "phase-5-perf" ]; then
-            python scripts/phase5/pytest_dev_only.py -p no:deepeval -v \
-              --cov --cov-config=.coveragerc \
-              --cov-report=xml --cov-report=term-missing
-          else
-            pytest tests/unit/ tests/e2e/ -v \
-              --cov --cov-config=.coveragerc \
-              --cov-report=xml --cov-report=term-missing
-          fi
+          python scripts/phase5/pytest_dev_only.py -p no:deepeval tests/unit tests/e2e -v \
+            --cov --cov-config=.coveragerc \
+            --cov-report=xml --cov-report=term-missing
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
@@ -118,11 +112,7 @@ jobs:
           REDIS_HOST: localhost
           REDIS_PORT: "6379"
         run: |
-          if [ "${{ github.head_ref }}" = "phase-5-perf" ]; then
-            python scripts/phase5/pytest_dev_only.py -p no:deepeval -v --timeout=90
-          else
-            pytest tests/integration/ -v --timeout=90
-          fi
+          python scripts/phase5/pytest_dev_only.py -p no:deepeval tests/integration -v --timeout=90
 
       - name: Tear down infra
         if: always()

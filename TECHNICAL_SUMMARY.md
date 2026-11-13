@@ -15,7 +15,7 @@ OBSERVE → STREAM → DETECT → DIAGNOSE → PATCH → EVALUATE → OBSERVE
 
 A production-style microservice platform delivered across 7 phase-gated milestones, comprising **8 services**, a **React dashboard**, a **pip-installable SDK**, and a **CI/CD pipeline** — orchestrated with a single `docker compose up`.
 
-### 1. Instrumentation SDK (`nexus_agent`, dist `nexus-selfheal`, not yet on PyPI)
+### 1. Instrumentation SDK (`nexus_llmops`, dist `nexus-llmops`, not yet on PyPI; `nexus_agent` is a compatibility alias)
 - Zero-config, non-blocking, fail-silent Python SDK that instruments any agent framework (decorator, context-manager, manual, and LangChain-callback patterns).
 - A downed collector never crashes or slows the host agent.
 

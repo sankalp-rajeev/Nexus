@@ -1,7 +1,7 @@
 # Nexus — Data Models & Schemas
 
 All Pydantic models are the single source of truth in
-[`sdk/nexus_agent/models.py`](../sdk/nexus_agent/models.py). The Postgres DDL
+[`sdk/nexus_llmops/models.py`](../sdk/nexus_llmops/models.py). The Postgres DDL
 lives in [`infra/init/postgres_init.sql`](../infra/init/postgres_init.sql).
 
 ## Span (core SDK model)

@@ -768,3 +768,63 @@ collector's synthetic alerts remain in Kafka with offsets unchanged: automatic
 approval review rejected offset advancement as a future-alert skip risk, so
 paid consumers remain stopped. Full results and limitations are in
 `reports/phase5/results.md`, backed by `results/phase5/*.json`.
+
+**D78. Use the DEV-only test runner for every CI invocation (2026-11-12).**
+Main-push CI ran TEST-reading hygiene checks from the Phase 4 merge until
+this change. The Actions history contains two such runs:
+[43143079344](https://github.com/sankalp-rajeev/Nexus/actions/runs/43143079344)
+at `81289ed` and
+[43309560963](https://github.com/sankalp-rajeev/Nexus/actions/runs/43309560963)
+at `75771ab`.
+Both used plain pytest; their test-job logs show the eight checks that the
+DEV-only runner skips passing: five result-provenance checks and three fixed
+TEST-set consistency checks. The integration jobs also used plain pytest,
+but their integration-only selection did not include those eight tests.
+
+These were pass/fail format and consistency checks on already-scored,
+committed TEST results and their fixed split manifest. No re-scoring, new
+sample, or experiment, model-selection or gate decision resulted. This audit
+used workflow history and Actions command/test-status lines, without opening
+TEST artifact contents.
+
+From this commit, both CI jobs always invoke
+`python scripts/phase5/pytest_dev_only.py -p no:deepeval` with their existing
+guarded-run arguments. This applies to every configured PR and push event,
+including main pushes, without a branch-name exception. `scripts/phase5/`
+and the frozen benchmark logic remain unchanged.
+
+**D79. Record the TEST-label exposure during Phase 6.3 (2026-11-12).**
+On 2026-11-12, while inspecting column names during step 6.3, the command
+`Get-Content data/nexusbench/labels.csv -TotalCount 3` printed two TEST-split
+label rows to the terminal. Nothing from them was used, stored, copied or
+scored: every 6.3 number (OTel parity, interop, examples) was produced through
+the DEV-only adapter and whitelist, and no TEST trace was opened, loaded,
+converted or run. No result, threshold, model choice or gate decision depends
+on the exposure. From now on the raw NexusBench files (`labels.csv`,
+`traces.jsonl`, `splits.json`) are off-limits for any direct read, even for
+column names; they are reached only through `services/critic/dev_adapter.py`.
+
+**D80. SDK distribution `nexus-llmops`; import `nexus_llmops`; `nexus_agent` stays as an alias (2026-11-12).**
+Supersedes D9 (`nexus-selfheal`). *Why:* the product is an LLMOps tool, "selfheal"
+over-promised what the SDK does (it traces; healing is a separate service), and `nexus-llmops`
+is free on PyPI and TestPyPI (checked 2026-11-12). The package itself is renamed
+`sdk/nexus_llmops/` (git mv, history kept). The frozen research code (28 files under the frozen
+paths, tag `phase4-test-scored`) imports `nexus_agent`, and frozen files must stay byte-identical,
+so `sdk/nexus_agent/` remains as an alias-only package: importing it registers the real
+`nexus_llmops` module and every submodule under the `nexus_agent.*` names in `sys.modules`
+(enumerated by walking the package, not hard-coded), so both names are the identical module
+objects. No copies, no `import *`, and no DeprecationWarning in 0.1.x. Internal services keep
+their `nexus_agent` imports; the public surface (SDK README, examples, docs, the SDK's own tests,
+the smoke script) uses `nexus_llmops`. The server-side OTLP mapping moved out of the SDK to
+`services/collector/otel.py`, so the wheel is client code only. Version `0.1.0rc1`.
+
+**D81. Trace completion signal: the root span carries `metadata.final = True` (2026-11-12).**
+*Why:* nothing ever set `final`, so every trace waited the 30 s assembly idle timeout before
+classification (measured 30.6 s p50 end to end). The SDK now sets it on the span with no parent;
+the OTLP mapping does the same for a span with no `parent_span_id` and publishes the root last
+within an export request. Cost, accepted and documented: a child that arrives after its root is
+dropped by the late-duplicate memory and counted. Detector verdicts are unchanged (DEV
+equivalence 359/359); the median final-span-to-classification time fell from about 31 s to
+under 0.1 s. L4 was not re-run: the change is one metadata key on the root span; no detector
+reads it, the critic's trace view is a metadata whitelist (VISIBLE_METADATA) that excludes it, and
+the healer does not read span metadata.

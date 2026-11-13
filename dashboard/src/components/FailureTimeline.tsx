@@ -65,9 +65,9 @@ export default function FailureTimeline({ buckets }: { buckets: TimelineBucket[]
                 contentStyle={{
                   fontSize: 11,
                   fontFamily: 'DM Mono',
-                  border: '1px solid #e7e5e4',
+                  border: '1px solid var(--color-legacy-rule)',
                   borderRadius: 6,
-                  background: '#fafaf9',
+                  background: 'var(--color-legacy-paper)',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
                 }}
               />

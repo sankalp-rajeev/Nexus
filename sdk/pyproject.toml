@@ -3,13 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "nexus-selfheal"
+name = "nexus-llmops"
 version = "0.1.0"
-description = "Zero-config observability and autonomous self-healing SDK for multi-agent AI pipelines"
+description = "Python SDK for Nexus: fail-open agent tracing for the Nexus failure-detection and fix-verification service"
 readme = "README.md"
 license = { text = "MIT" }
+license-files = ["LICENSE"]
 authors = [{ name = "Sankalp Rajeev", email = "srajeev@umich.edu" }]
-keywords = ["llmops", "agents", "observability", "mlops", "ai", "langchain", "crewai", "self-healing"]
+keywords = ["llmops", "agents", "observability", "tracing", "mlops", "ai", "langchain", "crewai"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -26,8 +27,13 @@ dependencies = [
     "pydantic>=2.7",
 ]
 
+# nexus_llmops is the package. nexus_agent is a compatibility alias that maps onto it (the
+# Nexus research code imports that name); both ship in the wheel, nothing else does.
 [tool.hatch.build.targets.wheel]
-packages = ["nexus_agent"]
+packages = ["nexus_llmops", "nexus_agent"]
+
+[tool.hatch.build.targets.sdist]
+include = ["nexus_llmops", "nexus_agent", "README.md", "LICENSE", "pyproject.toml"]
 
 [project.urls]
 Homepage = "https://github.com/sankalp-rajeev/Nexus"

@@ -9,6 +9,7 @@ export interface Span {
   error_type?: string
   error_message?: string
   server_timestamp: string
+  client_timestamp?: string
 }
 
 export interface Alert {
