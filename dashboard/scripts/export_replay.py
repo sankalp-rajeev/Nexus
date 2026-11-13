@@ -11,8 +11,11 @@ What goes in, and from where:
 * Heals: the Phase 5 DEV overnight runs (read only, outside this repository). Their record files hold
   the critic's real proposal, the gate checks and the decision. Only selected fields of the selected
   heals are copied; no raw record, call log or ledger is copied.
-* Headline numbers: parsed from committed ``RESULTS.md`` rows and ``results/phase5``/``results/phase6``
-  JSON only. No ``*_test*`` result file and nothing under ``reports/phase4/test/`` is opened.
+* Headline numbers: the Phase 4 finding comes from ``results/phase4/headline_transcribed.json``
+  (transcribed from the committed ``reports/phase4/test_scoring.md``, each number with its report
+  line); the rest are parsed from committed ``RESULTS.md`` rows and ``results/phase5``/
+  ``results/phase6`` JSON. No ``*_test*`` result file and nothing under ``reports/phase4/test/`` is
+  opened.
 
 No benchmark execution, no model loading, no provider calls, no network.
 
@@ -53,11 +56,12 @@ HEADLINE_P5 = "results/phase5/headline.json"
 EQUIVALENCE = "results/phase6/live_detectors_equivalence_with_final.json"
 BEFORE_AFTER = "results/phase6/live_detectors_before_after.json"
 L4_RERUN = "results/phase6/l4_rerun.json"
+HEADLINE_P4 = "results/phase4/headline_transcribed.json"
 # Everything whose content shapes replay.json and lives in this repository. Each is recorded by git
 # blob id (``git hash-object`` of the working file, which is stable across CRLF/LF checkouts).
 SOURCES = (
     RESULTS_MD, PREDICTIONS, HEAL_COST, GEMINI_SIDE, HEADLINE_P5, EQUIVALENCE, BEFORE_AFTER, L4_RERUN,
-    LABELS, TRACES,
+    HEADLINE_P4, LABELS, TRACES,
     "bench/agent.py", "bench/detector_view.py",
     "services/critic/dev_adapter.py", "services/critic/detector_adapter.py",
     "services/healer/gate.py",
@@ -314,8 +318,79 @@ def build_headline() -> dict:
     l4_p5 = p5["L4_added_healthy_ms"]
     l4_p6 = l4["collector_healthy"]["paired_added_per_step"]
 
+    p4 = read_json(HEADLINE_P4)
+    p4_num = {n["id"]: n for n in p4["numbers"]}
+    p4_commit = p4["provenance"]["git_commit"][:7]
+    p4_scope = "TEST, scored once; transcribed from the committed Phase 4 report, not recomputed"
+
+    def p4_item(item_id, label, ids, value, note=None):
+        """One Phase 4 headline card. Source: the transcribed JSON; locator: report path and line."""
+        cites = "; ".join(
+            f"{i}: {p4_num[i]['source']['path']} line {p4_num[i]['source']['line']}" for i in ids)
+        intervals = "; ".join(
+            f"{p4_num[i]['k']}/{p4_num[i]['n']} Wilson 95% {p4_num[i]['wilson95'][0]:.2f}-"
+            f"{p4_num[i]['wilson95'][1]:.2f}" for i in ids)
+        text = f"{note + ' ' if note else ''}95% intervals: {intervals}."
+        return item(item_id, label, value, p4_scope, HEADLINE_P4,
+                    f"numbers[{', '.join(ids)}], from {cites} (commit {p4_commit})", text)
+
+    def frac(i):
+        return f"{p4_num[i]['k']}/{p4_num[i]['n']}"
+
+    per_class = [r for r in p4["per_class_critic_vs_generic"]["rows"] if r["class"] != "all"]
+    per_class_value = ", ".join(
+        f"{r['class']} {r['promoted_per_eligible_failure']['v1_structured']['k']}/"
+        f"{r['promoted_per_eligible_failure']['v1_structured']['n']} vs "
+        f"{r['promoted_per_eligible_failure']['generic']['k']}/"
+        f"{r['promoted_per_eligible_failure']['generic']['n']}" for r in per_class)
+    pc_lines = f"{per_class[0]['source']['line']}-{per_class[-1]['source']['line']}"
+    d5_text = rows["D5"]["result"]
+
     groups = [
+        {"title": "The Phase 4 finding: the promotion gate (sealed TEST, scored once)", "items": [
+            p4_item("p4_gate_promoted", "Gate promoted, per eligible failure: critic vs generic vs no patch",
+                    ["gate_promoted_v1_structured", "gate_promoted_generic", "gate_promoted_no_patch"],
+                    f"{frac('gate_promoted_v1_structured')} vs {frac('gate_promoted_generic')} "
+                    f"vs {frac('gate_promoted_no_patch')}",
+                    "51 eligible failures. The same 25 promotions are 25/48 of the scored patches in the "
+                    "A3 row below."),
+            p4_item("p4_other_fix_repaired", "other_fix patches: own task repaired, critic vs no patch",
+                    ["other_fix_v1_repaired", "other_fix_no_patch_same_failures"],
+                    f"{frac('other_fix_v1_repaired')} vs {frac('other_fix_no_patch_same_failures')}",
+                    "The 36 patches that change something other than reverting the injected prompt."),
+            p4_item("p4_other_fix_breaks", "other_fix patches that broke a passing task; blocked by the gate",
+                    ["other_fix_h3_breaks", "other_fix_breakers_blocked_by_gate"],
+                    f"{frac('other_fix_h3_breaks')} broke one; gate blocked "
+                    f"{frac('other_fix_breakers_blocked_by_gate')}",
+                    "'Blocked 12/12' follows from the gate definition (12 breakers, 0 gate false "
+                    "promotions); the report does not print it."),
+            p4_item("p4_old_rule", "The old 'same input improved' rule: promoted, and false promotions",
+                    ["old_rule_promoted", "old_rule_false_promotions"],
+                    f"{frac('old_rule_promoted')} promoted, {p4_num['old_rule_false_promotions']['k']} false",
+                    "The 6 were promoted by the old rule and rejected by the gate. The report does not "
+                    "say whether each broke a passing task."),
+            p4_item("p4_fresh_seeds", "Gate-promoted patches that failed on fresh seeds",
+                    ["gate_false_promotions_fresh_seeds"], frac("gate_false_promotions_fresh_seeds")),
+            p4_item("p4_regression", "Regression breaks per scored patch: DEV vs TEST",
+                    ["regression_breaks_dev", "regression_breaks_test"],
+                    f"{frac('regression_breaks_dev')} vs {frac('regression_breaks_test')}",
+                    "Both on the A2 regression set; all 12 TEST breaks are other_fix patches."),
+            item("p4_per_class", "Promoted per eligible failure, critic vs generic, by class",
+                 per_class_value, p4_scope, HEADLINE_P4,
+                 f"per_class_critic_vs_generic, from reports/phase4/test_scoring.md lines {pc_lines} "
+                 f"(commit {p4_commit})",
+                 "Small cells (3 to 12 failures); the intervals are in results/phase4/headline_transcribed.json."),
+        ]},
         {"title": "Detection", "items": [
+            item("detect_test_precision", "Detector HALLUCINATION precision, sealed TEST (reported once)",
+                 f"{_search(r'H P=([0-9.]+)', d1)} (target 0.90 missed)", "TEST, as reported in RESULTS.md",
+                 RESULTS_MD, row_source("D1")["locator"],
+                 "Below the pre-registered 0.90 precision target. The v1.1 relabelling sensitivity is a "
+                 "separate row in RESULTS.md."),
+            item("detect_test_false_alerts", "False alerts per 1,000 NORMAL traces, sealed TEST (reported once)",
+                 _search(r"per 1,000 NORMAL: ([0-9.]+)", d5_text), "TEST, as reported in RESULTS.md",
+                 RESULTS_MD, row_source("D5")["locator"],
+                 "Primary result on the v1 labels; the v1.1 sensitivity is reported separately."),
             item("detect_dev_macro", "Detector headline macro recall",
                  _search(r"headline macro ([0-9.]+)", d_dev), "DEV", RESULTS_MD, row_source("D-dev")["locator"]),
             item("detect_test_macro", "Detector headline macro recall, sealed TEST (reported once)",
@@ -340,7 +415,9 @@ def build_headline() -> dict:
             item("heal_test_gate", "Critic v1_structured, sealed TEST (reported once)",
                  f"H1 {_search(r'H1 ([0-9]+/[0-9]+)', a3)}, gate {_search(r'gate ([0-9]+),', a3)}, "
                  f"false promotions {_search(r'false promotions ([0-9]+)', a3)}", "TEST, as reported in RESULTS.md",
-                 RESULTS_MD, row_source("A3 test v1_structured")["locator"]),
+                 RESULTS_MD, row_source("A3 test v1_structured")["locator"],
+                 "Denominator is the 48 scored patches; the Phase 4 finding above uses the 51 eligible "
+                 "failures (same 25 promotions)."),
             item("overnight_decisions", "Overnight DEV run: promoted / rejected",
                  f"{promoted} / {rejected} of {promoted + rejected}", "DEV", HEAL_COST,
                  "gate_decisions.by_detector_failure_class",
