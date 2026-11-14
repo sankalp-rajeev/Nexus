@@ -11,6 +11,14 @@
       "commit": "856e5f7",
       "date": "2026-11-12"
     },
+    "results/external/trail_a_scored.json": {
+      "commit": "d3b0a6e",
+      "date": "2026-11-13"
+    },
+    "results/external/trail_b_scored.json": {
+      "commit": "d3b0a6e",
+      "date": "2026-11-13"
+    },
     "results/phase6/l4_rerun.json": {
       "commit": "360aa30",
       "date": "2026-11-12"

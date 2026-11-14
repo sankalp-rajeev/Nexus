@@ -27,3 +27,5 @@ ignore = [
 [lint.per-file-ignores]
 "tests/**" = ["B011", "B017"]
 "__init__.py" = ["F401"]
+# Keep the byte-pinned A1 evaluation helper unchanged; PRIVATE is a legacy re-export.
+"scripts/external/trail_dev_check.py" = ["F401"]

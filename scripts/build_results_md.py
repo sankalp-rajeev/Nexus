@@ -11,8 +11,10 @@ tags: the builder reads no git state. The two git facts it needs are pinned in c
   * results/reporting/results_md_file_commits.json: each source file's last commit and that commit's date in
     its own recorded time zone (not the machine's, which made CI in UTC disagree with a local build).
 
-Sealed-TEST handling (same in every mode, CI and local): this script never
-opens a TEST result file. The rows that were produced by the one-time TEST runs
+NexusBench sealed-TEST handling (same in every mode, CI and local): this script never
+opens a NexusBench TEST result file. The exact approved TRAIL aggregate JSONs are
+separate publication inputs; no raw TRAIL trace or annotation is opened.
+The rows that were produced by the one-time NexusBench TEST runs
 (D1, D2, D4, D5, D6, S-v1.1-test, A3 test *) are taken as text from the
 published table at tag `phase4-test-scored`. Their intervals come only from
 committed text reports (reports/phase2/test_report.md, and
@@ -37,6 +39,8 @@ SEALED_ROWS = os.path.join(REPO, "results", "phase4", "sealed_rows_from_tag.json
 FILE_COMMITS = os.path.join(REPO, "results", "reporting", "results_md_file_commits.json")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from transcribe_phase4_headline import wilson  # noqa: E402
+from trail_publication import (A_RESULT, B_RESULT, DEV_SUMMARY,
+                               build_external_trail, metric_text, reasons_text)
 
 # Files written by the one-time TEST runs. They are never opened here.
 SEALED_FILES = {
@@ -59,7 +63,7 @@ of real-model behaviour.
 
 **95% CI column.** Clopper-Pearson, copied from the result file, unless the
 cell says `W` (Wilson, computed here from the k/n shown). `-` means the source
-records no count or proportion with an interval for that row. TEST rows are
+records no count or proportion with an interval for that row. NexusBench TEST rows are
 text-only: their intervals come from the committed text reports named in the
 Note column, because no TEST result file is opened to build this page.
 
@@ -672,6 +676,43 @@ def table(rows: list[dict]) -> str:
     return TABLE_HEAD + "\n".join(md_row(r) for r in rows) + "\n"
 
 
+def external_trail_section() -> str:
+    data = build_external_trail(REPO)
+    lines = ["\n## External check (TRAIL)", "",
+        "Aggregate-only external validation on human-labelled real agent traces. Gated TRAIL content is never redistributed here. "
+        "V1 was scored once on A, diagnosed on development data, then v2 was frozen before both versions were scored once on sealed B. "
+        "NexusBench TEST is not reopened; only the exact approved committed external aggregate files are read.", "",
+        f"Sources: [v1 TRAIL-A]({A_RESULT}) (commit `{last_commit(A_RESULT)}`, {last_date(A_RESULT)}); "
+        f"[v1 vs v2 TRAIL-B]({B_RESULT}) (commit `{last_commit(B_RESULT)}`, {last_date(B_RESULT)}). "
+        "Independent per-class flags, trace-level; recorded Wilson 95% intervals. Undefined denominators remain undefined. "
+        "Abstentions are separate, never negatives. The six prior join exclusions are outside A/B.", ""]
+    head = ["| Cohort / version | Class | Evaluated / cohort | TP / FP / FN / TN | Precision [Wilson 95%] | Recall [Wilson 95%] | Abstentions by reason | Exclusions by reason | Source |",
+            "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
+    for mapping, title in (("primary", "Original mapping (primary)"), ("C3_secondary", "C3 (secondary; B only)")):
+        lines += [f"### {title}", "", *head]
+        for r in data["rows"]:
+            if r["mapping"] != mapping:
+                continue
+            lines.append(f"| {r['cohort']} / {r['version']} | {r['class_name']} | {r['evaluated']} / {r['cohort_denominator']} | "
+                f"{r['tp']} / {r['fp']} / {r['fn']} / {r['tn']} | {metric_text(r['precision'])} | {metric_text(r['recall'])} | "
+                f"{reasons_text(r['abstentions'])} | {reasons_text(r['exclusions'])} | [aggregate]({r['source']}) |")
+        lines += [""]
+    c, g = data["claims"], data["guardrail"]
+    lines += ["Original mapping predicts Resource Abuse/Timeout with LOOP alone; C3 uses v2 LOOP OR TOOL_MISFIRE only as a secondary analysis. "
+        "C3 has identical counts here. PLAN_DRIFT and CONTEXT_BLEED are not scored on TRAIL.", "",
+        f"[A3 claims hierarchy](reports/external/trail_prereg_a3.md): **LOOP is primary**, with development expectations "
+        f"precision ~{c['loop_dev_precision']:.1f}, recall ~{c['loop_dev_recall']:.1f}. "
+        f"**TOOL_MISFIRE is descriptive only when B has fewer than {c['misfire_min_positives']} positives; no claim.** "
+        f"**HALLUCINATION is reported without an improvement claim** (development precision {100*c['hallucination_dev_precision']:.0f}%, "
+        f"recall {100*c['hallucination_dev_recall']:.0f}%, saturated). [Development source]({DEV_SUMMARY}).", "",
+        f"NexusBench DEV independent-flag macro recall remained {g['independent_macro_v1']:.3f}; priority-label macro recall "
+        f"fell {g['priority_macro_v1']:.3f} -> {g['priority_macro_v2']:.3f}, a {g['priority_macro_drop']:.4f} drop beyond "
+        f"{g['drop_limit']:.2f}, as LOOP masked {g['masked_misfires']} MISFIRE decisions. "
+        f"**V2 is not live; v1 stays live**, given this guardrail breach and B's MISFIRE false positives. [Source]({DEV_SUMMARY}). "
+        "[Full B report](reports/external/trail_b_results.md) includes source breakdowns, positive-cohort counts and eligibility limits.", ""]
+    return "\n".join(lines)
+
+
 def limitations(all_rows: list[dict]) -> str:
     dirty = [r for r in all_rows if "+dirty" in r["commit"]]
     phase2 = [r["id"] for r in dirty if r["id"] in {"D1", "D2", "D4", "D5", "D6"}]
@@ -727,6 +768,7 @@ def render() -> str:
     out.append(phase5_section())
     out.append("\n## Phase 6: stack, live detectors and OTel\n\n" + table(p6))
     all_rows += p6
+    out.append(external_trail_section())
     out.append(limitations(all_rows))
     return "".join(out)
 

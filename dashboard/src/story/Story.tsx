@@ -5,6 +5,7 @@ import {
 } from '../hero/numbers'
 import { CopyBlock, Fraction, SourceLink } from '../hero/parts'
 import { INSTALL } from '../hero/Hero'
+import TrailEvidence from './TrailEvidence'
 // The story diagram, generated as inline SVG coloured by the page tokens (no images, no off-host fonts).
 import storyHorizontal from './diagrams/story-horizontal.svg?raw'
 import storyVertical from './diagrams/story-vertical.svg?raw'
@@ -464,7 +465,7 @@ export function Limits({ data }: { data: ReplayData }) {
         </div>
         <div className="nx-rows__row">
           <dt>The benchmark world is invented.</dt>
-          <dd>Its companies, orders and users are fictional. <SourceLink data={data} item={world} /></dd>
+          <dd>NexusBench's companies, orders and users are fictional. <SourceLink data={data} item={world} /></dd>
         </div>
         <div className="nx-rows__row">
           <dt>One laptop, one critic draw.</dt>
@@ -484,6 +485,7 @@ export function Limits({ data }: { data: ReplayData }) {
           </dd>
         </div>
       </dl>
+      <TrailEvidence data={data} />
     </Section>
   )
 }

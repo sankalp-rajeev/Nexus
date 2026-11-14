@@ -1,0 +1,29 @@
+{
+  "amendment": "A2",
+  "dataset_revision": "b424ce63d5973d5dcd7169b1bc3c07ccdee276d1",
+  "excluded_trace_ids": [
+    "0035f455b3ff2295167a844f04d85d34",
+    "5b5a35053775cbf29701c171e6675853",
+    "5e5dc94e090341c564d582f551a0cddb",
+    "5ec1cd43eb8ae4094e93a4892ff0f06f",
+    "6cc6dc35a28bbed6cfd873756094bc16",
+    "a96c6811716c0473b86a23321db79c34"
+  ],
+  "original_manifest_sha256": "4081a888f8d624b257cc8a6fe1648a0709160b05154bfd5df59967bf6c16f061",
+  "partition_counts": {
+    "trail_a": {
+      "gaia": 50,
+      "swe_bench": 14
+    },
+    "trail_b": {
+      "gaia": 49,
+      "swe_bench": 14
+    }
+  },
+  "seed": 20261114,
+  "selection": "random.Random(seed); sorted source names and eligible IDs; sample ceil(n/2) into A per source; complement into B",
+  "sha256": {
+    "trail_a.txt": "1b1c8afba707315f519735f7bb52e8f63ae4d0922334a9f46728688b641346bf",
+    "trail_b.txt": "7c100a724edd4faabf27ce4b5d84b469d72ae474d6645f496c998c806dbfc72f"
+  }
+}

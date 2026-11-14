@@ -1,0 +1,54 @@
+{
+  "dataset": "PatronusAI/TRAIL",
+  "hash_scope": "Exact ASCII bytes of sorted trace-ID lists, one ID per LF-terminated line; no trace/label content",
+  "join_audit": {
+    "gaia": {
+      "joined": 111,
+      "labels_without_traces": [],
+      "row_trace_ids_with_invalid_label_json": [
+        "a96c6811716c0473b86a23321db79c34"
+      ],
+      "row_trace_ids_with_missing_label_trace_id": [
+        "0035f455b3ff2295167a844f04d85d34",
+        "5b5a35053775cbf29701c171e6675853",
+        "5e5dc94e090341c564d582f551a0cddb",
+        "5ec1cd43eb8ae4094e93a4892ff0f06f",
+        "6cc6dc35a28bbed6cfd873756094bc16"
+      ],
+      "traces_without_labels": [
+        "0035f455b3ff2295167a844f04d85d34",
+        "5b5a35053775cbf29701c171e6675853",
+        "5e5dc94e090341c564d582f551a0cddb",
+        "5ec1cd43eb8ae4094e93a4892ff0f06f",
+        "6cc6dc35a28bbed6cfd873756094bc16",
+        "a96c6811716c0473b86a23321db79c34"
+      ]
+    },
+    "swe_bench": {
+      "joined": 31,
+      "labels_without_traces": [],
+      "row_trace_ids_with_invalid_label_json": [],
+      "row_trace_ids_with_missing_label_trace_id": [],
+      "traces_without_labels": []
+    }
+  },
+  "partition_counts": {
+    "dev_gaia.txt": 12,
+    "dev_swe_bench.txt": 3,
+    "test_gaia.txt": 105,
+    "test_swe_bench.txt": 28
+  },
+  "revision": "b424ce63d5973d5dcd7169b1bc3c07ccdee276d1",
+  "seed": 20261113,
+  "selection": "random.Random(seed); sorted source split names; sample sorted trace IDs; dev quotas 12 gaia, 3 swe_bench",
+  "sha256": {
+    "dev_gaia.txt": "b103285993d5a5ef5093d3d7b83e43cea8b54c9baea5651541f82bba4aebe718",
+    "dev_swe_bench.txt": "da62c1dd5faf3c15149c1150d1e8b8bfc48d0e15cc8a5169d03bdf541840ee6f",
+    "test_gaia.txt": "cda3d31e67d7b2eb5b3b9c16e42bf9feba2f8b6b0854cf94047fd78141a5637d",
+    "test_swe_bench.txt": "8f4c5195ecc54e64f6a88683de285c945469cec98dfcf63a7dc619089f9ca519"
+  },
+  "source_counts": {
+    "gaia": 117,
+    "swe_bench": 31
+  }
+}

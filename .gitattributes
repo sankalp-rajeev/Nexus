@@ -1,6 +1,7 @@
 # NexusBench data is hashed by manifest.sha256; never convert line endings.
 data/nexusbench/** text eol=lf
 bench/spotcheck/** text eol=lf
+reports/external/trail_split/** text eol=lf
 
 # Keep LF in Windows checkouts and in `git archive` exports (the Vercel deploy is built from one).
 dashboard/public/** text eol=lf

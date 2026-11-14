@@ -99,6 +99,10 @@
 
 /* 2. rows: a title beside its line, parted by hairlines */
 .nx-rows { margin: 0; }
+.nx-external { margin-top: var(--space-2xl); }
+.nx .nx-external h3 { font-size: var(--text-title); margin-bottom: var(--space-lg); }
+.nx .nx-external > p { max-width: 72ch; margin-block: var(--space-lg); color: var(--color-ink-2); }
+.nx .nx-external dd p { margin-block: 0 var(--space-sm); }
 .nx-rows__row { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-sm) var(--gap-columns); padding-block: var(--space-xl); border-top: var(--rule-hair) solid var(--color-rule); }
 .nx-rows__row:last-child { border-bottom: var(--rule-hair) solid var(--color-rule); }
 .nx-rows dt { font-size: var(--text-title); font-weight: 500; letter-spacing: -0.015em; line-height: 1.2; }

@@ -1,0 +1,79 @@
+{
+  "aggregate": {
+    "explicit_declared_tool_plan": 0,
+    "final_output_present": 15,
+    "frozen_nli_claims_present": 15,
+    "frozen_nli_source_present": 0,
+    "hallucination_abstained_no_evidence_or_claims": 15,
+    "loop_three_or_more_captured_tool_steps": 7,
+    "misfire_error_then_same_tool_within_retry_window": 6,
+    "misfire_tool_error_present": 7,
+    "pipeline_output_produced": 15,
+    "root_input_present": 15,
+    "spans": 662,
+    "successful_tool_output_readable": 7,
+    "tool_spans": 104,
+    "traces": 15
+  },
+  "attribute_span_counts": {
+    "input.value": 598,
+    "llm.input_messages.*": 289,
+    "llm.model_name": 289,
+    "llm.output_messages.*": 289,
+    "llm.token_count.completion": 314,
+    "llm.token_count.prompt": 314,
+    "nexus.agent.plan_steps": 0,
+    "nexus.agent.role": 0,
+    "output.value": 511,
+    "tool.name": 104,
+    "tool.parameters": 104
+  },
+  "by_split": {
+    "gaia": {
+      "explicit_declared_tool_plan": 0,
+      "final_output_present": 12,
+      "frozen_nli_claims_present": 12,
+      "frozen_nli_source_present": 0,
+      "hallucination_abstained_no_evidence_or_claims": 12,
+      "loop_three_or_more_captured_tool_steps": 7,
+      "misfire_error_then_same_tool_within_retry_window": 6,
+      "misfire_tool_error_present": 7,
+      "pipeline_output_produced": 12,
+      "root_input_present": 12,
+      "spans": 518,
+      "successful_tool_output_readable": 7,
+      "tool_spans": 101,
+      "traces": 12
+    },
+    "swe_bench": {
+      "explicit_declared_tool_plan": 0,
+      "final_output_present": 3,
+      "frozen_nli_claims_present": 3,
+      "frozen_nli_source_present": 0,
+      "hallucination_abstained_no_evidence_or_claims": 3,
+      "loop_three_or_more_captured_tool_steps": 0,
+      "misfire_error_then_same_tool_within_retry_window": 0,
+      "misfire_tool_error_present": 0,
+      "pipeline_output_produced": 3,
+      "root_input_present": 3,
+      "spans": 144,
+      "successful_tool_output_readable": 0,
+      "tool_spans": 3,
+      "traces": 3
+    }
+  },
+  "frozen_checks": {
+    "normalized_file_comparisons": 75,
+    "phase2_detectors_unchanged": true,
+    "phase4_shared_freeze_unchanged": true
+  },
+  "revision": "b424ce63d5973d5dcd7169b1bc3c07ccdee276d1",
+  "scope": "dev-only; no labels or predictions exported",
+  "span_kind_counts": {
+    "AGENT": 25,
+    "CHAIN": 190,
+    "LLM": 289,
+    "TOOL": 104,
+    "UNSPECIFIED": 54
+  }
+}

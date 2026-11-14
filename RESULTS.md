@@ -10,7 +10,7 @@ of real-model behaviour.
 
 **95% CI column.** Clopper-Pearson, copied from the result file, unless the
 cell says `W` (Wilson, computed here from the k/n shown). `-` means the source
-records no count or proportion with an interval for that row. TEST rows are
+records no count or proportion with an interval for that row. NexusBench TEST rows are
 text-only: their intervals come from the committed text reports named in the
 Note column, because no TEST result file is opened to build this page.
 
@@ -110,6 +110,43 @@ One machine and one night; group denominators, provider drift, repeated source t
 | P6-otel | OTel parity, native SDK vs OTLP mapping: failure type identical on 359/359 DEV traces in process, 20/20 end to end through the live stack; 0 mismatches | none (no model call) | no | 2026-11-13 | `793cf3c` | [results/phase6/otel_parity.json](results/phase6/otel_parity.json) | in process 359/359 W (0.99-1.00)<br>end to end 20/20 W (0.84-1.00) | DEV only. Remaining span-level differences are duration_ms, sdk_version and one memory-operation tool_name; recorded in the source. |
 | P6-time-to-alert | Time from the final span to classification (20 DEV traces, live stack): native p50/p95 0.01/0.81 s, OTLP 0.01/0.81 s | none (no model call) | no | 2026-11-13 | `793cf3c` | [results/phase6/otel_parity.json](results/phase6/otel_parity.json) | - | Needs a root span marked final; a trace without one still waits for the 30 s assembly idle timeout (reports/phase6/otel.md). Measured from the final POST returning; from POST start it is 0.06/0.85 s. n=20, percentiles only. |
 | P6-lite-limits | Lite mode (single container, SQLite) runs the deterministic detectors only: loops, tool misfires, context bleed and plan drift. HALLUCINATION (NLI) and the LLM critic are absent; queued items are volatile until committed; alerts can reflect incomplete traces | none (no model call) | no | 2026-11-12 | `856e5f7` | [reports/phase6/infra.md](reports/phase6/infra.md) | - | Not equivalent to the evaluated full pipeline; for integration and inspection, not production (reports/phase6/infra.md step 6.3b; README.md, Honest limits). |
+
+## External check (TRAIL)
+
+Aggregate-only external validation on human-labelled real agent traces. Gated TRAIL content is never redistributed here. V1 was scored once on A, diagnosed on development data, then v2 was frozen before both versions were scored once on sealed B. NexusBench TEST is not reopened; only the exact approved committed external aggregate files are read.
+
+Sources: [v1 TRAIL-A](results/external/trail_a_scored.json) (commit `d3b0a6e`, 2026-11-13); [v1 vs v2 TRAIL-B](results/external/trail_b_scored.json) (commit `d3b0a6e`, 2026-11-13). Independent per-class flags, trace-level; recorded Wilson 95% intervals. Undefined denominators remain undefined. Abstentions are separate, never negatives. The six prior join exclusions are outside A/B.
+
+### Original mapping (primary)
+
+| Cohort / version | Class | Evaluated / cohort | TP / FP / FN / TN | Precision [Wilson 95%] | Recall [Wilson 95%] | Abstentions by reason | Exclusions by reason | Source |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| TRAIL-A / v1 | LOOP_DETECTED | 63 / 64 | 0 / 0 / 22 / 41 | undefined (n=0) | 0.00% [0.00%, 14.87%] | none (0) | conversion_failure: 1 | [aggregate](results/external/trail_a_scored.json) |
+| TRAIL-A / v1 | TOOL_MISFIRE | 63 / 64 | 0 / 0 / 2 / 61 | undefined (n=0) | 0.00% [0.00%, 65.76%] | none (0) | conversion_failure: 1 | [aggregate](results/external/trail_a_scored.json) |
+| TRAIL-A / v1 | HALLUCINATION | 19 / 64 | 5 / 14 / 0 / 0 | 26.32% [11.81%, 48.79%] | 100.00% [56.55%, 100.00%] | no_checkable_claims: 1; no_successful_retrieval_text: 43 | conversion_failure: 1 | [aggregate](results/external/trail_a_scored.json) |
+| TRAIL-B / v1 | LOOP_DETECTED | 63 / 63 | 0 / 0 / 14 / 49 | undefined (n=0) | 0.00% [0.00%, 21.53%] | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v1 | TOOL_MISFIRE | 63 / 63 | 0 / 0 / 0 / 63 | undefined (n=0) | undefined (n=0) | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v1 | HALLUCINATION | 11 / 63 | 1 / 10 / 0 / 0 | 9.09% [1.62%, 37.74%] | 100.00% [20.65%, 100.00%] | no_successful_retrieval_text: 52 | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v2 | LOOP_DETECTED | 63 / 63 | 6 / 3 / 8 / 46 | 66.67% [35.42%, 87.94%] | 42.86% [21.38%, 67.41%] | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v2 | TOOL_MISFIRE | 63 / 63 | 0 / 9 / 0 / 54 | 0.00% [0.00%, 29.91%] | undefined (n=0) | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v2 | HALLUCINATION | 11 / 63 | 1 / 10 / 0 / 0 | 9.09% [1.62%, 37.74%] | 100.00% [20.65%, 100.00%] | no_successful_retrieval_text: 52 | none (0) | [aggregate](results/external/trail_b_scored.json) |
+
+### C3 (secondary; B only)
+
+| Cohort / version | Class | Evaluated / cohort | TP / FP / FN / TN | Precision [Wilson 95%] | Recall [Wilson 95%] | Abstentions by reason | Exclusions by reason | Source |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| TRAIL-B / v1 | LOOP_DETECTED | 63 / 63 | 0 / 0 / 14 / 49 | undefined (n=0) | 0.00% [0.00%, 21.53%] | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v1 | TOOL_MISFIRE | 63 / 63 | 0 / 0 / 0 / 63 | undefined (n=0) | undefined (n=0) | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v1 | HALLUCINATION | 11 / 63 | 1 / 10 / 0 / 0 | 9.09% [1.62%, 37.74%] | 100.00% [20.65%, 100.00%] | no_successful_retrieval_text: 52 | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v2 | LOOP_DETECTED | 63 / 63 | 6 / 3 / 8 / 46 | 66.67% [35.42%, 87.94%] | 42.86% [21.38%, 67.41%] | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v2 | TOOL_MISFIRE | 63 / 63 | 0 / 9 / 0 / 54 | 0.00% [0.00%, 29.91%] | undefined (n=0) | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v2 | HALLUCINATION | 11 / 63 | 1 / 10 / 0 / 0 | 9.09% [1.62%, 37.74%] | 100.00% [20.65%, 100.00%] | no_successful_retrieval_text: 52 | none (0) | [aggregate](results/external/trail_b_scored.json) |
+
+Original mapping predicts Resource Abuse/Timeout with LOOP alone; C3 uses v2 LOOP OR TOOL_MISFIRE only as a secondary analysis. C3 has identical counts here. PLAN_DRIFT and CONTEXT_BLEED are not scored on TRAIL.
+
+[A3 claims hierarchy](reports/external/trail_prereg_a3.md): **LOOP is primary**, with development expectations precision ~0.8, recall ~0.4. **TOOL_MISFIRE is descriptive only when B has fewer than 5 positives; no claim.** **HALLUCINATION is reported without an improvement claim** (development precision 24%, recall 100%, saturated). [Development source](results/external/trail_v2_dev_summary.json).
+
+NexusBench DEV independent-flag macro recall remained 0.953; priority-label macro recall fell 0.953 -> 0.930, a 0.0235 drop beyond 0.02, as LOOP masked 4 MISFIRE decisions. **V2 is not live; v1 stays live**, given this guardrail breach and B's MISFIRE false positives. [Source](results/external/trail_v2_dev_summary.json). [Full B report](reports/external/trail_b_results.md) includes source breakdowns, positive-cohort counts and eligibility limits.
 
 ## Limitations: results with a `+dirty` provenance commit
 

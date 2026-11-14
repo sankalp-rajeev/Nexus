@@ -156,6 +156,27 @@ export interface StoryFigure extends HeroProofBase {
 
 export type HeroProof = HeroFraction | HeroComparison
 
+export interface TrailMetric {
+  numerator: number; denominator: number; estimate: number | null
+  wilson95: [number, number] | null
+}
+export interface TrailRow {
+  cohort: 'TRAIL-A' | 'TRAIL-B'; version: 'v1' | 'v2'; class_name: string
+  mapping: 'primary' | 'C3_secondary'; cohort_denominator: number; evaluated: number
+  tp: number; fp: number; fn: number; tn: number; gold_positive: number; cohort_gold_positive: number | null
+  precision: TrailMetric; recall: TrailMetric; abstentions: Record<string, number>; exclusions: Record<string, number>
+  source: string
+}
+export interface ExternalTrail {
+  aggregate_only: true; rows: TrailRow[]
+  dataset: { name: string; traces: number; license: string; gated: boolean; card: string }
+  guardrail: { independent_macro_v1: number; independent_macro_v2: number; priority_macro_v1: number
+    priority_macro_v2: number; priority_macro_drop: number; drop_limit: number; masked_misfires: number; v2_live_candidate: boolean }
+  claims: { primary_hypothesis: string; loop_dev_precision: number; loop_dev_recall: number; misfire_min_positives: number
+    hallucination_dev_precision: number; hallucination_dev_recall: number; hallucination_improvement_claim: boolean }
+  sources: { A: string; B: string; development: string; protocol: string }
+}
+
 export interface ReplayData {
   schema_version: 2
   mode: 'replay'
@@ -177,6 +198,7 @@ export interface ReplayData {
   headline: { groups: { title: string; items: HeadlineItem[] }[]; hero: { proof: HeroProof[] }; story: { figures: StoryFigure[] } }
   traces: ReplayTrace[]
   heals: ReplayHeal[]
+  external_trail?: ExternalTrail
 }
 
 export const STAGES = ['Detect', 'Propose', 'Repair check', 'Held-out check', 'Regression check', 'Decision'] as const
