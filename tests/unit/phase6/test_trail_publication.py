@@ -1,5 +1,6 @@
 """Publication reads only approved aggregate results, never raw TRAIL or TEST."""
 import copy
+import hashlib
 import json
 from pathlib import Path
 
@@ -57,3 +58,16 @@ def test_test_audit_guard_keeps_nexus_and_unknown_external_results_sealed():
     for relative in ("results/detect_test.json", "results/external/not_approved_test.json"):
         with pytest.raises(RuntimeError, match="sealed TEST"):
             guard("open", (str(root / relative), "r", 0))
+
+
+def test_publication_count_identifier_exception_is_scoped(monkeypatch):
+    from scripts.external import scan_v2_development as scan
+    identifier = b"SyntheticModule.SyntheticLongExceptionTypeName"
+    monkeypatch.setattr(scan, "ERROR_TYPE_COUNT_LABEL_SHA256", {hashlib.sha256(identifier).hexdigest()})
+    table = b"| `" + identifier + b"` | 3 |\n"
+    report = "reports/external/trail_diagnosis.md"
+    assert not scan.unapproved_copy(table, {identifier}, report)
+    assert scan.unapproved_copy(table, {identifier}, "README.md")
+    assert scan.unapproved_copy(table + identifier + b" in prose", {identifier}, report)
+    message = b"Synthetic span output that must never be published"
+    assert scan.unapproved_copy(b"| `" + message + b"` | 3 |", {message}, report)

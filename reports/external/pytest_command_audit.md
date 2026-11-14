@@ -245,3 +245,19 @@ Historical commands above are audit records, not reproduction instructions. Ever
 The two-line ruff.toml addition ignores only F401 in scripts/external/trail_dev_check.py, preserving the byte-pinned A1 helper and its legacy PRIVATE re-export. It changes no lint rule for any file outside scripts/external/.
 
 Responsive page checks: 1440, 768 and 390 pixels; no horizontal overflow, console errors/warnings, failed/HTTP-error requests or external requests. Screenshots remain private under data/external/trail/publication_qa/. The local preview server on port 4317 was stopped. No deployment was run.
+
+## Final publication-scan guard verification
+
+The whole-PR scan found two exception-type identifiers in the diagnosis's aggregate integer-count tables. Part 3 explicitly requested counts by error type. The guard permits only their exact hashes in those table cells, not prose, any other file, or any span text/message. A synthetic test verifies that boundary.
+
+```powershell
+& 'C:\Umich\Projects\nexus-phase6\.venv\Scripts\python.exe' scripts/phase5/pytest_dev_only.py -p no:deepeval tests/unit/phase6/test_trail_publication.py -k publication_count_identifier -q --basetemp=data/external/trail/publication_count_guard_tests
+```
+
+Result: 1 passed, 8 deselected.
+
+```powershell
+& 'C:\Umich\Projects\nexus-phase6\.venv\Scripts\python.exe' scripts/phase5/pytest_dev_only.py -p no:deepeval tests/unit tests/e2e -q --basetemp=data/external/trail/final_pr_privacy_guard_tests
+```
+
+Final result: **899 passed, 9 skipped**. Total local invocations recorded: **31 (26 plain, 5 DEV-only)**. No plain invocation selected either sensitive audit target.
