@@ -828,3 +828,16 @@ equivalence 359/359); the median final-span-to-classification time fell from abo
 under 0.1 s. L4 was not re-run: the change is one metadata key on the root span; no detector
 reads it, the critic's trace view is a metadata whitelist (VISIBLE_METADATA) that excludes it, and
 the healer does not read span metadata.
+
+**D82. Record plain-pytest runs of the TEST-reading checks during the post-release PRs (2026-11-13).**
+Three local test runs on 2026-11-13 used plain pytest instead of
+`scripts/phase5/pytest_dev_only.py`, so the DEV-only skip markers were not applied:
+- **19:18 UTC** (PR #6 work): `tests/unit/test_results_md_pins.py tests/unit/test_reporting_hygiene.py`.
+- **22:05 UTC** (PR #7 work): `tests/unit/phase6/test_readme_numbers.py tests/unit/test_reporting_hygiene.py`.
+- **00:59 UTC on 2026-11-14** (PR #8 work, `4a7e9d9`): `tests/unit tests/e2e`, 759 passed and 1 skipped against the guarded 751 and 9.
+
+All three ran the five result-provenance checks for `detect_test.json`, `detect_test_v11_sensitivity.json`, `heal_critic_v1_structured_test.json`, `heal_generic_test.json` and `heal_nopatch_test.json`. The last run also ran the three fixed TEST-set consistency checks in `tests/unit/heal/test_a3.py`. All passed.
+
+These were pass/fail format and consistency checks on already-scored, committed TEST results and their fixed split manifest. No re-scoring, new sample, or experiment, model-selection or gate decision resulted. This audit used local command lines, pass/skip counts and the CI log, without opening TEST artifact contents.
+
+CI was unaffected: run [43537917046](https://github.com/sankalp-rajeev/Nexus/actions/runs/43537917046) used the DEV-only runner and skipped all eight. From now on every local pytest invocation, including a single-file selection, goes through `scripts/phase5/pytest_dev_only.py -p no:deepeval`.
