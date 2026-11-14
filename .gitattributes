@@ -2,3 +2,13 @@
 data/nexusbench/** text eol=lf
 bench/spotcheck/** text eol=lf
 reports/external/trail_split/** text eol=lf
+
+# Keep LF in Windows checkouts and in `git archive` exports (the Vercel deploy is built from one).
+dashboard/public/** text eol=lf
+*.json text eol=lf
+# Images are binary everywhere, including under dashboard/public/.
+*.png binary
+*.gif binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
