@@ -94,3 +94,31 @@ committed) in `data/phase6/runs/scratch/demo/prod/` (11 section shots and one fu
 
 Console errors or warnings: none. Failed or 4xx/5xx requests: none. Requests to any host other than
 `nexus-llmops.vercel.app`: none.
+
+## Redeploy after PR #7 (2026-11-13)
+
+Approved by Sankalp: one Vercel production deploy of `dashboard/` from `main` after the PR #7 merge.
+
+- Source: `main` at `8ad7e9ee2f39344ac84bfaf207f54db9147fb219` (merge of PR #7); CI on that commit green
+  (test, integration: [run 43524402470](https://github.com/sankalp-rajeev/Nexus/actions/runs/43524402470)).
+- Built from a `git archive` export of `dashboard/` at that commit plus the existing Vercel project link, so
+  untracked local folders (`.hallmark/`, `.impeccable/`, `.diagram-work/`) were not uploaded.
+- `vercel deploy --prod` to project `nexus-demo`: deployment `dpl_3gPAzWJRzaJwrCH5H9FSzqdTvnAF`,
+  `https://nexus-demo-9wyf7y8nf-sankalp-rajeevs-projects.vercel.app`, target production, Ready. The project domain
+  `nexus-llmops.vercel.app` follows production and points at it (no alias change needed).
+- https://nexus-llmops.vercel.app returns 200. The deployed bundle carries the new lede ("Nexus detects failures
+  live…"), the story diagram (horizontal SVG from 1024 px, vertical below; checked in the screenshots), the
+  "What it costs to run" section and the "View full diagram" link; `/nexus-architecture-dark.png` is
+  byte-identical to `main`.
+- `/replay.json`: same JSON content as `main`, but **not byte-identical**: the served file ends in CRLF
+  (396,896 bytes) where the committed blob ends in LF (396,895 bytes). Cause: `git archive` on this Windows
+  checkout applies `core.autocrlf=true` to text files. A redeploy from an export made with
+  `git -c core.autocrlf=false archive` would fix it; not done, as only one deploy was approved.
+- Screenshot and console check (headless Edge, 1440/768/390, outputs in `data/phase6/runs/scratch/demo/prod3/`,
+  not committed): fonts loaded, no horizontal overflow, no element wider than the viewport, no console errors or
+  warnings, no failed or 4xx/5xx requests, no requests to any other host.
+
+**Correction to the 0.1.0 deploy above.** Its `replay.json` check compared the served file with the Windows
+working copy (CRLF), not with the committed blob, and that deploy used the same `git archive` export, so its
+served `replay.json` most likely also ended in CRLF. "Byte-identical" there means identical to the working copy;
+the JSON content matched.

@@ -8,7 +8,7 @@ against your agent's task suite; the results below come from that job on NexusBe
 - **SDK:** [`nexus-llmops` on PyPI](https://pypi.org/project/nexus-llmops/): `pip install nexus-llmops`
 - **Every number below** links to the committed file and line it comes from. [RESULTS.md](RESULTS.md) has all of them.
 
-![A one-minute scroll through the demo page: the finding, a recorded heal step by step, and how to use it](docs/assets/nexus-demo.gif)
+![A one-minute scroll through the demo page: the headline result, how a fix is verified, the finding, a recorded heal step by step, and how to use it](docs/assets/nexus-demo.gif)
 
 ## The problem
 
