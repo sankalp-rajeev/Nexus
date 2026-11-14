@@ -198,9 +198,9 @@ def test_a_changed_number_is_caught():
 def test_external_trail_numbers_are_inside_the_checked_section():
     section = _section()
     assert "### External check (TRAIL)" in section
-    rows = [u for u in UNITS if "results/external/trail_b_test.json" in u]
+    rows = [u for u in UNITS if "results/external/trail_b_scored.json" in u]
     assert len(rows) >= 3
-    source = Source("results/external/trail_b_test.json")
+    source = Source("results/external/trail_b_scored.json")
     fractions, values = _allowed([source])
     assert (6, 14) in fractions and (6, 9) in fractions
     assert (6, 100003) not in fractions and not _matches("12345.67", values)

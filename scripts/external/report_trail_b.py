@@ -156,7 +156,7 @@ def render(result, a):
 
 
 if __name__ == "__main__":
-    result = json.loads((ROOT / "results/external/trail_b_test.json").read_text())
-    a = json.loads((ROOT / "results/external/trail_test.json").read_text())
+    result = json.loads((ROOT / "results/external/trail_b_scored.json").read_text())
+    a = json.loads((ROOT / "results/external/trail_a_scored.json").read_text())
     (ROOT / "reports/external/trail_b_results.md").write_text(render(result, a), encoding="utf-8")
     print(json.dumps({"B_aggregate_report_written": True, "trace_or_label_files_opened": 0}))

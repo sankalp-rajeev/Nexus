@@ -112,4 +112,4 @@ LOOP/MISFIRE only; conditional on trace TP, unambiguous gold and existing locato
 
 **frozen detectors, thresholds unchanged, scored once, reported as is**
 
-Machine-readable results: [trail_test.json](../../results/external/trail_test.json). No gated trace, prompt, output, or annotation description is included.
+Machine-readable results: [trail_a_scored.json](../../results/external/trail_a_scored.json). No gated trace, prompt, output, or annotation description is included.

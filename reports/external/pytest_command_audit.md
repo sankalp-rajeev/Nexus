@@ -261,3 +261,13 @@ Result: 1 passed, 8 deselected.
 ```
 
 Final result: **899 passed, 9 skipped**. Total local invocations recorded: **31 (26 plain, 5 DEV-only)**. No plain invocation selected either sensitive audit target.
+
+## PR #9 filename and unchanged-runner fix
+
+The two external aggregates were renamed to trail_a_scored.json and trail_b_scored.json, preserving their working-copy hashes and staged Git blobs. The shared scripts/phase5/ runner was restored byte-for-byte from origin/main, removing the guard exception. Focused source/README checks used the original guarded runner:
+
+```powershell
+& 'C:\Umich\Projects\nexus-phase6\.venv\Scripts\python.exe' scripts/phase5/pytest_dev_only.py -p no:deepeval tests/unit/phase6/test_trail_publication.py tests/unit/phase6/test_readme_numbers.py -q --basetemp=data/external/trail/scored_rename_focused
+```
+
+Result: **43 passed**. This is invocation 32 (26 historical plain invocations; 6 guarded invocations).

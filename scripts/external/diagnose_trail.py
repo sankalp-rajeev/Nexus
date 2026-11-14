@@ -36,7 +36,7 @@ from nexus_agent.models import SpanType
 
 PRIVATE = scoring.PRIVATE
 DIAG = PRIVATE / "diagnostics"
-RESULT = ROOT / "results/external/trail_test.json"
+RESULT = ROOT / "results/external/trail_a_scored.json"
 REPORT = ROOT / "reports/external/trail_results.md"
 _ID = re.compile(r"\b(?:[A-Za-z]{1,6}-\d{3,8}|[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}|[0-9a-fA-F]{32})\b")
 

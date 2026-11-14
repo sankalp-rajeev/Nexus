@@ -17,6 +17,7 @@ The Python SDK is `nexus-llmops` (import `nexus_llmops`); the service is the res
 ### External validation
 
 - **TRAIL external validation.** Pre-registered, once-only frozen v1 scoring on TRAIL-A and same-data v1/v2 scoring on sealed TRAIL-B; aggregate results, Wilson intervals, abstentions and limitations are linked from the README, generated RESULTS.md and dashboard. Gated trace content is never redistributed.
+- Scored aggregates use `results/external/trail_a_scored.json` and `results/external/trail_b_scored.json`; their JSON/provenance bytes are unchanged by the rename. The shared DEV-only test runner stays identical to main, with no external-result guard exception.
 - **Experimental `detectors-v2` configuration (not default).** Separate C1/C2/C4 modules and development-selected final-answer scope; the NexusBench DEV priority-recall guardrail breach and B misfire false positives keep v1 live.
 - **OpenInference adapter, offline evaluation path.** Maps captured span kinds, messages, tools, errors and the fixed source-reader list through the existing collector mapping. This does not change the live default.
 

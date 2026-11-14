@@ -15,7 +15,8 @@ What goes in, and from where:
   (transcribed from the committed ``reports/phase4/test_scoring.md``, each number with its report
   line); the rest are parsed from committed ``RESULTS.md`` rows and ``results/phase5``/
   ``results/phase6`` JSON. No NexusBench ``*_test*`` result file and nothing under ``reports/phase4/test/`` is opened.
-* TRAIL: only the exact approved committed external aggregate JSON files. No TRAIL trace,
+* TRAIL: only the approved committed ``trail_a_scored.json`` / ``trail_b_scored.json``
+  aggregates and development summary. Their filenames pass the unchanged shared TEST guard. No TRAIL trace,
   prompt, output or annotation description is read or exported.
 
 No benchmark execution, no model loading, no provider calls, no network.

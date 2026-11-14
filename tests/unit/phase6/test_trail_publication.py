@@ -18,7 +18,7 @@ def test_only_exact_aggregate_paths_are_allowed(path):
 
 
 def test_export_is_an_allowlist_even_when_inputs_have_extra_text(monkeypatch):
-    docs = {p: copy.deepcopy(pub.load_aggregate(p)) for p in pub.EXTERNAL_AGGREGATES}
+    docs = {p: copy.deepcopy(pub.load_aggregate(p)) for p in pub.PUBLICATION_SOURCES}
     for doc in docs.values():
         doc["trace"] = {"span_text": "synthetic private canary"}
         doc["prompt"] = "synthetic private canary"
@@ -53,7 +53,8 @@ def test_undefined_metrics_and_primary_secondary_scopes_are_preserved():
 
 def test_test_audit_guard_keeps_nexus_and_unknown_external_results_sealed():
     root = Path(__file__).resolve().parents[3]
-    for relative in (pub.A_RESULT, pub.B_RESULT):
+    for relative in pub.PUBLICATION_SOURCES:
+        assert "_test" not in Path(relative).name and "test_" not in Path(relative).name
         guard("open", (str(root / relative), "r", 0))
     for relative in ("results/detect_test.json", "results/external/not_approved_test.json"):
         with pytest.raises(RuntimeError, match="sealed TEST"):

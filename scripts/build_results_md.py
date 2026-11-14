@@ -39,8 +39,8 @@ SEALED_ROWS = os.path.join(REPO, "results", "phase4", "sealed_rows_from_tag.json
 FILE_COMMITS = os.path.join(REPO, "results", "reporting", "results_md_file_commits.json")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from transcribe_phase4_headline import wilson  # noqa: E402
-from trail_publication import (EXTERNAL_AGGREGATES, A_RESULT, B_RESULT, DEV_SUMMARY,
-                               build_external_trail, load_aggregate, metric_text, reasons_text)
+from trail_publication import (A_RESULT, B_RESULT, DEV_SUMMARY,
+                               build_external_trail, metric_text, reasons_text)
 
 # Files written by the one-time TEST runs. They are never opened here.
 SEALED_FILES = {
@@ -82,11 +82,6 @@ def _git(*args: str) -> str:
 
 def load(rel: str) -> dict:
     rel = rel.replace("\\", "/")
-    # Only these reviewed external aggregate JSONs are exceptions to the
-    # filename guard. NexusBench TEST results and arbitrary external *_test
-    # files remain sealed; no raw TRAIL trace or annotation is opened.
-    if rel in EXTERNAL_AGGREGATES:
-        return load_aggregate(rel, REPO)
     low = rel.lower()
     if rel in SEALED_FILES or "_test" in low or low.startswith("reports/phase4/test/"):
         raise RuntimeError(f"sealed TEST file requested: {rel}")

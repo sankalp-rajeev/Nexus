@@ -126,13 +126,13 @@ The pre-registered process was: score frozen v1 once on TRAIL-A; diagnose on dev
 
 | TRAIL-B class | Frozen v1 | Experimental v2 | Source |
 |---|---|---|---|
-| LOOP (primary hypothesis) | Recall 0/14 [0.00%, 21.53%]; precision undefined | Recall 6/14 [21.38%, 67.41%]; precision 6/9 [35.42%, 87.94%] | [B aggregate](results/external/trail_b_test.json) |
-| TOOL_MISFIRE (descriptive only) | 0 flags; 0 positives | 9 flags; 0 positives; no claim | [B aggregate](results/external/trail_b_test.json) |
-| HALLUCINATION (no improvement claim) | Precision 1/11; 52 abstentions | Precision 1/11; 52 abstentions | [B aggregate](results/external/trail_b_test.json) |
+| LOOP (primary hypothesis) | Recall 0/14 [0.00%, 21.53%]; precision undefined | Recall 6/14 [21.38%, 67.41%]; precision 6/9 [35.42%, 87.94%] | [B aggregate](results/external/trail_b_scored.json) |
+| TOOL_MISFIRE (descriptive only) | 0 flags; 0 positives | 9 flags; 0 positives; no claim | [B aggregate](results/external/trail_b_scored.json) |
+| HALLUCINATION (no improvement claim) | Precision 1/11; 52 abstentions | Precision 1/11; 52 abstentions | [B aggregate](results/external/trail_b_scored.json) |
 
 Intervals are 95% Wilson intervals. Hallucination applies only to traces with readable retrieved text and checkable final-answer claims; abstentions are never negatives ([B report](reports/external/trail_b_results.md)).
 
-**V2 is not live; v1 stays live.** NexusBench DEV priority-label macro recall fell 0.953 → 0.930, a 0.0235 drop beyond the 0.02 guardrail, because LOOP masked 4 MISFIRE decisions ([development aggregate](results/external/trail_v2_dev_summary.json)). Together with the MISFIRE false positives on B, this rules out v2 as a live-default candidate ([B aggregate](results/external/trail_b_test.json), [A3](reports/external/trail_prereg_a3.md)). [Full external results](RESULTS.md#external-check-trail) include v1 on A, both versions on B, all intervals, abstentions and exclusions.
+**V2 is not live; v1 stays live.** NexusBench DEV priority-label macro recall fell 0.953 → 0.930, a 0.0235 drop beyond the 0.02 guardrail, because LOOP masked 4 MISFIRE decisions ([development aggregate](results/external/trail_v2_dev_summary.json)). Together with the MISFIRE false positives on B, this rules out v2 as a live-default candidate ([B aggregate](results/external/trail_b_scored.json), [A3](reports/external/trail_prereg_a3.md)). [Full external results](RESULTS.md#external-check-trail) include v1 on A, both versions on B, all intervals, abstentions and exclusions.
 
 <!-- readme-numbers:end -->
 

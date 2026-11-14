@@ -139,13 +139,13 @@ def render(result):
             f"{loc['ambiguous_gold_true_positives']} true positives excluded for ambiguous/missing gold location; "
             f"{loc['missing_locator_true_positives']} lacked a locator. Zero denominator means not assessable.")
     lines += ["", "**frozen detectors, thresholds unchanged, scored once, reported as is**", "",
-        "Machine-readable results: [trail_test.json](../../results/external/trail_test.json). "
+        "Machine-readable results: [trail_a_scored.json](../../results/external/trail_a_scored.json). "
         "No gated trace, prompt, output, or annotation description is included.", ""]
     return "\n".join(lines)
 
 
 if __name__ == "__main__":
-    data = json.loads((ROOT / "results/external/trail_test.json").read_text())
+    data = json.loads((ROOT / "results/external/trail_a_scored.json").read_text())
     path = ROOT / "reports/external/trail_results.md"
     path.write_text(render(data), encoding="utf-8")
     print("Rendered aggregate-only TRAIL-A report")

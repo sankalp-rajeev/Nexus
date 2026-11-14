@@ -6,10 +6,10 @@ TRAIL/private path or NexusBench TEST result can be passed to this loader.
 import json
 from pathlib import Path
 
-A_RESULT = "results/external/trail_test.json"
-B_RESULT = "results/external/trail_b_test.json"
+A_RESULT = "results/external/trail_a_scored.json"
+B_RESULT = "results/external/trail_b_scored.json"
 DEV_SUMMARY = "results/external/trail_v2_dev_summary.json"
-EXTERNAL_AGGREGATES = frozenset((A_RESULT, B_RESULT, DEV_SUMMARY))
+PUBLICATION_SOURCES = frozenset((A_RESULT, B_RESULT, DEV_SUMMARY))
 CLASSES = ("LOOP_DETECTED", "TOOL_MISFIRE", "HALLUCINATION")
 REASONS = frozenset(("no_successful_retrieval_text", "no_checkable_claims", "source_below_registered_readability_gate",
     "conversion_failure", "malformed_category_or_location", "invalid_label_json", "missing_label_trace_id"))
@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def load_aggregate(path, root=ROOT):
-    if path not in EXTERNAL_AGGREGATES:
+    if path not in PUBLICATION_SOURCES:
         raise ValueError("Not an approved committed TRAIL aggregate")
     return json.loads((Path(root) / path).read_text(encoding="utf-8"))
 

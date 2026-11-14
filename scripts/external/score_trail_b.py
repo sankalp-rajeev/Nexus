@@ -42,7 +42,7 @@ PREREGS = {"original": ("8bc721b", "trail_prereg.md"), "A1": ("8222003", "trail_
 RUN = PRIVATE / "b_scoring"
 CATALOG = PRIVATE / "trail_b_catalog.json"
 SOURCE = PRIVATE / "b_source"
-OUTPUT = ROOT / "results/external/trail_b_test.json"
+OUTPUT = ROOT / "results/external/trail_b_scored.json"
 VERSIONS = ("v1", "v2")
 CLASSES = original.CLASSES
 

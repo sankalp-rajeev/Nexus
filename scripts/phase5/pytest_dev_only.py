@@ -11,7 +11,6 @@ sys.path.insert(0, str(ROOT / "sdk"))
 import pytest
 from bench.heal import sets
 from services.critic.dev_adapter import dev_labels
-from scripts.trail_publication import EXTERNAL_AGGREGATES
 
 
 def guard(event, args):
@@ -26,8 +25,7 @@ def guard(event, args):
     except ValueError:
         return
     if (relative.startswith("reports/phase4/test/") or relative == "reports/phase4/prereg_sets_test.json"
-            or relative.startswith("results/") and relative not in EXTERNAL_AGGREGATES
-            and ("_test" in path.name or "test_" in path.name)):
+            or relative.startswith("results/") and ("_test" in path.name or "test_" in path.name)):
         raise RuntimeError("Phase 5 sealed TEST access blocked")
 
 
