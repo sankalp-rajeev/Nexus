@@ -97,6 +97,8 @@ class Source:
         elif self.path.endswith(".json"):
             self._json(json.loads(file.read_text(encoding="utf-8")))
         else:
+            if self.line is None:
+                return  # Context/protocol link, not a numeric citation.
             lines = file.read_text(encoding="utf-8").splitlines()
             assert self.line and 1 <= self.line <= len(lines), f"{target}: no such line"
             text = lines[self.line - 1]
@@ -114,6 +116,18 @@ class Source:
         assert self.counts, f"headline_transcribed.json records nothing for test_scoring.md line {self.line}"
 
     def _json(self, doc) -> None:
+        def ratios(value):
+            if isinstance(value, dict):
+                if {"numerator", "denominator", "estimate", "wilson95"} <= value.keys():
+                    self.counts.append({"k": value["numerator"], "n": value["denominator"], "wilson95": value["wilson95"]})
+                    if value["estimate"] is not None:
+                        self.values.append(100 * value["estimate"])
+                for child in value.values():
+                    ratios(child)
+            elif isinstance(value, list):
+                for child in value:
+                    ratios(child)
+        ratios(doc)
         for path, value in _flatten(doc):
             self.values.append(value)
             if path.endswith(("_s.p50", "_s.p90", "_s.p95")):
@@ -145,8 +159,10 @@ def _allowed(sources: list[Source]) -> tuple[set[tuple[int, int]], list[float]]:
     for a, b in combinations(counts, 2):  # two classes reported together
         k, n = a["k"] + b["k"], a["n"] + b["n"]
         fractions.add((k, n))
-        low, high = wilson(k, n)
-        values += [k, n, 100 * low, 100 * high]
+        values += [k, n]
+        if n:
+            low, high = wilson(k, n)
+            values += [100 * low, 100 * high]
     return fractions, values
 
 
@@ -177,3 +193,20 @@ def test_a_changed_number_is_caught():
     fractions, values = _allowed(sources)
     assert (13, 48) not in fractions
     assert not _matches("16", values) and _matches("15", values)
+
+
+def test_external_trail_numbers_are_inside_the_checked_section():
+    section = _section()
+    assert "### External check (TRAIL)" in section
+    rows = [u for u in UNITS if "results/external/trail_b_test.json" in u]
+    assert len(rows) >= 3
+    source = Source("results/external/trail_b_test.json")
+    fractions, values = _allowed([source])
+    assert (6, 14) in fractions and (6, 9) in fractions
+    assert (6, 100003) not in fractions and not _matches("12345.67", values)
+
+
+def test_external_trail_hierarchy_and_default_are_explicit():
+    section = _section()
+    assert "descriptive only" in section and "no improvement claim" in section
+    assert "v1 stays live" in section and "guardrail" in section

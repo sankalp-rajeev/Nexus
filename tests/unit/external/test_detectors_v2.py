@@ -1,5 +1,4 @@
 """Synthetic C1/C2/C4/C5 contracts; no benchmark or TRAIL fixtures."""
-import json
 from datetime import datetime, timezone
 import pytest
 

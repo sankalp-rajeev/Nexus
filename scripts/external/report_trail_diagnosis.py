@@ -6,8 +6,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / "sdk"), str(ROOT)]
-from scripts.external.diagnose_trail import DIAG, PRIVATE, REPORT, RESULT, distribution, sha
-from scripts.external.score_trail import CLASSES
+from scripts.external.diagnose_trail import DIAG, PRIVATE, RESULT, distribution, sha
 
 
 def merge(records, field):
@@ -283,7 +282,7 @@ def render(a):
     lines += ["", "## 6. Candidate v2 changes - hypotheses, not implemented", "",
         "| Finding | Candidate development change on A |", "| --- | --- |",
         f"| {loop['original_tool_steps']} original TOOL-origin steps versus {loop['visible_tool_steps']} visible steps in loop-positive traces; {e['retagged_retrieval_errors']} retagged retrieval errors | Preserve tool execution identity and source-evidence role as separate channels; validate both loop/misfire and grounding inputs. |",
-        f"| Longest-run and argument/interleaving distributions above | Test progress-aware, argument-aware repetition windows and a separate timeout/resource-budget signal; do not assume ID changes or similar text mean a fault. JSON whitespace/key order already normalizes. |",
+        "| Longest-run and argument/interleaving distributions above | Test progress-aware, argument-aware repetition windows and a separate timeout/resource-budget signal; do not assume ID changes or similar text mean a fault. JSON whitespace/key order already normalizes. |",
         f"| {loop['original_exact_repeats_by_status']['pair_counts'].get('adjacent_exact_pairs_with_error',0)} adjacent identical pairs contain an error; none are two successful calls | Distinguish failed-retry loops from successful stalls and successful recovery, with an explicit v2 fault taxonomy rather than relabeling the v1 result. |",
         f"| Entity gate forces zero for {h['gate_forced_zero_claims']} claims in {h['traces_with_gate_forced_zero_claim']} traces | On A, audit entity normalization and compare gate behavior with NLI support; avoid treating absent literal aliases as automatic contradiction without validation. |",
         "| Final-output-only claims versus annotation locations on other spans | Explore span-local, time-aware grounding using only evidence available at that step; retain clear scope labels. |",

@@ -122,3 +122,19 @@ def test_publication_guard_accepts_recorded_data():
         "heals": [{"gate": {"decision": "promoted"}, "critic": {"explanation": "Recorded text"}}],
         "provenance": {"sources": {"results/phase5/heal_latency_cost.json": "abc"}},
     })
+
+
+def test_external_trail_payload_is_only_current_aggregate_fields(committed):
+    assert committed["external_trail"] == export_replay.build_external_trail(export_replay.ROOT)
+    altered = copy.deepcopy(committed)
+    altered["external_trail"]["prompt"] = "synthetic private canary"
+    assert any("external TRAIL aggregates" in p for p in verify_committed(altered))
+
+
+def test_aggregate_refresh_preserves_recorded_dev_bodies(committed, monkeypatch):
+    def no_runs(*args):
+        pytest.fail("Aggregate refresh must not open out-of-repository runs")
+    monkeypatch.setattr(export_replay, "build_heals", no_runs)
+    refreshed = export_replay.refresh_aggregates(committed)
+    assert refreshed["traces"] == committed["traces"]
+    assert refreshed["heals"] == committed["heals"]

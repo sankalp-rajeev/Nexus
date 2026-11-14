@@ -10,14 +10,14 @@ ROOT = Path(__file__).resolve().parents[2]
 PRIVATE = ROOT / "data/external/trail"
 
 
-def scan(paths):
+def scan(paths, *, allow_publication=False):
     from dotenv import dotenv_values
     blobs = []
     for name in paths:
         path = (ROOT / name).resolve()
         relative = path.relative_to(ROOT).as_posix()
         if (any(fnmatch.fnmatch(relative, pattern) for pattern in (".env*", "data/external/*", "data/*/runs/*", "*.jsonl"))
-                or relative in {"README.md", "RESULTS.md"} or relative.startswith("dashboard/")):
+                or (not allow_publication and (relative in {"README.md", "RESULTS.md"} or relative.startswith("dashboard/")))):
             raise RuntimeError("Forbidden commit path")
         blobs.append(path.read_bytes())
     values = dotenv_values(ROOT / ".env")

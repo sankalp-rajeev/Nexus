@@ -10,8 +10,8 @@ from scripts.external.scan_external import ROOT, scan
 from scripts.external.v2_data import trail_records
 
 
-def check(paths):
-    result = scan(paths)
+def check(paths, *, allow_publication=False):
+    result = scan(paths, allow_publication=allow_publication)
     blobs = [(ROOT / path).read_bytes() for path in paths]
     strings = set()
 
@@ -38,9 +38,12 @@ def check(paths):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--allow-publication", action="store_true",
+                        help="allow explicitly requested README/RESULTS/dashboard publication; data/env paths remain forbidden")
     parser.add_argument("paths", nargs="+")
     try:
-        print(json.dumps(check(parser.parse_args().paths)))
+        args = parser.parse_args()
+        print(json.dumps(check(args.paths, allow_publication=args.allow_publication)))
     except Exception as exc:
         print(json.dumps({"STOP": "scan failed", "exception_type": type(exc).__name__}))
         raise SystemExit(1) from None

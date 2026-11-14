@@ -14,8 +14,9 @@ What goes in, and from where:
 * Headline numbers: the Phase 4 finding comes from ``results/phase4/headline_transcribed.json``
   (transcribed from the committed ``reports/phase4/test_scoring.md``, each number with its report
   line); the rest are parsed from committed ``RESULTS.md`` rows and ``results/phase5``/
-  ``results/phase6`` JSON. No ``*_test*`` result file and nothing under ``reports/phase4/test/`` is
-  opened.
+  ``results/phase6`` JSON. No NexusBench ``*_test*`` result file and nothing under ``reports/phase4/test/`` is opened.
+* TRAIL: only the exact approved committed external aggregate JSON files. No TRAIL trace,
+  prompt, output or annotation description is read or exported.
 
 No benchmark execution, no model loading, no provider calls, no network.
 
@@ -43,6 +44,8 @@ for _path in (str(ROOT), str(ROOT / "sdk")):
     if _path not in sys.path:
         sys.path.insert(0, _path)
 
+from scripts.trail_publication import A_RESULT, B_RESULT, DEV_SUMMARY, build_external_trail
+
 DEFAULT_PHASE5_RUNS = Path(os.environ.get("NEXUS_PHASE5_RUNS", r"C:\Umich\Projects\nexus-phase5\data\phase5\runs"))
 DESTINATION = ROOT / "dashboard/public/replay.json"
 SCHEMA_VERSION = 2
@@ -69,13 +72,16 @@ SOURCES = (
     "bench/agent.py", "bench/detector_view.py",
     "services/critic/dev_adapter.py", "services/critic/detector_adapter.py",
     "services/healer/gate.py",
+    A_RESULT, B_RESULT, DEV_SUMMARY, "reports/external/trail_prereg_a3.md",
 )
 
 TRACE_CLASSES = ("NORMAL", "HALLUCINATION", "TOOL_MISFIRE", "CONTEXT_BLEED", "PLAN_DRIFT", "LOOP_DETECTED")
 TRACES_PER_CLASS = 2
 TEXT_LIMIT = 1500
 EVIDENCE_LIMIT = 600
-DATA_STATEMENT = "DEV data; TEST numbers shown only as already reported in RESULTS.md"
+DATA_STATEMENT = ("DEV data; TEST numbers shown only as already reported in RESULTS.md; "
+                  "TRAIL numbers are aggregate-only committed external results")
+TRAIL_NOTICE = "TRAIL is aggregate evidence only: no external trace, prompt, output or annotation is shipped."
 UNPUBLISHABLE_MARKER = re.compile(r"placeholder|mock", re.IGNORECASE)
 
 # Heal selection: for each rule, in this order, the first heal (lowest id) of its run that matches.
@@ -860,6 +866,7 @@ def build_replay(phase5_runs: Path) -> dict:
             "Detector verdicts are the scored Phase 2 detectors' recorded DEV predictions; the live classifier reproduces them on all 359 DEV traces.",
             "Heals are the recorded Phase 5 overnight DEV runs: the critic's patch text, the gate checks and the decision are the recorded ones.",
             "Numbers marked TEST are shown only as already reported in RESULTS.md; no TEST trace or result file is read.",
+            TRAIL_NOTICE,
         ],
         "provenance": {
             "generated_from_commit": git("rev-parse", "HEAD"),
@@ -874,6 +881,7 @@ def build_replay(phase5_runs: Path) -> dict:
             "llm_calls": 0,
         },
         "headline": build_headline(),
+        "external_trail": build_external_trail(ROOT),
         "traces": traces,
         "heals": heals,
     }
@@ -888,6 +896,25 @@ def comparable(replay: dict) -> dict:
     clone = json.loads(json.dumps(replay))
     clone["provenance"].pop("generated_from_commit", None)
     return clone
+
+
+def refresh_aggregates(committed: dict) -> dict:
+    """Refresh published numbers without opening out-of-repo Phase 5 runs.
+
+    Recorded DEV trace/heal bodies are retained and verify_committed checks
+    them against in-repository DEV sources before this mode can publish.
+    """
+    result = json.loads(json.dumps(committed))
+    result["headline"] = build_headline()
+    result["external_trail"] = build_external_trail(ROOT)
+    result["provenance"].update(generated_from_commit=git("rev-parse", "HEAD"),
+        data_statement=DATA_STATEMENT, sources={path: blob_id(path) for path in SOURCES})
+    if TRAIL_NOTICE not in result["notices"]:
+        result["notices"].append(TRAIL_NOTICE)
+    problems = verify_committed(result)
+    if problems:
+        raise ValueError("Aggregate refresh failed verification: " + "; ".join(problems))
+    return result
 
 
 def verify_committed(committed: dict) -> list[str]:
@@ -917,6 +944,9 @@ def verify_committed(committed: dict) -> list[str]:
             problems.append(f"stale: {path} changed since replay.json was exported")
     if problems:
         return problems
+
+    if committed.get("external_trail") != build_external_trail(ROOT):
+        problems.append("stale: external TRAIL aggregates differ or contain unapproved fields")
 
     ctx = load_dev_context()
     by_rule = rule_selected_trace_ids(ctx["predictions"])
@@ -962,6 +992,8 @@ def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--phase5-runs", type=Path, default=DEFAULT_PHASE5_RUNS)
     parser.add_argument("--check", action="store_true", help="fail if the committed replay.json is stale")
+    parser.add_argument("--refresh-aggregates", action="store_true",
+                        help="refresh numbers from committed sources, retaining verified DEV trace/heal bodies")
     parser.add_argument("--verify", action="store_true",
                         help="CI check: re-derive everything that needs no Phase 5 runs from in-repository sources")
     args = parser.parse_args(argv)
@@ -973,7 +1005,8 @@ def main(argv: list[str] | None = None) -> None:
             raise ValueError("replay.json failed verification:\n- " + "\n- ".join(problems))
         print("replay.json verified against in-repository sources")
         return
-    replay = build_replay(args.phase5_runs)
+    replay = (refresh_aggregates(json.loads(DESTINATION.read_text(encoding="utf-8")))
+              if args.refresh_aggregates else build_replay(args.phase5_runs))
     # Validate before writing anything, even when exporting without Vite.
     assert_publishable(replay)
     if args.check:

@@ -4,7 +4,7 @@ from types import SimpleNamespace
 import pytest
 
 from scripts.external.score_trail import (CLASSES, add_observation, fresh_counts,
-    convert_for_evaluation, load_requested, map_labels, normalize_category, ratio, resolve_location, summarize, wilson)
+    convert_for_evaluation, load_requested, map_labels, ratio, resolve_location, summarize, wilson)
 
 
 def view():

@@ -24,6 +24,7 @@ const { default: HealTimeline, healSteps } = await loadModule('src/replay/HealTi
 const { default: HeadlinePanel } = await loadModule('src/replay/HeadlinePanel.tsx', 'headline')
 const { default: ProvenancePanel } = await loadModule('src/replay/ProvenancePanel.tsx', 'provenance')
 const { default: TraceView } = await loadModule('src/replay/TraceView.tsx', 'traces')
+const { default: TrailEvidence } = await loadModule('src/story/TrailEvidence.tsx', 'trail-evidence')
 
 const text = await readFile('public/replay.json', 'utf-8')
 const data = validateReplay(JSON.parse(text))
@@ -114,4 +115,20 @@ test('provenance and trace views render the recorded statement and traces', () =
   assert.ok(provenance.includes('TEST numbers shown only as already reported in RESULTS.md'))
   const traces = render(React.createElement(TraceView, { data }))
   assert.ok(traces.includes(data.traces[0].trace_id))
+})
+
+test('TRAIL evidence renders committed aggregates, intervals, abstentions and live-default limits', () => {
+  const html = render(React.createElement(TrailEvidence, { data }))
+  const trail = data.external_trail
+  assert.ok(trail.aggregate_only)
+  assert.ok(html.includes('External check (TRAIL)'))
+  assert.ok(html.includes('V2 is not live; v1 stays live.'))
+  assert.ok(html.includes('Abstentions are never negatives'))
+  for (const cls of ['LOOP_DETECTED', 'HALLUCINATION']) {
+    const row = trail.rows.find(r => r.cohort === 'TRAIL-B' && r.version === 'v2' && r.class_name === cls && r.mapping === 'primary')
+    assert.ok(html.includes(`${row.precision.numerator}/${row.precision.denominator}`))
+    for (const bound of row.precision.wilson95) assert.ok(html.includes(`${(100 * bound).toFixed(2)}%`))
+    assert.ok(html.includes(sourceUrl(data, row.source)))
+  }
+  assert.equal(trail.rows.some(r => 'spans' in r || 'input' in r || 'output' in r || 'prompt' in r), false)
 })

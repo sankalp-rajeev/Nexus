@@ -1,0 +1,50 @@
+{
+  "c5": {
+    "all_llm_f1": 0.36363636363636365,
+    "chosen": "final",
+    "final_f1": 0.3870967741935484
+  },
+  "claims": {
+    "hallucination_dev_precision": 0.24,
+    "hallucination_dev_recall": 1.0,
+    "hallucination_improvement_claim": false,
+    "loop_dev_precision": 0.8,
+    "loop_dev_recall": 0.4,
+    "misfire_min_positives": 5,
+    "primary_hypothesis": "LOOP_DETECTED"
+  },
+  "dataset": {
+    "card": "https://huggingface.co/datasets/PatronusAI/TRAIL",
+    "gated": true,
+    "license": "MIT",
+    "name": "PatronusAI/TRAIL",
+    "revision": "b424ce63d5973d5dcd7169b1bc3c07ccdee276d1",
+    "source_counts": {
+      "gaia": 117,
+      "swe_bench": 31
+    },
+    "traces": 148
+  },
+  "guardrail": {
+    "drop_limit": 0.02,
+    "false_alert_increase": false,
+    "independent_macro_v1": 0.9533333333333334,
+    "independent_macro_v2": 0.9533333333333334,
+    "masked_misfires": 4,
+    "priority_macro_drop": 0.02352941176470602,
+    "priority_macro_v1": 0.9533333333333334,
+    "priority_macro_v2": 0.9298039215686273,
+    "v2_live_candidate": false
+  },
+  "provenance": {
+    "frozen_v2_commit": "5660480673c8a4b3b1f2dbbd0dad6b2438ea3284",
+    "private_aggregate_sha256": {
+      "nexus_aggregate.json": "24714ec9fd891f73036a6e582da8a2d5b0ee6ab6e96c47af1d18db70b384d41d",
+      "trail_aggregate.json": "ce089eb6f34f985d20b7537f5550f1181b94f44528ae439d63a011ac9c9ca7ae"
+    },
+    "protocol": "reports/external/trail_prereg_a3.md",
+    "report": "reports/external/trail_v2_dev.md",
+    "statement": "Transcribed from existing aggregate development records; no detectors rerun; no trace content"
+  },
+  "scope": "development, not a result"
+}

@@ -113,10 +113,26 @@ rates, not an invoice.
 - **Plan drift is unsolved.** The critic promoted 0/12 plan-drift fixes. Source: [test_scoring.md:68](reports/phase4/test_scoring.md?plain=1#L68).
 - **Two detection targets were missed.** Of the traces flagged as invented facts, 0.81 were right, against a 0.90 target ([RESULTS.md:37](RESULTS.md?plain=1#L37)). Normal traces drew 56.0 false alerts per 1,000, against a target of 10 ([RESULTS.md:38](RESULTS.md?plain=1#L38)). These are the primary results.
 - **The label correction came after scoring.** A relabelling criterion, registered before the one-time test scoring and applied afterwards to stored predictions, gives precision 0.973 and 8.5 false alerts per 1,000. Source: [RESULTS.md:39](RESULTS.md?plain=1#L39).
-- **The benchmark world is invented.** All results come from real agent runs in an invented task world with injected faults ([DATASHEET.md:17](bench/DATASHEET.md?plain=1#L17)). Detection was also checked on HaluEval and ToolBench ([RESULTS.md:41](RESULTS.md?plain=1#L41)). Healing hasn't been tested on real production failures.
+- **The benchmark world is invented.** NexusBench results come from real agent runs in an invented task world with injected faults ([DATASHEET.md:17](bench/DATASHEET.md?plain=1#L17)). Detection was also checked on HaluEval and ToolBench ([RESULTS.md:41](RESULTS.md?plain=1#L41)). Healing hasn't been tested on real production failures.
 - **One laptop, one critic draw.** Speed is from one machine. The critic runs at temperature 0.2, so a rerun can write a different patch. Source: [c1.json:7](results/critic_dev/c1.json#L7).
 - **Lite mode is partial.** It has no hallucination detector and no LLM critic, and uses SQLite instead of Kafka. Source: [RESULTS.md:112](RESULTS.md?plain=1#L112).
 - **The live service does not yet run the gate.** Live gating via a pluggable task-suite runner is planned for 0.2. Live auto-apply is off by default. Source: [CHANGELOG.md:15](CHANGELOG.md?plain=1#L15).
+
+### External check (TRAIL)
+
+TRAIL contains 148 human-labelled real agent traces ([dataset metadata](results/external/trail_v2_dev_summary.json)). It is MIT-licensed and gated; no TRAIL content is redistributed here ([dataset card](https://huggingface.co/datasets/PatronusAI/TRAIL)).
+
+The pre-registered process was: score frozen v1 once on TRAIL-A; diagnose on development data; freeze v2; then score both versions once on sealed TRAIL-B. See the [original protocol](reports/external/trail_prereg.md), [A2 disclosure](reports/external/trail_prereg_a2.md) and [final A3](reports/external/trail_prereg_a3.md). Original mapping is primary; C3 is secondary and has identical counts.
+
+| TRAIL-B class | Frozen v1 | Experimental v2 | Source |
+|---|---|---|---|
+| LOOP (primary hypothesis) | Recall 0/14 [0.00%, 21.53%]; precision undefined | Recall 6/14 [21.38%, 67.41%]; precision 6/9 [35.42%, 87.94%] | [B aggregate](results/external/trail_b_test.json) |
+| TOOL_MISFIRE (descriptive only) | 0 flags; 0 positives | 9 flags; 0 positives; no claim | [B aggregate](results/external/trail_b_test.json) |
+| HALLUCINATION (no improvement claim) | Precision 1/11; 52 abstentions | Precision 1/11; 52 abstentions | [B aggregate](results/external/trail_b_test.json) |
+
+Intervals are 95% Wilson intervals. Hallucination applies only to traces with readable retrieved text and checkable final-answer claims; abstentions are never negatives ([B report](reports/external/trail_b_results.md)).
+
+**V2 is not live; v1 stays live.** NexusBench DEV priority-label macro recall fell 0.953 → 0.930, a 0.0235 drop beyond the 0.02 guardrail, because LOOP masked 4 MISFIRE decisions ([development aggregate](results/external/trail_v2_dev_summary.json)). Together with the MISFIRE false positives on B, this rules out v2 as a live-default candidate ([B aggregate](results/external/trail_b_test.json), [A3](reports/external/trail_prereg_a3.md)). [Full external results](RESULTS.md#external-check-trail) include v1 on A, both versions on B, all intervals, abstentions and exclusions.
 
 <!-- readme-numbers:end -->
 
@@ -215,7 +231,7 @@ python scripts/build_results_md.py --check
 python dashboard/scripts/export_replay.py --verify
 ```
 
-The test split is sealed: its numbers appear only as already reported, and the scripts never reopen it.
+NexusBench TEST stays sealed: its numbers appear only as already reported, and the scripts never reopen it. TRAIL publication reads committed aggregate JSON only.
 Phase 5 (the overnight heal runs behind the speed and cost numbers) reproduces at commit `75771ab`.
 
 ## License

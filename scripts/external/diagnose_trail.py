@@ -6,7 +6,7 @@ offline run is observational and is never a replacement accuracy evaluation.
 """
 from __future__ import annotations
 
-from collections import Counter, defaultdict
+from collections import Counter
 from contextlib import redirect_stderr, redirect_stdout
 from datetime import datetime, timezone
 import difflib
@@ -286,10 +286,11 @@ def main():
                     units = hallucination.premise_units(context)
                     observed = {}
                     original_predict = model.predict
+                    # Synchronous hook for this iteration, restored in finally below.
                     @functools.wraps(original_predict)
                     def capture(pairs, *args, **kwargs):
-                        probabilities = original_predict(pairs, *args, **kwargs)
-                        observed.update(observe_claims(pairs, probabilities, claims, units, tokenizer, max_length))
+                        probabilities = original_predict(pairs, *args, **kwargs)  # noqa: B023
+                        observed.update(observe_claims(pairs, probabilities, claims, units, tokenizer, max_length))  # noqa: B023
                         return probabilities  # Original object, unchanged, to frozen code.
                     model.predict = capture
                     try:

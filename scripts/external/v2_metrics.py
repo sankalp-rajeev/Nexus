@@ -1,5 +1,4 @@
 """Development-only metrics, separate from immutable external v1 results."""
-from collections import Counter
 from scripts.external.score_trail import CLASSES, add_observation, fresh_counts, summarize
 
 ALL_CLASSES = ("LOOP_DETECTED","TOOL_MISFIRE","CONTEXT_BLEED","PLAN_DRIFT","HALLUCINATION")
