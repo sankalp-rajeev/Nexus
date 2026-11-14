@@ -231,3 +231,17 @@ Working directory: `C:\Umich\Projects\nexus-external`. Runner: DEV-only. Sensiti
 ```
 
 The command audit does not run or repeat a detector evaluation, change a result, or infer artifact access from result contents.
+
+## Final verification after integrating main and approved D82
+
+This additional invocation used the DEV-only runner: **898 passed, 9 skipped**. Total recorded local invocations including this final check: **29 (26 plain, 3 DEV-only)**; no plain selection included either sensitive audit target.
+
+```powershell
+& 'C:\Umich\Projects\nexus-phase6\.venv\Scripts\python.exe' scripts/phase5/pytest_dev_only.py -p no:deepeval tests/unit tests/e2e -q --basetemp=data/external/trail/final_pr_final_tests
+```
+
+Historical commands above are audit records, not reproduction instructions. Every future local test invocation uses the DEV-only runner.
+
+The two-line ruff.toml addition ignores only F401 in scripts/external/trail_dev_check.py, preserving the byte-pinned A1 helper and its legacy PRIVATE re-export. It changes no lint rule for any file outside scripts/external/.
+
+Responsive page checks: 1440, 768 and 390 pixels; no horizontal overflow, console errors/warnings, failed/HTTP-error requests or external requests. Screenshots remain private under data/external/trail/publication_qa/. The local preview server on port 4317 was stopped. No deployment was run.
