@@ -115,32 +115,32 @@ One machine and one night; group denominators, provider drift, repeated source t
 
 Aggregate-only external validation on human-labelled real agent traces. Gated TRAIL content is never redistributed here. V1 was scored once on A, diagnosed on development data, then v2 was frozen before both versions were scored once on sealed B. NexusBench TEST is not reopened; only the exact approved committed external aggregate files are read.
 
-Sources: [v1 TRAIL-A](results/external/trail_test.json) (commit `d4cfb33`, 2026-11-13); [v1 vs v2 TRAIL-B](results/external/trail_b_test.json) (commit `2a1ff5f`, 2026-11-13). Independent per-class flags, trace-level; recorded Wilson 95% intervals. Undefined denominators remain undefined. Abstentions are separate, never negatives. The six prior join exclusions are outside A/B.
+Sources: [v1 TRAIL-A](results/external/trail_a_scored.json) (commit `d3b0a6e`, 2026-11-13); [v1 vs v2 TRAIL-B](results/external/trail_b_scored.json) (commit `d3b0a6e`, 2026-11-13). Independent per-class flags, trace-level; recorded Wilson 95% intervals. Undefined denominators remain undefined. Abstentions are separate, never negatives. The six prior join exclusions are outside A/B.
 
 ### Original mapping (primary)
 
 | Cohort / version | Class | Evaluated / cohort | TP / FP / FN / TN | Precision [Wilson 95%] | Recall [Wilson 95%] | Abstentions by reason | Exclusions by reason | Source |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TRAIL-A / v1 | LOOP_DETECTED | 63 / 64 | 0 / 0 / 22 / 41 | undefined (n=0) | 0.00% [0.00%, 14.87%] | none (0) | conversion_failure: 1 | [aggregate](results/external/trail_test.json) |
-| TRAIL-A / v1 | TOOL_MISFIRE | 63 / 64 | 0 / 0 / 2 / 61 | undefined (n=0) | 0.00% [0.00%, 65.76%] | none (0) | conversion_failure: 1 | [aggregate](results/external/trail_test.json) |
-| TRAIL-A / v1 | HALLUCINATION | 19 / 64 | 5 / 14 / 0 / 0 | 26.32% [11.81%, 48.79%] | 100.00% [56.55%, 100.00%] | no_checkable_claims: 1; no_successful_retrieval_text: 43 | conversion_failure: 1 | [aggregate](results/external/trail_test.json) |
-| TRAIL-B / v1 | LOOP_DETECTED | 63 / 63 | 0 / 0 / 14 / 49 | undefined (n=0) | 0.00% [0.00%, 21.53%] | none (0) | none (0) | [aggregate](results/external/trail_b_test.json) |
-| TRAIL-B / v1 | TOOL_MISFIRE | 63 / 63 | 0 / 0 / 0 / 63 | undefined (n=0) | undefined (n=0) | none (0) | none (0) | [aggregate](results/external/trail_b_test.json) |
-| TRAIL-B / v1 | HALLUCINATION | 11 / 63 | 1 / 10 / 0 / 0 | 9.09% [1.62%, 37.74%] | 100.00% [20.65%, 100.00%] | no_successful_retrieval_text: 52 | none (0) | [aggregate](results/external/trail_b_test.json) |
-| TRAIL-B / v2 | LOOP_DETECTED | 63 / 63 | 6 / 3 / 8 / 46 | 66.67% [35.42%, 87.94%] | 42.86% [21.38%, 67.41%] | none (0) | none (0) | [aggregate](results/external/trail_b_test.json) |
-| TRAIL-B / v2 | TOOL_MISFIRE | 63 / 63 | 0 / 9 / 0 / 54 | 0.00% [0.00%, 29.91%] | undefined (n=0) | none (0) | none (0) | [aggregate](results/external/trail_b_test.json) |
-| TRAIL-B / v2 | HALLUCINATION | 11 / 63 | 1 / 10 / 0 / 0 | 9.09% [1.62%, 37.74%] | 100.00% [20.65%, 100.00%] | no_successful_retrieval_text: 52 | none (0) | [aggregate](results/external/trail_b_test.json) |
+| TRAIL-A / v1 | LOOP_DETECTED | 63 / 64 | 0 / 0 / 22 / 41 | undefined (n=0) | 0.00% [0.00%, 14.87%] | none (0) | conversion_failure: 1 | [aggregate](results/external/trail_a_scored.json) |
+| TRAIL-A / v1 | TOOL_MISFIRE | 63 / 64 | 0 / 0 / 2 / 61 | undefined (n=0) | 0.00% [0.00%, 65.76%] | none (0) | conversion_failure: 1 | [aggregate](results/external/trail_a_scored.json) |
+| TRAIL-A / v1 | HALLUCINATION | 19 / 64 | 5 / 14 / 0 / 0 | 26.32% [11.81%, 48.79%] | 100.00% [56.55%, 100.00%] | no_checkable_claims: 1; no_successful_retrieval_text: 43 | conversion_failure: 1 | [aggregate](results/external/trail_a_scored.json) |
+| TRAIL-B / v1 | LOOP_DETECTED | 63 / 63 | 0 / 0 / 14 / 49 | undefined (n=0) | 0.00% [0.00%, 21.53%] | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v1 | TOOL_MISFIRE | 63 / 63 | 0 / 0 / 0 / 63 | undefined (n=0) | undefined (n=0) | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v1 | HALLUCINATION | 11 / 63 | 1 / 10 / 0 / 0 | 9.09% [1.62%, 37.74%] | 100.00% [20.65%, 100.00%] | no_successful_retrieval_text: 52 | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v2 | LOOP_DETECTED | 63 / 63 | 6 / 3 / 8 / 46 | 66.67% [35.42%, 87.94%] | 42.86% [21.38%, 67.41%] | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v2 | TOOL_MISFIRE | 63 / 63 | 0 / 9 / 0 / 54 | 0.00% [0.00%, 29.91%] | undefined (n=0) | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v2 | HALLUCINATION | 11 / 63 | 1 / 10 / 0 / 0 | 9.09% [1.62%, 37.74%] | 100.00% [20.65%, 100.00%] | no_successful_retrieval_text: 52 | none (0) | [aggregate](results/external/trail_b_scored.json) |
 
 ### C3 (secondary; B only)
 
 | Cohort / version | Class | Evaluated / cohort | TP / FP / FN / TN | Precision [Wilson 95%] | Recall [Wilson 95%] | Abstentions by reason | Exclusions by reason | Source |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TRAIL-B / v1 | LOOP_DETECTED | 63 / 63 | 0 / 0 / 14 / 49 | undefined (n=0) | 0.00% [0.00%, 21.53%] | none (0) | none (0) | [aggregate](results/external/trail_b_test.json) |
-| TRAIL-B / v1 | TOOL_MISFIRE | 63 / 63 | 0 / 0 / 0 / 63 | undefined (n=0) | undefined (n=0) | none (0) | none (0) | [aggregate](results/external/trail_b_test.json) |
-| TRAIL-B / v1 | HALLUCINATION | 11 / 63 | 1 / 10 / 0 / 0 | 9.09% [1.62%, 37.74%] | 100.00% [20.65%, 100.00%] | no_successful_retrieval_text: 52 | none (0) | [aggregate](results/external/trail_b_test.json) |
-| TRAIL-B / v2 | LOOP_DETECTED | 63 / 63 | 6 / 3 / 8 / 46 | 66.67% [35.42%, 87.94%] | 42.86% [21.38%, 67.41%] | none (0) | none (0) | [aggregate](results/external/trail_b_test.json) |
-| TRAIL-B / v2 | TOOL_MISFIRE | 63 / 63 | 0 / 9 / 0 / 54 | 0.00% [0.00%, 29.91%] | undefined (n=0) | none (0) | none (0) | [aggregate](results/external/trail_b_test.json) |
-| TRAIL-B / v2 | HALLUCINATION | 11 / 63 | 1 / 10 / 0 / 0 | 9.09% [1.62%, 37.74%] | 100.00% [20.65%, 100.00%] | no_successful_retrieval_text: 52 | none (0) | [aggregate](results/external/trail_b_test.json) |
+| TRAIL-B / v1 | LOOP_DETECTED | 63 / 63 | 0 / 0 / 14 / 49 | undefined (n=0) | 0.00% [0.00%, 21.53%] | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v1 | TOOL_MISFIRE | 63 / 63 | 0 / 0 / 0 / 63 | undefined (n=0) | undefined (n=0) | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v1 | HALLUCINATION | 11 / 63 | 1 / 10 / 0 / 0 | 9.09% [1.62%, 37.74%] | 100.00% [20.65%, 100.00%] | no_successful_retrieval_text: 52 | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v2 | LOOP_DETECTED | 63 / 63 | 6 / 3 / 8 / 46 | 66.67% [35.42%, 87.94%] | 42.86% [21.38%, 67.41%] | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v2 | TOOL_MISFIRE | 63 / 63 | 0 / 9 / 0 / 54 | 0.00% [0.00%, 29.91%] | undefined (n=0) | none (0) | none (0) | [aggregate](results/external/trail_b_scored.json) |
+| TRAIL-B / v2 | HALLUCINATION | 11 / 63 | 1 / 10 / 0 / 0 | 9.09% [1.62%, 37.74%] | 100.00% [20.65%, 100.00%] | no_successful_retrieval_text: 52 | none (0) | [aggregate](results/external/trail_b_scored.json) |
 
 Original mapping predicts Resource Abuse/Timeout with LOOP alone; C3 uses v2 LOOP OR TOOL_MISFIRE only as a secondary analysis. C3 has identical counts here. PLAN_DRIFT and CONTEXT_BLEED are not scored on TRAIL.
 

@@ -271,3 +271,11 @@ The two external aggregates were renamed to trail_a_scored.json and trail_b_scor
 ```
 
 Result: **43 passed**. This is invocation 32 (26 historical plain invocations; 6 guarded invocations).
+
+## Full verification with canonical scored filenames
+
+```powershell
+& 'C:\Umich\Projects\nexus-phase6\.venv\Scripts\python.exe' scripts/phase5/pytest_dev_only.py -p no:deepeval tests/unit tests/e2e -q --basetemp=data/external/trail/scored_rename_full_suite
+```
+
+Result: **899 passed, 9 skipped**. This is invocation 33 (26 historical plain invocations; 7 guarded invocations). README-number checks also passed in the focused 43-test run. The generated RESULTS/replay checks, ruff and frozen check passed. Responsive checks at 1440/768/390 used canonical scored-file links with no overflow, console errors/warnings, failed/HTTP-error or external requests; port 4317 is closed.
