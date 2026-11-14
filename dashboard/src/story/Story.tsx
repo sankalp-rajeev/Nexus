@@ -5,6 +5,9 @@ import {
 } from '../hero/numbers'
 import { CopyBlock, Fraction, SourceLink } from '../hero/parts'
 import { INSTALL } from '../hero/Hero'
+// The story diagram, generated as inline SVG coloured by the page tokens (no images, no off-host fonts).
+import storyHorizontal from './diagrams/story-horizontal.svg?raw'
+import storyVertical from './diagrams/story-vertical.svg?raw'
 
 // ── shared pieces ─────────────────────────────────────────────────────────────
 
@@ -73,6 +76,10 @@ export function Mechanism({ data }: { data: ReplayData }) {
   ]
   return (
     <Section id="how" title="Three checks before a fix ships">
+      <figure className="nx-story">
+        <div className="nx-story__wide" dangerouslySetInnerHTML={{ __html: storyHorizontal }} />
+        <div className="nx-story__narrow" dangerouslySetInnerHTML={{ __html: storyVertical }} />
+      </figure>
       <ol className="nx-flow" aria-label="The Nexus pipeline">
         {steps.map(step => (
           <li key={step.name} className={`nx-flow__step${step.check ? ' nx-flow__step--check' : ''}`}>
@@ -81,6 +88,13 @@ export function Mechanism({ data }: { data: ReplayData }) {
           </li>
         ))}
       </ol>
+      <p className="nx-flow__more">
+        <a className="nx-source" href={`${import.meta.env.BASE_URL}nexus-architecture-dark.png`}
+           target="_blank" rel="noreferrer"
+           aria-label="View full diagram: the Nexus architecture, for engineers, as an image (opens in a new tab)">
+          View full diagram
+        </a>
+      </p>
     </Section>
   )
 }
@@ -323,16 +337,7 @@ export function Walkthrough({ data }: { data: ReplayData }) {
   )
 }
 
-// ── 6. how it works, speed and cost ───────────────────────────────────────────
-
-const ARCHITECTURE = [
-  { name: 'SDK or OpenTelemetry', line: 'Your agent emits spans.' },
-  { name: 'Collector', line: 'Receives and validates them.' },
-  { name: 'Kafka', line: 'Queues them in order.' },
-  { name: 'Detectors', line: 'Classify each finished trace.' },
-  { name: 'Critic', line: 'Proposes a patch.' },
-  { name: 'Gate', line: 'Runs the three checks.' },
-]
+// ── 6. speed and cost ─────────────────────────────────────────────────────────
 
 export function Architecture({ data }: { data: ReplayData }) {
   const alert = figure(data, 'time_to_alert')
@@ -341,16 +346,8 @@ export function Architecture({ data }: { data: ReplayData }) {
   const sdk = figure(data, 'sdk_overhead')
   const ingest = figure(data, 'ingestion')
   return (
-    <Section id="architecture" title="What runs, and what it costs" band
+    <Section id="architecture" title="What it costs to run" band
              lead="Measured on one laptop with the full stack running.">
-      <ol className="nx-arch" aria-label="Architecture, in data-flow order">
-        {ARCHITECTURE.map(part => (
-          <li key={part.name} className="nx-arch__part">
-            <span className="nx-arch__name">{part.name}</span>
-            <span className="nx-arch__line">{part.line}</span>
-          </li>
-        ))}
-      </ol>
       <dl className="nx-figures">
         <div className="nx-figures__item">
           <dt>Time to alert</dt>
@@ -476,6 +473,15 @@ export function Limits({ data }: { data: ReplayData }) {
         <div className="nx-rows__row">
           <dt>Lite mode is partial.</dt>
           <dd>No hallucination detector, no LLM critic, SQLite instead of Kafka. <SourceLink data={data} item={lite} /></dd>
+        </div>
+        <div className="nx-rows__row">
+          <dt>The live service does not yet run the gate.</dt>
+          <dd>
+            Live gating via a pluggable task-suite runner is planned for the next release. Live auto-apply is
+            off by default.{' '}
+            <a className="nx-source" href={repoFile(data, 'CHANGELOG.md')} target="_blank" rel="noreferrer"
+               aria-label="Changelog (opens on GitHub in a new tab)">CHANGELOG.md</a>
+          </dd>
         </div>
       </dl>
     </Section>

@@ -1,5 +1,8 @@
 # Nexus — Architecture
 
+> Legacy, pre-rework (before Phase 0). Superseded by RESULTS.md; kept for the record.
+> The current architecture is in [README.md](../../README.md#how-it-works), drawn from the code.
+
 Nexus is a self-hosted LLMOps platform that closes the loop from production
 observation to automated remediation for multi-agent AI systems.
 

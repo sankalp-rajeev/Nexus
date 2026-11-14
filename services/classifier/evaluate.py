@@ -4,7 +4,7 @@ Methodology (v2): trained on synthetic data, evaluated on real-world
 out-of-distribution data (HaluEval + ToolBench).
 
     python -m services.classifier.evaluate
-writes docs/classifier_report.md
+writes docs/history/classifier_report.md (legacy, pre-rework)
 """
 
 from __future__ import annotations
@@ -26,7 +26,7 @@ _MODEL_DESC = ("svm.joblib v3 (scikit-learn SVM) + all-MiniLM-L6-v2 + "
                "cross-encoder/nli-MiniLM2-L6-H768")
 
 REPORT_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "docs", "classifier_report.md")
+    os.path.join(os.path.dirname(__file__), "..", "..", "docs", "history", "classifier_report.md")
 )
 _REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 _MASTER = os.path.join(_REPO, "tests", "fixtures", "master_traces.json")

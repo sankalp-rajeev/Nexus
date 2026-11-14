@@ -273,7 +273,7 @@ NOTES: dict[str, str] = {
            "follows."),
     "D5": ("**TARGET MISSED:** 56.0 false alerts per 1,000 NORMAL (7/125) against the target "
            "of <= 10 per 1,000. The <= 10 target is the one set for this step; no per-1,000 "
-           "target appears in the Phase 2 preregistration, DECISIONS.md or status.md. "
+           "target appears in the Phase 2 preregistration, DECISIONS.md or the project status log (status.md, since removed; in git history). "
            "Primary result; the v1.1 sensitivity (8.5 per 1,000) follows."),
     "S-v1.1-test": (
         "SENSITIVITY, not the primary result. The criterion was registered in D39 at "
@@ -634,7 +634,7 @@ def phase6_rows() -> list[dict]:
         "traces",
         "reports/phase6/infra.md",
         note="Not equivalent to the evaluated full pipeline; for integration and inspection, "
-             "not production (reports/phase6/infra.md step 6.3b, reports/phase6/README_draft.md).")
+             "not production (reports/phase6/infra.md step 6.3b; README.md, Honest limits).")
     return rows
 
 

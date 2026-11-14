@@ -7,9 +7,9 @@ keeps its own light Tailwind styles and tokens in `src/index.css`.
 
 ## Page order
 
-Hero; the problem (rows); what Nexus does (a six-stage flow, the three checks outlined in cool); the finding (an
+Hero; the problem (rows); what Nexus does (the story diagram, horizontal on wide screens and vertical below 1024px, with the verification job as the one amber element; then a six-stage flow, the three checks outlined in cool; a link to the full architecture diagram); the finding (an
 index of readings with interval and source); per class and dev-vs-test (bar charts on a band); one heal step by step
-(vertical tabs beside an audit trail); architecture and cost (a strip and five figures on a band); use it (copyable
+(vertical tabs beside an audit trail); cost (five figures on a band); use it (copyable
 code); limits (rows); the recorded evidence (the replay explorer behind a disclosure); a colophon footer.
 
 ## World

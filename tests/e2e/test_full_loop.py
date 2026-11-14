@@ -121,6 +121,7 @@ class TestFullLoopToolMisfire:
                 redis_client=redis,
                 autonomous_mode=True,
                 auto_approve_delay_seconds=0.0,
+                auto_apply=True,  # legacy apply path (NEXUS_HEALER_AUTO_APPLY=true)
                 agent_run_fn=agent_run_fn,
             )
             t0 = time.perf_counter()
@@ -223,6 +224,7 @@ class TestFullLoopHallucination:
                 conn=_mock_conn(),
                 redis_client=_mock_redis(),
                 autonomous_mode=True,
+                auto_apply=True,  # legacy apply path (NEXUS_HEALER_AUTO_APPLY=true)
                 agent_run_fn=lambda inp, name: (
                     "Python was first released in 1991 by Guido van Rossum.", None
                 ),

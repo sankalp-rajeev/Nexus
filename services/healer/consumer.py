@@ -1,5 +1,13 @@
-"""Healer consumer — polls Postgres for PENDING_REVIEW patches and runs
-the full 5-step healing workflow for each one.
+"""Healer consumer — polls Postgres for PENDING_REVIEW patches and evaluates each one.
+
+Auto-apply is OFF by default (``NEXUS_HEALER_AUTO_APPLY``, default ``false``). With it off the
+healer evaluates a proposal and logs the scores (MLflow, ``eval_runs``) but never writes the patch
+to the Config Store, never publishes a config update and never emits a health-diff event; each
+proposal is evaluated once and stays ``PENDING_REVIEW``.
+
+``NEXUS_HEALER_AUTO_APPLY=true`` keeps the legacy behaviour: apply the patch, re-run the eval,
+emit a health diff. That path is LEGACY AND UNVERIFIED: it does not run the three-check promotion
+gate (``services/healer/gate.py``), which so far runs only in the offline evaluation harness.
 
 Can be used directly in tests by passing mock dependencies.
 """
@@ -21,6 +29,14 @@ logger = logging.getLogger("nexus.healer.consumer")
 
 # Re-run sentinel: function signature (input_text, agent_name) -> (output, trace)
 AgentRunFn = Callable[[str, str], tuple[str, dict | None]]
+
+AUTO_APPLY_ENV = "NEXUS_HEALER_AUTO_APPLY"
+
+
+def auto_apply_from_env(value: str | None = None) -> bool:
+    """``NEXUS_HEALER_AUTO_APPLY``: true/1/yes/on enables it; unset or anything else is off."""
+    raw = os.getenv(AUTO_APPLY_ENV, "") if value is None else value
+    return raw.strip().lower() in {"1", "true", "yes", "on"}
 
 
 def _default_agent_run(input_text: str, agent_name: str) -> tuple[str, dict | None]:
@@ -47,6 +63,7 @@ class HealerConsumer:
         mlflow_tracking_uri: str | None = None,
         agent_run_fn: AgentRunFn = _default_agent_run,
         poll_interval_seconds: float = 5.0,
+        auto_apply: bool | None = None,
     ) -> None:
         self.conn = conn
         self.redis = redis_client
@@ -57,14 +74,17 @@ class HealerConsumer:
         self.mlflow_uri = mlflow_tracking_uri or os.getenv("MLFLOW_TRACKING_URI", "")
         self.agent_run_fn = agent_run_fn
         self.poll_interval = poll_interval_seconds
+        # None reads NEXUS_HEALER_AUTO_APPLY; the default is off.
+        self.auto_apply = auto_apply_from_env() if auto_apply is None else bool(auto_apply)
+        self._evaluated: set[str] = set()   # proposals already evaluated with auto-apply off
 
     # ── Public API ────────────────────────────────────────────────────────────
 
     def process_patch(self, proposal: dict[str, Any]) -> dict[str, Any]:
-        """Execute the full 5-step healing workflow for one patch proposal.
+        """Evaluate one patch proposal; apply it only when auto-apply is on (legacy).
 
         Returns a result dict with keys:
-            config_id, before_score, after_score, score_delta,
+            config_id (None unless applied), applied, before_score, after_score, score_delta,
             mlflow_run_id, health_diff_emitted
         """
         pid = proposal["proposal_id"]
@@ -82,8 +102,15 @@ class HealerConsumer:
             # Human approval path — for now auto-approve after notification
             notify_patch_proposal(proposal, self.slack_url)
 
-        # ── STEP 2: PATCH APPLICATION ─────────────────────────────────────────
-        config_id = apply_patch(proposal, self.conn, self.redis)
+        # ── STEP 2: PATCH APPLICATION (only with auto-apply on; legacy, no gate) ──
+        config_id = None
+        if self.auto_apply:
+            logger.warning("healer: auto-apply ON (legacy, unverified: the promotion gate is not run); "
+                           "applying patch %s", pid)
+            config_id = apply_patch(proposal, self.conn, self.redis)
+        else:
+            logger.info("healer: auto-apply disabled (%s=false); evaluating patch %s without applying it",
+                        AUTO_APPLY_ENV, pid)
 
         # ── STEP 3: EVAL RE-RUN ───────────────────────────────────────────────
         trace_info = self._fetch_trace(proposal["trace_id"])
@@ -130,9 +157,11 @@ class HealerConsumer:
                 before_result, after_result, mlflow_run_id,
             )
 
-        # ── STEP 5: HEALTH DIFF ───────────────────────────────────────────────
+        # ── STEP 5: HEALTH DIFF (only for an applied patch) ──────────────────
         health_emitted = False
-        if self.redis:
+        if not self.auto_apply:
+            self._evaluated.add(pid)
+        elif self.redis:
             try:
                 emit_health_diff(
                     self.redis, agent_name, pid,
@@ -153,6 +182,7 @@ class HealerConsumer:
         )
         return {
             "config_id": config_id,
+            "applied": config_id is not None,
             "before_score": before_result.composite_score,
             "after_score": after_result.composite_score,
             "score_delta": score_delta,
@@ -169,12 +199,18 @@ class HealerConsumer:
             self.conn = _db.get_connection()
 
         logger.info(
-            "healer: starting (autonomous=%s, poll_interval=%.1fs)",
-            self.autonomous_mode, self.poll_interval,
+            "healer: starting (autonomous=%s, auto_apply=%s, poll_interval=%.1fs)",
+            self.autonomous_mode, self.auto_apply, self.poll_interval,
         )
+        if not self.auto_apply:
+            logger.info("healer: auto-apply disabled (%s=false): proposals are evaluated and logged, "
+                        "never applied", AUTO_APPLY_ENV)
         while True:
             try:
-                patches = _db.fetch_pending_patches(self.conn)
+                # With auto-apply off a proposal stays PENDING_REVIEW, so skip the ones already
+                # evaluated (an eval_runs row, or seen in this process) instead of re-running them.
+                patches = _db.fetch_pending_patches(self.conn, exclude_evaluated=not self.auto_apply)
+                patches = [p for p in patches if p["proposal_id"] not in self._evaluated]
                 for p in patches:
                     self.process_patch(p)
                 if not patches:
